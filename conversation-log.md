@@ -53,4 +53,22 @@
 - Se mantiene la consistencia con el CU-01 usando el patrón Boundary-Control-Entity.
 - Se ha identificado la necesidad de entidades adicionales como `Subject`, `Topic` y `Question`, que no eran tan críticas en el CU-01.
 
+## [12:15] Cierre de Sesión 1: Análisis de CU-01 y CU-02 completados
+
+**Resumen de la Sesión:**
+Se ha establecido el flujo de trabajo definitivo y se han completado los dos casos de uso más prioritarios en su fase de Análisis Puro.
+
+**Flujo de Trabajo Establecido (para futuras sesiones):**
+1.  **Metodología**: RUP Pragmático (Inspiración `pySigHor`).
+2.  **Estructura**: `RUP/00-casos-uso`, `RUP/01-analisis`, `RUP/02-diseno`.
+3.  **Git**: Trabajo por ramas de tarea (`feat/analisis-puro-cu-XX`) con Pull Request hacia `develop`.
+4.  **Prioridad**: Seguir estrictamente el orden de `CasosDeUsoPriorizados.md`.
+5.  **Documentación**: Actualizar `conversation-log.md` al final de cada bloque de trabajo con prompts y decisiones.
+
+**Entregables de hoy:**
+- `QUE_HACE.md` finalizado.
+- Estructura `RUP/` creada.
+- `RUP/01-analisis/CU-01-corregirExamenes.md` (Agnóstico, sin IA).
+- `RUP/01-analisis/CU-02-generarExamenes.md` (Identificación de parámetros y entidades).
+
 ---
