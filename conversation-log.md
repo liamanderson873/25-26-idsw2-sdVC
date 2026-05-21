@@ -35,4 +35,22 @@
 - **Sinceridad en el Alcance**: Se eliminó la mención a "Inteligencia Artificial" en el `QUE_HACE.md` tras discutir que la corrección será simplificada/externa, priorizando la honestidad del entregable profesional.
 - **Tecnología Agnóstica**: Se mantuvo el análisis en un nivel abstracto para permitir una decisión tecnológica fundamentada en la fase de diseño.
 
+- **Análisis CU-02 (Generar Exámenes)**:
+  - Lectura de requisitos detallados (Parámetros obligatorios: asignatura, temas, preguntas, dificultad, etc.).
+  - Identificación de clases de análisis (BCE).
+  - Creación de documento de análisis puro en `RUP/01-analisis/CU-02-generarExamenes.md`.
+
+## [12:00] Análisis Puro de CU-02
+
+**Prompt:** "ok pues seguimos con el siguiente"
+
+**Resultado:**
+- Creación de la rama `feat/analisis-puro-cu02` (mezclando los cambios de la rama anterior para mantener consistencia).
+- Análisis de los parámetros de generación: Se identificaron 7 campos obligatorios para la generación de exámenes.
+- Documentación del análisis puro en `RUP/01-analisis/CU-02-generarExamenes.md`.
+
+**Decisión:**
+- Se mantiene la consistencia con el CU-01 usando el patrón Boundary-Control-Entity.
+- Se ha identificado la necesidad de entidades adicionales como `Subject`, `Topic` y `Question`, que no eran tan críticas en el CU-01.
+
 ---
