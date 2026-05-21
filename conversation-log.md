@@ -13,26 +13,26 @@
   - **Ajuste de alcance**: Se simplifica la corrección eliminando la IA del compromiso directo del sistema en `QUE_HACE.md` y el análisis de CU-01.
 
 
-## [HH:MM] Inicio de sesión
+## [11:30] Sesión de inicio: Infraestructura, Alcance y Análisis Puro (CU-01)
 
-**Prompt:** *(lo que le dijo al AI para arrancar el proyecto)*
+**Prompt principal:**
+> "tengo que hacer un proyecto para clase en el que tengo que codificar enteramente contido un proyecto que tenemos modelado... el modelado lo tengo todo en un github... quiero trabajar como lo he hecho en el repo de modelado... vamos a hacer primero el analysis y diseño y una vez lo tengamos hacemos la implementacion."
 
-**Resultado:** *(lo que produjo)*
+**Resultado técnico:**
+1.  **Sincronización de Recursos**: Clonación y análisis de los repositorios de Modelado (Jorgestor), Teoría (IDSW2) y Referencia (pySigHor del profesor).
+2.  **Infraestructura RUP**: Implementación de la estructura de carpetas basada en el proceso unificado pragmático:
+    - `RUP/00-casos-uso/`: Repositorio de modelos originales.
+    - `RUP/01-analisis/`: Espacio para el análisis tecnológico agnóstico.
+    - `RUP/02-diseno/`: (Preparado para la siguiente fase).
+3.  **Hito de Alcance**: Edición única de `QUE_HACE.md` definiendo el compromiso del sistema: "Sistema para docentes que automatiza la generación de exámenes personalizados a partir de una batería de preguntas y facilita su posterior corrección."
+4.  **Análisis Puro de CU-01 (Corregir Exámenes)**:
+    - Creación de `RUP/01-analisis/CU-01-corregirExamenes.md`.
+    - Identificación de clases BCE: `CorrectionView` (Boundary), `CorrectionController` (Control), `Exam` y `Student` (Entities).
+5.  **Git Workflow**: Inicialización de la rama `develop` y la primera rama de tarea `feat/analisis-puro-cu01`.
 
-**Decisión:** *(qué aceptó, qué rechazó, qué modificó, y por qué)*
+**Decisiones clave:**
+- **Inspiración en pySigHor**: Se decidió adoptar la metodología del profesor para garantizar la trazabilidad académica y profesional del proyecto.
+- **Sinceridad en el Alcance**: Se eliminó la mención a "Inteligencia Artificial" en el `QUE_HACE.md` tras discutir que la corrección será simplificada/externa, priorizando la honestidad del entregable profesional.
+- **Tecnología Agnóstica**: Se mantuvo el análisis en un nivel abstracto para permitir una decisión tecnológica fundamentada en la fase de diseño.
 
 ---
-
-> El log no se reescribe. Se escribe mientras ocurre.
->
-> Para cada intercambio relevante con el AI, añada una entrada con este formato:
->
-> ```
-> ## [HH:MM] Título breve de lo que se pidió
->
-> **Prompt:** lo que le dijo al AI (textual o resumido fielmente)
->
-> **Resultado:** lo que produjo
->
-> **Decisión:** qué aceptó, qué rechazó, qué modificó, y por qué
-> ```
