@@ -71,4 +71,19 @@ Se ha establecido el flujo de trabajo definitivo y se han completado los dos cas
 - `RUP/01-analisis/CU-01-corregirExamenes.md` (Agnóstico, sin IA).
 - `RUP/01-analisis/CU-02-generarExamenes.md` (Identificación de parámetros y entidades).
 
+## [14:45] Bloque de Análisis 2: Configuración e Importaciones (CU-03 a CU-06)
+
+**Resumen:**
+Se ha completado el análisis puro de un bloque de 4 casos de uso, siguiendo el nuevo flujo de trabajo de "agrupación por Pull Request".
+
+**Entregables:**
+- `RUP/01-analisis/CU-03-importarConfiguracionGlobal.md`: Gestión masiva de sistema.
+- `RUP/01-analisis/CU-04-exportarConfiguracionGlobal.md`: Backup y exportación masiva.
+- `RUP/01-analisis/CU-05-importarAlumnos.md`: Población específica de estudiantes.
+- `RUP/01-analisis/CU-06-importarPreguntas.md`: Gestión de batería de preguntas (general y contextual).
+
+**Git Workflow:**
+- Rama: `feat/analisis-puro-bloque-2`
+- PR pendiente hacia `develop` con el resumen del bloque.
+
 ---
