@@ -104,4 +104,22 @@ Completado el análisis puro del cuarto bloque. Se cubren las vistas de listado,
 - Cambio a trabajo directo sobre `develop`.
 - Commits detallados por cada bloque de análisis.
 
+## [15:30] Bloque de Análisis 3: Exportaciones y CRUD principal (CU-07 a CU-18)
+
+**Resumen:**
+Aceleración del proceso agrupando los casos de uso restantes en tres grandes bloques. Se completó el Bloque 3 con 12 casos de uso centrados en exportaciones específicas, asignación de exámenes y las operaciones de creación y edición (CRUD) de las entidades principales del sistema.
+
+**Entregables:**
+- Exportaciones: `CU-07-exportarAlumnos.md`, `CU-08-exportarPreguntas.md`.
+- Asignación: `CU-09-asignarExamenes.md`.
+- CRUD Preguntas: `CU-10-crearPregunta.md`, `CU-11-editarPregunta.md`.
+- CRUD Asignaturas: `CU-12-editarAsignatura.md`, `CU-18-crearAsignatura.md`.
+- CRUD Docentes (Admin): `CU-13-crearDocente.md`, `CU-15-editarDocente.md`.
+- CRUD Alumnos: `CU-14-crearAlumno.md`, `CU-16-editarAlumno.md`.
+- CRUD Grados: `CU-17-crearGrado.md`.
+
+**Git Workflow:**
+- Rama: `feat/analisis-puro-bloque-3`
+- PR pendiente hacia `develop` con el resumen del bloque.
+
 ---
