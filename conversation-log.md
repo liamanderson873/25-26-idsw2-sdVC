@@ -74,16 +74,34 @@ Se ha establecido el flujo de trabajo definitivo y se han completado los dos cas
 ## [14:45] Bloque de Análisis 2: Configuración e Importaciones (CU-03 a CU-06)
 
 **Resumen:**
-Se ha completado el análisis puro de un bloque de 4 casos de uso, siguiendo el nuevo flujo de trabajo de "agrupación por Pull Request".
+Completado el análisis puro del segundo bloque (Configuración Global e Importaciones).
 
 **Entregables:**
-- `RUP/01-analisis/CU-03-importarConfiguracionGlobal.md`: Gestión masiva de sistema.
-- `RUP/01-analisis/CU-04-exportarConfiguracionGlobal.md`: Backup y exportación masiva.
-- `RUP/01-analisis/CU-05-importarAlumnos.md`: Población específica de estudiantes.
-- `RUP/01-analisis/CU-06-importarPreguntas.md`: Gestión de batería de preguntas (general y contextual).
+- `CU-03-importarConfiguracionGlobal.md`, `CU-04-exportarConfiguracionGlobal.md`, `CU-05-importarAlumnos.md`, `CU-06-importarPreguntas.md`.
+
+## [15:30] Bloque de Análisis 3: Exportaciones y CRUD principal (CU-07 a CU-18)
+
+**Resumen:**
+Completado el análisis puro del tercer bloque (CRUDs de entidades principales y exportaciones específicas).
+
+**Entregables:**
+- Exportaciones: `CU-07`, `CU-08`.
+- Asignación: `CU-09`.
+- CRUDs: `CU-10` al `CU-18`.
+
+## [16:00] Bloque de Análisis 4: Visualización, Eliminación y Sesión (CU-19 a CU-30)
+
+**Resumen:**
+Completado el análisis puro del cuarto bloque. Se cubren las vistas de listado, los procesos de borrado y la seguridad inicial.
+
+**Entregables:**
+- Edición: `CU-19`.
+- Vistas (Read): `CU-20` al `CU-24`.
+- Eliminación (Delete): `CU-25` al `CU-29`.
+- Seguridad: `CU-30-iniciarSesion.md`.
 
 **Git Workflow:**
-- Rama: `feat/analisis-puro-bloque-2`
-- PR pendiente hacia `develop` con el resumen del bloque.
+- Cambio a trabajo directo sobre `develop`.
+- Commits detallados por cada bloque de análisis.
 
 ---
