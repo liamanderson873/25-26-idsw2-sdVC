@@ -100,26 +100,25 @@ Completado el análisis puro del cuarto bloque. Se cubren las vistas de listado,
 - Eliminación (Delete): `CU-25` al `CU-29`.
 - Seguridad: `CU-30-iniciarSesion.md`.
 
+## [16:30] Bloque de Análisis 5 (FINAL): Gestión de Respuestas y Procesos Finales (CU-31 a CU-41)
+
+**Resumen:**
+Finalización de la fase de Análisis Puro de todos los casos de uso del sistema. Este bloque final cubre el cierre de sesión, la gestión de respuestas (CRUD), la cancelación de procesos de generación y las importaciones/exportaciones específicas de asignaturas y grados.
+
+**Entregables:**
+- Sesión: `CU-31-cerrarSesion.md`.
+- Gestión: `CU-32-completarGestion.md`, `CU-37-cancelarGeneracion.md`.
+- CRUD Respuestas: `CU-33-verRespuestas.md` al `CU-36-eliminarRespuesta.md`.
+- Importaciones: `CU-38-importarAsignaturas.md`, `CU-39-importarGrados.md`.
+- Exportaciones: `CU-40-exportarAsignaturas.md`, `CU-41-exportarGrados.md`.
+
+**Estado del Proyecto:**
+- Fase de **Análisis Puro** completada para los 41 casos de uso.
+- Todos los documentos residen en `RUP/01-analisis/`.
+- Siguiente fase: **Diseño de Arquitectura y Tecnologías**.
+
 **Git Workflow:**
 - Cambio a trabajo directo sobre `develop`.
 - Commits detallados por cada bloque de análisis.
-
-## [15:30] Bloque de Análisis 3: Exportaciones y CRUD principal (CU-07 a CU-18)
-
-**Resumen:**
-Aceleración del proceso agrupando los casos de uso restantes en tres grandes bloques. Se completó el Bloque 3 con 12 casos de uso centrados en exportaciones específicas, asignación de exámenes y las operaciones de creación y edición (CRUD) de las entidades principales del sistema.
-
-**Entregables:**
-- Exportaciones: `CU-07-exportarAlumnos.md`, `CU-08-exportarPreguntas.md`.
-- Asignación: `CU-09-asignarExamenes.md`.
-- CRUD Preguntas: `CU-10-crearPregunta.md`, `CU-11-editarPregunta.md`.
-- CRUD Asignaturas: `CU-12-editarAsignatura.md`, `CU-18-crearAsignatura.md`.
-- CRUD Docentes (Admin): `CU-13-crearDocente.md`, `CU-15-editarDocente.md`.
-- CRUD Alumnos: `CU-14-crearAlumno.md`, `CU-16-editarAlumno.md`.
-- CRUD Grados: `CU-17-crearGrado.md`.
-
-**Git Workflow:**
-- Rama: `feat/analisis-puro-bloque-3`
-- PR pendiente hacia `develop` con el resumen del bloque.
 
 ---
