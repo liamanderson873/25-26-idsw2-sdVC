@@ -20,7 +20,7 @@ Análisis tecnológico agnóstico del caso de uso Corregir Exámenes, siguiendo 
 
 <div align=center>
 
-|![Análisis: corregirExamenes()](colaboracion.puml)|
+|![Análisis: corregirExamenes()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-01-corregirExamenes/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -58,3 +58,25 @@ Análisis tecnológico agnóstico del caso de uso Corregir Exámenes, siguiendo 
 
 ### con especificación detallada
 - **Estados internos** → `RequiringCorrection`, `ProvidingDoneExams`, `ProvidingConfirmation`
+
+
+```plantuml
+@startuml corregirExamenes-analisis
+skinparam linetype polyline
+
+actor Docente
+package corregirExamenes as "corregirExamenes()" {
+    rectangle #629EF9 CorrectionView
+    rectangle #b5bd68 CorrectionController
+    rectangle #F2AC4E Exam
+    rectangle #F2AC4E Student
+}
+
+Docente -r-> CorrectionView: iniciarCorreccion()
+CorrectionView -d-> CorrectionController: corregirExamenes(archivos)
+CorrectionController --> Exam: validarClave()
+CorrectionController --> Student: asociarAlumno()
+CorrectionController --> Exam: actualizarEstado(Corregido)
+
+@enduml
+```

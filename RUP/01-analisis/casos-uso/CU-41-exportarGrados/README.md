@@ -3,6 +3,16 @@
 ## Propósito
 Análisis del caso de uso `exportarGrados()` mediante diagrama de colaboración MVC.
 
+## diagrama de colaboración
+
+<div align=center>
+
+|![Análisis: exportarGrados()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-41-exportarGrados/colaboracion.puml&fmt=svg)|
+|-|
+|Código fuente: [colaboracion.puml](colaboracion.puml)|
+
+</div>
+
 ## Clases de Análisis Identificadas
 
 ### Clases Model (Entidad)
@@ -27,4 +37,15 @@ Análisis del caso de uso `exportarGrados()` mediante diagrama de colaboración 
 | **GradeExportView** | **GradeExportController** | `procesarExportacion()` | Delegar la lógica de exportación. |
 | **GradeExportController** | **Grade** | `obtenerDatosGrados()` | Recopilar información de las entidades. |
 
-**Código fuente:** [colaboracion.puml](colaboracion.puml)
+```plantuml
+@startuml
+skinparam linetype polyline
+
+class "GradeExportView" <<boundary>>
+class "GradeExportController" <<control>>
+class "Grade" <<entity>>
+
+GradeExportView -> GradeExportController : procesarExportacion()
+GradeExportController -> Grade : obtenerDatosGrados()
+@enduml
+```

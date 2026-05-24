@@ -20,7 +20,7 @@ Análisis tecnológico agnóstico del caso de uso Iniciar Sesión, siguiendo la 
 
 <div align=center>
 
-|![Análisis: iniciarSesion()](colaboracion.puml)|
+|![Análisis: iniciarSesion()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-30-iniciarSesion/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -57,3 +57,23 @@ Análisis tecnológico agnóstico del caso de uso Iniciar Sesión, siguiendo la 
 
 ### con especificación detallada
 - **Estados internos** → `RequestingAccess`, `ProvidingCredentials`
+
+
+```plantuml
+@startuml iniciarSesion-analisis
+skinparam linetype polyline
+
+actor UsuarioNoRegistrado
+package iniciarSesion as "iniciarSesion()" {
+    rectangle #629EF9 LoginView
+    rectangle #b5bd68 LoginController
+    rectangle #F2AC4E User
+}
+
+UsuarioNoRegistrado -r-> LoginView: introducirCredenciales()
+LoginView --> LoginController: autenticar()
+LoginController --> User: verificarCredenciales()
+LoginController --> LoginView: mostrarError()
+
+@enduml
+```

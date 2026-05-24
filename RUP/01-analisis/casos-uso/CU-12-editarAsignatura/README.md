@@ -20,7 +20,7 @@ Análisis del caso de uso Editar Asignatura. Actúa como centro de operaciones p
 
 <div align=center>
 
-|![Análisis: editarAsignatura()](colaboracion.puml)|
+|![Análisis: editarAsignatura()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-12-editarAsignatura/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -62,3 +62,31 @@ Análisis del caso de uso Editar Asignatura. Actúa como centro de operaciones p
 
 - **HUB**: Actúa como centro de operaciones para gestionar recursos vinculados.
 - **Seguridad**: Eliminación verifica si existen exámenes asociados.
+
+```plantuml
+@startuml editarAsignatura-analisis
+skinparam linetype polyline
+
+actor Docente
+package editarAsignatura as "editarAsignatura()" {
+    rectangle #629EF9 SubjectEditView
+    rectangle #b5bd68 SubjectController
+    rectangle #F2AC4E Subject
+    rectangle #F2AC4E Grade
+    rectangle #F2AC4E Student
+    rectangle #F2AC4E Question
+}
+
+Docente -r-> SubjectEditView: modificarDatos(datos)
+SubjectEditView -d-> SubjectController: guardar(datos)
+SubjectController --> Subject: actualizar(datos)
+
+Docente --> SubjectEditView: verBateriaPreguntas()
+SubjectEditView --> SubjectController: abrirPreguntas()
+
+Docente --> SubjectEditView: eliminarAsignatura()
+SubjectEditView --> SubjectController: eliminar()
+SubjectController --> Subject: delete()
+
+@enduml
+```

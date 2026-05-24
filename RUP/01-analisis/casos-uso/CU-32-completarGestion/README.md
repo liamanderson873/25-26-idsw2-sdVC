@@ -20,7 +20,7 @@ Análisis tecnológico agnóstico del caso de uso Completar Gestión, siguiendo 
 
 <div align=center>
 
-|![Análisis: completarGestion()](colaboracion.puml)|
+|![Análisis: completarGestion()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-32-completarGestion/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -55,3 +55,22 @@ Análisis tecnológico agnóstico del caso de uso Completar Gestión, siguiendo 
 
 ### con especificación detallada
 - **Estados internos** → `PresentandoOpciones`
+
+
+```plantuml
+@startuml completarGestion-analisis
+skinparam linetype polyline
+
+actor Usuario
+package completarGestion as "completarGestion()" {
+    rectangle #629EF9 ManagementView
+    rectangle #b5bd68 ManagementController
+    rectangle #F2AC4E SystemState
+}
+
+Usuario -r-> ManagementView: completarGestion()
+ManagementView --> ManagementController: finalizar()
+ManagementController --> SystemState: setDisponible()
+
+@enduml
+```

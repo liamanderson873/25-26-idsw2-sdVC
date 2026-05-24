@@ -20,7 +20,7 @@ Análisis del caso de uso Importar Alumnos. Describe la importación desde archi
 
 <div align=center>
 
-|![Análisis: importarAlumnos()](colaboracion.puml)|
+|![Análisis: importarAlumnos()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-05-importarAlumnos/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -58,3 +58,26 @@ Análisis del caso de uso Importar Alumnos. Describe la importación desde archi
 ## trazabilidad con artefactos previos
 
 - **Especialización**: Se centra exclusivamente en la entidad `Student`.
+
+```plantuml
+@startuml importarAlumnos-analisis
+skinparam linetype polyline
+
+actor Docente
+package importarAlumnos as "importarAlumnos()" {
+    rectangle #629EF9 StudentImportView
+    rectangle #b5bd68 StudentImportController
+    rectangle #F2AC4E Student
+}
+
+Docente -r-> StudentImportView: seleccionarArchivo(archivo)
+StudentImportView -d-> StudentImportController: procesarArchivo(archivo)
+StudentImportController --> Student: validarDuplicado()
+StudentImportController --> StudentImportView: mostrarPrevisualizacion()
+
+Docente --> StudentImportView: confirmarImportacion()
+StudentImportView --> StudentImportController: persistirAlumnos()
+StudentImportController --> Student: guardar()
+
+@enduml
+```

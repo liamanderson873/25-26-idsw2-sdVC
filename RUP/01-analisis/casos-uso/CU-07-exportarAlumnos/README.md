@@ -20,7 +20,7 @@ Análisis del caso de uso Exportar Alumnos.
 
 <div align=center>
 
-|![Análisis: exportarAlumnos()](colaboracion.puml)|
+|![Análisis: exportarAlumnos()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-07-exportarAlumnos/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -55,3 +55,22 @@ Análisis del caso de uso Exportar Alumnos.
 ## trazabilidad con artefactos previos
 
 - **Abstracción**: Puede ser invocado de forma independiente o como parte de la Exportación Global.
+
+```plantuml
+@startuml exportarAlumnos-analisis
+skinparam linetype polyline
+
+actor Docente
+package exportarAlumnos as "exportarAlumnos()" {
+    rectangle #629EF9 StudentExportView
+    rectangle #b5bd68 ExportController
+    rectangle #F2AC4E Student
+}
+
+Docente -r-> StudentExportView: exportarAlumnos()
+StudentExportView -d-> ExportController: prepararDatos()
+ExportController --> Student: obtenerTodos()
+ExportController --> StudentExportView: notificarExito()
+
+@enduml
+```

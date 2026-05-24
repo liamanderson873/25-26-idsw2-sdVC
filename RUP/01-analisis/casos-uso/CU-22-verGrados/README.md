@@ -20,7 +20,7 @@ Análisis del caso de uso Ver Grados. Permite listar y filtrar los grados acadé
 
 <div align=center>
 
-|![Análisis: verGrados()](colaboracion.puml)|
+|![Análisis: verGrados()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-22-verGrados/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -57,3 +57,27 @@ Análisis del caso de uso Ver Grados. Permite listar y filtrar los grados acadé
 ## trazabilidad con artefactos previos
 
 - **Estados**: `ShowingGrades`, `FilteringGrades`.
+
+```plantuml
+@startuml verGrados-analisis
+skinparam linetype polyline
+
+actor Docente
+package verGrados as "verGrados()" {
+    rectangle #629EF9 GradeListView
+    rectangle #b5bd68 GradeController
+    rectangle #F2AC4E Grade
+    rectangle #F2AC4E Student
+}
+
+Docente -r-> GradeListView: solicitarVerGrados()
+GradeListView -d-> GradeController: obtenerGrados()
+GradeController --> Grade: consultarTodos()
+Grade --> Student
+
+Docente --> GradeListView: aplicarFiltro(criterios)
+GradeListView --> GradeController: filtrar(criterios)
+GradeController --> Grade: consultar(criterios)
+
+@enduml
+```

@@ -20,7 +20,7 @@ Análisis tecnológico agnóstico del caso de uso Eliminar Asignatura, siguiendo
 
 <div align=center>
 
-|![Análisis: eliminarAsignatura()](colaboracion.puml)|
+|![Análisis: eliminarAsignatura()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-26-eliminarAsignatura/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -57,3 +57,24 @@ Análisis tecnológico agnóstico del caso de uso Eliminar Asignatura, siguiendo
 
 ### con especificación detallada
 - **Estados internos** → `ConfirmingDeletion`, `DeletingSubject`
+
+
+```plantuml
+@startuml eliminarAsignatura-analisis
+skinparam linetype polyline
+
+actor Docente
+package eliminarAsignatura as "eliminarAsignatura()" {
+    rectangle #629EF9 SubjectDeleteView
+    rectangle #b5bd68 SubjectController
+    rectangle #F2AC4E Subject
+}
+
+Docente -r-> SubjectDeleteView: solicitarEliminar()
+SubjectDeleteView --> Subject: getDatos()
+Docente --> SubjectDeleteView: confirmarEliminar()
+SubjectDeleteView -d-> SubjectController: eliminarAsignatura()
+SubjectController --> Subject: delete()
+
+@enduml
+```

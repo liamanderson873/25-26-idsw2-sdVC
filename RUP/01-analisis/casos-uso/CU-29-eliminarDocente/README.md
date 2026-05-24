@@ -20,7 +20,7 @@ Análisis tecnológico agnóstico del caso de uso Eliminar Docente, siguiendo la
 
 <div align=center>
 
-|![Análisis: eliminarDocente()](colaboracion.puml)|
+|![Análisis: eliminarDocente()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-29-eliminarDocente/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -57,3 +57,24 @@ Análisis tecnológico agnóstico del caso de uso Eliminar Docente, siguiendo la
 
 ### con especificación detallada
 - **Estados internos** → `ConfirmingDeletion`, `DeletingTeacher`
+
+
+```plantuml
+@startuml eliminarDocente-analisis
+skinparam linetype polyline
+
+actor Administrador
+package eliminarDocente as "eliminarDocente()" {
+    rectangle #629EF9 TeacherDeleteView
+    rectangle #b5bd68 TeacherController
+    rectangle #F2AC4E Teacher
+}
+
+Administrador -r-> TeacherDeleteView: solicitarEliminar()
+TeacherDeleteView --> Teacher: getDatos()
+Administrador --> TeacherDeleteView: confirmarEliminar()
+TeacherDeleteView -d-> TeacherController: eliminarDocente()
+TeacherController --> Teacher: delete()
+
+@enduml
+```

@@ -20,7 +20,7 @@ Análisis tecnológico agnóstico del caso de uso Ver Respuestas, siguiendo la m
 
 <div align=center>
 
-|![Análisis: verRespuestas()](colaboracion.puml)|
+|![Análisis: verRespuestas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-33-verRespuestas/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -59,3 +59,26 @@ Análisis tecnológico agnóstico del caso de uso Ver Respuestas, siguiendo la m
 
 ### con especificación detallada
 - **Estados internos** → `MostrandoRespuestas`, `FiltrandoRespuestas`
+
+
+```plantuml
+@startuml verRespuestas-analisis
+skinparam linetype polyline
+
+actor Docente
+package verRespuestas as "verRespuestas()" {
+    rectangle #629EF9 AnswerListView
+    rectangle #b5bd68 AnswerConsultationController
+    rectangle #F2AC4E Answer
+    rectangle #F2AC4E Question
+}
+
+Docente -r-> AnswerListView: solicitarVerRespuestas()
+AnswerListView --> AnswerConsultationController: getRespuestas()
+AnswerConsultationController --> Answer: find()
+AnswerConsultationController --> Question: getDatos()
+Docente --> AnswerListView: solicitarFiltro()
+AnswerListView --> AnswerConsultationController: filtrar()
+
+@enduml
+```

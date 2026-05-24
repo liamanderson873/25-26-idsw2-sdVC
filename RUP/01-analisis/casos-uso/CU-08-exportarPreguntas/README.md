@@ -20,7 +20,7 @@ Análisis del caso de uso Exportar Preguntas.
 
 <div align=center>
 
-|![Análisis: exportarPreguntas()](colaboracion.puml)|
+|![Análisis: exportarPreguntas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-08-exportarPreguntas/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -57,3 +57,24 @@ Análisis del caso de uso Exportar Preguntas.
 ## trazabilidad con artefactos previos
 
 - **Integridad**: Debe incluir todas las respuestas asociadas a cada pregunta.
+
+```plantuml
+@startuml exportarPreguntas-analisis
+skinparam linetype polyline
+
+actor Docente
+package exportarPreguntas as "exportarPreguntas()" {
+    rectangle #629EF9 QuestionExportView
+    rectangle #b5bd68 ExportController
+    rectangle #F2AC4E Question
+    rectangle #F2AC4E Answer
+}
+
+Docente -r-> QuestionExportView: exportarPreguntas()
+QuestionExportView -d-> ExportController: recopilarPreguntas()
+ExportController --> Question: obtenerPreguntas()
+ExportController --> Answer: obtenerRespuestas(pregunta)
+ExportController --> QuestionExportView: notificarExito()
+
+@enduml
+```

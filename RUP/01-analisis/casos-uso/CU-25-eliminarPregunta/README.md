@@ -20,7 +20,7 @@ Análisis del caso de uso Eliminar Pregunta. Sigue el patrón de eliminación se
 
 <div align=center>
 
-|![Análisis: eliminarPregunta()](colaboracion.puml)|
+|![Análisis: eliminarPregunta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-25-eliminarPregunta/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -59,3 +59,26 @@ Análisis del caso de uso Eliminar Pregunta. Sigue el patrón de eliminación se
 
 - **Seguridad**: Implementa eliminación con confirmación obligatoria.
 - **Estados**: `ConfirmingDeletion`, `DeletingQuestion`.
+
+```plantuml
+@startuml eliminarPregunta-analisis
+skinparam linetype polyline
+
+actor Docente
+package eliminarPregunta as "eliminarPregunta()" {
+    rectangle #629EF9 QuestionDeleteView
+    rectangle #b5bd68 QuestionController
+    rectangle #F2AC4E Question
+}
+
+Docente -r-> QuestionDeleteView: solicitarEliminacion(id)
+QuestionDeleteView -d-> QuestionController: obtenerDatosPregunta(id)
+QuestionController --> Question: getDetalles()
+QuestionDeleteView --> QuestionDeleteView: mostrarAdvertencia()
+
+Docente --> QuestionDeleteView: confirmarEliminacion()
+QuestionDeleteView --> QuestionController: eliminarDefinitivamente(id)
+QuestionController --> Question: delete()
+
+@enduml
+```

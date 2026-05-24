@@ -20,7 +20,7 @@ Análisis tecnológico agnóstico del caso de uso Importar Grados, siguiendo la 
 
 <div align=center>
 
-|![Análisis: importarGrados()](colaboracion.puml)|
+|![Análisis: importarGrados()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-39-importarGrados/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -61,3 +61,28 @@ Análisis tecnológico agnóstico del caso de uso Importar Grados, siguiendo la 
 
 ### con especificación detallada
 - **Decisiones** → Mantiene coherencia con el flujo de importación global centrado en `Grade`.
+
+
+```plantuml
+@startuml importarGrados-analisis
+skinparam linetype polyline
+
+actor Docente
+package importarGrados as "importarGrados()" {
+    rectangle #629EF9 GradeImportView
+    rectangle #b5bd68 GradeImportController
+    rectangle #F2AC4E Grade
+}
+
+Docente -r-> GradeImportView: solicitarImportar()
+GradeImportView --> Docente: pedirOrigen()
+Docente --> GradeImportView: proporcionarOrigen()
+GradeImportView --> GradeImportController: validarIntegridad()
+GradeImportController --> Grade: verificarDuplicados()
+GradeImportView --> Docente: pedirConfirmacion()
+Docente --> GradeImportView: confirmar()
+GradeImportView -d-> GradeImportController: ejecutarImportacion()
+GradeImportController --> Grade: createAll()
+
+@enduml
+```

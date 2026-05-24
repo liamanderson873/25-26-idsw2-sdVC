@@ -20,7 +20,7 @@ Análisis del caso de uso Asignar Exámenes. Vincula exámenes generados con alu
 
 <div align=center>
 
-|![Análisis: asignarExamenes()](colaboracion.puml)|
+|![Análisis: asignarExamenes()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-09-asignarExamenes/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -60,3 +60,28 @@ Análisis del caso de uso Asignar Exámenes. Vincula exámenes generados con alu
 
 - **Contextualización**: Transforma exámenes generados en exámenes asignados.
 - **Validación**: Asegura que alumnos correspondan al grado del examen.
+
+```plantuml
+@startuml asignarExamenes-analisis
+skinparam linetype polyline
+
+actor Docente
+package asignarExamenes as "asignarExamenes()" {
+    rectangle #629EF9 ExamAssignmentView
+    rectangle #b5bd68 AssignmentController
+    rectangle #F2AC4E Exam
+    rectangle #F2AC4E Student
+    rectangle #F2AC4E Grade
+}
+
+Docente -r-> ExamAssignmentView: iniciarAsignacion()
+ExamAssignmentView -d-> AssignmentController: obtenerExamenesGenerados()
+AssignmentController --> Exam: getGenerados()
+
+Docente --> ExamAssignmentView: asignarAlumnos(listaAlumnos)
+ExamAssignmentView --> AssignmentController: validarYRegistrar(listaAlumnos)
+AssignmentController --> Student: validarPerteneceGrado(grado)
+AssignmentController --> Exam: vincularAlumno(student)
+
+@enduml
+```

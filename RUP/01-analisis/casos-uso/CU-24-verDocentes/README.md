@@ -20,7 +20,7 @@ Análisis del caso de uso Ver Docentes.
 
 <div align=center>
 
-|![Análisis: verDocentes()](colaboracion.puml)|
+|![Análisis: verDocentes()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-24-verDocentes/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -56,3 +56,25 @@ Análisis del caso de uso Ver Docentes.
 ## trazabilidad con artefactos previos
 
 - **Estados**: `ShowingTeachers`, `FilteringTeachers`.
+
+```plantuml
+@startuml verDocentes-analisis
+skinparam linetype polyline
+
+actor AdministradorInstitucional
+package verDocentes as "verDocentes()" {
+    rectangle #629EF9 TeacherListView
+    rectangle #b5bd68 TeacherController
+    rectangle #F2AC4E Teacher
+}
+
+AdministradorInstitucional -r-> TeacherListView: solicitarVerDocentes()
+TeacherListView -d-> TeacherController: obtenerDocentes()
+TeacherController --> Teacher: consultarTodos()
+
+AdministradorInstitucional --> TeacherListView: aplicarFiltro(criterios)
+TeacherListView --> TeacherController: filtrar(criterios)
+TeacherController --> Teacher: consultar(criterios)
+
+@enduml
+```

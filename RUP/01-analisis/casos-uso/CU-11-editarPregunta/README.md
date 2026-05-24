@@ -20,7 +20,7 @@ Análisis del caso de uso Editar Pregunta. Permite la modificación de una pregu
 
 <div align=center>
 
-|![Análisis: editarPregunta()](colaboracion.puml)|
+|![Análisis: editarPregunta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-11-editarPregunta/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -61,3 +61,29 @@ Análisis del caso de uso Editar Pregunta. Permite la modificación de una pregu
 
 - **Contextualidad**: Permite edición tanto en contextos generales como específicos de asignatura.
 - **Eliminación**: Considera dependencias (ej: uso en exámenes generados).
+
+```plantuml
+@startuml editarPregunta-analisis
+skinparam linetype polyline
+
+actor Docente
+package editarPregunta as "editarPregunta()" {
+    rectangle #629EF9 QuestionEditView
+    rectangle #b5bd68 QuestionController
+    rectangle #F2AC4E Question
+    rectangle #F2AC4E Subject
+    rectangle #F2AC4E Topic
+    rectangle #F2AC4E Answer
+}
+
+Docente -r-> QuestionEditView: modificarCampos(datos)
+QuestionEditView -d-> QuestionController: guardarCambios(datos)
+QuestionController --> Question: actualizar(datos)
+QuestionController --> Answer: actualizarRespuestas(respuestas)
+
+Docente --> QuestionEditView: eliminarPregunta()
+QuestionEditView --> QuestionController: eliminar()
+QuestionController --> Question: delete()
+
+@enduml
+```

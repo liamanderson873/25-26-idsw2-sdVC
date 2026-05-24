@@ -20,7 +20,7 @@ Análisis del caso de uso Crear Docente. Permite dar de alta a un nuevo profesor
 
 <div align=center>
 
-|![Análisis: crearDocente()](colaboracion.puml)|
+|![Análisis: crearDocente()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-13-crearDocente/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -57,3 +57,24 @@ Análisis del caso de uso Crear Docente. Permite dar de alta a un nuevo profesor
 ## trazabilidad con artefactos previos
 
 - **Flujo**: Redirige a edición para completar perfiles complejos.
+
+```plantuml
+@startuml crearDocente-analisis
+skinparam linetype polyline
+
+actor AdministradorInstitucional
+package crearDocente as "crearDocente()" {
+    rectangle #629EF9 DocentCreationView
+    rectangle #b5bd68 DocentController
+    rectangle #F2AC4E Docent
+}
+
+AdministradorInstitucional -r-> DocentCreationView: solicitarCreacion()
+AdministradorInstitucional --> DocentCreationView: proporcionarDatos(dni, nombre, apellidos, usuario, email, password)
+DocentCreationView -d-> DocentController: crearDocente(datos)
+DocentController --> Docent: validarNoDuplicado(dni, usuario)
+DocentController --> Docent: inicializar(datos)
+DocentController --> DocentCreationView: notificarExitoYRedirigir()
+
+@enduml
+```

@@ -20,7 +20,7 @@ Análisis del caso de uso Exportar Configuración Global. Describe el proceso de
 
 <div align=center>
 
-|![Análisis: exportarConfiguracionGlobal()](colaboracion.puml)|
+|![Análisis: exportarConfiguracionGlobal()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-04-exportarConfiguracionGlobal/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -63,3 +63,32 @@ Análisis del caso de uso Exportar Configuración Global. Describe el proceso de
 ## trazabilidad con artefactos previos
 
 - **Consistencia**: La exportación debe asegurar que los datos extraídos sean coherentes entre sí.
+
+```plantuml
+@startuml exportarConfiguracionGlobal-analisis
+skinparam linetype polyline
+
+actor Docente
+package exportarConfiguracionGlobal as "exportarConfiguracionGlobal()" {
+    rectangle #629EF9 GlobalConfigExportView
+    rectangle #b5bd68 ExportController
+    rectangle #F2AC4E Student
+    rectangle #F2AC4E Grade
+    rectangle #F2AC4E Subject
+    rectangle #F2AC4E Question
+}
+
+Docente -r-> GlobalConfigExportView: exportarConfiguracion(opciones)
+GlobalConfigExportView -d-> ExportController: recopilarDatos(opciones)
+
+ExportController --> Student: obtenerTodos()
+ExportController --> Grade: obtenerTodos()
+ExportController --> Subject: obtenerTodos()
+ExportController --> Question: obtenerTodos()
+
+ExportController --> GlobalConfigExportView: mostrarConfirmacion()
+Docente --> GlobalConfigExportView: confirmarExportacion()
+GlobalConfigExportView --> ExportController: generarArchivo()
+
+@enduml
+```

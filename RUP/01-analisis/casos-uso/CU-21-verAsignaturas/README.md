@@ -20,7 +20,7 @@ Análisis del caso de uso Ver Asignaturas. Enfocado en la visualización y filtr
 
 <div align=center>
 
-|![Análisis: verAsignaturas()](colaboracion.puml)|
+|![Análisis: verAsignaturas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-21-verAsignaturas/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -58,3 +58,29 @@ Análisis del caso de uso Ver Asignaturas. Enfocado en la visualización y filtr
 ## trazabilidad con artefactos previos
 
 - **Estados**: `ShowingSubjects`, `FilteringSubjects`.
+
+```plantuml
+@startuml verAsignaturas-analisis
+skinparam linetype polyline
+
+actor Docente
+package verAsignaturas as "verAsignaturas()" {
+    rectangle #629EF9 SubjectListView
+    rectangle #b5bd68 SubjectController
+    rectangle #F2AC4E Subject
+    rectangle #F2AC4E Student
+    rectangle #F2AC4E Grade
+}
+
+Docente -r-> SubjectListView: solicitarVerAsignaturas()
+SubjectListView -d-> SubjectController: obtenerLista()
+SubjectController --> Subject: consultarTodos()
+Subject --> Student
+Subject --> Grade
+
+Docente --> SubjectListView: aplicarFiltro(criterios)
+SubjectListView --> SubjectController: filtrar(criterios)
+SubjectController --> Subject: consultar(criterios)
+
+@enduml
+```

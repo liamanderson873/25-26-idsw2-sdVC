@@ -3,6 +3,16 @@
 ## Propósito
 Análisis del caso de uso `exportarAsignaturas()` mediante diagrama de colaboración MVC, identificando clases de análisis y sus interacciones.
 
+## diagrama de colaboración
+
+<div align=center>
+
+|![Análisis: exportarAsignaturas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-40-exportarAsignaturas/colaboracion.puml&fmt=svg)|
+|-|
+|Código fuente: [colaboracion.puml](colaboracion.puml)|
+
+</div>
+
 ## Clases de Análisis Identificadas
 
 ### Clases Model (Entidad)
@@ -27,4 +37,15 @@ Análisis del caso de uso `exportarAsignaturas()` mediante diagrama de colaborac
 | **SubjectExportView** | **SubjectExportController** | `procesarExportacion()` | Delegar la lógica de exportación. |
 | **SubjectExportController** | **Subject** | `obtenerDatosAsignaturas()` | Recopilar información de las entidades. |
 
-**Código fuente:** [colaboracion.puml](colaboracion.puml)
+```plantuml
+@startuml
+skinparam linetype polyline
+
+class "SubjectExportView" <<boundary>>
+class "SubjectExportController" <<control>>
+class "Subject" <<entity>>
+
+SubjectExportView -> SubjectExportController : procesarExportacion()
+SubjectExportController -> Subject : obtenerDatosAsignaturas()
+@enduml
+```

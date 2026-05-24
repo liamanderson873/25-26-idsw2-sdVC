@@ -20,7 +20,7 @@ Análisis del caso de uso Ver Preguntas. Enfocado en la visualización y filtrad
 
 <div align=center>
 
-|![Análisis: verPreguntas()](colaboracion.puml)|
+|![Análisis: verPreguntas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-20-verPreguntas/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -57,3 +57,26 @@ Análisis del caso de uso Ver Preguntas. Enfocado en la visualización y filtrad
 ## trazabilidad con artefactos previos
 
 - **Estados**: `ShowingQuestions` (lista inicial), `FilteringQuestions` (resultados filtrados).
+
+```plantuml
+@startuml verPreguntas-analisis
+skinparam linetype polyline
+
+actor Docente
+package verPreguntas as "verPreguntas()" {
+    rectangle #629EF9 QuestionListView
+    rectangle #b5bd68 QuestionController
+    rectangle #F2AC4E Question
+    rectangle #F2AC4E Subject
+}
+
+Docente -r-> QuestionListView: solicitarVerPreguntas()
+QuestionListView -d-> QuestionController: obtenerLista(contexto)
+QuestionController --> Question: consultar(contexto)
+
+Docente --> QuestionListView: aplicarFiltro(criterios)
+QuestionListView --> QuestionController: filtrar(criterios)
+QuestionController --> Question: consultar(criterios)
+
+@enduml
+```

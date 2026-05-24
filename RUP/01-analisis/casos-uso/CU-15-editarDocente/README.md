@@ -20,7 +20,7 @@ Análisis del caso de uso Editar Docente.
 
 <div align=center>
 
-|![Análisis: editarDocente()](colaboracion.puml)|
+|![Análisis: editarDocente()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-15-editarDocente/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -57,3 +57,25 @@ Análisis del caso de uso Editar Docente.
 ## trazabilidad con artefactos previos
 
 - **Identificadores**: DNI y usuario actúan como claves de integridad.
+
+```plantuml
+@startuml editarDocente-analisis
+skinparam linetype polyline
+
+actor AdministradorInstitucional
+package editarDocente as "editarDocente()" {
+    rectangle #629EF9 DocentEditView
+    rectangle #b5bd68 DocentController
+    rectangle #F2AC4E Docent
+}
+
+AdministradorInstitucional -r-> DocentEditView: modificarDatos(datos)
+DocentEditView -d-> DocentController: guardar(datos)
+DocentController --> Docent: actualizar(datos)
+
+AdministradorInstitucional --> DocentEditView: eliminarDocente()
+DocentEditView --> DocentController: eliminar()
+DocentController --> Docent: delete()
+
+@enduml
+```

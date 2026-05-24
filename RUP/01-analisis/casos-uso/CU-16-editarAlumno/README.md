@@ -20,7 +20,7 @@ Análisis del caso de uso Editar Alumno. Permite modificar información personal
 
 <div align=center>
 
-|![Análisis: editarAlumno()](colaboracion.puml)|
+|![Análisis: editarAlumno()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-16-editarAlumno/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -57,3 +57,25 @@ Análisis del caso de uso Editar Alumno. Permite modificar información personal
 ## trazabilidad con artefactos previos
 
 - **Identificación**: Permite mantener actualizados los datos identificativos de los estudiantes.
+
+```plantuml
+@startuml editarAlumno-analisis
+skinparam linetype polyline
+
+actor Docente
+package editarAlumno as "editarAlumno()" {
+    rectangle #629EF9 StudentEditView
+    rectangle #b5bd68 StudentController
+    rectangle #F2AC4E Student
+}
+
+Docente -r-> StudentEditView: modificarDatos(datos)
+StudentEditView -d-> StudentController: guardar(datos)
+StudentController --> Student: actualizar(datos)
+
+Docente --> StudentEditView: eliminarAlumno()
+StudentEditView --> StudentController: eliminar()
+StudentController --> Student: delete()
+
+@enduml
+```

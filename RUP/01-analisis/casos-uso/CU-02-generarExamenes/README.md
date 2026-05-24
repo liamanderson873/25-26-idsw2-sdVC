@@ -20,7 +20,7 @@ Análisis tecnológico agnóstico del caso de uso Generar Exámenes, siguiendo l
 
 <div align=center>
 
-|![Análisis: generarExamenes()](colaboracion.puml)|
+|![Análisis: generarExamenes()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-02-generarExamenes/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -62,3 +62,31 @@ Análisis tecnológico agnóstico del caso de uso Generar Exámenes, siguiendo l
 
 ### con especificación detallada
 - **Estados internos** → `RequiringGeneration`, `ProvidingData`, `ProvidingConfirmation`
+
+
+```plantuml
+@startuml generarExamenes-analisis
+skinparam linetype polyline
+
+actor Docente
+package generarExamenes as "generarExamenes()" {
+    rectangle #629EF9 GenerationView
+    rectangle #b5bd68 GenerationController
+    rectangle #F2AC4E Subject
+    rectangle #F2AC4E Topic
+    rectangle #F2AC4E Question
+    rectangle #F2AC4E Exam
+}
+
+Docente -r-> GenerationView: seleccionarAsignatura()
+GenerationView -d-> GenerationController: obtenerTemas(asignatura)
+GenerationController --> Subject: getTemas()
+Subject --> Topic
+
+Docente --> GenerationView: generarExamenes(parametros)
+GenerationView --> GenerationController: generar(parametros)
+GenerationController --> Question: filtrarPorParametros(parametros)
+GenerationController --> Exam: crearExamen(preguntas)
+
+@enduml
+```

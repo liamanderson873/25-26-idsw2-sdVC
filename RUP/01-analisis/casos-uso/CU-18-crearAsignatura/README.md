@@ -20,7 +20,7 @@ Análisis del caso de uso Crear Asignatura. Implica la inicialización de recurs
 
 <div align=center>
 
-|![Análisis: crearAsignatura()](colaboracion.puml)|
+|![Análisis: crearAsignatura()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-18-crearAsignatura/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -60,3 +60,27 @@ Análisis del caso de uso Crear Asignatura. Implica la inicialización de recurs
 ## trazabilidad con artefactos previos
 
 - **Recursos**: Desencadena la creación de un espacio de trabajo (batería de preguntas).
+
+```plantuml
+@startuml crearAsignatura-analisis
+skinparam linetype polyline
+
+actor Docente
+package crearAsignatura as "crearAsignatura()" {
+    rectangle #629EF9 SubjectCreationView
+    rectangle #b5bd68 SubjectController
+    rectangle #F2AC4E Subject
+    rectangle #F2AC4E QuestionBank
+    rectangle #F2AC4E Student
+    rectangle #F2AC4E Grade
+}
+
+Docente -r-> SubjectCreationView: solicitarCreacion()
+Docente --> SubjectCreationView: introducirDatos(nombre, codigo, curso)
+SubjectCreationView -d-> SubjectController: crearAsignatura(datos)
+SubjectController --> Subject: inicializar(datos)
+SubjectController --> QuestionBank: crearBateria()
+SubjectController --> SubjectCreationView: notificarExitoYRedirigir()
+
+@enduml
+```

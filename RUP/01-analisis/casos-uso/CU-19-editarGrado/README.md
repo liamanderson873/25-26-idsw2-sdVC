@@ -20,7 +20,7 @@ Análisis del caso de uso Editar Grado.
 
 <div align=center>
 
-|![Análisis: editarGrado()](colaboracion.puml)|
+|![Análisis: editarGrado()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-19-editarGrado/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -60,3 +60,30 @@ Análisis del caso de uso Editar Grado.
 ## trazabilidad con artefactos previos
 
 - **Estados**: `EditingData`, `SavingData` (procesamiento de guardado o eliminación).
+
+```plantuml
+@startuml editarGrado-analisis
+skinparam linetype polyline
+
+actor Docente
+package editarGrado as "editarGrado()" {
+    rectangle #629EF9 GradeEditView
+    rectangle #b5bd68 GradeController
+    rectangle #F2AC4E Grade
+    rectangle #F2AC4E Student
+}
+
+Docente -r-> GradeEditView: verDatosActuales()
+GradeEditView -d-> GradeController: obtenerDatos()
+GradeController --> Grade: getDatos()
+
+Docente --> GradeEditView: modificarCampos(datos)
+GradeEditView --> GradeController: guardar(datos)
+GradeController --> Grade: actualizar(datos)
+
+Docente --> GradeEditView: eliminarGrado()
+GradeEditView --> GradeController: eliminar()
+GradeController --> Grade: delete()
+
+@enduml
+```

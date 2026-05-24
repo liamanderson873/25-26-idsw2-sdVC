@@ -20,7 +20,7 @@ Análisis tecnológico agnóstico del caso de uso Eliminar Respuesta, siguiendo 
 
 <div align=center>
 
-|![Análisis: eliminarRespuesta()](colaboracion.puml)|
+|![Análisis: eliminarRespuesta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-36-eliminarRespuesta/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -57,3 +57,24 @@ Análisis tecnológico agnóstico del caso de uso Eliminar Respuesta, siguiendo 
 
 ### con especificación detallada
 - **Estados internos** → `ConfirmandoEliminacion`, `EliminandoRespuesta`
+
+
+```plantuml
+@startuml eliminarRespuesta-analisis
+skinparam linetype polyline
+
+actor Docente
+package eliminarRespuesta as "eliminarRespuesta()" {
+    rectangle #629EF9 AnswerDeletionView
+    rectangle #b5bd68 AnswerDeletionController
+    rectangle #F2AC4E Answer
+}
+
+Docente -r-> AnswerDeletionView: solicitarEliminar()
+AnswerDeletionView --> Answer: getDatos()
+Docente --> AnswerDeletionView: confirmarEliminar()
+AnswerDeletionView -d-> AnswerDeletionController: eliminarRespuesta()
+AnswerDeletionController --> Answer: delete()
+
+@enduml
+```

@@ -20,7 +20,7 @@ Análisis del caso de uso Importar Preguntas. Permite la carga masiva de pregunt
 
 <div align=center>
 
-|![Análisis: importarPreguntas()](colaboracion.puml)|
+|![Análisis: importarPreguntas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-06-importarPreguntas/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -61,3 +61,28 @@ Análisis del caso de uso Importar Preguntas. Permite la carga masiva de pregunt
 
 - **Contextualidad**: Puede ocurrir en estados general o contextual.
 - **Integridad**: Validación de requisitos mínimos (ej: respuesta correcta).
+
+```plantuml
+@startuml importarPreguntas-analisis
+skinparam linetype polyline
+
+actor Docente
+package importarPreguntas as "importarPreguntas()" {
+    rectangle #629EF9 QuestionImportView
+    rectangle #b5bd68 QuestionImportController
+    rectangle #F2AC4E Question
+    rectangle #F2AC4E Subject
+    rectangle #F2AC4E Topic
+}
+
+Docente -r-> QuestionImportView: seleccionarOrigen(archivo)
+QuestionImportView -d-> QuestionImportController: analizarArchivo(archivo)
+QuestionImportController --> Question: crearInstancia()
+QuestionImportController --> QuestionImportView: mostrarResumen()
+
+Docente --> QuestionImportView: confirmarImportacion()
+QuestionImportView --> QuestionImportController: persistirPreguntas()
+QuestionImportController --> Question: guardar()
+
+@enduml
+```

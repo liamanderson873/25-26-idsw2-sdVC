@@ -20,7 +20,7 @@ Análisis del caso de uso Importar Configuración Global. Describe el proceso ma
 
 <div align=center>
 
-|![Análisis: importarConfiguracionGlobal()](colaboracion.puml)|
+|![Análisis: importarConfiguracionGlobal()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-03-importarConfiguracionGlobal/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -63,3 +63,34 @@ Análisis del caso de uso Importar Configuración Global. Describe el proceso ma
 ## trazabilidad con artefactos previos
 
 - **Atomicidad**: Operación que mantiene la consistencia del sistema o falla de forma controlada.
+
+```plantuml
+@startuml importarConfiguracionGlobal-analisis
+skinparam linetype polyline
+
+actor Docente
+package importarConfiguracionGlobal as "importarConfiguracionGlobal()" {
+    rectangle #629EF9 GlobalConfigImportView
+    rectangle #b5bd68 ImportController
+    rectangle #F2AC4E GlobalConfig
+    rectangle #F2AC4E Student
+    rectangle #F2AC4E Grade
+    rectangle #F2AC4E Subject
+    rectangle #F2AC4E Question
+}
+
+Docente -r-> GlobalConfigImportView: importarConfiguracion(archivo, opciones)
+GlobalConfigImportView -d-> ImportController: procesarImportacion(archivo, opciones)
+ImportController --> GlobalConfig: extraerDatos()
+ImportController --> GlobalConfigImportView: mostrarValidacion()
+
+Docente --> GlobalConfigImportView: confirmarImportacion()
+GlobalConfigImportView --> ImportController: persistirCambios()
+
+ImportController --> Student: guardar()
+ImportController --> Grade: guardar()
+ImportController --> Subject: guardar()
+ImportController --> Question: guardar()
+
+@enduml
+```

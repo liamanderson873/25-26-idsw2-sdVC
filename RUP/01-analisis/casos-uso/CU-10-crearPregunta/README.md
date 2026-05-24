@@ -20,7 +20,7 @@ Análisis del caso de uso Crear Pregunta. Permite la inicialización de una nuev
 
 <div align=center>
 
-|![Análisis: crearPregunta()](colaboracion.puml)|
+|![Análisis: crearPregunta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-10-crearPregunta/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -58,3 +58,25 @@ Análisis del caso de uso Crear Pregunta. Permite la inicialización de una nuev
 ## trazabilidad con artefactos previos
 
 - **Encadenamiento**: Redirige automáticamente a `editarPregunta` para completar detalles.
+
+```plantuml
+@startuml crearPregunta-analisis
+skinparam linetype polyline
+
+actor Docente
+package crearPregunta as "crearPregunta()" {
+    rectangle #629EF9 QuestionCreationView
+    rectangle #b5bd68 QuestionManagementController
+    rectangle #F2AC4E Question
+    rectangle #F2AC4E Subject
+}
+
+Docente -r-> QuestionCreationView: solicitarCreacion()
+Docente --> QuestionCreationView: proporcionarDatos(asignatura, enunciado, tema, dificultad)
+QuestionCreationView -d-> QuestionManagementController: crearPregunta(datos)
+QuestionManagementController --> Subject: validarExistencia()
+QuestionManagementController --> Question: inicializar(datos)
+QuestionManagementController --> QuestionCreationView: notificarExitoYRedirigir()
+
+@enduml
+```

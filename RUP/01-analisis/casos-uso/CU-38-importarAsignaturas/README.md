@@ -20,7 +20,7 @@ Análisis tecnológico agnóstico del caso de uso Importar Asignaturas, siguiend
 
 <div align=center>
 
-|![Análisis: importarAsignaturas()](colaboracion.puml)|
+|![Análisis: importarAsignaturas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-38-importarAsignaturas/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -61,3 +61,28 @@ Análisis tecnológico agnóstico del caso de uso Importar Asignaturas, siguiend
 
 ### con especificación detallada
 - **Decisiones** → Se sigue el patrón de importación consistente con el resto de entidades.
+
+
+```plantuml
+@startuml importarAsignaturas-analisis
+skinparam linetype polyline
+
+actor Docente
+package importarAsignaturas as "importarAsignaturas()" {
+    rectangle #629EF9 SubjectImportView
+    rectangle #b5bd68 SubjectImportController
+    rectangle #F2AC4E Subject
+}
+
+Docente -r-> SubjectImportView: solicitarImportar()
+SubjectImportView --> Docente: pedirArchivo()
+Docente --> SubjectImportView: proporcionarArchivo()
+SubjectImportView --> SubjectImportController: validarDatos()
+SubjectImportController --> Subject: verificarExistencia()
+SubjectImportView --> Docente: mostrarResumen()
+Docente --> SubjectImportView: confirmarImportacion()
+SubjectImportView -d-> SubjectImportController: importar()
+SubjectImportController --> Subject: save()
+
+@enduml
+```

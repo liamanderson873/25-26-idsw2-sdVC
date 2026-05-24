@@ -20,7 +20,7 @@ Análisis tecnológico agnóstico del caso de uso Eliminar Grado, siguiendo la m
 
 <div align=center>
 
-|![Análisis: eliminarGrado()](colaboracion.puml)|
+|![Análisis: eliminarGrado()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-27-eliminarGrado/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -59,3 +59,26 @@ Análisis tecnológico agnóstico del caso de uso Eliminar Grado, siguiendo la m
 
 ### con especificación detallada
 - **Estados internos** → `ConfirmingDeletion`, `DeletingGrade`
+
+
+```plantuml
+@startuml eliminarGrado-analisis
+skinparam linetype polyline
+
+actor Docente
+package eliminarGrado as "eliminarGrado()" {
+    rectangle #629EF9 GradeDeleteView
+    rectangle #b5bd68 GradeController
+    rectangle #F2AC4E Grade
+    rectangle #F2AC4E Student
+}
+
+Docente -r-> GradeDeleteView: solicitarEliminar()
+GradeDeleteView --> Grade: getDatos()
+GradeDeleteView --> Student: getAlumnosAfectados()
+Docente --> GradeDeleteView: confirmarEliminar()
+GradeDeleteView -d-> GradeController: eliminarGrado()
+GradeController --> Grade: delete()
+
+@enduml
+```

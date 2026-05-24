@@ -20,7 +20,7 @@ Análisis tecnológico agnóstico del caso de uso Eliminar Alumno, siguiendo la 
 
 <div align=center>
 
-|![Análisis: eliminarAlumno()](colaboracion.puml)|
+|![Análisis: eliminarAlumno()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-28-eliminarAlumno/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -57,3 +57,24 @@ Análisis tecnológico agnóstico del caso de uso Eliminar Alumno, siguiendo la 
 
 ### con especificación detallada
 - **Estados internos** → `ConfirmingDeletion`, `DeletingStudent`
+
+
+```plantuml
+@startuml eliminarAlumno-analisis
+skinparam linetype polyline
+
+actor Docente
+package eliminarAlumno as "eliminarAlumno()" {
+    rectangle #629EF9 StudentDeleteView
+    rectangle #b5bd68 StudentController
+    rectangle #F2AC4E Student
+}
+
+Docente -r-> StudentDeleteView: solicitarEliminar()
+StudentDeleteView --> Student: getDatos()
+Docente --> StudentDeleteView: confirmarEliminar()
+StudentDeleteView -d-> StudentController: eliminarAlumno()
+StudentController --> Student: delete()
+
+@enduml
+```

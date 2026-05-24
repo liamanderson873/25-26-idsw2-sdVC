@@ -20,7 +20,7 @@ Análisis tecnológico agnóstico del caso de uso Crear Respuesta, siguiendo la 
 
 <div align=center>
 
-|![Análisis: crearRespuesta()](colaboracion.puml)|
+|![Análisis: crearRespuesta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-34-crearRespuesta/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -59,3 +59,26 @@ Análisis tecnológico agnóstico del caso de uso Crear Respuesta, siguiendo la 
 
 ### con especificación detallada
 - **Estados internos** → `SolicitandoDatosRespuesta`, `ProcesandoCreacion`
+
+
+```plantuml
+@startuml crearRespuesta-analisis
+skinparam linetype polyline
+
+actor Docente
+package crearRespuesta as "crearRespuesta()" {
+    rectangle #629EF9 AnswerCreationView
+    rectangle #b5bd68 AnswerCreationController
+    rectangle #F2AC4E Answer
+    rectangle #F2AC4E Question
+}
+
+Docente -r-> AnswerCreationView: solicitarCrear()
+AnswerCreationView --> Docente: pedirDatos()
+Docente --> AnswerCreationView: proporcionarDatos()
+AnswerCreationView -d-> AnswerCreationController: crearRespuesta()
+AnswerCreationController --> Answer: new()
+AnswerCreationController --> Question: addAnswer()
+
+@enduml
+```

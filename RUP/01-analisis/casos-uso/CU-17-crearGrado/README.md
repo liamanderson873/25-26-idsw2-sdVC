@@ -20,7 +20,7 @@ Análisis del caso de uso Crear Grado. Permite la agrupación de alumnos y asign
 
 <div align=center>
 
-|![Análisis: crearGrado()](colaboracion.puml)|
+|![Análisis: crearGrado()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-17-crearGrado/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -57,3 +57,24 @@ Análisis del caso de uso Crear Grado. Permite la agrupación de alumnos y asign
 ## trazabilidad con artefactos previos
 
 - **Estructura**: El grado sirve como estructura organizativa superior.
+
+```plantuml
+@startuml crearGrado-analisis
+skinparam linetype polyline
+
+actor Docente
+package crearGrado as "crearGrado()" {
+    rectangle #629EF9 GradeCreationView
+    rectangle #b5bd68 GradeController
+    rectangle #F2AC4E Grade
+    rectangle #F2AC4E Student
+}
+
+Docente -r-> GradeCreationView: solicitarCreacion()
+Docente --> GradeCreationView: proporcionarDatos(nombre, codigo)
+GradeCreationView -d-> GradeController: crearGrado(datos)
+GradeController --> Grade: inicializar(datos)
+GradeController --> GradeCreationView: notificarExitoYRedirigir()
+
+@enduml
+```

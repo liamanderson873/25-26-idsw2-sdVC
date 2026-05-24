@@ -20,7 +20,7 @@ Análisis tecnológico agnóstico del caso de uso Cancelar Generación, siguiend
 
 <div align=center>
 
-|![Análisis: cancelarGeneracion()](colaboracion.puml)|
+|![Análisis: cancelarGeneracion()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-37-cancelarGeneracion/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -57,3 +57,24 @@ Análisis tecnológico agnóstico del caso de uso Cancelar Generación, siguiend
 
 ### con especificación detallada
 - **Decisiones** → La cancelación implica la eliminación de instancias temporales de `Exam`.
+
+
+```plantuml
+@startuml cancelarGeneracion-analisis
+skinparam linetype polyline
+
+actor Docente
+package cancelarGeneracion as "cancelarGeneracion()" {
+    rectangle #629EF9 CancelGenerationView
+    rectangle #b5bd68 ExamGenerationController
+    rectangle #F2AC4E Exam
+}
+
+Docente -r-> CancelGenerationView: cancelarGeneracion()
+CancelGenerationView --> Docente: pedirConfirmacion()
+Docente --> CancelGenerationView: confirmar()
+CancelGenerationView -d-> ExamGenerationController: descartarGeneracion()
+ExamGenerationController --> Exam: delete()
+
+@enduml
+```

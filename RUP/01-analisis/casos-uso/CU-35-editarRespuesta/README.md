@@ -20,7 +20,7 @@ Análisis tecnológico agnóstico del caso de uso Editar Respuesta, siguiendo la
 
 <div align=center>
 
-|![Análisis: editarRespuesta()](colaboracion.puml)|
+|![Análisis: editarRespuesta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-35-editarRespuesta/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -59,3 +59,26 @@ Análisis tecnológico agnóstico del caso de uso Editar Respuesta, siguiendo la
 
 ### con especificación detallada
 - **Estados internos** → `EditandoDatos`, `GuardandoDatos`
+
+
+```plantuml
+@startuml editarRespuesta-analisis
+skinparam linetype polyline
+
+actor Docente
+package editarRespuesta as "editarRespuesta()" {
+    rectangle #629EF9 AnswerEditionView
+    rectangle #b5bd68 AnswerEditionController
+    rectangle #F2AC4E Answer
+}
+
+Docente -r-> AnswerEditionView: solicitarEditar()
+AnswerEditionView --> AnswerEditionController: getDatos()
+AnswerEditionController --> Answer: read()
+Docente --> AnswerEditionView: modificarCampos()
+Docente --> AnswerEditionView: confirmarGuardar()
+AnswerEditionView -d-> AnswerEditionController: actualizarRespuesta()
+AnswerEditionController --> Answer: update()
+
+@enduml
+```

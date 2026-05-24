@@ -20,7 +20,7 @@ Análisis tecnológico agnóstico del caso de uso Cerrar Sesión, siguiendo la m
 
 <div align=center>
 
-|![Análisis: cerrarSesion()](colaboracion.puml)|
+|![Análisis: cerrarSesion()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-31-cerrarSesion/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -57,3 +57,24 @@ Análisis tecnológico agnóstico del caso de uso Cerrar Sesión, siguiendo la m
 
 ### con especificación detallada
 - **Estados internos** → `SolicitandoCierre`, `ConfirmandoCierre`
+
+
+```plantuml
+@startuml cerrarSesion-analisis
+skinparam linetype polyline
+
+actor Usuario
+package cerrarSesion as "cerrarSesion()" {
+    rectangle #629EF9 SessionView
+    rectangle #b5bd68 LogoutController
+    rectangle #F2AC4E UserSession
+}
+
+Usuario -r-> SessionView: solicitarCierre()
+SessionView --> Usuario: pedirConfirmacion()
+Usuario --> SessionView: confirmarCierre()
+SessionView -d-> LogoutController: cerrarSesion()
+LogoutController --> UserSession: invalidar()
+
+@enduml
+```

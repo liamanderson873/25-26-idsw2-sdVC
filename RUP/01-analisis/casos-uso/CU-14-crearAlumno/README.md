@@ -20,7 +20,7 @@ Análisis del caso de uso Crear Alumno. Permite registrar un nuevo estudiante.
 
 <div align=center>
 
-|![Análisis: crearAlumno()](colaboracion.puml)|
+|![Análisis: crearAlumno()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-14-crearAlumno/colaboracion.puml&fmt=svg)|
 |-|
 |Código fuente: [colaboracion.puml](colaboracion.puml)|
 
@@ -56,3 +56,23 @@ Análisis del caso de uso Crear Alumno. Permite registrar un nuevo estudiante.
 ## trazabilidad con artefactos previos
 
 - **Estrategia**: Garantiza existencia del objeto, delegando detalles a edición.
+
+```plantuml
+@startuml crearAlumno-analisis
+skinparam linetype polyline
+
+actor Docente
+package crearAlumno as "crearAlumno()" {
+    rectangle #629EF9 StudentCreationView
+    rectangle #b5bd68 StudentController
+    rectangle #F2AC4E Student
+}
+
+Docente -r-> StudentCreationView: solicitarCreacion()
+Docente --> StudentCreationView: introducirDatos(nombre, apellidos, dni)
+StudentCreationView -d-> StudentController: crearAlumno(datos)
+StudentController --> Student: inicializar(datos)
+StudentController --> StudentCreationView: notificarExitoYRedirigir()
+
+@enduml
+```
