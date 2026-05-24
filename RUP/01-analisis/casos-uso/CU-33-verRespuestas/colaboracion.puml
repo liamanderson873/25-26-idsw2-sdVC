@@ -1,0 +1,19 @@
+@startuml verRespuestas-analisis
+skinparam linetype polyline
+
+actor Docente
+package verRespuestas as "verRespuestas()" {
+    rectangle #629EF9 AnswerListView
+    rectangle #b5bd68 AnswerConsultationController
+    rectangle #F2AC4E Answer
+    rectangle #F2AC4E Question
+}
+
+Docente -r-> AnswerListView: solicitarVerRespuestas()
+AnswerListView --> AnswerConsultationController: getRespuestas()
+AnswerConsultationController --> Answer: find()
+AnswerConsultationController --> Question: getDatos()
+Docente --> AnswerListView: solicitarFiltro()
+AnswerListView --> AnswerConsultationController: filtrar()
+
+@enduml

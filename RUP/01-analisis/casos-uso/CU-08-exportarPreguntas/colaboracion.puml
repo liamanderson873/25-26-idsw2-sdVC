@@ -1,0 +1,18 @@
+@startuml exportarPreguntas-analisis
+skinparam linetype polyline
+
+actor Docente
+package exportarPreguntas as "exportarPreguntas()" {
+    rectangle #629EF9 QuestionExportView
+    rectangle #b5bd68 ExportController
+    rectangle #F2AC4E Question
+    rectangle #F2AC4E Answer
+}
+
+Docente -r-> QuestionExportView: exportarPreguntas()
+QuestionExportView -d-> ExportController: recopilarPreguntas()
+ExportController --> Question: obtenerPreguntas()
+ExportController --> Answer: obtenerRespuestas(pregunta)
+ExportController --> QuestionExportView: notificarExito()
+
+@enduml

@@ -1,0 +1,16 @@
+@startuml iniciarSesion-analisis
+skinparam linetype polyline
+
+actor UsuarioNoRegistrado
+package iniciarSesion as "iniciarSesion()" {
+    rectangle #629EF9 LoginView
+    rectangle #b5bd68 LoginController
+    rectangle #F2AC4E User
+}
+
+UsuarioNoRegistrado -r-> LoginView: introducirCredenciales()
+LoginView --> LoginController: autenticar()
+LoginController --> User: verificarCredenciales()
+LoginController --> LoginView: mostrarError()
+
+@enduml

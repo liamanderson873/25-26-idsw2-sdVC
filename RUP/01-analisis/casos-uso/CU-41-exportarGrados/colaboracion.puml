@@ -1,0 +1,10 @@
+@startuml
+skinparam linetype polyline
+
+class "GradeExportView" <<boundary>>
+class "GradeExportController" <<control>>
+class "Grade" <<entity>>
+
+GradeExportView -> GradeExportController : procesarExportacion()
+GradeExportController -> Grade : obtenerDatosGrados()
+@enduml

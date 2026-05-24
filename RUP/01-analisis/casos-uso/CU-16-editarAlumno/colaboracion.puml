@@ -1,0 +1,19 @@
+@startuml editarAlumno-analisis
+skinparam linetype polyline
+
+actor Docente
+package editarAlumno as "editarAlumno()" {
+    rectangle #629EF9 StudentEditView
+    rectangle #b5bd68 StudentController
+    rectangle #F2AC4E Student
+}
+
+Docente -r-> StudentEditView: modificarDatos(datos)
+StudentEditView -d-> StudentController: guardar(datos)
+StudentController --> Student: actualizar(datos)
+
+Docente --> StudentEditView: eliminarAlumno()
+StudentEditView --> StudentController: eliminar()
+StudentController --> Student: delete()
+
+@enduml

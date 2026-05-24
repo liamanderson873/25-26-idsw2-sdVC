@@ -1,0 +1,15 @@
+@startuml completarGestion-analisis
+skinparam linetype polyline
+
+actor Usuario
+package completarGestion as "completarGestion()" {
+    rectangle #629EF9 ManagementView
+    rectangle #b5bd68 ManagementController
+    rectangle #F2AC4E SystemState
+}
+
+Usuario -r-> ManagementView: completarGestion()
+ManagementView --> ManagementController: finalizar()
+ManagementController --> SystemState: setDisponible()
+
+@enduml

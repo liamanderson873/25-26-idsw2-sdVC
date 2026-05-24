@@ -1,0 +1,20 @@
+@startuml eliminarPregunta-analisis
+skinparam linetype polyline
+
+actor Docente
+package eliminarPregunta as "eliminarPregunta()" {
+    rectangle #629EF9 QuestionDeleteView
+    rectangle #b5bd68 QuestionController
+    rectangle #F2AC4E Question
+}
+
+Docente -r-> QuestionDeleteView: solicitarEliminacion(id)
+QuestionDeleteView -d-> QuestionController: obtenerDatosPregunta(id)
+QuestionController --> Question: getDetalles()
+QuestionDeleteView --> QuestionDeleteView: mostrarAdvertencia()
+
+Docente --> QuestionDeleteView: confirmarEliminacion()
+QuestionDeleteView --> QuestionController: eliminarDefinitivamente(id)
+QuestionController --> Question: delete()
+
+@enduml

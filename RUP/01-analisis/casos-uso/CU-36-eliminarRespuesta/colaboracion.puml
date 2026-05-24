@@ -1,0 +1,17 @@
+@startuml eliminarRespuesta-analisis
+skinparam linetype polyline
+
+actor Docente
+package eliminarRespuesta as "eliminarRespuesta()" {
+    rectangle #629EF9 AnswerDeletionView
+    rectangle #b5bd68 AnswerDeletionController
+    rectangle #F2AC4E Answer
+}
+
+Docente -r-> AnswerDeletionView: solicitarEliminar()
+AnswerDeletionView --> Answer: getDatos()
+Docente --> AnswerDeletionView: confirmarEliminar()
+AnswerDeletionView -d-> AnswerDeletionController: eliminarRespuesta()
+AnswerDeletionController --> Answer: delete()
+
+@enduml

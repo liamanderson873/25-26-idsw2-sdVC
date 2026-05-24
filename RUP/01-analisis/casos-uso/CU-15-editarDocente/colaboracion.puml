@@ -1,0 +1,19 @@
+@startuml editarDocente-analisis
+skinparam linetype polyline
+
+actor AdministradorInstitucional
+package editarDocente as "editarDocente()" {
+    rectangle #629EF9 DocentEditView
+    rectangle #b5bd68 DocentController
+    rectangle #F2AC4E Docent
+}
+
+AdministradorInstitucional -r-> DocentEditView: modificarDatos(datos)
+DocentEditView -d-> DocentController: guardar(datos)
+DocentController --> Docent: actualizar(datos)
+
+AdministradorInstitucional --> DocentEditView: eliminarDocente()
+DocentEditView --> DocentController: eliminar()
+DocentController --> Docent: delete()
+
+@enduml

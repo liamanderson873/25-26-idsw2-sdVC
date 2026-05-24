@@ -1,0 +1,19 @@
+@startuml editarRespuesta-analisis
+skinparam linetype polyline
+
+actor Docente
+package editarRespuesta as "editarRespuesta()" {
+    rectangle #629EF9 AnswerEditionView
+    rectangle #b5bd68 AnswerEditionController
+    rectangle #F2AC4E Answer
+}
+
+Docente -r-> AnswerEditionView: solicitarEditar()
+AnswerEditionView --> AnswerEditionController: getDatos()
+AnswerEditionController --> Answer: read()
+Docente --> AnswerEditionView: modificarCampos()
+Docente --> AnswerEditionView: confirmarGuardar()
+AnswerEditionView -d-> AnswerEditionController: actualizarRespuesta()
+AnswerEditionController --> Answer: update()
+
+@enduml

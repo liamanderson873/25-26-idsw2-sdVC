@@ -1,0 +1,16 @@
+@startuml exportarAlumnos-analisis
+skinparam linetype polyline
+
+actor Docente
+package exportarAlumnos as "exportarAlumnos()" {
+    rectangle #629EF9 StudentExportView
+    rectangle #b5bd68 ExportController
+    rectangle #F2AC4E Student
+}
+
+Docente -r-> StudentExportView: exportarAlumnos()
+StudentExportView -d-> ExportController: prepararDatos()
+ExportController --> Student: obtenerTodos()
+ExportController --> StudentExportView: notificarExito()
+
+@enduml

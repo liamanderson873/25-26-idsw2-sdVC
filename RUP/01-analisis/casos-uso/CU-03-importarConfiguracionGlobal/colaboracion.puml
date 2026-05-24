@@ -1,0 +1,28 @@
+@startuml importarConfiguracionGlobal-analisis
+skinparam linetype polyline
+
+actor Docente
+package importarConfiguracionGlobal as "importarConfiguracionGlobal()" {
+    rectangle #629EF9 GlobalConfigImportView
+    rectangle #b5bd68 ImportController
+    rectangle #F2AC4E GlobalConfig
+    rectangle #F2AC4E Student
+    rectangle #F2AC4E Grade
+    rectangle #F2AC4E Subject
+    rectangle #F2AC4E Question
+}
+
+Docente -r-> GlobalConfigImportView: importarConfiguracion(archivo, opciones)
+GlobalConfigImportView -d-> ImportController: procesarImportacion(archivo, opciones)
+ImportController --> GlobalConfig: extraerDatos()
+ImportController --> GlobalConfigImportView: mostrarValidacion()
+
+Docente --> GlobalConfigImportView: confirmarImportacion()
+GlobalConfigImportView --> ImportController: persistirCambios()
+
+ImportController --> Student: guardar()
+ImportController --> Grade: guardar()
+ImportController --> Subject: guardar()
+ImportController --> Question: guardar()
+
+@enduml

@@ -1,0 +1,20 @@
+@startuml importarAlumnos-analisis
+skinparam linetype polyline
+
+actor Docente
+package importarAlumnos as "importarAlumnos()" {
+    rectangle #629EF9 StudentImportView
+    rectangle #b5bd68 StudentImportController
+    rectangle #F2AC4E Student
+}
+
+Docente -r-> StudentImportView: seleccionarArchivo(archivo)
+StudentImportView -d-> StudentImportController: procesarArchivo(archivo)
+StudentImportController --> Student: validarDuplicado()
+StudentImportController --> StudentImportView: mostrarPrevisualizacion()
+
+Docente --> StudentImportView: confirmarImportacion()
+StudentImportView --> StudentImportController: persistirAlumnos()
+StudentImportController --> Student: guardar()
+
+@enduml

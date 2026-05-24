@@ -1,0 +1,19 @@
+@startuml verAlumnos-analisis
+skinparam linetype polyline
+
+actor Docente
+package verAlumnos as "verAlumnos()" {
+    rectangle #629EF9 StudentListView
+    rectangle #b5bd68 StudentController
+    rectangle #F2AC4E Student
+}
+
+Docente -r-> StudentListView: solicitarVerAlumnos()
+StudentListView -d-> StudentController: cargarAlumnos()
+StudentController --> Student: consultarTodos()
+
+Docente --> StudentListView: aplicarFiltro(criterios)
+StudentListView --> StudentController: filtrar(criterios)
+StudentController --> Student: consultar(criterios)
+
+@enduml

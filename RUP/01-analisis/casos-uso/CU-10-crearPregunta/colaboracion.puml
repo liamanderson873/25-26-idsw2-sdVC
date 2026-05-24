@@ -1,0 +1,19 @@
+@startuml crearPregunta-analisis
+skinparam linetype polyline
+
+actor Docente
+package crearPregunta as "crearPregunta()" {
+    rectangle #629EF9 QuestionCreationView
+    rectangle #b5bd68 QuestionManagementController
+    rectangle #F2AC4E Question
+    rectangle #F2AC4E Subject
+}
+
+Docente -r-> QuestionCreationView: solicitarCreacion()
+Docente --> QuestionCreationView: proporcionarDatos(asignatura, enunciado, tema, dificultad)
+QuestionCreationView -d-> QuestionManagementController: crearPregunta(datos)
+QuestionManagementController --> Subject: validarExistencia()
+QuestionManagementController --> Question: inicializar(datos)
+QuestionManagementController --> QuestionCreationView: notificarExitoYRedirigir()
+
+@enduml

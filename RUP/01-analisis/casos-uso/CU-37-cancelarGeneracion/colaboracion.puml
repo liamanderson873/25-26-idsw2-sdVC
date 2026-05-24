@@ -1,0 +1,17 @@
+@startuml cancelarGeneracion-analisis
+skinparam linetype polyline
+
+actor Docente
+package cancelarGeneracion as "cancelarGeneracion()" {
+    rectangle #629EF9 CancelGenerationView
+    rectangle #b5bd68 ExamGenerationController
+    rectangle #F2AC4E Exam
+}
+
+Docente -r-> CancelGenerationView: cancelarGeneracion()
+CancelGenerationView --> Docente: pedirConfirmacion()
+Docente --> CancelGenerationView: confirmar()
+CancelGenerationView -d-> ExamGenerationController: descartarGeneracion()
+ExamGenerationController --> Exam: delete()
+
+@enduml

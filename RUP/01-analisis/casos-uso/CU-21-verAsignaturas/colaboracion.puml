@@ -1,0 +1,23 @@
+@startuml verAsignaturas-analisis
+skinparam linetype polyline
+
+actor Docente
+package verAsignaturas as "verAsignaturas()" {
+    rectangle #629EF9 SubjectListView
+    rectangle #b5bd68 SubjectController
+    rectangle #F2AC4E Subject
+    rectangle #F2AC4E Student
+    rectangle #F2AC4E Grade
+}
+
+Docente -r-> SubjectListView: solicitarVerAsignaturas()
+SubjectListView -d-> SubjectController: obtenerLista()
+SubjectController --> Subject: consultarTodos()
+Subject --> Student
+Subject --> Grade
+
+Docente --> SubjectListView: aplicarFiltro(criterios)
+SubjectListView --> SubjectController: filtrar(criterios)
+SubjectController --> Subject: consultar(criterios)
+
+@enduml
