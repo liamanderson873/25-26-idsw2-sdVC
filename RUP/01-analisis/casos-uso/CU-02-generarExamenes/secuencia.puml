@@ -1,0 +1,44 @@
+@startuml CU-02-generarExamenes-diseno
+
+skinparam linetype polyline
+
+actor "Docente" as Actor
+participant ":ExamGenerationController" as Controller <<boundary>>
+participant ":ExamGenerationService" as Service <<control>>
+participant ":QuestionRepository" as QRepo <<entity>>
+participant ":ExamRepository" as ERepo <<entity>>
+participant "exam:Exam" as Entity <<entity>>
+
+title Diseño Técnico: generarExamenes() (Algoritmo Aleatorio)
+
+Actor -> Controller : POST /api/exams/generate (GenerateExamDTO)
+activate Controller
+
+Controller -> Service : generateExams(dto)
+activate Service
+
+Service -> QRepo : findAvailableQuestions(subject, topics, difficulty)
+activate QRepo
+return List<Question>
+
+alt isPersonalized == true
+    loop por cada alumno
+        Service -> Service : shuffleAndPickQuestions(questions, count)
+        Service -> Entity : new Exam(picked_questions)
+        Service -> ERepo : save(exam)
+    end
+else isPersonalized == false (Modelo Único)
+    Service -> Service : shuffleAndPickQuestions(questions, count)
+    loop por cada alumno
+        Service -> Entity : new Exam(shared_questions)
+        Service -> ERepo : save(exam)
+    end
+end
+
+Service --> Controller : GenerationReport
+deactivate Service
+
+Controller --> Actor : 201 Created (JSON Report)
+deactivate Controller
+
+@enduml

@@ -26,6 +26,16 @@ Análisis tecnológico agnóstico del caso de uso Generar Exámenes, siguiendo l
 
 </div>
 
+## realización de diseño (secuencia)
+
+<div align=center>
+
+|![Realización: CU-02-generarExamenes](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-02-generarExamenes/secuencia.puml&fmt=svg)|
+|-|
+|Código fuente: [secuencia.puml](secuencia.puml)|
+
+</div>
+
 ## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
@@ -87,6 +97,53 @@ Docente --> GenerationView: generarExamenes(parametros)
 GenerationView --> GenerationController: generar(parametros)
 GenerationController --> Question: filtrarPorParametros(parametros)
 GenerationController --> Exam: crearExamen(preguntas)
+
+@enduml
+```
+
+```plantuml
+@startuml CU-02-generarExamenes-diseno
+
+skinparam linetype polyline
+
+actor "Docente" as Actor
+participant ":ExamGenerationController" as Controller <<boundary>>
+participant ":ExamGenerationService" as Service <<control>>
+participant ":QuestionRepository" as QRepo <<entity>>
+participant ":ExamRepository" as ERepo <<entity>>
+participant "exam:Exam" as Entity <<entity>>
+
+title Diseño Técnico: generarExamenes() (Algoritmo Aleatorio)
+
+Actor -> Controller : POST /api/exams/generate (GenerateExamDTO)
+activate Controller
+
+Controller -> Service : generateExams(dto)
+activate Service
+
+Service -> QRepo : findAvailableQuestions(subject, topics, difficulty)
+activate QRepo
+return List<Question>
+
+alt isPersonalized == true
+    loop por cada alumno
+        Service -> Service : shuffleAndPickQuestions(questions, count)
+        Service -> Entity : new Exam(picked_questions)
+        Service -> ERepo : save(exam)
+    end
+else isPersonalized == false (Modelo Único)
+    Service -> Service : shuffleAndPickQuestions(questions, count)
+    loop por cada alumno
+        Service -> Entity : new Exam(shared_questions)
+        Service -> ERepo : save(exam)
+    end
+end
+
+Service --> Controller : GenerationReport
+deactivate Service
+
+Controller --> Actor : 201 Created (JSON Report)
+deactivate Controller
 
 @enduml
 ```

@@ -26,6 +26,16 @@ Análisis del caso de uso Importar Configuración Global. Describe el proceso ma
 
 </div>
 
+## realización de diseño (secuencia)
+
+<div align=center>
+
+|![Realización: CU-03-importarConfiguracionGlobal](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-03-importarConfiguracionGlobal/secuencia.puml&fmt=svg)|
+|-|
+|Código fuente: [secuencia.puml](secuencia.puml)|
+
+</div>
+
 ## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
@@ -91,6 +101,53 @@ ImportController --> Student: guardar()
 ImportController --> Grade: guardar()
 ImportController --> Subject: guardar()
 ImportController --> Question: guardar()
+
+@enduml
+```
+
+```plantuml
+@startuml CU-03-importarConfiguracionGlobal-diseno
+
+skinparam linetype polyline
+
+actor "Administrador" as Actor
+participant ":ConfigController" as Controller <<boundary>>
+participant ":ImportService" as Service <<control>>
+participant "repo:AnyRepository" as Repo <<entity>>
+
+title Diseño Técnico: importarConfiguracionGlobal() (Estrategia UPSERT)
+
+Actor -> Controller : POST /api/config/import (File/JSON)
+activate Controller
+
+Controller -> Service : importGlobalConfig(data)
+activate Service
+
+note right of Service
+**@Transactional**
+Asegura atomicidad (Rollback en caso de fallo)
+end note
+
+loop por cada Grado, Asignatura, Alumno, Pregunta
+    Service -> Repo : findByNaturalKey(identifier)
+    activate Repo
+    Repo --> Service : existingEntity?
+    deactivate Repo
+    
+    alt existe
+        Service -> Service : updateExistingData(existing, newData)
+    else no existe
+        Service -> Service : createNewInstance(newData)
+    end
+    
+    Service -> Repo : save(entity)
+end
+
+Service --> Controller : ImportSummary
+deactivate Service
+
+Controller --> Actor : 201 Created (Summary)
+deactivate Controller
 
 @enduml
 ```

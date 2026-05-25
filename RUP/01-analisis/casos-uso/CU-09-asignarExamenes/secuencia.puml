@@ -1,0 +1,42 @@
+@startuml CU-09-asignarExamenes-diseno
+
+skinparam linetype polyline
+
+actor "Docente" as Actor
+participant ":AssignmentController" as Controller <<boundary>>
+participant ":AssignmentService" as Service <<control>>
+participant ":StudentRepository" as SRepo <<entity>>
+participant ":ExamRepository" as ERepo <<entity>>
+participant "exam:Exam" as Entity <<entity>>
+
+title Diseño Técnico: asignarExamenes() (Generación de Hash)
+
+Actor -> Controller : POST /api/assignments (AssignmentDTO)
+activate Controller
+
+Controller -> Service : assignExamsToStudents(dto)
+activate Service
+
+loop por cada emparejamiento (ExamID, StudentID)
+    Service -> SRepo : findById(studentID)
+    Service -> ERepo : findById(examID)
+    
+    Service -> Service : generateCorrectionHash(examData, studentData)
+    note right
+    **Algoritmo de Hash (MD5/SHA)**
+    Combina: Asignatura + Alumno + Respuestas
+    end note
+    
+    Service -> Entity : assignStudent(student)
+    Service -> Entity : setCorrectionKey(generatedHash)
+    
+    Service -> ERepo : save(exam)
+end
+
+Service --> Controller : List<AssignmentSummary>
+deactivate Service
+
+Controller --> Actor : 200 OK
+deactivate Controller
+
+@enduml
