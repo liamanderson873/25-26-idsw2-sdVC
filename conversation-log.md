@@ -129,4 +129,41 @@ Creación de `TRAZABILIDAD_TEORICA.md` para justificar el uso de BCE y la indepe
 | **Independencia Tecnológica** | Garantizada (Análisis Agnóstico) |
 
 ---
-*Este registro se actualizará al inicio de la Fase de Diseño.*
+
+## Conversación 06: Refinamiento de Workflow y Trazabilidad Teórica
+**Fecha**: 2026-05-24 (Post-Sesión)
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras finalizar el análisis, el usuario solicita profundizar en la conexión entre el trabajo realizado y la teoría académica, además de ajustar las reglas de interacción para las fases de diseño e implementación.
+
+**Prompts clave de Liam**:
+> "quiero que el documento que te dije de explicacion [...] sea mas detallado para que pueda entender todo lo que estas haciendo y poder luego explicarlo yo quiero que se adopte a la teoria que sale en el repo de IDSW2"
+> "especialmente para las fases que quedan como de codificacion y tal quiero que me preguntes en que rama pero se asume que en develop [...] tienes que ir actualizando tu poco a poco cuando puedas el convesation log"
+
+### Desarrollo Principal
+
+#### 1. **Expansión de la Trazabilidad Teórica**
+- Revisión profunda de la teoría de **IDSW2** (Antipatrón de Descomposición Funcional, Separación de Asuntos, Reglas de justificación de Entidades).
+- Actualización de `TRAZABILIDAD_TEORICA.md` para convertirlo en una guía de defensa académica del proyecto.
+
+#### 2. **Resolución de Conflictos Conceptuales (El Glosario)**
+- Debate sobre el momento de creación de la "Clave Única" del examen.
+- **Validación con Modelado**: Tras consultar el Glosario y los Diagramas de Estado del `ModelingRepo`, se confirma que la clave **se genera en la fase de asignación, no en la de generación**. Se aplica un **Hash (MD5/SHA)**.
+
+#### 3. **Diseño de Diagramas de Secuencia (Realización)**
+- Elaboración de 4 diagramas de secuencia técnicos para los Casos de Uso Core:
+  - **CU-01**: Delegación IA mediante Interfaz (`ICorrectionEngine`).
+  - **CU-02**: Algoritmo de selección con modo `isPersonalized`.
+  - **CU-03**: Estrategia de importación **UPSERT** con `@Transactional`.
+  - **CU-09**: Generación de Hash de asignación.
+
+#### 4. **Ajuste del Workflow (Reglas Consolidadas)**
+- **Git**: Prohibición de commits automáticos a `main`. Uso exclusivo de `develop` (o ramas feature) con confirmación previa.
+- **Logs**: Actualización continua y progresiva del `conversation-log.md`.
+
+### Valor de la Sesión
+Se consolida el rigor académico del proyecto, demostrando capacidad para auditar el propio trabajo contra el modelo de requisitos y la teoría base de la asignatura. Se blinda el contexto para garantizar una transición suave al Diseño de la Base de Datos (DER).
+
+---
+*Este registro continuará en la Fase de Diseño (Diagrama Entidad-Relación).*
