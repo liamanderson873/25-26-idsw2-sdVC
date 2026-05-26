@@ -9,7 +9,7 @@
 # Registro de Conversaciones - Proyecto Jorgestor RUP
 
 ## Resumen
-Este archivo mantiene un registro cronológico y técnico de todas las interacciones, decisiones estratégicas y evolución del sistema **Jorgestor** siguiendo la metodología **RUP Pragmático**.
+Este archivo mantiene un registro cronológico exhaustivo de todas las interacciones, decisiones estratégicas y evolución técnica del sistema **Jorgestor** (Generación y Corrección de Exámenes). 
 
 ---
 
@@ -23,147 +23,76 @@ Arranque del proyecto con el objetivo de transformar un modelo UML previo en una
 **Pregunta clave de Liam**:
 > "tengo que hacer un proyecto para clase en el que tengo que codificar enteramente contido un proyecto que tenemos modelado... el modelado lo tengo todo en un github... quiero trabajar como lo he hecho en el repo de modelado... vamos a hacer primero el analysis y diseño y una vez lo tengamos hacemos la implementacion."
 
-### Estado del Proyecto al Inicio
-- 🌑 **Inicio de proyecto**: Sin infraestructura de implementación.
-- 📁 **Recursos**: Repositorios de Modelado, Teoría y Referencia (pySigHor) identificados.
+### Desarrollo Principal
+Se establece adoptar el **RUP Pragmático** inspirado en `pySigHor`. Se crea la infraestructura inicial de carpetas y se analizan los dos primeros casos de uso (Corrección y Generación), sentando las bases del patrón **BCE**.
+
+---
+
+## Conversación 02: Maratón de Análisis, Refactorización pySigHor y Salto a Diseño
+**Fecha**: 2026-05-24
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Sesión masiva de alta intensidad. El objetivo inicial era avanzar en el análisis por bloques, pero evoluciona hacia una reestructuración total del proyecto para alcanzar la excelencia documental y realizar la transición técnica a la fase de Diseño.
+
+**Prompts clave de Liam**:
+> "vale parece que tecuerdas todo [...] quiero que hagamos mas trabajo para cada uno no solo un caso de uso"
+> "vale vamos a hacer los que quedan en tres bloques"
+> "vale pero de la parte de analisis no faltan cosas? quiero que te bases en sighor para todo lo que tenemos que hacer para nuestro proyecto"
+> "creo que prefiero java porque es lo que mas entiendo y asi podemos debatir mejor las cosas que te parece?"
+> "quiero que antes de hacer cualquier cambio o de plantear cualquier cosa me preguntes y lo debatamos o te de el visto bueno"
+
+### Estado del Proyecto al Inicio de la Sesión
+- ✅ Análisis Puro: 2/41 CUs completados.
+- 📁 Estructura: Archivos Markdown sueltos en `/01-analisis`.
+- ⚙️ Git: Flujo de una rama por cada CU.
 
 ### Desarrollo Principal
 
-#### 1. **Definición de Metodología y Alcance**
-Se establece adoptar el **RUP Pragmático** inspirado en `pySigHor`.
-- **Hito**: Edición de `QUE_HACE.md` definiendo el compromiso del sistema.
-- **Simplificación**: Se elimina la mención a "Inteligencia Artificial" para priorizar un entregable profesional honesto.
+#### 1. **Aceleración del Análisis (Bloques 2 al 5)**
+Se procesan los 39 casos de uso restantes en tiempo récord, agrupándolos por áreas funcionales:
+- **Bloque 2**: Configuración global e importaciones masivas.
+- **Bloque 3**: CRUD completo de entidades (Alumno, Docente, Asignatura, Grado, Pregunta).
+- **Bloque 4**: Vistas de listado y procesos de eliminación segura.
+- **Bloque 5**: Gestión de respuestas, cierre de sesión y exportaciones.
 
-#### 2. **Infraestructura Inicial**
-- Creación de la estructura de carpetas `/RUP/00-casos-uso`, `/01-analisis`, `/02-diseno`.
-- Configuración de ramas `develop` y `task/01-analisis-puro`.
+#### 2. **Auditoría de Referencia y Gran Refactorización Structural**
+Tras el prompt de Liam sobre "basarse en SigHor", Gemini realiza:
+- **Auditoría**: Se detecta que faltan diagramas de robustez y una estructura jerárquica.
+- **Refactorización**: Migración de 41 archivos `.md` a 41 carpetas independientes.
+- **Modelado de Robustez**: Generación de **41 diagramas de colaboración PlantUML** (Boundary-Control-Entity).
+- **Trazabilidad**: Sincronización de `ModelingRepo` (Glosario, Estados) hacia `RUP/00-casos-uso`.
 
-#### 3. **Análisis Puro (CU-01 y CU-02)**
-- **CU-01 (Corregir Exámenes)**: Identificación de clases BCE: `CorrectionView`, `CorrectionController`, `Exam` y `Student`.
-- **CU-02 (Generar Exámenes)**: Análisis de 7 parámetros obligatorios para la generación.
+#### 3. **Transición al Diseño y Selección de Stack**
+- **Decisión del Stack**: Debate sobre Java vs Python. Liam elige **Java 21 + Spring Boot 3 + PostgreSQL** por dominio personal y adecuación a los principios OO de IDSW2.
+- **Arquitectura**: Definición de una **Arquitectura de 3 Capas** (Controller, Service, Repository).
+
+#### 4. **Realización de Diseño (Secuencia Técnica)**
+Se elaboran los diagramas de secuencia para los casos más complejos, integrando decisiones técnicas críticas:
+- **CU-01 (Corrección)**: Delegación a interfaz `ICorrectionEngine` para simular la IA.
+- **CU-03 (Importar)**: Implementación de estrategia **UPSERT** con claves naturales y `@Transactional`.
+- **CU-09 (Asignación)**: Resolución del debate sobre el Hash. Se confirma con el Glosario de modelado que la **Clave de Corrección** (Hash MD5/SHA) nace en este momento.
+
+#### 5. **Infraestructura de Memoria (Blindaje de Contexto)**
+- Creación de `TRAZABILIDAD_TEORICA.md` (memoria local) para justificar decisiones ante los profesores.
+- Creación de `CONTEXTO_PROYECTO.md` con las reglas de workflow inamovibles.
+
+### Decisiones Técnicas Clave
+- **Independencia Tecnológica**: El análisis permanece agnóstico; el compromiso se asume en la fase de Diseño.
+- **Estrategia Upsert**: Evitar duplicados en importaciones mediante búsqueda previa por DNI/Código.
+- **Delegación de IA**: Uso de interfaces para que el sistema no dependa de la implementación de la detección de imágenes.
 
 ### Valor de la Sesión
-Se establece un flujo de trabajo disciplinado que evita el "vibe coding" directo a implementación, asegurando la trazabilidad académica.
+El proyecto ha pasado de ser un conjunto de documentos a un sistema con una **arquitectura de software profesional**. Se ha validado el análisis contra el modelo de requisitos y se ha dejado el camino pavimentado para la codificación Java.
 
----
-
-## Conversación 02: Bloque de Análisis 2 y Ajuste de Workflow
-**Fecha**: 2026-05-24
-**Participantes**: Liam + Gemini CLI
-
-### Contexto de la Sesión
-Continuación de la fase de análisis puro con un cambio estratégico en la gestión de Git.
-
-**Pregunta clave de Liam**:
-> "quiero que sigamos con los que estabamos haciendo pero lo unico es para los pull request a develop quiero que hagamos mas trabajo para cada uno no solo un caso de uso"
-
-### Desarrollo Principal
-
-#### 1. **Nuevo Flujo de Trabajo (Bloques de Trabajo)**
-Se acuerda agrupar aproximadamente 4 casos de uso por Pull Request para reducir la sobrecarga de gestión de ramas.
-- **Variable de control**: Prioridad según `CasosDeUsoPriorizados.md`.
-
-#### 2. **Análisis del Bloque 2 (CU-03 a CU-06)**
-- **CU-03 & CU-04 (Configuración Global)**: Definición de operaciones atómicas para backup e importación total.
-- **CU-05 (Importar Alumnos)**: Especialización de la entidad `Student`.
-- **CU-06 (Importar Preguntas)**: Gestión de contextos (General vs Específico de Asignatura).
-
----
-
-## Conversación 03: Aceleración del Análisis (Bloques 3 y 4)
-**Fecha**: 2026-05-24
-**Participantes**: Liam + Gemini CLI
-
-### Contexto de la Sesión
-Decisión de completar los 35 casos de uso restantes en tres grandes bloques para transicionar rápidamente a la fase de Diseño.
-
-**Pregunta clave de Liam**:
-> "vale vamos a hacer los que quedan en tres bloques"
-
-### Desarrollo Principal
-
-#### 1. **Bloque 3: Gestión de Entidades (CU-07 a CU-18)**
-- **Exportaciones**: Alumnos y Preguntas.
-- **CRUD Principal**: Creación y edición de Preguntas, Asignaturas, Docentes, Alumnos y Grados.
-- **Patrón "El Delgado"**: Creación mínima con redirección inmediata a edición.
-
-#### 2. **Sincronización y Bloque 4 (CU-19 a CU-30)**
-Tras un error accidental en un PR, se decide:
-- **Cambio de Rationale**: Trabajar directamente en `develop` para la fase de análisis y centralizar merges en `main`.
-- **Análisis**: Vistas de listado, procesos de eliminación segura y seguridad (Iniciar Sesión).
-
----
-
-## Conversación 04: Finalización del Análisis y Refactorización Estructural
-**Fecha**: 2026-05-24
-**Participantes**: Liam + Gemini CLI
-
-### Contexto de la Sesión
-Cierre de la fase de Análisis Puro con un enfoque de excelencia documental.
-
-**Pregunta clave de Liam**:
-> "vale pero de la parte de analisis no faltan cosas? quiero que te bases en sighor para todo lo que tenemos que hacer para nuestro proyecto"
-
-### Desarrollo Principal
-
-#### 1. **Análisis de Referencia (pySigHor Audit)**
-Gemini clona y audita `pySigHor` identificando artefactos faltantes:
-- Diagramas de Colaboración (Robustez).
-- Estructura de carpetas por caso de uso.
-- Sincronización de requisitos en `/00-casos-uso`.
-
-#### 2. **Gran Refactorización Estructural**
-- **Transformación**: Migración de 41 archivos `.md` a 41 carpetas estructuradas.
-- **Modelado**: Generación de 41 diagramas `colaboracion.puml` (Robustez) en PlantUML.
-- **Visualización**: Configuración del proxy de PlantUML para renderizado dinámico en GitHub.
-
-#### 3. **Trazabilidad Teórica**
-Creación de `TRAZABILIDAD_TEORICA.md` para justificar el uso de BCE y la independencia tecnológica.
-
-### Estado Final de la Fase de Análisis
+### Estado Final de la Sesión
 | Métrica | Valor |
 |---------|-------|
 | **Casos de Uso Analizados** | 41 / 41 (100%) |
-| **Diagramas de Colaboración** | 41 / 41 |
-| **Arquitectura de Referencia** | pySigHor Standard |
-| **Independencia Tecnológica** | Garantizada (Análisis Agnóstico) |
+| **Diagramas de Robustez** | 41 / 41 |
+| **Diagramas de Secuencia (Diseño)** | 4 / 4 (CUs Core) |
+| **Arquitectura Definida** | 3-Tier Java/Spring Boot |
+| **Repositorio** | `main` y `develop` sincronizados y refactorizados |
 
 ---
-
-## Conversación 06: Refinamiento de Workflow y Trazabilidad Teórica
-**Fecha**: 2026-05-24 (Post-Sesión)
-**Participantes**: Liam + Gemini CLI
-
-### Contexto de la Sesión
-Tras finalizar el análisis, el usuario solicita profundizar en la conexión entre el trabajo realizado y la teoría académica, además de ajustar las reglas de interacción para las fases de diseño e implementación.
-
-**Prompts clave de Liam**:
-> "quiero que el documento que te dije de explicacion [...] sea mas detallado para que pueda entender todo lo que estas haciendo y poder luego explicarlo yo quiero que se adopte a la teoria que sale en el repo de IDSW2"
-> "especialmente para las fases que quedan como de codificacion y tal quiero que me preguntes en que rama pero se asume que en develop [...] tienes que ir actualizando tu poco a poco cuando puedas el convesation log"
-
-### Desarrollo Principal
-
-#### 1. **Expansión de la Trazabilidad Teórica**
-- Revisión profunda de la teoría de **IDSW2** (Antipatrón de Descomposición Funcional, Separación de Asuntos, Reglas de justificación de Entidades).
-- Actualización de `TRAZABILIDAD_TEORICA.md` para convertirlo en una guía de defensa académica del proyecto.
-
-#### 2. **Resolución de Conflictos Conceptuales (El Glosario)**
-- Debate sobre el momento de creación de la "Clave Única" del examen.
-- **Validación con Modelado**: Tras consultar el Glosario y los Diagramas de Estado del `ModelingRepo`, se confirma que la clave **se genera en la fase de asignación, no en la de generación**. Se aplica un **Hash (MD5/SHA)**.
-
-#### 3. **Diseño de Diagramas de Secuencia (Realización)**
-- Elaboración de 4 diagramas de secuencia técnicos para los Casos de Uso Core:
-  - **CU-01**: Delegación IA mediante Interfaz (`ICorrectionEngine`).
-  - **CU-02**: Algoritmo de selección con modo `isPersonalized`.
-  - **CU-03**: Estrategia de importación **UPSERT** con `@Transactional`.
-  - **CU-09**: Generación de Hash de asignación.
-
-#### 4. **Ajuste del Workflow (Reglas Consolidadas)**
-- **Git**: Prohibición de commits automáticos a `main`. Uso exclusivo de `develop` (o ramas feature) con confirmación previa.
-- **Logs**: Actualización continua y progresiva del `conversation-log.md`.
-
-### Valor de la Sesión
-Se consolida el rigor académico del proyecto, demostrando capacidad para auditar el propio trabajo contra el modelo de requisitos y la teoría base de la asignatura. Se blinda el contexto para garantizar una transición suave al Diseño de la Base de Datos (DER).
-
----
-*Este registro continuará en la Fase de Diseño (Diagrama Entidad-Relación).*
+*Este registro continuará con el Diseño del Modelo Físico de Datos (DER).*
