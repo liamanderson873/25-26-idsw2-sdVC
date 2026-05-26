@@ -9,7 +9,7 @@
 # Registro de Conversaciones - Proyecto Jorgestor RUP
 
 ## Resumen
-Este archivo mantiene un registro cronológico exhaustivo de todas las interacciones, decisiones estratégicas y evolución técnica del sistema **Jorgestor** (Generación y Corrección de Exámenes). 
+Este archivo mantiene un registro cronológico exhaustivo de todas las interacciones, decisiones estratégicas y evolución técnica del sistema **Jorgestor** (Generación y Corrección de Exámenes). Siguiendo el estándar de **pySigHor**, este log documenta el diálogo íntegro, los desafíos técnicos y la justificación de cada paso dado en el proyecto.
 
 ---
 
@@ -18,29 +18,31 @@ Este archivo mantiene un registro cronológico exhaustivo de todas las interacci
 **Participantes**: Liam (Usuario) + Gemini CLI
 
 ### Contexto de la Sesión
-Arranque del proyecto con el objetivo de transformar un modelo UML previo en una implementación funcional.
+Arranque oficial del proyecto. Liam plantea la necesidad de implementar un sistema que ya ha sido modelado previamente por su grupo. Gemini propone una metodología disciplinada para evitar errores de implementación.
 
 **Prompt clave de Liam**:
 > "tengo que hacer un proyecto para clase en el que tengo que codificar enteramente contido un proyecto que tenemos modelado... el modelado lo tengo todo en un github... quiero trabajar como lo he hecho en el repo de modelado... vamos a hacer primero el analysis y diseño y una vez lo tengamos hacemos la implementacion."
 
 ### Desarrollo Principal
-Se establece adoptar el **RUP Pragmático** inspirado en `pySigHor`. Se crea la infraestructura inicial de carpetas y se analizan los dos primeros casos de uso (Corrección y Generación), sentando las bases del patrón **BCE**.
+1.  **Metodología RUP Pragmático**: Se decide ignorar la tentación de programar directamente ("vibe coding") y se adopta RUP. Se crea la estructura de carpetas basada en disciplinas: Requisitos (00), Análisis (01) y Diseño (02).
+2.  **Hito de Alcance**: Se redacta `QUE_HACE.md` definiendo a Jorgestor como un sistema para docentes que automatiza generación y corrección. Se acuerda eliminar la mención a "Inteligencia Artificial" para ser honestos con el entregable profesional: la IA será una pieza externa delegada.
+3.  **Análisis BCE**: Se analizan CU-01 y CU-02. Se identifican las primeras entidades: `Exam`, `Student`, `Subject`.
 
 ---
 
-## Conversación 02: Recuperación de Contexto y Nueva Estrategia de Workflow
+## Conversación 02: Recuperación de Contexto y Nueva Estrategia de Git
 **Fecha**: 2026-05-24
 **Participantes**: Liam + Gemini CLI
 
 ### Contexto de la Sesión
-Reinicio de sesión tras unos días de inactividad. El usuario solicita validar la memoria de la IA y plantea un cambio en la granularidad de los Pull Requests.
+Tras una pausa, Liam valida si Gemini mantiene la memoria del proyecto y propone optimizar el flujo de trabajo en Git, ya que trabajar caso por caso es ineficiente.
 
 **Prompt clave de Liam**:
 > "primero de todo recuerdas lo que hicimos la ultima vez? [...] quiero que sigamos con los que estabamos haciendo pero lo unico es para los pull request a develop quiero que hagamos mas trabajo para cada uno no solo un caso de uso"
 
 ### Desarrollo Principal
-1.  **Validación de Memoria**: Gemini recupera el estado de la sesión anterior (CU-01 y CU-02 terminados).
-2.  **Ajuste de Workflow**: Se acuerda agrupar los casos de uso en bloques para reducir la sobrecarga de gestión de Git.
+1.  **Sincronización**: Gemini confirma el estado de `QUE_HACE.md` y los análisis previos.
+2.  **Agrupación de Tareas**: Se acuerda que cada Pull Request a `develop` contendrá bloques de aproximadamente 4 casos de uso para agilizar la fase de análisis.
 
 ---
 
@@ -49,28 +51,30 @@ Reinicio de sesión tras unos días de inactividad. El usuario solicita validar 
 **Participantes**: Liam + Gemini CLI
 
 ### Contexto de la Sesión
-Ejecución de la primera tanda de análisis por bloques.
+Ejecución del análisis centrado en la infraestructura de datos del sistema.
 
 **Prompt clave de Liam**:
 > "si quiero que hagamos unos 4 casos de uso por pull request"
 
 ### Desarrollo Principal
-Se completa el análisis de 4 casos de uso (CU-03 a CU-06) centrados en la **Importación/Exportación de Configuración Global**, Alumnos y Preguntas. Se define la naturaleza atómica de estas operaciones.
+Se analizan CU-03 (Importar Configuración Global), CU-04 (Exportar Configuración Global), CU-05 (Importar Alumnos) y CU-06 (Importar Preguntas).
+- Se determina que la importación global debe ser **atómica**: si falla la carga de un alumno, no se debe corromper la carga de las asignaturas.
 
 ---
 
-## Conversación 04: Bloque de Análisis 3 - CRUD y Gestión de Entidades
+## Conversación 04: Aceleración Máxima y Gestión de Entidades (CRUD)
 **Fecha**: 2026-05-24
 **Participantes**: Liam + Gemini CLI
 
 ### Contexto de la Sesión
-Aceleración del ritmo de trabajo para cubrir el grueso de las entidades del sistema.
+Con 35 casos de uso pendientes, Liam decide acelerar el ritmo para terminar el análisis hoy mismo.
 
 **Prompt clave de Liam**:
 > "vale vamos a hacer los que quedan en tres bloques"
 
 ### Desarrollo Principal
-Análisis masivo de 12 casos de uso (CU-07 a CU-18). Se definen los CRUDs de Alumno, Docente, Asignatura, Grado y Pregunta. Se establece el patrón de "Creación Delgada" con redirección a edición.
+1.  **Bloque 3 (CU-07 a CU-18)**: Análisis exhaustivo de la gestión de entidades. Se definen las interfaces y controladores para Alumnos, Docentes (Admin), Asignaturas, Grados y Preguntas.
+2.  **Patrón "El Delgado"**: Se debate y decide que la creación de entidades pida solo datos mínimos para redirigir inmediatamente a la pantalla de edición completa, optimizando el flujo de trabajo del docente.
 
 ---
 
@@ -79,109 +83,117 @@ Análisis masivo de 12 casos de uso (CU-07 a CU-18). Se definen los CRUDs de Alu
 **Participantes**: Liam + Gemini CLI
 
 ### Contexto de la Sesión
-Gestión de una incidencia en Git y cambio a un flujo de trabajo más centralizado en `develop`.
+Un error en la rama de Git obliga a reorganizar el trabajo. Se decide centralizar el análisis en `develop`.
 
 **Prompt clave de Liam**:
 > "vale una cosa voy a mergear todo a develop y a partir de ahora mejor hacemos todo en develop y luego ya lo haremos bien merge en main y quiero preguntar si tenemos alguna forma de ponder lo que hacemos en cada commit para no perderme"
 
 ### Desarrollo Principal
-1.  **Cambio de Estrategia**: Se abandona el flujo de ramas de feature cortas para trabajar directamente en `develop` para la fase de análisis.
-2.  **Análisis Bloque 4**: Completados CU-19 a CU-30 (Vistas de listado, procesos de eliminación y seguridad/sesión).
+1.  **Gestión de Commits**: Gemini propone usar *Conventional Commits* detallados con listas de CUs incluidos.
+2.  **Análisis Bloque 4 (CU-19 a CU-30)**: Se completan las vistas de listado y los procesos de eliminación. Se pone especial énfasis en la **Eliminación Segura**: no se puede borrar un alumno si tiene exámenes asociados.
 
 ---
 
-## Conversación 06: Bloque de Análisis 5 y Cierre de Fase
+## Conversación 06: Cierre del Análisis y Auditoría pySigHor
 **Fecha**: 2026-05-24
 **Participantes**: Liam + Gemini CLI
 
 ### Contexto de la Sesión
-Finalización de los últimos casos de uso pendientes para cerrar el análisis técnico agnóstico.
-
-**Prompt clave de Liam**:
-> "vale entonces todo esta bien ya no? pues si es asi continuamos"
-
-### Desarrollo Principal
-Análisis de los casos CU-31 a CU-41 (Respuestas, Gestión de procesos y exportaciones específicas). Se alcanza el hito de los 41 casos de uso analizados según el patrón BCE.
-
----
-
-## Conversación 07: Trazabilidad Teórica IDSW2
-**Fecha**: 2026-05-24
-**Participantes**: Liam + Gemini CLI
-
-### Contexto de la Sesión
-El usuario solicita un puente entre el código y la teoría de la asignatura.
-
-**Prompt clave de Liam**:
-> "antes de hacer el pull request quiero que me hagas a mi un documento no para subir a github [...] en el que me vas a ir explicando utilizando la teoria lo que estas haciendo para poder ir viendo y entendiendo lo que estas haciendo [...] quiero que se adopte a la teoria que sale en el repo de IDSW2"
-
-### Desarrollo Principal
-Creación y expansión de `TRAZABILIDAD_TEORICA.md`. Se justifican las decisiones (BCE, Cohesión, Acoplamiento, Abstracción) basándose en el temario oficial.
-
----
-
-## Conversación 08: Auditoría y Refactorización Estructural (Estándar pySigHor)
-**Fecha**: 2026-05-24
-**Participantes**: Liam + Gemini CLI
-
-### Contexto de la Sesión
-Búsqueda de la excelencia documental basada en la referencia del profesor.
+El análisis técnico está "terminado", pero Liam exige un nivel de excelencia documental idéntico al proyecto de referencia.
 
 **Prompt clave de Liam**:
 > "vale pero de la parte de analisis no faltan cosas? quiero que te bases en sighor para todo lo que tenemos que hacer para nuestro proyecto"
 
 ### Desarrollo Principal
-1.  **Auditoría**: Se detecta que el análisis requiere diagramas de robustez y jerarquía de carpetas.
-2.  **Refactorización**: Se migra todo el análisis a carpetas por CU. Se generan **41 diagramas de colaboración PlantUML**.
-3.  **Habilitación Visual**: Se configura el renderizado de diagramas en GitHub.
+1.  **Auditoría de Referencia**: Gemini inspecciona `pySigHor` y detecta que faltan los **Diagramas de Colaboración (Robustez)**.
+2.  **Gran Refactorización Estructural**: Se abandonan los archivos sueltos. Se crean 41 carpetas. Para cada una se genera un `README.md` con tablas MVC y mensajes, y un archivo `colaboracion.puml`.
+3.  **Visualización**: Se implementa el renderizado dinámico de PlantUML en GitHub para que Liam pueda ver los diagramas sin descargar nada.
 
 ---
 
-## Conversación 09: Salto al Diseño y Selección de Stack (Java)
+## Conversación 07: Trazabilidad Teórica y Guía de Defensa (IDSW2)
 **Fecha**: 2026-05-24
 **Participantes**: Liam + Gemini CLI
 
 ### Contexto de la Sesión
-Toma de decisiones sobre el compromiso tecnológico.
+Liam solicita un documento privado que conecte la práctica con la teoría de la asignatura para poder explicarlo en clase.
+
+**Prompt clave de Liam**:
+> "antes de hacer el pull request quiero que me hagas a mi un documento no para subir a github [...] en el que me vas a ir explicando utilizando la teoria lo que estas haciendo para poder ir viendo y entendiendo lo que estas haciendo [...] quiero que se adopte a la teoria que sale en el repo de IDSW2"
+
+### Desarrollo Principal
+Se crea `TRAZABILIDAD_TEORICA.md` en la memoria local. Gemini explica:
+- Por qué usamos **BCE** para combatir el acoplamiento.
+- Cómo justificamos cada entidad (ciclo de vida, identidad).
+- La importancia de la **Independencia Tecnológica** en el Análisis OO vs el Diseño de BBDD.
+
+---
+
+## Conversación 08: Salto al Diseño y Selección del Stack (Java)
+**Fecha**: 2026-05-24
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Apertura de la Fase de Diseño. Gemini recomienda Python, pero Liam plantea una alternativa basada en su conocimiento personal.
 
 **Prompt clave de Liam**:
 > "creo que prefiero java porque es lo que mas entiendo y asi podemos debatir mejor las cosas que te parece?"
 
 ### Desarrollo Principal
-- **Stack**: Java 21 + Spring Boot 3 + PostgreSQL.
-- **Arquitectura**: 3 Capas (Presentación, Negocio, Datos).
-- **Decisión**: Mantenimiento del desacoplamiento entre el "qué" (análisis) y el "cómo" (diseño).
+1.  **Debate del Stack**: Gemini acepta Java 21 + Spring Boot 3. Se justifica como una elección excelente para aplicar **SOLID** e **Inyección de Dependencias**.
+2.  **Arquitectura de Diseño**: Se acuerda una **Arquitectura de 3 Capas** (Controller, Service, Repository). Se explica qué es Spring Boot (IoC, DI) para que Liam entienda la "magia" del framework.
 
 ---
 
-## Conversación 10: Realización de Diseño (Secuencia Técnica)
+## Conversación 09: Realización de Diseño (Debate de Claves y Lógica)
 **Fecha**: 2026-05-24
 **Participantes**: Liam + Gemini CLI
 
 ### Contexto de la Sesión
-Detalle técnico de los flujos más complejos del sistema.
+Detalle técnico de los flujos core. Surge un debate profundo sobre cuándo nace la Clave de Corrección y cómo se delega la IA.
 
 **Prompt clave de Liam**:
-> "vale antes de eso deberiamos de hacer los diagramas de secuencia que habiamos dejado pendientes para hacer ahora en la fase de diseño"
+> "vale vamos a empezar primero por corregir examenes que te quiero preguntar alguna cosa: hacemos un POST por el hecho que te dije de que no ibamos a literalmente implementar una ia para hacerlo no? [...] el sistema nuestro sigue teniendo que hacer su funcion"
+> "2.pues no sabria decirte primero de todo quiero que mires todo los archivos del modelado a ver si hemos detallado algo sobre eso o si realmente se asigna el codigo aqui y no en la generacion del examen"
 
 ### Desarrollo Principal
-Elaboración de los diagramas de secuencia de diseño para CU-01, 02, 03 y 09.
-- **Hito**: Se resuelve el debate del **Hash de Clave de Corrección** consultando el glosario de modelado. Se define la estrategia **UPSERT** y la delegación de IA vía interfaz.
+1.  **Delegación de IA**: Se diseña la interfaz `ICorrectionEngine`. El sistema está "listo para IA" pero usa simulaciones JSON para la demo.
+2.  **Resolución del Conflicto de la Clave**: 
+    - Liam sospechaba que la clave nacía en la asignación. 
+    - Gemini audita el `Glosario` y el `diagramaEstadosExamenConsideraciones.md` del grupo de Liam.
+    - **Resultado**: Se confirma que la **Clave de Corrección (Hash MD5/SHA)** se genera en la **Asignación**, uniendo datos del examen y del alumno para evitar fraudes.
+3.  **Estrategia UPSERT**: Para las importaciones, Liam plantea el problema de los duplicados. Se decide usar claves naturales (DNI/Código) para actualizar registros existentes en lugar de duplicarlos o borrar toda la BD.
 
 ---
 
-## Conversación 11: Blindaje de Memoria y Contexto Persistente
+## Conversación 10: Blindaje de Memoria y Futuro del Proyecto
 **Fecha**: 2026-05-26
 **Participantes**: Liam + Gemini CLI
 
 ### Contexto de la Sesión
-Garantizar la continuidad total del proyecto ante reinicios de la IA.
+Cierre de la jornada maratónica. Liam exige que la IA no pierda ni un gramo de contexto en sesiones futuras.
 
 **Prompt clave de Liam**:
 > "puedes asegurarte de que tienes todo en memoria para no tener que explicar todo el metodo de trabajo [...] y por si acaso me puedes generar un archivo donde esta el de trazabilidad [...] quiero que se vaya actualizando para que cada vez que 'nazcas' no tenga que volver a explicarlo"
+> "especialmente para las fases que quedan como de codificacion y tal quiero que me preguntes en que rama pero se asume que en develop"
 
 ### Desarrollo Principal
-Creación de `CONTEXTO_PROYECTO.md` y `MEMORY.md`. Se establecen instrucciones obligatorias para que la IA lea y actualice el contexto en cada sesión, blindando las reglas de Git y los logs continuos.
+1.  **Infraestructura de Memoria**: Creación de `CONTEXTO_PROYECTO.md` con instrucciones obligatorias.
+2.  **Nuevas Reglas de Oro**: 
+    - Prohibido commit a `main` sin permiso.
+    - Actualización continua del log (progresiva).
+    - Debate previo obligatorio (Regla del Visto Bueno).
+3.  **Siguiente Paso**: Diseño del DER (Modelo Físico) en PostgreSQL.
+
+### Estado Final del Proyecto (Fase Análisis Completada)
+| Métrica | Valor |
+|---------|-------|
+| **CUs Analizados (BCE)** | 41 / 41 (100%) |
+| **Diagramas de Robustez** | 41 / 41 |
+| **Diagramas de Secuencia (Diseño)** | 4 / 4 (CUs Críticos) |
+| **Stack Tecnológico** | Java 21 / Spring Boot 3 / PostgreSQL |
+| **Arquitectura** | 3-Tier Layered Architecture |
+| **Trazabilidad** | Sincronizada con ModelingRepo |
 
 ---
 *Este registro continuará con el Diseño del Modelo Físico de Datos (DER).*
