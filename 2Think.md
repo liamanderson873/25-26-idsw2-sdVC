@@ -32,3 +32,17 @@ Si alguien entrega un sistema que arranca y hace algo pero que no es el sistema 
 
 - Profesionalmente ante un incumplimiento de requisitos.
 - Académicamente si se quiere es material de análisis.
+
+## Log de Pensamientos / Roadmap Mental
+
+- [x] Configuración inicial (Java 21 + Maven 3.9.16).
+- [x] Corrección de dependencias críticas en `pom.xml`.
+- [x] Mapeo de Entidades JPA.
+- [x] Implementación de lógica de Importación (CU-03).
+- [x] Implementación de lógica de Asignación y Clave de Corrección (CU-09).
+- [ ] Implementación de lógica de Generación Aleatoria de Preguntas (CU-02).
+- [ ] Levantamiento de la aplicación (H2 temporal o PostgreSQL local).
+- [ ] Pruebas de integración de la API con Postman.
+
+### Notas del momento
+Hemos resuelto los problemas de entorno instalando Maven manualmente. La lógica de la Clave de Corrección ya usa SHA-256 para garantizar unicidad y seguridad, algo vital para el proceso de escaneo posterior. El siguiente gran reto técnico es la aleatoriedad controlada del CU-02.
