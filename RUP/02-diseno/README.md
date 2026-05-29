@@ -1,6 +1,6 @@
 <div align=right>
 
-|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-RUP-FFF?style=flat&logo=Elsevier&logoColor=black)](/RUP/README.md) [![](https://img.shields.io/badge/-Modelo_del_dominio-FFF?style=flat&logo=freedesktop.org&logoColor=black)](/RUP/00-casos-uso/00-modelo-del-dominio/modelo-dominio.puml) [![](https://img.shields.io/badge/-Actores_&_Casos_de_Uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/00-casos-uso/01-actores-casos-uso/actores-casos-uso.puml) [![](https://img.shields.io/badge/-Análisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/casos-uso/README.md) [![](https://img.shields.io/badge/-Diseño-FFF?style=flat&logo=artstation&logoColor=black)](README.md)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-RUP-FFF?style=flat&logo=Elsevier&logoColor=black)](/RUP/README.md) [![](https://img.shields.io/badge/-Modelo_del_dominio-FFF?style=flat&logo=freedesktop.org&logoColor=black)](/RUP/00-casos-uso/00-modelo-del-dominio/modelo-dominio.puml?v=1) [![](https://img.shields.io/badge/-Actores_&_Casos_de_Uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/00-casos-uso/01-actores-casos-uso/actores-casos-uso.puml?v=1) [![](https://img.shields.io/badge/-Análisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/casos-uso/README.md) [![](https://img.shields.io/badge/-Diseño-FFF?style=flat&logo=artstation&logoColor=black)](README.md)|
 |-:|
 |[![](https://img.shields.io/badge/-Estado-FFF?style=flat&logo=greensock&logoColor=black)](/RUP/README.md) [![](https://img.shields.io/badge/-Reflexiones-FFF?style=flat&logo=hootsuite&logoColor=black)](https://github.com/liamanderson873/25-26-idsw2-sdVC/blob/main/TRAZABILIDAD_TEORICA.md) [![](https://img.shields.io/badge/-Log_de_conversación-FFF?style=flat&logo=gnometerminal&logoColor=black)](../../conversation-log.md)|
 
@@ -56,7 +56,7 @@ Se aplica una arquitectura de capas clásica para asegurar la **Separación de A
 
 A continuación se presenta el diseño de la base de datos en PostgreSQL. Se ha optado por un diseño normalizado (3FN) para garantizar la integridad de los datos de evaluación.
 
-![Diagrama Entidad Relación](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagrama-entidad-relacion.puml)
+![Diagrama Entidad Relación](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagrama-entidad-relacion.puml?v=1)
 
 ### Consideraciones del DER:
 - **`examen_alumnos`**: Es la tabla crítica que representa el "Ejemplar" del examen. Contiene la `clave_correccion` generada dinámicamente.
@@ -67,7 +67,7 @@ A continuación se presenta el diseño de la base de datos en PostgreSQL. Se ha 
 
 Este diagrama representa la estructura de clases técnica siguiendo el patrón de **3 Capas de Spring Boot**, ahora completamente en español para mantener la consistencia del dominio.
 
-![Diagrama de Clases de Diseño](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagrama-clases-diseno.puml)
+![Diagrama de Clases de Diseño](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagrama-clases-diseno.puml?v=1)
 
 ### Elementos Clave:
 - **`IMotorCorreccion`**: Interfaz que desacopla el sistema del motor de IA externo (CU-01).
