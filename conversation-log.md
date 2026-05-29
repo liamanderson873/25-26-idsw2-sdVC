@@ -248,4 +248,23 @@ Implementación de los servicios base y resolución de problemas de entorno (Jav
 4.  **Entorno**: Se identifica la necesidad de JDK 21 y Maven. El usuario procede con la instalación técnica.
 
 ---
+
+## Conversación 15: Configuración de Maven e Implementación de CU-09
+**Fecha**: 2026-05-29
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Verificación del entorno y continuación de la lógica de negocio (Asignación de Exámenes).
+
+**Prompt clave de Liam**:
+> "puedes comprobar si java y maven estan bien instalados con las versiones correctas y todo para poder seguir continuando con el proyecto jorgestor"
+> "añadir al convesation log, commits frequentes a develop... vamos a seguir con la logica,seguro que sabes todo el contexto no?"
+
+### Desarrollo Principal
+1.  **Entorno**: Instalación de **Maven 3.9.16** y configuración de `MAVEN_HOME`. Solución de error en `pom.xml` (caracteres extraños en dependencia PostgreSQL).
+2.  **Lógica CU-09**: Implementación de `ServicioExamen` para gestionar la vinculación de alumnos y exámenes.
+3.  **Hito de Seguridad**: Diseño del algoritmo de generación de la **Clave de Corrección** usando SHA-256 (DNI + ID Examen + Salt), cumpliendo con la trazabilidad de diseño.
+
+---
 *Este registro continuará con la validación del arranque de la aplicación.*
+
