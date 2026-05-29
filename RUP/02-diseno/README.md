@@ -56,7 +56,7 @@ Se aplica una arquitectura de capas clásica para asegurar la **Separación de A
 
 A continuación se presenta el diseño de la base de datos en PostgreSQL. Se ha optado por un diseño normalizado (3FN) para garantizar la integridad de los datos de evaluación.
 
-![Diagrama Entidad Relación](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/diagrama-entidad-relacion.puml)
+![Diagrama Entidad Relación](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagrama-entidad-relacion.puml)
 
 ### Consideraciones del DER:
 - **`student_exams`**: Es la tabla crítica que representa el "Ejemplar" del examen. Contiene la `correction_key` generada dinámicamente.
@@ -67,7 +67,7 @@ A continuación se presenta el diseño de la base de datos en PostgreSQL. Se ha 
 
 Este diagrama representa la estructura de clases técnica siguiendo el patrón de **3 Capas de Spring Boot**. Aquí se definen los métodos y la interacción entre los controladores, servicios y repositorios.
 
-![Diagrama de Clases de Diseño](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/diagrama-clases-diseno.puml)
+![Diagrama de Clases de Diseño](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagrama-clases-diseno.puml)
 
 ### Elementos Clave:
 - **`ICorrectionEngine`**: Interfaz que desacopla el sistema del motor de IA externo (CU-01).
