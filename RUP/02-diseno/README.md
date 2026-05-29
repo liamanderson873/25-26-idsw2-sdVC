@@ -52,7 +52,29 @@ Se aplica una arquitectura de capas clásica para asegurar la **Separación de A
 | **Control** | Negocio | `Service` |
 | **Entity** | Datos | `Entity` / `Repository` |
 
-## 5. Próximos Pasos
-1.  **Diseño de la Base de Datos**: Creación del Diagrama Entidad-Relación (DER).
-2.  **Configuración del Proyecto**: Estructura de paquetes y dependencias (Maven/Gradle).
-3.  **Realización de Diseño**: Creación de diagramas de secuencia técnicos para casos críticos.
+## 5. Diseño del Modelo Físico (DER)
+
+A continuación se presenta el diseño de la base de datos en PostgreSQL. Se ha optado por un diseño normalizado (3FN) para garantizar la integridad de los datos de evaluación.
+
+![Diagrama Entidad Relación](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/diagrama-entidad-relacion.puml)
+
+### Consideraciones del DER:
+- **`student_exams`**: Es la tabla crítica que representa el "Ejemplar" del examen. Contiene la `correction_key` generada dinámicamente.
+- **`exam_questions`**: Permite la reutilización de preguntas entre exámenes y mantiene el orden específico (importante para exámenes no personalizados).
+- **Integridad**: Se utilizarán claves foráneas y restricciones `UNIQUE` en DNI y códigos de asignatura/grado.
+
+## 6. Diagrama de Clases de Diseño (DCD)
+
+Este diagrama representa la estructura de clases técnica siguiendo el patrón de **3 Capas de Spring Boot**. Aquí se definen los métodos y la interacción entre los controladores, servicios y repositorios.
+
+![Diagrama de Clases de Diseño](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/diagrama-clases-diseno.puml)
+
+### Elementos Clave:
+- **`ICorrectionEngine`**: Interfaz que desacopla el sistema del motor de IA externo (CU-01).
+- **`ExamService`**: Contiene la lógica core de generación de claves de corrección y asignación.
+- **DTOs (Data Transfer Objects)**: Se utilizarán para el intercambio de datos entre la capa de presentación y la de negocio, evitando exponer las entidades directamente.
+
+## 7. Próximos Pasos
+1.  **Configuración del Proyecto**: Estructura de paquetes y dependencias (Maven/Gradle) en Spring Boot 3.
+2.  **Implementación de Entidades**: Creación de las clases Java con anotaciones JPA basadas en el DCD.
+3.  **Desarrollo de Repositorios**: Configuración de interfaces Spring Data JPA.

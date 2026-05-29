@@ -1,0 +1,76 @@
+@startuml
+!theme plain
+skinparam Linetype ortho
+skinparam packageStyle rectangle
+
+package "com.jorgestor.api" {
+    package "controller" {
+        class CorrectionController {
+            + uploadExam(file: MultipartFile): ResponseEntity
+            + getResult(examId: Long): ResponseEntity
+        }
+        class ExamGeneratorController {
+            + generate(params: GenerationDTO): ResponseEntity
+        }
+        class StudentController {
+            + importStudents(file: MultipartFile): ResponseEntity
+            + listBySubject(subjectId: Long): List<StudentDTO>
+        }
+    }
+
+    package "service" {
+        interface ICorrectionEngine {
+            + processImage(image: byte[]): RawResult
+        }
+        
+        class ExamService {
+            + generateExam(exam: Exam): List<StudentExam>
+            + assignToStudents(examId: Long, studentIds: List<Long>): void
+            - generateCorrectionKey(studentId: Long, examId: Long): String
+        }
+        
+        class StudentService {
+            + upsertStudents(data: List<StudentDTO>): void
+        }
+    }
+
+    package "repository" {
+        interface StudentRepository <<Repository>>
+        interface ExamRepository <<Repository>>
+        interface StudentExamRepository <<Repository>>
+        interface QuestionRepository <<Repository>>
+    }
+
+    package "model" {
+        class Student <<Entity>> {
+            - id: Long
+            - dni: String
+            - firstName: String
+            - lastName: String
+        }
+        class Exam <<Entity>> {
+            - id: Long
+            - evaluationType: EvaluationType
+            - isPersonalized: boolean
+        }
+        class StudentExam <<Entity>> {
+            - id: Long
+            - correctionKey: String
+            - finalGrade: Double
+            - status: ExamStatus
+        }
+        class Question <<Entity>> {
+            - id: Long
+            - statement: String
+        }
+    }
+}
+
+' Relaciones entre capas
+controller ..> service : utiliza
+service ..> repository : utiliza
+repository ..> model : gestiona
+
+' Relaciones de herencia/implementación
+ExamService ..> ICorrectionEngine : utiliza
+@enduml

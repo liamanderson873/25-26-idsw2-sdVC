@@ -1,0 +1,105 @@
+@startuml
+!theme plain
+skinparam Linetype ortho
+
+entity "grades" as grades {
+  * id : BIGINT <<generated>>
+  --
+  * name : VARCHAR(100)
+  * code : VARCHAR(20) <<unique>>
+}
+
+entity "professors" as professors {
+  * id : BIGINT <<generated>>
+  --
+  * dni : VARCHAR(9) <<unique>>
+  * first_name : VARCHAR(50)
+  * last_name : VARCHAR(50)
+  * email : VARCHAR(100)
+}
+
+entity "subjects" as subjects {
+  * id : BIGINT <<generated>>
+  --
+  * name : VARCHAR(100)
+  * code : VARCHAR(20) <<unique>>
+  * academic_year : VARCHAR(10)
+  * professor_id : BIGINT <<FK>>
+}
+
+entity "students" as students {
+  * id : BIGINT <<generated>>
+  --
+  * dni : VARCHAR(9) <<unique>>
+  * first_name : VARCHAR(50)
+  * last_name : VARCHAR(50)
+  * grade_id : BIGINT <<FK>>
+}
+
+entity "subject_students" as subject_students {
+  * subject_id : BIGINT <<FK>>
+  * student_id : BIGINT <<FK>>
+}
+
+entity "topics" as topics {
+  * id : BIGINT <<generated>>
+  --
+  * name : VARCHAR(100)
+  * subject_id : BIGINT <<FK>>
+}
+
+entity "questions" as questions {
+  * id : BIGINT <<generated>>
+  --
+  * statement : TEXT
+  * difficulty : ENUM(EASY, MEDIUM, HARD)
+  * topic_id : BIGINT <<FK>>
+}
+
+entity "answers" as answers {
+  * id : BIGINT <<generated>>
+  --
+  * text : VARCHAR(255)
+  * is_correct : BOOLEAN
+  * question_id : BIGINT <<FK>>
+}
+
+entity "exams" as exams {
+  * id : BIGINT <<generated>>
+  --
+  * evaluation_type : ENUM(PARCIAL_1, PARCIAL_2, PARCIAL_3, FINAL, EXTRAORDINARIO)
+  * is_personalized : BOOLEAN
+  * exam_date : DATE
+  * subject_id : BIGINT <<FK>>
+}
+
+entity "exam_questions" as exam_questions {
+  * exam_id : BIGINT <<FK>>
+  * question_id : BIGINT <<FK>>
+  * order_index : INTEGER
+}
+
+entity "student_exams" as student_exams {
+  * id : BIGINT <<generated>>
+  --
+  * student_id : BIGINT <<FK>>
+  * exam_id : BIGINT <<FK>>
+  * correction_key : VARCHAR(255) <<unique>>
+  * final_grade : DECIMAL(4,2)
+  * status : ENUM(ASSIGNED, TAKEN, CORRECTED)
+}
+
+grades ||--o{ students
+professors ||--o{ subjects
+subjects ||--o{ topics
+subjects ||--o{ exams
+topics ||--o{ questions
+questions ||--o{ answers
+exams ||--o{ exam_questions
+questions ||--o{ exam_questions
+students ||--o{ student_exams
+exams ||--o{ student_exams
+subjects ||--o{ subject_students
+students ||--o{ subject_students
+
+@enduml
