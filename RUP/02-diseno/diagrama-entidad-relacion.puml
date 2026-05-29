@@ -2,104 +2,104 @@
 !theme plain
 skinparam Linetype ortho
 
-entity "grades" as grades {
+entity "grados" as grados {
   * id : BIGINT <<generated>>
   --
-  * name : VARCHAR(100)
-  * code : VARCHAR(20) <<unique>>
+  * nombre : VARCHAR(100)
+  * codigo : VARCHAR(20) <<unique>>
 }
 
-entity "professors" as professors {
+entity "profesores" as profesores {
   * id : BIGINT <<generated>>
   --
   * dni : VARCHAR(9) <<unique>>
-  * first_name : VARCHAR(50)
-  * last_name : VARCHAR(50)
+  * nombre : VARCHAR(50)
+  * apellidos : VARCHAR(50)
   * email : VARCHAR(100)
 }
 
-entity "subjects" as subjects {
+entity "asignaturas" as asignaturas {
   * id : BIGINT <<generated>>
   --
-  * name : VARCHAR(100)
-  * code : VARCHAR(20) <<unique>>
-  * academic_year : VARCHAR(10)
-  * professor_id : BIGINT <<FK>>
+  * nombre : VARCHAR(100)
+  * codigo : VARCHAR(20) <<unique>>
+  * curso_academico : VARCHAR(10)
+  * profesor_id : BIGINT <<FK>>
 }
 
-entity "students" as students {
+entity "alumnos" as alumnos {
   * id : BIGINT <<generated>>
   --
   * dni : VARCHAR(9) <<unique>>
-  * first_name : VARCHAR(50)
-  * last_name : VARCHAR(50)
-  * grade_id : BIGINT <<FK>>
+  * nombre : VARCHAR(50)
+  * apellidos : VARCHAR(50)
+  * grado_id : BIGINT <<FK>>
 }
 
-entity "subject_students" as subject_students {
-  * subject_id : BIGINT <<FK>>
-  * student_id : BIGINT <<FK>>
+entity "asignaturas_alumnos" as asignaturas_alumnos {
+  * asignatura_id : BIGINT <<FK>>
+  * alumno_id : BIGINT <<FK>>
 }
 
-entity "topics" as topics {
+entity "temas" as temas {
   * id : BIGINT <<generated>>
   --
-  * name : VARCHAR(100)
-  * subject_id : BIGINT <<FK>>
+  * nombre : VARCHAR(100)
+  * asignatura_id : BIGINT <<FK>>
 }
 
-entity "questions" as questions {
+entity "preguntas" as preguntas {
   * id : BIGINT <<generated>>
   --
-  * statement : TEXT
-  * difficulty : ENUM(EASY, MEDIUM, HARD)
-  * topic_id : BIGINT <<FK>>
+  * enunciado : TEXT
+  * dificultad : ENUM(FACIL, MEDIO, DIFICIL)
+  * tema_id : BIGINT <<FK>>
 }
 
-entity "answers" as answers {
+entity "respuestas" as respuestas {
   * id : BIGINT <<generated>>
   --
-  * text : VARCHAR(255)
-  * is_correct : BOOLEAN
-  * question_id : BIGINT <<FK>>
+  * texto : VARCHAR(255)
+  * es_correcta : BOOLEAN
+  * pregunta_id : BIGINT <<FK>>
 }
 
-entity "exams" as exams {
+entity "examenes" as examenes {
   * id : BIGINT <<generated>>
   --
-  * evaluation_type : ENUM(PARCIAL_1, PARCIAL_2, PARCIAL_3, FINAL, EXTRAORDINARIO)
-  * is_personalized : BOOLEAN
-  * exam_date : DATE
-  * subject_id : BIGINT <<FK>>
+  * tipo_evaluacion : ENUM(PARCIAL_1, PARCIAL_2, PARCIAL_3, FINAL, EXTRAORDINARIO)
+  * es_personalizado : BOOLEAN
+  * fecha_examen : DATE
+  * asignatura_id : BIGINT <<FK>>
 }
 
-entity "exam_questions" as exam_questions {
-  * exam_id : BIGINT <<FK>>
-  * question_id : BIGINT <<FK>>
-  * order_index : INTEGER
+entity "examen_preguntas" as examen_preguntas {
+  * examen_id : BIGINT <<FK>>
+  * pregunta_id : BIGINT <<FK>>
+  * indice_orden : INTEGER
 }
 
-entity "student_exams" as student_exams {
+entity "examen_alumnos" as examen_alumnos {
   * id : BIGINT <<generated>>
   --
-  * student_id : BIGINT <<FK>>
-  * exam_id : BIGINT <<FK>>
-  * correction_key : VARCHAR(255) <<unique>>
-  * final_grade : DECIMAL(4,2)
-  * status : ENUM(ASSIGNED, TAKEN, CORRECTED)
+  * alumno_id : BIGINT <<FK>>
+  * examen_id : BIGINT <<FK>>
+  * clave_correccion : VARCHAR(255) <<unique>>
+  * nota_final : DECIMAL(4,2)
+  * estado : ENUM(ASIGNADO, REALIZADO, CORREGIDO)
 }
 
-grades ||--o{ students
-professors ||--o{ subjects
-subjects ||--o{ topics
-subjects ||--o{ exams
-topics ||--o{ questions
-questions ||--o{ answers
-exams ||--o{ exam_questions
-questions ||--o{ exam_questions
-students ||--o{ student_exams
-exams ||--o{ student_exams
-subjects ||--o{ subject_students
-students ||--o{ subject_students
+grados ||--o{ alumnos
+profesores ||--o{ asignaturas
+asignaturas ||--o{ temas
+asignaturas ||--o{ examenes
+temas ||--o{ preguntas
+preguntas ||--o{ respuestas
+examenes ||--o{ examen_preguntas
+preguntas ||--o{ examen_preguntas
+alumnos ||--o{ examen_alumnos
+examenes ||--o{ examen_alumnos
+asignaturas ||--o{ asignaturas_alumnos
+alumnos ||--o{ asignaturas_alumnos
 
 @enduml
