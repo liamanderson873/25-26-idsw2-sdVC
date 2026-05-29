@@ -37,7 +37,7 @@
 
 		<!-- BASE DE DATOS: El conector para PostgreSQL -->
 		<dependency>
-			<groupId>激.postgresql</groupId>
+			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
