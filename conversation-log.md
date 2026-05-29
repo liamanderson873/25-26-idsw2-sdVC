@@ -229,4 +229,23 @@ Transición a la Fase de Construcción y aprendizaje del stack Spring Boot.
 4.  **Sincronización Git**: Se establece la política de commits frecuentes en la rama `develop`.
 
 ---
-*Este registro continuará con la Implementación de la Capa de Servicios y Lógica de Negocio.*
+
+## Conversación 14: Infraestructura Técnica y Primeros Servicios
+**Fecha**: 2026-05-26
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Implementación de los servicios base y resolución de problemas de entorno (Java/Maven).
+
+**Prompt clave de Liam**:
+> "no me salen bien los diagramas en el readme"
+> "vale como nunca he utilizado spring boot vas a tener que explicarme que es cada cosa"
+
+### Desarrollo Principal
+1.  **Resolución de Docs**: Uso de *cache-busting* (`?v=...`) para forzar la visualización de los diagramas traducidos al español.
+2.  **Arquitectura de Servicios**: Implementación de `ServicioAlumno`, `ServicioProfesor`, `ServicioAsignatura` y `ServicioTema` con lógica de **UPSERT** y atomicidad (`@Transactional`).
+3.  **Patrón DTO**: Introducción de los *Data Transfer Objects* para desacoplar la API de la base de datos.
+4.  **Entorno**: Se identifica la necesidad de JDK 21 y Maven. El usuario procede con la instalación técnica.
+
+---
+*Este registro continuará con la validación del arranque de la aplicación.*
