@@ -211,4 +211,22 @@ Debate y definición de la estructura de base de datos para PostgreSQL.
 - **Resultado**: Creación de un DER de 11 tablas incluyendo `student_exams` como entidad central para la evaluación.
 
 ---
-*Este registro continuará con la Configuración del Entorno Spring Boot.*
+
+## Conversación 13: Inicio de Construcción y Mapeo JPA
+**Fecha**: 2026-05-26
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Transición a la Fase de Construcción y aprendizaje del stack Spring Boot.
+
+**Prompt clave de Liam**:
+> "vale como nunca he utilizado spring boot vas a tener que explicarme que es cada cosa"
+
+### Desarrollo Principal
+1.  **Configuración Inicial**: Creación del `pom.xml` con dependencias de Spring Data JPA, Web, PostgreSQL y Lombok.
+2.  **Mapeo del Dominio**: Traducción del DER a clases Java `@Entity`. Se implementan las 11 entidades y los Enums de control.
+3.  **Capa de Persistencia**: Creación de interfaces `@Repository` extendiendo de `JpaRepository`. Se introduce el concepto de **Query Methods** (ej. `findByDni`).
+4.  **Sincronización Git**: Se establece la política de commits frecuentes en la rama `develop`.
+
+---
+*Este registro continuará con la Implementación de la Capa de Servicios y Lógica de Negocio.*
