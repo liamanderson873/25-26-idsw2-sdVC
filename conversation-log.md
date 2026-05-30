@@ -333,8 +333,19 @@ Finalización de infraestructura y desarrollo de la lógica de generación aleat
 - Se detectó y resolvió un error de mapeo JPA (`not-null constraint`) en la tabla `respuestas`: se normalizó el esquema eliminando columnas redundantes y alineando el campo `texto`.
 - **Validación Empírica**: Liam ejecutó dos escenarios. El primero insertó correctamente 2 preguntas y 8 respuestas (verificado mediante conteo SQL). El segundo escenario validó la protección del sistema al rechazar una importación con un `temaId` inexistente (999), demostrando que la arquitectura no permite datos huérfanos.
 
+### 27. Implementación de Exportación (CU-04) y Cierre de Épica I/O
+**Participantes**: Liam + Gemini CLI
+**Fecha**: 2026-05-30
+**Contexto de la Sesión**: Fase final del bloque de "Entradas/Salidas". Se requiere una vía para extraer los datos procesados hacia sistemas externos (impresión/corrección).
+**Prompt Clave de Liam**: *"vale me parece que esta bien"* (sobre el draft) y *"mira la captura que he hecho"* (sobre el resultado final).
+**Desarrollo Principal**:
+- Se diseñó e implementó el `DTO_ExportarExamen` como un paquete agregado que consolida metadatos del examen, batería de preguntas y la lista de alumnos con sus firmas SHA-256.
+- Se implementó la lógica de recuperación de datos en `ServicioExamen` utilizando Streams de Java para transformar el modelo de dominio en un formato portátil.
+- Se creó el script `run-jorgestor.ps1` para automatizar la liberación de puertos y agilizar el ciclo de arranque.
+- **Validación Empírica**: Liam validó mediante una petición `GET` en Postman la generación del JSON de exportación para el Examen ID 1. La captura confirmó la correcta agregación de todos los componentes, cerrando oficialmente el bloque de desarrollo de Entradas/Salidas.
+
 ---
-*Este registro continuará con la implementación de Exportar Examen (CU-04).*
+*Este registro continuará con la consolidación a Main o el inicio de la siguiente Épica.*
 
 
 

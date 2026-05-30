@@ -34,16 +34,15 @@ public class ControladorExamen {
     }
 
     /**
-     * Endpoint para asignar un examen a una lista de alumnos (CU-09)
-     * Genera automáticamente las claves de corrección SHA-256.
+     * Endpoint para exportar toda la información de un examen (CU-04)
+     * Incluye preguntas y claves SHA-256 de los alumnos.
      */
-    @PostMapping("/asignar")
-    public ResponseEntity<?> asignarExamen(@RequestBody DTO_AsignarExamen dto) {
+    @GetMapping("/{id}/exportar")
+    public ResponseEntity<?> exportarExamen(@PathVariable Long id) {
         try {
-            servicioExamen.asignarExamenAAlumnos(dto.getExamenId(), dto.getAlumnoIds());
-            return ResponseEntity.ok("Examen ID: " + dto.getExamenId() + " asignado correctamente a " + dto.getAlumnoIds().size() + " alumnos. Claves SHA-256 generadas.");
+            return ResponseEntity.ok(servicioExamen.exportarExamen(id));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error en la asignación: " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error al exportar: " + e.getMessage());
         }
     }
 }
