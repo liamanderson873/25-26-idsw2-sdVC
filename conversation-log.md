@@ -302,8 +302,18 @@ Finalización de infraestructura y desarrollo de la lógica de generación aleat
 - La lógica subyacente invocó al algoritmo SHA-256 (DNI + ID Examen + Salt temporal), asegurando la unicidad absoluta de cada ejemplar.
 - **Validación Empírica**: Liam ejecutó el JSON de prueba en Postman, logrando la asignación del examen ID 1 a tres alumnos. El sistema respondió confirmando la generación exitosa de las firmas de seguridad, validando la integridad del proceso.
 
+### 24. Optimización del Workflow (Batching PRs) e Inicio de Épica I/O
+**Participantes**: Liam + Gemini CLI
+**Fecha**: 2026-05-30
+**Contexto de la Sesión**: Discusión sobre la frecuencia de los Pull Requests hacia `main`.
+**Prompt Clave de Liam**: *"a ver un momento no podemos estar haciendo un pull request para cada uno es inviable vamos a hacerlo cada unos cuantos"*
+**Desarrollo Principal**:
+- Se actualizó la Regla de Oro #2 en `CONTEXTO_PROYECTO.md` para establecer que los PRs se agruparán en bloques lógicos (Épicas) en lugar de por cada CU individual.
+- Se definió el siguiente bloque lógico: **Gestión de Entradas/Salidas (Importaciones y Exportaciones)**, compuesto por CU-03, CU-06 y CU-04.
+- La IA revisó el código existente de `ServicioAlumno` y `ControladorAlumno` para preparar el borrador del CU-03 (Importar Alumnos).
+
 ---
-*Este registro continuará con la fase de pruebas o el siguiente caso de uso estratégico.*
+*Este registro continuará con el desarrollo del bloque de Importaciones.*
 
 
 
