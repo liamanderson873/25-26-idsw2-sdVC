@@ -266,5 +266,24 @@ Verificación del entorno y continuación de la lógica de negocio (Asignación 
 3.  **Hito de Seguridad**: Diseño del algoritmo de generación de la **Clave de Corrección** usando SHA-256 (DNI + ID Examen + Salt), cumpliendo con la trazabilidad de diseño.
 
 ---
+
+## Conversación 16: Implementación de CU-02 y Consolidación a Main
+**Fecha**: 2026-05-29
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Finalización de infraestructura y desarrollo de la lógica de generación aleatoria.
+
+**Prompt clave de Liam**:
+> "1. el map asumo que es para poner ciertos parametros especificos [...] 2.no hemos incluido algun parametro para elejir los temas de las preguntas no?"
+> "vale acabo de hacer el pull request puedes comprobar que esta todo en main y procedemos a continuar con nuestra nueva sesion de hoy"
+
+### Desarrollo Principal
+1.  **Consolidación**: Se realiza el merge de `develop` a `main` tras validar el arranque con PostgreSQL 17.
+2.  **Lógica CU-02**: Implementación de la generación de exámenes estratificada. Se crea el `DTO_GenerarExamen` y el algoritmo de "Sacos" en `ServicioExamen`, asegurando la proporción de dificultad y el filtrado por temas.
+3.  **Controlador**: Creación de `ControladorExamen` para exponer el proceso de generación vía API REST.
+
+---
 *Este registro continuará con la validación del arranque de la aplicación.*
+
 

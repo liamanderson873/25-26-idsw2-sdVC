@@ -7,5 +7,7 @@ import java.util.List;
 
 @Repository
 public interface RepositorioPregunta extends JpaRepository<Pregunta, Long> {
-    List<Pregunta> findByTemaId(Long temaId);
+
+    // Buscar todas las preguntas que pertenezcan a cualquiera de los temas de la lista
+    List<Pregunta> findByTemaIdIn(List<Long> temaIds);
 }
