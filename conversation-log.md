@@ -321,9 +321,10 @@ Finalización de infraestructura y desarrollo de la lógica de generación aleat
 - Corrección arquitectónica: Se descartó la auto-creación para respetar la separación de responsabilidades definida en el Modelo de Casos de Uso.
 - Se refinó el `ServicioAlumno` reforzando la anotación `@Transactional` (Todo o Nada).
 - Se mejoró el manejo de excepciones (`orElseThrow`), diseñando un mensaje de error explícito que identifica al alumno problemático y detiene la transacción por completo si su Grado no está registrado previamente en el sistema.
+- **Validación Empírica**: Tras resolver un problema de sintaxis en Postman y cambiar el puerto por defecto a `9090`, Liam ejecutó dos pruebas: una exitosa y otra forzando un error. El sistema devolvió correctamente el mensaje: *"Error al importar a Luis Perez... El grado con código 'GZZ' no existe"*, demostrando la robustez transaccional del sistema.
 
 ---
-*Este registro continuará con la prueba empírica del CU-03 mediante Postman.*
+*Este registro continuará con la implementación de Importar Preguntas (CU-06).*
 
 
 

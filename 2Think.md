@@ -39,6 +39,7 @@ Si alguien entrega un sistema que arranca y hace algo pero que no es el sistema 
 - [x] Corrección de dependencias críticas en `pom.xml`.
 - [x] Mapeo de Entidades JPA.
 - [x] Implementación de lógica de Importación (CU-03).
+- [x] Pruebas de integración de Importación (CU-03) con Postman.
 - [x] Implementación de lógica de Asignación y Clave de Corrección (CU-09).
 - [x] Implementación de lógica de Generación Aleatoria de Preguntas (CU-02).
 - [x] Levantamiento de la aplicación (PostgreSQL local).
