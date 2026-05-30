@@ -323,8 +323,18 @@ Finalización de infraestructura y desarrollo de la lógica de generación aleat
 - Se mejoró el manejo de excepciones (`orElseThrow`), diseñando un mensaje de error explícito que identifica al alumno problemático y detiene la transacción por completo si su Grado no está registrado previamente en el sistema.
 - **Validación Empírica**: Tras resolver un problema de sintaxis en Postman y cambiar el puerto por defecto a `9090`, Liam ejecutó dos pruebas: una exitosa y otra forzando un error. El sistema devolvió correctamente el mensaje: *"Error al importar a Luis Perez... El grado con código 'GZZ' no existe"*, demostrando la robustez transaccional del sistema.
 
+### 26. Implementación y Validación de CU-06 (Importar Preguntas)
+**Participantes**: Liam + Gemini CLI
+**Fecha**: 2026-05-30
+**Contexto de la Sesión**: Continuación del bloque de "Entradas/Salidas". El objetivo es permitir la carga masiva de la batería de preguntas junto con sus opciones de respuesta, asegurando la integridad referencial.
+**Prompt Clave de Liam**: *"vale funciona perfecto mira mi captura"*
+**Desarrollo Principal**:
+- Se implementó `ServicioPregunta` con lógica de persistencia en cascada para Preguntas y Respuestas.
+- Se detectó y resolvió un error de mapeo JPA (`not-null constraint`) en la tabla `respuestas`: se alineó el campo Java `contenido` con la columna física `texto` de PostgreSQL.
+- **Validación Empírica**: Liam ejecutó el JSON de prueba en Postman, logrando un **200 OK**. El sistema procesó correctamente las preguntas complejas (con 4 opciones cada una), vinculándolas al Tema 3 y persistiendo toda la estructura en la base de datos de forma atómica.
+
 ---
-*Este registro continuará con la implementación de Importar Preguntas (CU-06).*
+*Este registro continuará con la implementación de Exportar Examen (CU-04).*
 
 
 

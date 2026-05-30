@@ -47,5 +47,9 @@ Si alguien entrega un sistema que arranca y hace algo pero que no es el sistema 
 - [x] Implementación de endpoint de Asignación (CU-09).
 - [x] Pruebas de generación de Claves de Corrección (SHA-256).
 
+- [x] Implementación de lógica de Importación de Preguntas (CU-06).
+- [x] Pruebas de integración de Importación (CU-06) con Postman.
+- [ ] Implementación de lógica de Exportación de Examen (CU-04).
+
 ### Notas del momento
 Hemos resuelto los problemas de entorno instalando Maven manualmente. La lógica de la Clave de Corrección ya usa SHA-256 para garantizar unicidad y seguridad, algo vital para el proceso de escaneo posterior. El siguiente gran reto técnico es la aleatoriedad controlada del CU-02.
