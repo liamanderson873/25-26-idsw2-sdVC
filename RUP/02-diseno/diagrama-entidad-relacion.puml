@@ -1,0 +1,105 @@
+@startuml
+!theme plain
+skinparam Linetype ortho
+
+entity "grados" as grados {
+  * id : BIGINT <<generated>>
+  --
+  * nombre : VARCHAR(100)
+  * codigo : VARCHAR(20) <<unique>>
+}
+
+entity "profesores" as profesores {
+  * id : BIGINT <<generated>>
+  --
+  * dni : VARCHAR(9) <<unique>>
+  * nombre : VARCHAR(50)
+  * apellidos : VARCHAR(50)
+  * email : VARCHAR(100)
+}
+
+entity "asignaturas" as asignaturas {
+  * id : BIGINT <<generated>>
+  --
+  * nombre : VARCHAR(100)
+  * codigo : VARCHAR(20) <<unique>>
+  * curso_academico : VARCHAR(10)
+  * profesor_id : BIGINT <<FK>>
+}
+
+entity "alumnos" as alumnos {
+  * id : BIGINT <<generated>>
+  --
+  * dni : VARCHAR(9) <<unique>>
+  * nombre : VARCHAR(50)
+  * apellidos : VARCHAR(50)
+  * grado_id : BIGINT <<FK>>
+}
+
+entity "asignaturas_alumnos" as asignaturas_alumnos {
+  * asignatura_id : BIGINT <<FK>>
+  * alumno_id : BIGINT <<FK>>
+}
+
+entity "temas" as temas {
+  * id : BIGINT <<generated>>
+  --
+  * nombre : VARCHAR(100)
+  * asignatura_id : BIGINT <<FK>>
+}
+
+entity "preguntas" as preguntas {
+  * id : BIGINT <<generated>>
+  --
+  * enunciado : TEXT
+  * dificultad : ENUM(FACIL, MEDIO, DIFICIL)
+  * tema_id : BIGINT <<FK>>
+}
+
+entity "respuestas" as respuestas {
+  * id : BIGINT <<generated>>
+  --
+  * texto : VARCHAR(255)
+  * es_correcta : BOOLEAN
+  * pregunta_id : BIGINT <<FK>>
+}
+
+entity "examenes" as examenes {
+  * id : BIGINT <<generated>>
+  --
+  * tipo_evaluacion : ENUM(PARCIAL_1, PARCIAL_2, PARCIAL_3, FINAL, EXTRAORDINARIO)
+  * es_personalizado : BOOLEAN
+  * fecha_examen : DATE
+  * asignatura_id : BIGINT <<FK>>
+}
+
+entity "examen_preguntas" as examen_preguntas {
+  * examen_id : BIGINT <<FK>>
+  * pregunta_id : BIGINT <<FK>>
+  * indice_orden : INTEGER
+}
+
+entity "examen_alumnos" as examen_alumnos {
+  * id : BIGINT <<generated>>
+  --
+  * alumno_id : BIGINT <<FK>>
+  * examen_id : BIGINT <<FK>>
+  * clave_correccion : VARCHAR(255) <<unique>>
+  * nota_final : DECIMAL(4,2)
+  * estado : ENUM(ASIGNADO, REALIZADO, CORREGIDO)
+}
+
+grados ||--o{ alumnos
+profesores ||--o{ asignaturas
+asignaturas ||--o{ temas
+asignaturas ||--o{ examenes
+temas ||--o{ preguntas
+preguntas ||--o{ respuestas
+examenes ||--o{ examen_preguntas
+preguntas ||--o{ examen_preguntas
+alumnos ||--o{ examen_alumnos
+examenes ||--o{ examen_alumnos
+asignaturas ||--o{ asignaturas_alumnos
+alumnos ||--o{ asignaturas_alumnos
+
+@enduml

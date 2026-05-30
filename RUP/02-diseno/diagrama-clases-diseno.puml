@@ -1,0 +1,76 @@
+@startuml
+!theme plain
+skinparam Linetype ortho
+skinparam packageStyle rectangle
+
+package "com.jorgestor.api" {
+    package "controlador" {
+        class ControladorCorreccion {
+            + subirExamen(archivo: MultipartFile): ResponseEntity
+            + obtenerResultado(examenId: Long): ResponseEntity
+        }
+        class ControladorGeneradorExamen {
+            + generar(parametros: DTO_Generacion): ResponseEntity
+        }
+        class ControladorAlumno {
+            + importarAlumnos(archivo: MultipartFile): ResponseEntity
+            + listarPorAsignatura(asignaturaId: Long): List<DTO_Alumno>
+        }
+    }
+
+    package "servicio" {
+        interface IMotorCorreccion {
+            + procesarImagen(imagen: byte[]): ResultadoBruto
+        }
+        
+        class ServicioExamen {
+            + generarExamen(examen: Examen): List<ExamenAlumno>
+            + asignarAAlumnos(examenId: Long, alumnoIds: List<Long>): void
+            - generarClaveCorreccion(alumnoId: Long, examenId: Long): String
+        }
+        
+        class ServicioAlumno {
+            + upsertAlumnos(datos: List<DTO_Alumno>): void
+        }
+    }
+
+    package "repositorio" {
+        interface RepositorioAlumno <<Repository>>
+        interface RepositorioExamen <<Repository>>
+        interface RepositorioExamenAlumno <<Repository>>
+        interface RepositorioPregunta <<Repository>>
+    }
+
+    package "modelo" {
+        class Alumno <<Entity>> {
+            - id: Long
+            - dni: String
+            - nombre: String
+            - apellidos: String
+        }
+        class Examen <<Entity>> {
+            - id: Long
+            - tipoEvaluacion: TipoEvaluacion
+            - esPersonalizado: boolean
+        }
+        class ExamenAlumno <<Entity>> {
+            - id: Long
+            - claveCorreccion: String
+            - notaFinal: Double
+            - estado: EstadoExamen
+        }
+        class Pregunta <<Entity>> {
+            - id: Long
+            - enunciado: String
+        }
+    }
+}
+
+' Relaciones entre capas
+controlador ..> servicio : utiliza
+servicio ..> repositorio : utiliza
+repositorio ..> modelo : gestiona
+
+' Relaciones de herencia/implementación
+ServicioExamen ..> IMotorCorreccion : utiliza
+@enduml
