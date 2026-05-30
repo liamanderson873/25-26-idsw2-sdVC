@@ -16,13 +16,12 @@ public class Respuesta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String texto;
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String contenido;
 
     @Column(name = "es_correcta", nullable = false)
     private boolean esCorrecta;
 
-    // Muchas respuestas pertenecen a una pregunta
     @ManyToOne
     @JoinColumn(name = "pregunta_id", nullable = false)
     private Pregunta pregunta;

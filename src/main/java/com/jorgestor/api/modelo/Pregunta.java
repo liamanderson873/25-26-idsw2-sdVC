@@ -20,17 +20,14 @@ public class Pregunta {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String enunciado;
 
-    @Enumerated(EnumType.STRING) // Guarda el nombre del enum (FACIL, MEDIO...) en la BD
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Dificultad dificultad;
 
-    // Muchas preguntas pertenecen a un tema
     @ManyToOne
     @JoinColumn(name = "tema_id", nullable = false)
     private Tema tema;
 
-    // Una pregunta tiene muchas respuestas
-    // 'cascade' significa que si borramos una pregunta, se borran sus respuestas (limpieza)
     @OneToMany(mappedBy = "pregunta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Respuesta> respuestas;
 }

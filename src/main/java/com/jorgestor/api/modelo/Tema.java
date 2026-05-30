@@ -20,12 +20,10 @@ public class Tema {
     @Column(nullable = false)
     private String nombre;
 
-    // Muchos temas pertenecen a una asignatura
     @ManyToOne
     @JoinColumn(name = "asignatura_id", nullable = false)
     private Asignatura asignatura;
-    
-    // Un tema tiene muchas preguntas
+
     @OneToMany(mappedBy = "tema")
     private List<Pregunta> preguntas;
 }
