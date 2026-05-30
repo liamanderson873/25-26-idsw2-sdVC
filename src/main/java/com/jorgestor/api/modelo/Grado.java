@@ -1,31 +1,36 @@
 package com.jorgestor.api.modelo;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-
 import java.util.List;
 
-@Entity // Le dice a Spring que esta clase es una tabla en la BD
-@Table(name = "grados") // Nombre real de la tabla
-@Data // Magia de Lombok: genera getters, setters, toString y equals automáticamente
-@NoArgsConstructor // Genera un constructor vacío (obligatorio para JPA)
-@AllArgsConstructor // Genera un constructor con todos los campos
+@Entity
+@Table(name = "grados")
 public class Grado {
 
-    @Id // Define la Clave Primaria (PK)
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // ID Autoincremental
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true) // No puede ser nulo y debe ser único
+    @Column(nullable = false, unique = true)
     private String codigo;
 
     @Column(nullable = false)
     private String nombre;
 
-    // Un grado tiene muchos alumnos (One-to-Many)
-    // 'mappedBy' indica que la relación la gestiona el campo 'grado' en la clase Alumno
     @OneToMany(mappedBy = "grado")
     private List<Alumno> alumnos;
+
+    public Grado() {}
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getCodigo() { return codigo; }
+    public void setCodigo(String codigo) { this.codigo = codigo; }
+
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public List<Alumno> getAlumnos() { return alumnos; }
+    public void setAlumnos(List<Alumno> alumnos) { this.alumnos = alumnos; }
 }

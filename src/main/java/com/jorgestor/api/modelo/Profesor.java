@@ -29,7 +29,6 @@ public class Profesor {
     @Column(nullable = false, unique = true)
     private String email;
 
-    // Un profesor imparte muchas asignaturas
     @OneToMany(mappedBy = "profesor")
     private List<Asignatura> asignaturas;
 }

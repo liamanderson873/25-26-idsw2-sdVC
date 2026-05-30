@@ -32,7 +32,6 @@ public class Examen {
     @JoinColumn(name = "asignatura_id", nullable = false)
     private Asignatura asignatura;
 
-    // Relación con las preguntas que componen este examen
     @ManyToMany
     @JoinTable(
         name = "examen_preguntas",

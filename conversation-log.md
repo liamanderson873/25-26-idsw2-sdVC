@@ -266,5 +266,33 @@ Verificación del entorno y continuación de la lógica de negocio (Asignación 
 3.  **Hito de Seguridad**: Diseño del algoritmo de generación de la **Clave de Corrección** usando SHA-256 (DNI + ID Examen + Salt), cumpliendo con la trazabilidad de diseño.
 
 ---
-*Este registro continuará con la validación del arranque de la aplicación.*
+
+## Conversación 16: Implementación de CU-02 y Consolidación a Main
+**Fecha**: 2026-05-29
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Finalización de infraestructura y desarrollo de la lógica de generación aleatoria.
+
+**Prompt clave de Liam**:
+> "1. el map asumo que es para poner ciertos parametros especificos [...] 2.no hemos incluido algun parametro para elejir los temas de las preguntas no?"
+> "vale acabo de hacer el pull request puedes comprobar que esta todo en main y procedemos a continuar con nuestra nueva sesion de hoy"
+
+### Desarrollo Principal
+1.  **Consolidación**: Se realiza el merge de `develop` a `main` tras validar el arranque con PostgreSQL 17.
+2.  **Lógica CU-02**: Implementación de la generación de exámenes estratificada. Se crea el `DTO_GenerarExamen` y el algoritmo de "Sacos" en `ServicioExamen`, asegurando la proporción de dificultad y el filtrado por temas.
+3.  **Controlador**: Creación de `ControladorExamen` para exponer el proceso de generación vía API REST.
+
+### 21. Validación Exitosa de CU-02 (Generación)
+**Liam**: "pone que ha sido generado con exito"
+**Gemini**: ¡Hito alcanzado! Verificación empírica del algoritmo de generación estratificada. Se ha validado la conexión con PostgreSQL 17, la creación de tablas mediante JPA y la lógica de "Sacos de Dificultad" a través de una prueba real en Postman. El sistema generó un examen de 5 preguntas respetando las proporciones 40/40/20.
+
+### 22. Resolución de Conflictos IDE (Lombok) y Consolidación de CU-02
+**Liam**: "podemos subir todo a github para asegurar ya lo que tenemos perfecto ademas de que todavia tienes que ir añañdiendo al convesation log"
+**Gemini**: Diagnóstico profundo de un error de compilación en VS Code. Se demostró que Maven compilaba correctamente, pero el IDE no reconocía las anotaciones de Lombok. Tras intentar limpiar el *Language Server*, se restauró el código estándar temporalmente y finalmente se reconfiguró Lombok asegurando la compilación. El usuario validó la inserción exitosa en pgAdmin mediante captura de pantalla. Se preparan los cambios para consolidar el CU-02 en `main`.
+
+---
+*Este registro continuará con la validación de la Asignación (CU-09).*
+
+
 

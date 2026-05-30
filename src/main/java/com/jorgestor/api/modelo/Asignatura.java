@@ -26,14 +26,10 @@ public class Asignatura {
     @Column(name = "curso_academico", nullable = false)
     private String cursoAcademico;
 
-    // Muchas asignaturas son impartidas por un profesor
     @ManyToOne
     @JoinColumn(name = "profesor_id", nullable = false)
     private Profesor profesor;
 
-    // Una asignatura tiene muchos temas
     @OneToMany(mappedBy = "asignatura")
     private List<Tema> temas;
-    
-    // Una asignatura tiene muchos exámenes (lo crearemos más adelante)
 }

@@ -25,8 +25,7 @@ public class Alumno {
     @Column(nullable = false)
     private String apellidos;
 
-    // Muchos alumnos pertenecen a un grado (Many-to-One)
     @ManyToOne
-    @JoinColumn(name = "grado_id", nullable = false) // Nombre de la FK en la tabla
+    @JoinColumn(name = "grado_id", nullable = false)
     private Grado grado;
 }
