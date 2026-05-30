@@ -327,11 +327,11 @@ Finalización de infraestructura y desarrollo de la lógica de generación aleat
 **Participantes**: Liam + Gemini CLI
 **Fecha**: 2026-05-30
 **Contexto de la Sesión**: Continuación del bloque de "Entradas/Salidas". El objetivo es permitir la carga masiva de la batería de preguntas junto con sus opciones de respuesta, asegurando la integridad referencial.
-**Prompt Clave de Liam**: *"vale funciona perfecto mira mi captura"*
+**Prompt Clave de Liam**: *"vale funciona perfecto mira mi captura"* y *"todavia tengo que probar los otros escenarios de importar preguntas"*
 **Desarrollo Principal**:
 - Se implementó `ServicioPregunta` con lógica de persistencia en cascada para Preguntas y Respuestas.
-- Se detectó y resolvió un error de mapeo JPA (`not-null constraint`) en la tabla `respuestas`: se alineó el campo Java `contenido` con la columna física `texto` de PostgreSQL.
-- **Validación Empírica**: Liam ejecutó el JSON de prueba en Postman, logrando un **200 OK**. El sistema procesó correctamente las preguntas complejas (con 4 opciones cada una), vinculándolas al Tema 3 y persistiendo toda la estructura en la base de datos de forma atómica.
+- Se detectó y resolvió un error de mapeo JPA (`not-null constraint`) en la tabla `respuestas`: se normalizó el esquema eliminando columnas redundantes y alineando el campo `texto`.
+- **Validación Empírica**: Liam ejecutó dos escenarios. El primero insertó correctamente 2 preguntas y 8 respuestas (verificado mediante conteo SQL). El segundo escenario validó la protección del sistema al rechazar una importación con un `temaId` inexistente (999), demostrando que la arquitectura no permite datos huérfanos.
 
 ---
 *Este registro continuará con la implementación de Exportar Examen (CU-04).*

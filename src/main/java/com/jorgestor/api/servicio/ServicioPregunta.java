@@ -34,31 +34,29 @@ public class ServicioPregunta {
     public void importarPreguntas(List<DTO_Pregunta> listaDto) {
         for (DTO_Pregunta dto : listaDto) {
             
-            // 1. Validación estricta: El tema debe existir
+            // 1. Validación: El tema debe existir
             Tema tema = repoTema.findById(dto.getTemaId())
-                    .orElseThrow(() -> new RuntimeException("Error al importar la pregunta '" + dto.getEnunciado() + "': El tema con ID " + dto.getTemaId() + " no existe."));
+                    .orElseThrow(() -> new RuntimeException("Tema con ID " + dto.getTemaId() + " no encontrado"));
 
-            // 2. Creación de la Pregunta
+            // 2. Creación y guardado de la Pregunta
             Pregunta pregunta = new Pregunta();
             pregunta.setEnunciado(dto.getEnunciado());
             pregunta.setDificultad(dto.getDificultad());
             pregunta.setTema(tema);
-
-            // Guardamos la pregunta primero para que se le asigne un ID
-            pregunta = repoPregunta.save(pregunta);
-
-            // 3. Procesamiento y guardado de las Respuestas
-            List<Respuesta> respuestas = new ArrayList<>();
-            for (DTO_Respuesta dtoResp : dto.getRespuestas()) {
-                Respuesta respuesta = new Respuesta();
-                respuesta.setContenido(dtoResp.getContenido());
-                respuesta.setEsCorrecta(dtoResp.isEsCorrecta());
-                respuesta.setPregunta(pregunta); // Relación bidireccional
-                respuestas.add(respuesta);
-            }
             
-            // Guardado en cascada manual de las respuestas
-            repoRespuesta.saveAll(respuestas);
+            // Guardamos la pregunta para obtener su ID
+            final Pregunta preguntaGuardada = repoPregunta.saveAndFlush(pregunta);
+
+            // 3. Creación y guardado de Respuestas una a una para asegurar integridad
+            if (dto.getRespuestas() != null) {
+                for (DTO_Respuesta dtoResp : dto.getRespuestas()) {
+                    Respuesta respuesta = new Respuesta();
+                    respuesta.setContenido(dtoResp.getContenido());
+                    respuesta.setEsCorrecta(dtoResp.isEsCorrecta());
+                    respuesta.setPregunta(preguntaGuardada);
+                    repoRespuesta.save(respuesta);
+                }
+            }
         }
     }
 }

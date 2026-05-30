@@ -23,6 +23,7 @@ public class ControladorPregunta {
     @PostMapping("/importar")
     public ResponseEntity<String> importarPreguntas(@RequestBody List<DTO_Pregunta> listaPreguntas) {
         try {
+            System.out.println("Recibidas " + listaPreguntas.size() + " preguntas para importar...");
             servicioPregunta.importarPreguntas(listaPreguntas);
             return ResponseEntity.ok("Preguntas y respuestas procesadas correctamente en el sistema.");
         } catch (Exception e) {
