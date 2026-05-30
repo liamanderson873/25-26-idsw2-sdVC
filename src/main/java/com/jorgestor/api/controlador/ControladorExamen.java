@@ -1,5 +1,6 @@
 package com.jorgestor.api.controlador;
 
+import com.jorgestor.api.dto.DTO_AsignarExamen;
 import com.jorgestor.api.dto.DTO_GenerarExamen;
 import com.jorgestor.api.modelo.Examen;
 import com.jorgestor.api.servicio.ServicioExamen;
@@ -29,6 +30,20 @@ public class ControladorExamen {
             return ResponseEntity.ok("Examen generado con éxito. ID: " + examen.getId() + " - Preguntas: " + examen.getPreguntas().size());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error en la generación: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Endpoint para asignar un examen a una lista de alumnos (CU-09)
+     * Genera automáticamente las claves de corrección SHA-256.
+     */
+    @PostMapping("/asignar")
+    public ResponseEntity<?> asignarExamen(@RequestBody DTO_AsignarExamen dto) {
+        try {
+            servicioExamen.asignarExamenAAlumnos(dto.getExamenId(), dto.getAlumnoIds());
+            return ResponseEntity.ok("Examen ID: " + dto.getExamenId() + " asignado correctamente a " + dto.getAlumnoIds().size() + " alumnos. Claves SHA-256 generadas.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error en la asignación: " + e.getMessage());
         }
     }
 }

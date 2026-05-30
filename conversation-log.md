@@ -291,8 +291,19 @@ Finalización de infraestructura y desarrollo de la lógica de generación aleat
 **Liam**: "podemos subir todo a github para asegurar ya lo que tenemos perfecto ademas de que todavia tienes que ir añañdiendo al convesation log"
 **Gemini**: Diagnóstico profundo de un error de compilación en VS Code. Se demostró que Maven compilaba correctamente, pero el IDE no reconocía las anotaciones de Lombok. Tras intentar limpiar el *Language Server*, se restauró el código estándar temporalmente y finalmente se reconfiguró Lombok asegurando la compilación. El usuario validó la inserción exitosa en pgAdmin mediante captura de pantalla. Se preparan los cambios para consolidar el CU-02 en `main`.
 
+### 23. Implementación y Validación de Asignación (CU-09)
+**Participantes**: Liam + Gemini CLI
+**Fecha**: 2026-05-30
+**Contexto de la Sesión**: Tras asegurar el código de la Generación (CU-02) en `main`, el enfoque se desplazó a vincular el examen generado con los alumnos de prueba inyectados previamente, cerrando así el ciclo de evaluación.
+**Prompt Clave de Liam**: *"el draft me parece perfecto adelante"* y *"se ha asignado correctamente 3 alumnos"*
+**Desarrollo Principal**:
+- Se recuperó el entorno de trabajo en `develop` tras un leve conflicto con el índice de Git al hacer un checkout.
+- Se implementó `DTO_AsignarExamen` y se expuso el endpoint `POST /api/examenes/asignar` en el `ControladorExamen`.
+- La lógica subyacente invocó al algoritmo SHA-256 (DNI + ID Examen + Salt temporal), asegurando la unicidad absoluta de cada ejemplar.
+- **Validación Empírica**: Liam ejecutó el JSON de prueba en Postman, logrando la asignación del examen ID 1 a tres alumnos. El sistema respondió confirmando la generación exitosa de las firmas de seguridad, validando la integridad del proceso.
+
 ---
-*Este registro continuará con la validación de la Asignación (CU-09).*
+*Este registro continuará con la fase de pruebas o el siguiente caso de uso estratégico.*
 
 
 
