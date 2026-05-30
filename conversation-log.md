@@ -312,8 +312,18 @@ Finalización de infraestructura y desarrollo de la lógica de generación aleat
 - Se definió el siguiente bloque lógico: **Gestión de Entradas/Salidas (Importaciones y Exportaciones)**, compuesto por CU-03, CU-06 y CU-04.
 - La IA revisó el código existente de `ServicioAlumno` y `ControladorAlumno` para preparar el borrador del CU-03 (Importar Alumnos).
 
+### 25. Refinamiento de CU-03 (Importar Alumnos) - Fidelidad al Diagrama de Contexto
+**Participantes**: Liam + Gemini CLI
+**Fecha**: 2026-05-30
+**Contexto de la Sesión**: Inicio del bloque lógico de "Entradas/Salidas". Se propuso un borrador para el CU-03 que sugería la auto-creación de grados si estos no existían durante la importación masiva de alumnos.
+**Prompt Clave de Liam**: *"en principio suena muy bien la "autoasignacion" pero en realidad no poruque igual si el grado no esta creado es por algo y de esta forma solo porque estas importando alumnos ahora has creado un grado, tenemos que seguir fieles dentro de lo que cabe a lo que puede hacer cada caso de uso y eso lo especificamos en el diagrama de contexto"*
+**Desarrollo Principal**:
+- Corrección arquitectónica: Se descartó la auto-creación para respetar la separación de responsabilidades definida en el Modelo de Casos de Uso.
+- Se refinó el `ServicioAlumno` reforzando la anotación `@Transactional` (Todo o Nada).
+- Se mejoró el manejo de excepciones (`orElseThrow`), diseñando un mensaje de error explícito que identifica al alumno problemático y detiene la transacción por completo si su Grado no está registrado previamente en el sistema.
+
 ---
-*Este registro continuará con el desarrollo del bloque de Importaciones.*
+*Este registro continuará con la prueba empírica del CU-03 mediante Postman.*
 
 
 

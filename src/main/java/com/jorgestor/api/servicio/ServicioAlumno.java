@@ -32,7 +32,7 @@ public class ServicioAlumno {
         for (DTO_Alumno dto : listaDto) {
             // 1. Buscamos el grado (si no existe, lanzamos error)
             Grado grado = repoGrado.findByCodigo(dto.getCodigoGrado())
-                    .orElseThrow(() -> new RuntimeException("El grado con código " + dto.getCodigoGrado() + " no existe"));
+                    .orElseThrow(() -> new RuntimeException("Error al importar a " + dto.getNombre() + " " + dto.getApellidos() + " (DNI: " + dto.getDni() + "): El grado con código '" + dto.getCodigoGrado() + "' no existe. Revise el archivo."));
 
             // 2. Buscamos si el alumno ya existe por DNI
             Alumno alumno = repoAlumno.findByDni(dto.getDni())
