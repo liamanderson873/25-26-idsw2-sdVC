@@ -287,6 +287,10 @@ Finalización de infraestructura y desarrollo de la lógica de generación aleat
 **Liam**: "pone que ha sido generado con exito"
 **Gemini**: ¡Hito alcanzado! Verificación empírica del algoritmo de generación estratificada. Se ha validado la conexión con PostgreSQL 17, la creación de tablas mediante JPA y la lógica de "Sacos de Dificultad" a través de una prueba real en Postman. El sistema generó un examen de 5 preguntas respetando las proporciones 40/40/20.
 
+### 22. Resolución de Conflictos IDE (Lombok) y Consolidación de CU-02
+**Liam**: "podemos subir todo a github para asegurar ya lo que tenemos perfecto ademas de que todavia tienes que ir añañdiendo al convesation log"
+**Gemini**: Diagnóstico profundo de un error de compilación en VS Code. Se demostró que Maven compilaba correctamente, pero el IDE no reconocía las anotaciones de Lombok. Tras intentar limpiar el *Language Server*, se restauró el código estándar temporalmente y finalmente se reconfiguró Lombok asegurando la compilación. El usuario validó la inserción exitosa en pgAdmin mediante captura de pantalla. Se preparan los cambios para consolidar el CU-02 en `main`.
+
 ---
 *Este registro continuará con la validación de la Asignación (CU-09).*
 
