@@ -1,5 +1,6 @@
 package com.jorgestor.api.controlador;
 
+import com.jorgestor.api.dto.DTO_AsignarExamen;
 import com.jorgestor.api.dto.DTO_GenerarExamen;
 import com.jorgestor.api.modelo.Examen;
 import com.jorgestor.api.servicio.ServicioExamen;
@@ -29,6 +30,19 @@ public class ControladorExamen {
             return ResponseEntity.ok("Examen generado con éxito. ID: " + examen.getId() + " - Preguntas: " + examen.getPreguntas().size());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error en la generación: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Endpoint para exportar toda la información de un examen (CU-04)
+     * Incluye preguntas y claves SHA-256 de los alumnos.
+     */
+    @GetMapping("/{id}/exportar")
+    public ResponseEntity<?> exportarExamen(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(servicioExamen.exportarExamen(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al exportar: " + e.getMessage());
         }
     }
 }

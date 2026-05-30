@@ -16,7 +16,8 @@ public class Respuesta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    // Se mapea a la columna 'texto' que ya existe y es NOT NULL en la BD
+    @Column(name = "texto", columnDefinition = "TEXT", nullable = false)
     private String contenido;
 
     @Column(name = "es_correcta", nullable = false)

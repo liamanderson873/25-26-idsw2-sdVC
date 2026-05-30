@@ -1,5 +1,6 @@
 package com.jorgestor.api.servicio;
 
+import com.jorgestor.api.dto.DTO_ExportarExamen;
 import com.jorgestor.api.dto.DTO_GenerarExamen;
 import com.jorgestor.api.modelo.*;
 import com.jorgestor.api.repositorio.RepositorioAlumno;
@@ -43,6 +44,46 @@ public class ServicioExamen {
         this.repoAlumno = repoAlumno;
         this.repoAsignatura = repoAsignatura;
         this.repoPregunta = repoPregunta;
+    }
+
+    /**
+     * CU-04: Exportación de Examen.
+     * Recupera toda la información necesaria para la impresión.
+     */
+    @Transactional(readOnly = true)
+    public DTO_ExportarExamen exportarExamen(Long examenId) {
+        Examen examen = repoExamen.findById(examenId)
+                .orElseThrow(() -> new RuntimeException("Examen no encontrado"));
+
+        DTO_ExportarExamen dto = new DTO_ExportarExamen();
+        dto.setIdExamen(examen.getId());
+        dto.setNombreAsignatura(examen.getAsignatura().getNombre());
+        dto.setTipoEvaluacion(examen.getTipoEvaluacion().toString());
+        dto.setFecha(examen.getFechaExamen());
+
+        // 1. Mapeamos las preguntas y sus opciones (Forzando la carga de respuestas)
+        List<DTO_ExportarExamen.PreguntaExport> preguntasExport = new ArrayList<>();
+        for (Pregunta p : examen.getPreguntas()) {
+            List<String> opciones = p.getRespuestas().stream()
+                    .map(Respuesta::getContenido)
+                    .collect(Collectors.toList());
+            preguntasExport.add(new DTO_ExportarExamen.PreguntaExport(p.getEnunciado(), p.getDificultad().toString(), opciones));
+        }
+        dto.setPreguntas(preguntasExport);
+
+        // 2. Mapeamos los alumnos y sus claves SHA-256 (Filtrado directo por examen)
+        List<ExamenAlumno> ejemplares = repoExamenAlumno.findAll().stream()
+                .filter(e -> e.getExamen().getId().equals(examenId))
+                .collect(Collectors.toList());
+
+        List<DTO_ExportarExamen.AlumnoClaveExport> alumnosExport = ejemplares.stream()
+                .map(e -> new DTO_ExportarExamen.AlumnoClaveExport(
+                        e.getAlumno().getNombre() + " " + e.getAlumno().getApellidos(),
+                        e.getClaveCorreccion()))
+                .collect(Collectors.toList());
+        dto.setAlumnosAsignados(alumnosExport);
+
+        return dto;
     }
 
     /**

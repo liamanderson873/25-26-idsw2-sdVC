@@ -291,8 +291,61 @@ Finalización de infraestructura y desarrollo de la lógica de generación aleat
 **Liam**: "podemos subir todo a github para asegurar ya lo que tenemos perfecto ademas de que todavia tienes que ir añañdiendo al convesation log"
 **Gemini**: Diagnóstico profundo de un error de compilación en VS Code. Se demostró que Maven compilaba correctamente, pero el IDE no reconocía las anotaciones de Lombok. Tras intentar limpiar el *Language Server*, se restauró el código estándar temporalmente y finalmente se reconfiguró Lombok asegurando la compilación. El usuario validó la inserción exitosa en pgAdmin mediante captura de pantalla. Se preparan los cambios para consolidar el CU-02 en `main`.
 
+### 23. Implementación y Validación de Asignación (CU-09)
+**Participantes**: Liam + Gemini CLI
+**Fecha**: 2026-05-30
+**Contexto de la Sesión**: Tras asegurar el código de la Generación (CU-02) en `main`, el enfoque se desplazó a vincular el examen generado con los alumnos de prueba inyectados previamente, cerrando así el ciclo de evaluación.
+**Prompt Clave de Liam**: *"el draft me parece perfecto adelante"* y *"se ha asignado correctamente 3 alumnos"*
+**Desarrollo Principal**:
+- Se recuperó el entorno de trabajo en `develop` tras un leve conflicto con el índice de Git al hacer un checkout.
+- Se implementó `DTO_AsignarExamen` y se expuso el endpoint `POST /api/examenes/asignar` en el `ControladorExamen`.
+- La lógica subyacente invocó al algoritmo SHA-256 (DNI + ID Examen + Salt temporal), asegurando la unicidad absoluta de cada ejemplar.
+- **Validación Empírica**: Liam ejecutó el JSON de prueba en Postman, logrando la asignación del examen ID 1 a tres alumnos. El sistema respondió confirmando la generación exitosa de las firmas de seguridad, validando la integridad del proceso.
+
+### 24. Optimización del Workflow (Batching PRs) e Inicio de Épica I/O
+**Participantes**: Liam + Gemini CLI
+**Fecha**: 2026-05-30
+**Contexto de la Sesión**: Discusión sobre la frecuencia de los Pull Requests hacia `main`.
+**Prompt Clave de Liam**: *"a ver un momento no podemos estar haciendo un pull request para cada uno es inviable vamos a hacerlo cada unos cuantos"*
+**Desarrollo Principal**:
+- Se actualizó la Regla de Oro #2 en `CONTEXTO_PROYECTO.md` para establecer que los PRs se agruparán en bloques lógicos (Épicas) en lugar de por cada CU individual.
+- Se definió el siguiente bloque lógico: **Gestión de Entradas/Salidas (Importaciones y Exportaciones)**, compuesto por CU-03, CU-06 y CU-04.
+- La IA revisó el código existente de `ServicioAlumno` y `ControladorAlumno` para preparar el borrador del CU-03 (Importar Alumnos).
+
+### 25. Refinamiento de CU-03 (Importar Alumnos) - Fidelidad al Diagrama de Contexto
+**Participantes**: Liam + Gemini CLI
+**Fecha**: 2026-05-30
+**Contexto de la Sesión**: Inicio del bloque lógico de "Entradas/Salidas". Se propuso un borrador para el CU-03 que sugería la auto-creación de grados si estos no existían durante la importación masiva de alumnos.
+**Prompt Clave de Liam**: *"en principio suena muy bien la "autoasignacion" pero en realidad no poruque igual si el grado no esta creado es por algo y de esta forma solo porque estas importando alumnos ahora has creado un grado, tenemos que seguir fieles dentro de lo que cabe a lo que puede hacer cada caso de uso y eso lo especificamos en el diagrama de contexto"*
+**Desarrollo Principal**:
+- Corrección arquitectónica: Se descartó la auto-creación para respetar la separación de responsabilidades definida en el Modelo de Casos de Uso.
+- Se refinó el `ServicioAlumno` reforzando la anotación `@Transactional` (Todo o Nada).
+- Se mejoró el manejo de excepciones (`orElseThrow`), diseñando un mensaje de error explícito que identifica al alumno problemático y detiene la transacción por completo si su Grado no está registrado previamente en el sistema.
+- **Validación Empírica**: Tras resolver un problema de sintaxis en Postman y cambiar el puerto por defecto a `9090`, Liam ejecutó dos pruebas: una exitosa y otra forzando un error. El sistema devolvió correctamente el mensaje: *"Error al importar a Luis Perez... El grado con código 'GZZ' no existe"*, demostrando la robustez transaccional del sistema.
+
+### 26. Implementación y Validación de CU-06 (Importar Preguntas)
+**Participantes**: Liam + Gemini CLI
+**Fecha**: 2026-05-30
+**Contexto de la Sesión**: Continuación del bloque de "Entradas/Salidas". El objetivo es permitir la carga masiva de la batería de preguntas junto con sus opciones de respuesta, asegurando la integridad referencial.
+**Prompt Clave de Liam**: *"vale funciona perfecto mira mi captura"* y *"todavia tengo que probar los otros escenarios de importar preguntas"*
+**Desarrollo Principal**:
+- Se implementó `ServicioPregunta` con lógica de persistencia en cascada para Preguntas y Respuestas.
+- Se detectó y resolvió un error de mapeo JPA (`not-null constraint`) en la tabla `respuestas`: se normalizó el esquema eliminando columnas redundantes y alineando el campo `texto`.
+- **Validación Empírica**: Liam ejecutó dos escenarios. El primero insertó correctamente 2 preguntas y 8 respuestas (verificado mediante conteo SQL). El segundo escenario validó la protección del sistema al rechazar una importación con un `temaId` inexistente (999), demostrando que la arquitectura no permite datos huérfanos.
+
+### 27. Implementación de Exportación (CU-04) y Cierre de Épica I/O
+**Participantes**: Liam + Gemini CLI
+**Fecha**: 2026-05-30
+**Contexto de la Sesión**: Fase final del bloque de "Entradas/Salidas". Se requiere una vía para extraer los datos procesados hacia sistemas externos (impresión/corrección).
+**Prompt Clave de Liam**: *"vale me parece que esta bien"* (sobre el draft) y *"mira la captura que he hecho"* (sobre el resultado final).
+**Desarrollo Principal**:
+- Se diseñó e implementó el `DTO_ExportarExamen` como un paquete agregado que consolida metadatos del examen, batería de preguntas y la lista de alumnos con sus firmas SHA-256.
+- Se implementó la lógica de recuperación de datos en `ServicioExamen` utilizando Streams de Java para transformar el modelo de dominio en un formato portátil.
+- Se creó el script `run-jorgestor.ps1` para automatizar la liberación de puertos y agilizar el ciclo de arranque.
+- **Validación Empírica**: Tras resolver un error 404 por des-sincronización y un riesgo de *Lazy Loading*, Liam validó mediante una petición `GET` en Postman la generación del JSON de exportación para el Examen ID 1. La captura confirmó la correcta agregación de metadatos, preguntas, respuestas y, crucialmente, las firmas SHA-256 de los alumnos. Este hito cierra oficialmente el bloque de desarrollo de Entradas/Salidas.
+
 ---
-*Este registro continuará con la validación de la Asignación (CU-09).*
+*Este registro continuará con la fase de Corrección Masiva o la integración de la IA.*
 
 
 
