@@ -342,10 +342,10 @@ Finalización de infraestructura y desarrollo de la lógica de generación aleat
 - Se diseñó e implementó el `DTO_ExportarExamen` como un paquete agregado que consolida metadatos del examen, batería de preguntas y la lista de alumnos con sus firmas SHA-256.
 - Se implementó la lógica de recuperación de datos en `ServicioExamen` utilizando Streams de Java para transformar el modelo de dominio en un formato portátil.
 - Se creó el script `run-jorgestor.ps1` para automatizar la liberación de puertos y agilizar el ciclo de arranque.
-- **Validación Empírica**: Liam validó mediante una petición `GET` en Postman la generación del JSON de exportación para el Examen ID 1. La captura confirmó la correcta agregación de todos los componentes, cerrando oficialmente el bloque de desarrollo de Entradas/Salidas.
+- **Validación Empírica**: Tras resolver un error 404 por des-sincronización y un riesgo de *Lazy Loading*, Liam validó mediante una petición `GET` en Postman la generación del JSON de exportación para el Examen ID 1. La captura confirmó la correcta agregación de metadatos, preguntas, respuestas y, crucialmente, las firmas SHA-256 de los alumnos. Este hito cierra oficialmente el bloque de desarrollo de Entradas/Salidas.
 
 ---
-*Este registro continuará con la consolidación a Main o el inicio de la siguiente Épica.*
+*Este registro continuará con la fase de Corrección Masiva o la integración de la IA.*
 
 
 

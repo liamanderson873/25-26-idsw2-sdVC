@@ -61,19 +61,22 @@ public class ServicioExamen {
         dto.setTipoEvaluacion(examen.getTipoEvaluacion().toString());
         dto.setFecha(examen.getFechaExamen());
 
-        // 1. Mapeamos las preguntas y sus opciones
-        List<DTO_ExportarExamen.PreguntaExport> preguntasExport = examen.getPreguntas().stream().map(p -> {
+        // 1. Mapeamos las preguntas y sus opciones (Forzando la carga de respuestas)
+        List<DTO_ExportarExamen.PreguntaExport> preguntasExport = new ArrayList<>();
+        for (Pregunta p : examen.getPreguntas()) {
             List<String> opciones = p.getRespuestas().stream()
                     .map(Respuesta::getContenido)
                     .collect(Collectors.toList());
-            return new DTO_ExportarExamen.PreguntaExport(p.getEnunciado(), p.getDificultad().toString(), opciones);
-        }).collect(Collectors.toList());
+            preguntasExport.add(new DTO_ExportarExamen.PreguntaExport(p.getEnunciado(), p.getDificultad().toString(), opciones));
+        }
         dto.setPreguntas(preguntasExport);
 
-        // 2. Mapeamos los alumnos y sus claves SHA-256
-        List<ExamenAlumno> ejemplares = repoExamenAlumno.findAll(); // En un futuro filtrar por examenId
-        List<DTO_ExportarExamen.AlumnoClaveExport> alumnosExport = ejemplares.stream()
+        // 2. Mapeamos los alumnos y sus claves SHA-256 (Filtrado directo por examen)
+        List<ExamenAlumno> ejemplares = repoExamenAlumno.findAll().stream()
                 .filter(e -> e.getExamen().getId().equals(examenId))
+                .collect(Collectors.toList());
+
+        List<DTO_ExportarExamen.AlumnoClaveExport> alumnosExport = ejemplares.stream()
                 .map(e -> new DTO_ExportarExamen.AlumnoClaveExport(
                         e.getAlumno().getNombre() + " " + e.getAlumno().getApellidos(),
                         e.getClaveCorreccion()))
