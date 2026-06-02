@@ -61,32 +61,17 @@ entity "respuestas" as respuestas {
   --
   * texto : VARCHAR(255)
   * es_correcta : BOOLEAN
+  * indice : INTEGER
   * pregunta_id : BIGINT <<FK>>
 }
 
-entity "examenes" as examenes {
+entity "examen_alumno_marcas" as examen_alumno_marcas {
   * id : BIGINT <<generated>>
   --
-  * tipo_evaluacion : ENUM(PARCIAL_1, PARCIAL_2, PARCIAL_3, FINAL, EXTRAORDINARIO)
-  * es_personalizado : BOOLEAN
-  * fecha_examen : DATE
-  * asignatura_id : BIGINT <<FK>>
-}
-
-entity "examen_preguntas" as examen_preguntas {
-  * examen_id : BIGINT <<FK>>
+  * examen_alumno_id : BIGINT <<FK>>
   * pregunta_id : BIGINT <<FK>>
-  * indice_orden : INTEGER
-}
-
-entity "examen_alumnos" as examen_alumnos {
-  * id : BIGINT <<generated>>
-  --
-  * alumno_id : BIGINT <<FK>>
-  * examen_id : BIGINT <<FK>>
-  * clave_correccion : VARCHAR(255) <<unique>>
-  * nota_final : DECIMAL(4,2)
-  * estado : ENUM(ASIGNADO, REALIZADO, CORREGIDO)
+  * respuesta_id : BIGINT <<FK>>
+  * indice_marcado : INTEGER
 }
 
 grados ||--o{ alumnos
@@ -99,6 +84,9 @@ examenes ||--o{ examen_preguntas
 preguntas ||--o{ examen_preguntas
 alumnos ||--o{ examen_alumnos
 examenes ||--o{ examen_alumnos
+examen_alumnos ||--o{ examen_alumno_marcas
+preguntas ||--o{ examen_alumno_marcas
+respuestas ||--o{ examen_alumno_marcas
 asignaturas ||--o{ asignaturas_alumnos
 alumnos ||--o{ asignaturas_alumnos
 

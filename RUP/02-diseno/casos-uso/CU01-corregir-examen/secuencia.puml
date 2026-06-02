@@ -25,9 +25,18 @@ deactivate RepoExAl
 alt Clave no encontrada
     Control --> Boundary : throw Exception("Clave inválida")
     Boundary --> IA : 404 Not Found
-else Clave válida
+alt Clave válida
     Control -> Control : calcularNota(respuestasRecibidas, respuestasCorrectas)
-    
+
+    loop por cada respuesta recibida
+        Control -> RepoMarcas : save(examenAlumnoMarca)
+        activate RepoMarcas
+        RepoMarcas -> DB : INSERT en examen_alumno_marcas\n(ID Pregunta, ID Respuesta, Letra Marcada)
+        DB --> RepoMarcas : ok
+        RepoMarcas --> Control : ok
+        deactivate RepoMarcas
+    end
+
     Control -> RepoExAl : save(examenAlumnoActualizado)
     activate RepoExAl
     RepoExAl -> DB : UPDATE nota_final, estado='CORREGIDO'

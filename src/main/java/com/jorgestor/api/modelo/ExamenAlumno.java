@@ -27,6 +27,9 @@ public class ExamenAlumno {
     @Column(name = "clave_correccion", unique = true, nullable = false)
     private String claveCorreccion;
 
+    @Column(name = "nota_sugerida")
+    private Double notaSugerida;
+
     @Column(name = "nota_final")
     private Double notaFinal;
 

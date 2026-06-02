@@ -2,6 +2,7 @@ package com.jorgestor.api.controlador;
 
 import com.jorgestor.api.dto.DTO_AsignarExamen;
 import com.jorgestor.api.dto.DTO_GenerarExamen;
+import com.jorgestor.api.dto.DTO_ProcesarCorreccion;
 import com.jorgestor.api.modelo.Examen;
 import com.jorgestor.api.servicio.ServicioExamen;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,34 @@ public class ControladorExamen {
             return ResponseEntity.ok(servicioExamen.exportarExamen(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error al exportar: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Endpoint para procesar la corrección de un examen (CU-01)
+     * Recibe los datos leídos por la IA y calcula la calificación final.
+     */
+    @PostMapping("/corregir")
+    public ResponseEntity<?> corregirExamen(@RequestBody DTO_ProcesarCorreccion dto) {
+        try {
+            servicioExamen.corregirExamen(dto);
+            return ResponseEntity.ok("Corrección procesada con éxito. Nota registrada y marcas guardadas para auditoría.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al procesar la corrección: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Endpoint para asignar un examen a una lista de alumnos (CU-09)
+     * Genera automáticamente las claves de corrección SHA-256.
+     */
+    @PostMapping("/asignar")
+    public ResponseEntity<?> asignarExamen(@RequestBody DTO_AsignarExamen dto) {
+        try {
+            servicioExamen.asignarExamenAAlumnos(dto.getExamenId(), dto.getAlumnoIds());
+            return ResponseEntity.ok("Examen ID: " + dto.getExamenId() + " asignado correctamente a " + dto.getAlumnoIds().size() + " alumnos. Claves SHA-256 generadas.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error en la asignación: " + e.getMessage());
         }
     }
 }

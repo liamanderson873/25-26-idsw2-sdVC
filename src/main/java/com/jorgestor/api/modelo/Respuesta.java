@@ -23,6 +23,9 @@ public class Respuesta {
     @Column(name = "es_correcta", nullable = false)
     private boolean esCorrecta;
 
+    @Column(nullable = false)
+    private Integer indice; // 0 para A, 1 para B, etc.
+
     @ManyToOne
     @JoinColumn(name = "pregunta_id", nullable = false)
     private Pregunta pregunta;

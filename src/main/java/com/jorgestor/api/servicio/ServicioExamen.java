@@ -2,11 +2,13 @@ package com.jorgestor.api.servicio;
 
 import com.jorgestor.api.dto.DTO_ExportarExamen;
 import com.jorgestor.api.dto.DTO_GenerarExamen;
+import com.jorgestor.api.dto.DTO_ProcesarCorreccion;
 import com.jorgestor.api.modelo.*;
 import com.jorgestor.api.repositorio.RepositorioAlumno;
 import com.jorgestor.api.repositorio.RepositorioAsignatura;
 import com.jorgestor.api.repositorio.RepositorioExamen;
 import com.jorgestor.api.repositorio.RepositorioExamenAlumno;
+import com.jorgestor.api.repositorio.RepositorioExamenAlumnoMarca;
 import com.jorgestor.api.repositorio.RepositorioPregunta;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,17 +35,80 @@ public class ServicioExamen {
     private final RepositorioAlumno repoAlumno;
     private final RepositorioAsignatura repoAsignatura;
     private final RepositorioPregunta repoPregunta;
+    private final RepositorioExamenAlumnoMarca repoMarcas;
 
     public ServicioExamen(RepositorioExamen repoExamen, 
                           RepositorioExamenAlumno repoExamenAlumno, 
                           RepositorioAlumno repoAlumno,
                           RepositorioAsignatura repoAsignatura,
-                          RepositorioPregunta repoPregunta) {
+                          RepositorioPregunta repoPregunta,
+                          RepositorioExamenAlumnoMarca repoMarcas) {
         this.repoExamen = repoExamen;
         this.repoExamenAlumno = repoExamenAlumno;
         this.repoAlumno = repoAlumno;
         this.repoAsignatura = repoAsignatura;
         this.repoPregunta = repoPregunta;
+        this.repoMarcas = repoMarcas;
+    }
+
+    /**
+     * CU-01: Corrección de Examen.
+     * Procesa los datos de la IA, calcula la nota y guarda auditoría.
+     */
+    @Transactional
+    public void corregirExamen(DTO_ProcesarCorreccion dto) {
+        // 1. Buscamos el ejemplar por la clave SHA-256
+        ExamenAlumno ejemplar = repoExamenAlumno.findByClaveCorreccion(dto.getClaveSHA256())
+                .orElseThrow(() -> new RuntimeException("Clave de corrección inválida: " + dto.getClaveSHA256()));
+
+        // Limpiamos marcas previas si existen (trazabilidad limpia)
+        repoMarcas.deleteByExamenAlumnoId(ejemplar.getId());
+
+        double aciertos = 0;
+        double fallos = 0;
+
+        // 2. Procesamos cada marca recibida
+        for (Map.Entry<Long, Integer> entrada : dto.getMarcas().entrySet()) {
+            Long preguntaId = entrada.getKey();
+            Integer indiceMarcado = entrada.getValue();
+
+            Pregunta pregunta = repoPregunta.findById(preguntaId)
+                    .orElseThrow(() -> new RuntimeException("Pregunta ID " + preguntaId + " no existe"));
+
+            // Buscamos la respuesta lógica que corresponde al índice marcado
+            Respuesta respuestaElegida = pregunta.getRespuestas().stream()
+                    .filter(r -> r.getIndice().equals(indiceMarcado))
+                    .findFirst()
+                    .orElse(null);
+
+            // 3. Auditoría: Guardamos qué marcó el alumno
+            ExamenAlumnoMarca marca = new ExamenAlumnoMarca();
+            marca.setExamenAlumno(ejemplar);
+            marca.setPregunta(pregunta);
+            marca.setRespuesta(respuestaElegida);
+            marca.setIndiceMarcado(indiceMarcado);
+            repoMarcas.save(marca);
+
+            // 4. Lógica de Calificación
+            if (respuestaElegida != null && respuestaElegida.isEsCorrecta()) {
+                aciertos++;
+            } else {
+                fallos++;
+            }
+        }
+
+        // 5. Cálculo de Nota Final (Fórmula: Aciertos - (Fallos / 3)) -> asumiendo 4 opciones
+        double totalPreguntas = ejemplar.getExamen().getPreguntas().size();
+        double penalizacion = fallos / 3.0; // Estándar para 4 opciones
+        double notaCalculada = ((aciertos - penalizacion) / totalPreguntas) * 10.0;
+        
+        // Ajustamos para que la nota no sea negativa y guardamos como NOTA SUGERIDA
+        ejemplar.setNotaSugerida(Math.max(0, Math.round(notaCalculada * 100.0) / 100.0));
+        
+        // El estado pasa a PENDIENTE_CALIFICACION (el profesor debe validar según la minuta)
+        ejemplar.setEstado(EstadoExamen.PENDIENTE_CALIFICACION);
+
+        repoExamenAlumno.save(ejemplar);
     }
 
     /**

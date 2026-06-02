@@ -344,8 +344,29 @@ Finalización de infraestructura y desarrollo de la lógica de generación aleat
 - Se creó el script `run-jorgestor.ps1` para automatizar la liberación de puertos y agilizar el ciclo de arranque.
 - **Validación Empírica**: Tras resolver un error 404 por des-sincronización y un riesgo de *Lazy Loading*, Liam validó mediante una petición `GET` en Postman la generación del JSON de exportación para el Examen ID 1. La captura confirmó la correcta agregación de metadatos, preguntas, respuestas y, crucialmente, las firmas SHA-256 de los alumnos. Este hito cierra oficialmente el bloque de desarrollo de Entradas/Salidas.
 
+### 28. Consolidación Final y Cierre de Sesión
+**Participantes**: Liam + Gemini CLI
+**Fecha**: 2026-05-30
+**Contexto de la Sesión**: Finalización de la Épica de I/O y aseguramiento de la estabilidad del proyecto en la rama principal.
+**Prompt Clave de Liam**: *"vale ya hice el pull request y hice el merge asi que vamos a dejar la sesion de hoy por aqui. quiero que añadas mas cosas al conversarion log si no lo has hecho y como ya he hecho el merge hazlo directamente al main"*
+**Desarrollo Principal**:
+- Se ejecutó una limpieza exhaustiva del entorno, eliminando scripts de prueba temporales (`Test*.java`) y la carpeta `src/test` para mantener un repositorio de producción limpio.
+- Se realizó un gran Pull Request consolidando las implementaciones de CU-02, CU-03, CU-04, CU-06 y CU-09.
+- El proyecto se sincronizó finalmente en la rama `main`, confirmando que el servidor arranca en el puerto 9090 y que todas las funcionalidades críticas de gestión de exámenes son operativas y trazables.
+
+### 29. Épica de Corrección e Ingeniería de Auditoría (CU-01)
+**Participantes**: Liam + Gemini CLI
+**Fecha**: 2026-06-02
+**Contexto de la Sesión**: Tras asegurar el bloque I/O, el enfoque se desplazó al "cerebro" del sistema: la corrección automatizada (CU-01). El objetivo era integrar la lógica de negocio con la normativa europea y las necesidades de auditoría del docente.
+**Prompt Clave de Liam**: *"crees oportuno hacer un diagrama como el que tenemos en el diseño para cada uno de los casos de uso para por asi decirlo tener visual todos estos drafts"* y *"vale esto es mas adecuado para nuestro proyecto, la pregunta que te hice antes si esto esta perfecto en caso de "realmente" añadir la ia en un futuro"*
+**Desarrollo Principal**:
+- **Diseño de Detalle**: Se crearon diagramas de secuencia para todos los CUs implementados, organizándolos en una nueva estructura de carpetas (`RUP/02-diseno/casos-uso`) con READMEs dinámicos.
+- **Doble Seguridad (IA-Ready)**: Se reestructuró la base de datos para incluir la tabla `examen_alumno_marcas` e índices de respuesta (0, 1, 2, 3), permitiendo guardar el "dato bruto" de la IA y el "dato lógico" del sistema simultáneamente.
+- **Cumplimiento Legal (Ley Europea de IA)**: Se implementó el concepto de "Human-in-the-loop", separando la `nota_sugerida` (calculada por el sistema) de la `nota_final` (validada por el docente) y creando el estado `PENDIENTE_CALIFICACION`.
+- **Validación Empírica**: Liam ejecutó una simulación de escaneo en Postman. El sistema procesó las marcas criptográficas, guardó los registros de auditoría y calculó la calificación sugerida siguiendo la fórmula de penalización de IDSW2, culminando con éxito la lógica más compleja del backend.
+
 ---
-*Este registro continuará con la fase de Corrección Masiva o la integración de la IA.*
+*Este registro continuará con la fase de Gestión de Maestros (CRUDs) o el Frontend en React.*
 
 
 
