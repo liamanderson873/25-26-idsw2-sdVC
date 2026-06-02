@@ -1,0 +1,55 @@
+@startuml secuencia-cu06-importar-preguntas
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorPregunta" as Boundary <<Boundary>>
+participant "ServicioPregunta" as Control <<Control>>
+participant "RepositorioTema" as RepoTema <<Entity>>
+participant "RepositorioPregunta" as RepoPreg <<Entity>>
+participant "RepositorioRespuesta" as RepoResp <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : POST /api/preguntas/importar (List<DTO_Pregunta>)
+activate Boundary
+
+Boundary -> Control : importarPreguntas(listaDto)
+activate Control
+
+loop por cada DTO_Pregunta
+    Control -> RepoTema : findById(temaId)
+    activate RepoTema
+    RepoTema -> DB : SELECT tema
+    DB --> RepoTema : resultado
+    RepoTema --> Control : Optional<Tema>
+    deactivate RepoTema
+
+    alt Tema no existe
+        Control --> Boundary : throw RuntimeException("Tema no encontrado")
+        Boundary --> Docente : 400 Bad Request
+    else Tema existe
+        Control -> RepoPreg : saveAndFlush(pregunta)
+        activate RepoPreg
+        RepoPreg -> DB : INSERT pregunta
+        DB --> RepoPreg : ok (ID asignado)
+        RepoPreg --> Control : preguntaGuardada
+        deactivate RepoPreg
+
+        loop por cada DTO_Respuesta
+            Control -> RepoResp : save(respuesta)
+            activate RepoResp
+            RepoResp -> DB : INSERT respuesta (vinculada a ID pregunta)
+            DB --> RepoResp : ok
+            RepoResp --> Control : ok
+            deactivate RepoResp
+        end
+    end
+end
+
+Control --> Boundary : void
+deactivate Control
+
+Boundary --> Docente : 200 OK (Procesado correctamente)
+deactivate Boundary
+
+@enduml

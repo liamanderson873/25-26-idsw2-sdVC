@@ -1,0 +1,54 @@
+@startuml secuencia-cu02-generar-examen
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorExamen" as Boundary <<Boundary>>
+participant "ServicioExamen" as Control <<Control>>
+participant "RepositorioAsignatura" as RepoAsig <<Entity>>
+participant "RepositorioPregunta" as RepoPreg <<Entity>>
+participant "RepositorioExamen" as RepoExamen <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : POST /api/examenes/generar (DTO_GenerarExamen)
+activate Boundary
+
+Boundary -> Control : generarExamen(dto)
+activate Control
+
+Control -> RepoAsig : findById(asignaturaId)
+activate RepoAsig
+RepoAsig -> DB : SELECT asignatura
+DB --> RepoAsig : resultado
+RepoAsig --> Control : asignatura
+deactivate RepoAsig
+
+Control -> RepoPreg : findByTemaIdIn(temaIds)
+activate RepoPreg
+RepoPreg -> DB : SELECT preguntas
+DB --> RepoPreg : lista_preguntas
+RepoPreg --> Control : poolPreguntas
+deactivate RepoPreg
+
+Control -> Control : algoritmoSacosDificultad(poolPreguntas, proporciones)
+note right: Se agrupa por Dificultad,\nse hace shuffle y se selecciona\nsegún porcentajes.
+
+alt Preguntas insuficientes
+    Control --> Boundary : throw RuntimeException("Preguntas insuficientes...")
+    Boundary --> Docente : 400 Bad Request
+else Selección completada
+    Control -> RepoExamen : save(examen)
+    activate RepoExamen
+    RepoExamen -> DB : INSERT examen + vinculación preguntas
+    DB --> RepoExamen : ok
+    RepoExamen --> Control : examenGuardado
+    deactivate RepoExamen
+
+    Control --> Boundary : examenGuardado
+    deactivate Control
+
+    Boundary --> Docente : 200 OK (Examen generado con ID: X)
+    deactivate Boundary
+end
+
+@enduml

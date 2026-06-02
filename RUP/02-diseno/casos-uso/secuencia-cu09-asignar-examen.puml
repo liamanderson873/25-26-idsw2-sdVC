@@ -1,0 +1,51 @@
+@startuml secuencia-cu09-asignar-examen
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorExamen" as Boundary <<Boundary>>
+participant "ServicioExamen" as Control <<Control>>
+participant "RepositorioExamen" as RepoExamen <<Entity>>
+participant "RepositorioAlumno" as RepoAlumno <<Entity>>
+participant "RepositorioExamenAlumno" as RepoExAl <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : POST /api/examenes/asignar (DTO_AsignarExamen)
+activate Boundary
+
+Boundary -> Control : asignarExamenAAlumnos(examenId, alumnoIds)
+activate Control
+
+Control -> RepoExamen : findById(examenId)
+activate RepoExamen
+RepoExamen -> DB : SELECT examen
+DB --> RepoExamen : examen
+RepoExamen --> Control : examen
+deactivate RepoExamen
+
+loop por cada alumnoId
+    Control -> RepoAlumno : findById(alumnoId)
+    activate RepoAlumno
+    RepoAlumno -> DB : SELECT alumno
+    DB --> RepoAlumno : alumno
+    RepoAlumno --> Control : alumno
+    deactivate RepoAlumno
+
+    Control -> Control : generarClaveCorreccion(alumno, examen)
+    note right: Algoritmo SHA-256\n(DNI + ID + Salt)
+
+    Control -> RepoExAl : save(ejemplar)
+    activate RepoExAl
+    RepoExAl -> DB : INSERT examen_alumno
+    DB --> RepoExAl : ok
+    RepoExAl --> Control : ejemplarGuardado
+    deactivate RepoExAl
+end
+
+Control --> Boundary : void
+deactivate Control
+
+Boundary --> Docente : 200 OK (Asignado correctamente)
+deactivate Boundary
+
+@enduml

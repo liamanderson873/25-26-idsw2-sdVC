@@ -1,0 +1,45 @@
+@startuml secuencia-cu01-corregir-examen
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor "IA Externa" as IA
+participant "ControladorCorreccion" as Boundary <<Boundary>>
+participant "ServicioCorreccion" as Control <<Control>>
+participant "RepositorioExamenAlumno" as RepoExAl <<Entity>>
+database "PostgreSQL" as DB
+
+IA -> Boundary : POST /api/correccion/procesar (JSON Escaneado)
+activate Boundary
+note right: El JSON contiene la clave SHA-256\ny las respuestas detectadas.
+
+Boundary -> Control : corregirExamen(dto)
+activate Control
+
+Control -> RepoExAl : findByClaveCorreccion(claveSHA256)
+activate RepoExAl
+RepoExAl -> DB : SELECT ejemplar + examen + respuestas_correctas
+DB --> RepoExAl : datos_ejemplar
+RepoExAl --> Control : examenAlumno
+deactivate RepoExAl
+
+alt Clave no encontrada
+    Control --> Boundary : throw Exception("Clave inválida")
+    Boundary --> IA : 404 Not Found
+else Clave válida
+    Control -> Control : calcularNota(respuestasRecibidas, respuestasCorrectas)
+    
+    Control -> RepoExAl : save(examenAlumnoActualizado)
+    activate RepoExAl
+    RepoExAl -> DB : UPDATE nota_final, estado='CORREGIDO'
+    DB --> RepoExAl : ok
+    RepoExAl --> Control : ok
+    deactivate RepoExAl
+
+    Control --> Boundary : ResultadoCorreccion
+    deactivate Control
+
+    Boundary --> IA : 200 OK (Nota calculada)
+    deactivate Boundary
+end
+
+@enduml

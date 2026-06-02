@@ -63,7 +63,7 @@ A continuación se presenta el diseño de la base de datos en PostgreSQL. Se ha 
 - **`examen_preguntas`**: Permite la reutilización de preguntas entre exámenes y mantiene el orden específico (importante para exámenes no personalizados).
 - **Integridad**: Se utilizarán claves foráneas y restricciones `UNIQUE` en DNI y códigos de asignatura/grado.
 
-## 6. Diagrama de Clases de Diseño (DCD)
+### 6. Diagrama de Clases de Diseño (DCD)
 
 Este diagrama representa la estructura de clases técnica siguiendo el patrón de **3 Capas de Spring Boot**, ahora completamente en español para mantener la consistencia del dominio.
 
@@ -74,7 +74,21 @@ Este diagrama representa la estructura de clases técnica siguiendo el patrón d
 - **`ServicioExamen`**: Contiene la lógica core de generación de claves de corrección y asignación.
 - **DTOs (Data Transfer Objects)**: Se utilizarán para el intercambio de datos entre la capa de presentación y la de negocio (ej. `DTO_Alumno`).
 
-## 7. Próximos Pasos
+## 7. Diseño de Detalle: Casos de Uso Core
+
+A continuación se presentan los **Diagramas de Secuencia** que detallan el flujo de datos entre las 3 capas para cada funcionalidad clave. Estos diagramas sirven como "blueprints" para la implementación.
+
+| Caso de Uso | Diagrama de Secuencia |
+| :--- | :--- |
+| **CU-03: Importar Alumnos** | ![Secuencia CU-03](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/secuencia-cu03-importar-alumnos.puml) |
+| **CU-06: Importar Preguntas** | ![Secuencia CU-06](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/secuencia-cu06-importar-preguntas.puml) |
+| **CU-02: Generar Examen** | ![Secuencia CU-02](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/secuencia-cu02-generar-examen.puml) |
+| **CU-09: Asignar Examen** | ![Secuencia CU-09](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/secuencia-cu09-asignar-examen.puml) |
+| **CU-04: Exportar Examen** | ![Secuencia CU-04](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/secuencia-cu04-exportar-examen.puml) |
+| **CU-01: Corregir Examen** | ![Secuencia CU-01](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/secuencia-cu01-corregir-examen.puml) |
+
+## 8. Próximos Pasos
+
 1.  **Configuración del Proyecto**: Estructura de paquetes y dependencias (Maven/Gradle) en Spring Boot 3.
 2.  **Implementación de Entidades**: Creación de las clases Java con anotaciones JPA basadas en el DCD.
 3.  **Desarrollo de Repositorios**: Configuración de interfaces Spring Data JPA.
