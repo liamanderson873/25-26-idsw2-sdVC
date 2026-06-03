@@ -14,3 +14,8 @@ bin/
 *.iml
 .vscode/
 postman-payloads.md
+
+# Archivos de Memoria y Contexto (Privados)
+MEMORY.md
+CONTEXTO_PROYECTO.md
+TRAZABILIDAD_TEORICA.md

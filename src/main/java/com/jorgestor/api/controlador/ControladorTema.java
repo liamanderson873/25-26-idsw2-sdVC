@@ -14,9 +14,28 @@ public class ControladorTema {
         this.servicioTema = servicioTema;
     }
 
+    @GetMapping
+    public ResponseEntity<?> listar() {
+        return ResponseEntity.ok(servicioTema.listarTodos());
+    }
+
     @PostMapping
     public ResponseEntity<String> guardar(@RequestBody DTO_Tema dto) {
-        servicioTema.crearOActualizar(dto);
-        return ResponseEntity.ok("Tema guardado correctamente.");
+        try {
+            servicioTema.crearOActualizar(dto);
+            return ResponseEntity.ok("Tema guardado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> eliminar(@PathVariable Long id) {
+        try {
+            servicioTema.eliminar(id);
+            return ResponseEntity.ok("Tema eliminado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

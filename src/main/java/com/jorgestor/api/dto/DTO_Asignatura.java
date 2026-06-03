@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DTO_Asignatura {
+    private Long id;
     private String nombre;
     private String codigo;
     private String cursoAcademico;

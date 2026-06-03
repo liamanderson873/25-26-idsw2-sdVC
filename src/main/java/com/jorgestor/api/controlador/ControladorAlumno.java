@@ -22,6 +22,21 @@ public class ControladorAlumno {
         this.servicioAlumno = servicioAlumno;
     }
 
+    @GetMapping
+    public ResponseEntity<?> listar() {
+        return ResponseEntity.ok(servicioAlumno.listarTodos());
+    }
+
+    @PostMapping
+    public ResponseEntity<String> guardar(@RequestBody DTO_Alumno dto) {
+        try {
+            servicioAlumno.guardarIndividual(dto);
+            return ResponseEntity.ok("Alumno guardado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     /**
      * Endpoint para importar alumnos (CU-03)
      * @RequestBody: Le dice a Spring que el JSON que enviamos en el cuerpo del POST 
@@ -35,6 +50,16 @@ public class ControladorAlumno {
         } catch (Exception e) {
             // Si algo falla, devolvemos un error 400 (Bad Request) con el motivo
             return ResponseEntity.badRequest().body("Error al importar alumnos: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> eliminar(@PathVariable Long id) {
+        try {
+            servicioAlumno.eliminar(id);
+            return ResponseEntity.ok("Alumno eliminado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }

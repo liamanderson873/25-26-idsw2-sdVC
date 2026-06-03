@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DTO_Grado {
+    private Long id;
     private String codigo;
     private String nombre;
 }

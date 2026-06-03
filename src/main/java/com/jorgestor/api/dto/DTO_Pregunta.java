@@ -10,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DTO_Pregunta {
+    private Long id;
     private String enunciado;
     private Dificultad dificultad;
     private Long temaId;

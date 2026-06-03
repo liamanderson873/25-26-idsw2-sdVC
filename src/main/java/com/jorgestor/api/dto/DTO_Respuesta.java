@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DTO_Respuesta {
+    private Long id;
     private String contenido;
     private boolean esCorrecta;
+    private Integer indice;
 }

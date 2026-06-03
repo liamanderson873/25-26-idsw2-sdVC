@@ -8,6 +8,9 @@ import com.jorgestor.api.repositorio.RepositorioProfesor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ServicioAsignatura {
     private final RepositorioAsignatura repoAsignatura;
@@ -16,6 +19,18 @@ public class ServicioAsignatura {
     public ServicioAsignatura(RepositorioAsignatura repoAsignatura, RepositorioProfesor repoProfesor) {
         this.repoAsignatura = repoAsignatura;
         this.repoProfesor = repoProfesor;
+    }
+
+    @Transactional(readOnly = true)
+    public List<DTO_Asignatura> listarTodos() {
+        return repoAsignatura.findAll().stream()
+                .map(a -> new DTO_Asignatura(
+                        a.getId(),
+                        a.getNombre(),
+                        a.getCodigo(),
+                        a.getCursoAcademico(),
+                        a.getProfesor() != null ? a.getProfesor().getDni() : null))
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -32,5 +47,13 @@ public class ServicioAsignatura {
         asig.setProfesor(profe);
         
         repoAsignatura.save(asig);
+    }
+
+    @Transactional
+    public void eliminar(Long id) {
+        if (!repoAsignatura.existsById(id)) {
+            throw new RuntimeException("Asignatura no encontrada con ID: " + id);
+        }
+        repoAsignatura.deleteById(id);
     }
 }

@@ -14,9 +14,24 @@ public class ControladorGrado {
         this.servicioGrado = servicioGrado;
     }
 
+    @GetMapping
+    public ResponseEntity<?> listar() {
+        return ResponseEntity.ok(servicioGrado.listarTodos());
+    }
+
     @PostMapping
     public ResponseEntity<String> guardar(@RequestBody DTO_Grado dto) {
         servicioGrado.crearOActualizar(dto);
         return ResponseEntity.ok("Grado guardado correctamente.");
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> eliminar(@PathVariable Long id) {
+        try {
+            servicioGrado.eliminar(id);
+            return ResponseEntity.ok("Grado eliminado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

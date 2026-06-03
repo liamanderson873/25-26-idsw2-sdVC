@@ -355,18 +355,23 @@ Finalización de infraestructura y desarrollo de la lógica de generación aleat
 - El proyecto se sincronizó finalmente en la rama `main`, confirmando que el servidor arranca en el puerto 9090 y que todas las funcionalidades críticas de gestión de exámenes son operativas y trazables.
 
 ### 29. Épica de Corrección e Ingeniería de Auditoría (CU-01)
+...
+**Validación Empírica**: Liam ejecutó una simulación de escaneo en Postman. El sistema procesó las marcas criptográficas, guardó los registros de auditoría y calculó la calificación sugerida siguiendo la fórmula de penalización de IDSW2, culminando con éxito la lógica más compleja del backend.
+
+### 30. Épica de Maestros y Estandarización CRUD
 **Participantes**: Liam + Gemini CLI
-**Fecha**: 2026-06-02
-**Contexto de la Sesión**: Tras asegurar el bloque I/O, el enfoque se desplazó al "cerebro" del sistema: la corrección automatizada (CU-01). El objetivo era integrar la lógica de negocio con la normativa europea y las necesidades de auditoría del docente.
-**Prompt Clave de Liam**: *"crees oportuno hacer un diagrama como el que tenemos en el diseño para cada uno de los casos de uso para por asi decirlo tener visual todos estos drafts"* y *"vale esto es mas adecuado para nuestro proyecto, la pregunta que te hice antes si esto esta perfecto en caso de "realmente" añadir la ia en un futuro"*
+**Fecha**: 2026-06-03
+**Contexto de la Sesión**: Tras asegurar el núcleo de exámenes, el objetivo se centró en completar la infraestructura administrativa (CRUDs) para permitir la gestión total del sistema desde el futuro Frontend.
+**Prompt Clave de Liam**: *"vamos a por los crud"*
 **Desarrollo Principal**:
-- **Diseño de Detalle**: Se crearon diagramas de secuencia para todos los CUs implementados, organizándolos en una nueva estructura de carpetas (`RUP/02-diseno/casos-uso`) con READMEs dinámicos.
-- **Doble Seguridad (IA-Ready)**: Se reestructuró la base de datos para incluir la tabla `examen_alumno_marcas` e índices de respuesta (0, 1, 2, 3), permitiendo guardar el "dato bruto" de la IA y el "dato lógico" del sistema simultáneamente.
-- **Cumplimiento Legal (Ley Europea de IA)**: Se implementó el concepto de "Human-in-the-loop", separando la `nota_sugerida` (calculada por el sistema) de la `nota_final` (validada por el docente) y creando el estado `PENDIENTE_CALIFICACION`.
-- **Validación Empírica**: Liam ejecutó una simulación de escaneo en Postman. El sistema procesó las marcas criptográficas, guardó los registros de auditoría y calculó la calificación sugerida siguiendo la fórmula de penalización de IDSW2, culminando con éxito la lógica más compleja del backend.
+- **Estandarización**: Se transformaron los servicios de "solo importación" en CRUDs completos para `Grado`, `Profesor`, `Asignatura`, `Tema`, `Alumno` y `Pregunta`.
+- **Patrón DTO-ID**: Se actualizaron todos los DTOs para incluir el ID de base de datos, facilitando la integración con React (manejo de keys y borrados específicos).
+- **Lógica de Cascada**: En el CRUD de `Pregunta`, se implementó la limpieza automática de respuestas previas al actualizar, asegurando que la batería de preguntas siempre sea consistente.
+- **Seguridad y Git**: Se configuró el `.gitignore` para blindar los archivos de memoria (`CONTEXTO_PROYECTO.md`, `TRAZABILIDAD_TEORICA.md`) y se actualizó el Contexto Maestro con las nuevas Reglas de Oro de sincronización en tiempo real.
+- **Resultado**: El backend ha pasado de ser un procesador de exámenes a un sistema de gestión escolar completo, listo para ser consumido por una interfaz de usuario.
 
 ---
-*Este registro continuará con la fase de Gestión de Maestros (CRUDs) o el Frontend en React.*
+*Este registro continuará con el inicio del Frontend en React.*
 
 
 
