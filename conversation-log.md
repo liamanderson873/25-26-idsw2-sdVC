@@ -370,6 +370,18 @@ Finalización de infraestructura y desarrollo de la lógica de generación aleat
 - **Seguridad y Git**: Se configuró el `.gitignore` para blindar los archivos de memoria (`CONTEXTO_PROYECTO.md`, `TRAZABILIDAD_TEORICA.md`) y se actualizó el Contexto Maestro con las nuevas Reglas de Oro de sincronización en tiempo real.
 - **Resultado**: El backend ha pasado de ser un procesador de exámenes a un sistema de gestión escolar completo, listo para ser consumido por una interfaz de usuario.
 
+### 31. Sincronización RUP: Épica de Diseño y Documentación Visual
+**Participantes**: Liam + Gemini CLI
+**Fecha**: 2026-06-03
+**Contexto de la Sesión**: Con la implementación técnica de los CRUDs finalizada, se procedió a cerrar la brecha documental entre el código y el diseño RUP.
+**Prompt Clave de Liam**: *"puedes añadir al conversation log y a contexto y lo dejamos por ahora"*
+**Desarrollo Principal**:
+- **Auditoría y Renombrado**: Se sincronizaron los IDs de los casos de uso entre análisis y diseño (ej. CU-05 para Importar Alumnos), eliminando inconsistencias heredadas.
+- **Generación Masiva de Diagramas**: Se crearon diagramas de secuencia de diseño para los 26 casos de uso que componen la administración del sistema y el núcleo de exámenes, siguiendo el patrón de 3 capas de Spring Boot.
+- **Ingeniería de Visualización**: Se implementó el uso del **Proxy de PlantUML** en todos los archivos `README.md` del proyecto. Esto resolvió el problema de renderizado en GitHub, permitiendo que los diagramas `.puml` se visualicen automáticamente como imágenes incrustadas.
+- **Consolidación**: Se actualizó el `README.md` maestro de diseño con una tabla navegable por épicas y entidades.
+- **Hito de Calidad**: El proyecto alcanza un estado de "Documentación Viva", donde cada línea de código de los servicios tiene su correspondiente blueprint visual en la rama `develop`.
+
 ---
 *Este registro continuará con el inicio del Frontend en React.*
 
