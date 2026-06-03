@@ -1,7 +1,9 @@
-# CU-11: Editar Pregunta
+﻿# CU-11: Editar Pregunta
 
 ## Descripción
 Permite al docente modificar una pregunta existente, incluyendo sus respuestas asociadas. Se aplica una limpieza de respuestas previas para asegurar la consistencia.
 
 ## Diagrama de Secuencia de Diseño
-![Secuencia CU-11](secuencia.puml)
+![CU-11](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/CU-11-editarPregunta/secuencia.puml)
+
+
