@@ -1,0 +1,41 @@
+@startuml secuencia-cu26-eliminar-asignatura
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorAsignatura" as Boundary <<Boundary>>
+participant "ServicioAsignatura" as Control <<Control>>
+participant "RepositorioAsignatura" as RepoAsig <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : DELETE /api/asignaturas/{id}
+activate Boundary
+
+Boundary -> Control : eliminar(id)
+activate Control
+
+Control -> RepoAsig : existsById(id)
+activate RepoAsig
+RepoAsig -> DB : SELECT EXISTS
+DB --> RepoAsig : true/false
+RepoAsig --> Control : boolean
+deactivate RepoAsig
+
+alt Asignatura existe
+    Control -> RepoAsig : deleteById(id)
+    activate RepoAsig
+    RepoAsig -> DB : DELETE FROM asignaturas
+    DB --> RepoAsig : ok
+    RepoAsig --> Control : ok
+    deactivate RepoAsig
+    Control --> Boundary : void
+    Boundary --> Docente : 200 OK
+else Asignatura no existe
+    Control --> Boundary : throw RuntimeException
+    Boundary --> Docente : 400 Bad Request
+end
+
+deactivate Control
+deactivate Boundary
+
+@enduml

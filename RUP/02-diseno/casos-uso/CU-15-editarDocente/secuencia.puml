@@ -1,0 +1,37 @@
+@startuml secuencia-cu15-editar-profesor
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorProfesor" as Boundary <<Boundary>>
+participant "ServicioProfesor" as Control <<Control>>
+participant "RepositorioProfesor" as RepoProfesor <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : POST /api/profesores (DTO_Profesor con DNI existente)
+activate Boundary
+
+Boundary -> Control : crearOActualizar(dto)
+activate Control
+
+Control -> RepoProfesor : findByDni(dni)
+activate RepoProfesor
+RepoProfesor -> DB : SELECT profesor
+DB --> RepoProfesor : resultado
+RepoProfesor --> Control : Optional<Profesor>
+deactivate RepoProfesor
+
+Control -> RepoProfesor : save(profesorActualizado)
+activate RepoProfesor
+RepoProfesor -> DB : UPDATE profesor
+DB --> RepoProfesor : ok
+RepoProfesor --> Control : profesor
+deactivate RepoProfesor
+
+Control --> Boundary : void
+deactivate Control
+
+Boundary --> Docente : 200 OK
+deactivate Boundary
+
+@enduml

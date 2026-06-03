@@ -1,0 +1,37 @@
+@startuml secuencia-cu19-editar-grado
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorGrado" as Boundary <<Boundary>>
+participant "ServicioGrado" as Control <<Control>>
+participant "RepositorioGrado" as RepoGrado <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : POST /api/grados (DTO_Grado con código existente)
+activate Boundary
+
+Boundary -> Control : crearOActualizar(dto)
+activate Control
+
+Control -> RepoGrado : findByCodigo(codigo)
+activate RepoGrado
+RepoGrado -> DB : SELECT grado
+DB --> RepoGrado : resultado
+RepoGrado --> Control : Optional<Grado>
+deactivate RepoGrado
+
+Control -> RepoGrado : save(gradoActualizado)
+activate RepoGrado
+RepoGrado -> DB : UPDATE grado
+DB --> RepoGrado : ok
+RepoGrado --> Control : grado
+deactivate RepoGrado
+
+Control --> Boundary : void
+deactivate Control
+
+Boundary --> Docente : 200 OK
+deactivate Boundary
+
+@enduml

@@ -1,0 +1,30 @@
+@startuml secuencia-cu20-ver-pregunta
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorPregunta" as Boundary <<Boundary>>
+participant "ServicioPregunta" as Control <<Control>>
+participant "RepositorioPregunta" as RepoPregunta <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : GET /api/preguntas
+activate Boundary
+
+Boundary -> Control : listarTodas()
+activate Control
+
+Control -> RepoPregunta : findAll()
+activate RepoPregunta
+RepoPregunta -> DB : SELECT * FROM preguntas
+DB --> RepoPregunta : listaPreguntas
+RepoPregunta --> Control : List<Pregunta>
+deactivate RepoPregunta
+
+Control --> Boundary : List<DTO_Pregunta>
+deactivate Control
+
+Boundary --> Docente : 200 OK (JSON)
+deactivate Boundary
+
+@enduml

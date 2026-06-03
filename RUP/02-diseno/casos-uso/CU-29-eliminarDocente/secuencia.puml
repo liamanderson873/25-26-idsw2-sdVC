@@ -1,0 +1,41 @@
+@startuml secuencia-cu29-eliminar-profesor
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorProfesor" as Boundary <<Boundary>>
+participant "ServicioProfesor" as Control <<Control>>
+participant "RepositorioProfesor" as RepoProfesor <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : DELETE /api/profesores/{id}
+activate Boundary
+
+Boundary -> Control : eliminar(id)
+activate Control
+
+Control -> RepoProfesor : existsById(id)
+activate RepoProfesor
+RepoProfesor -> DB : SELECT EXISTS
+DB --> RepoProfesor : true/false
+RepoProfesor --> Control : boolean
+deactivate RepoProfesor
+
+alt Profesor existe
+    Control -> RepoProfesor : deleteById(id)
+    activate RepoProfesor
+    RepoProfesor -> DB : DELETE FROM profesores
+    DB --> RepoProfesor : ok
+    RepoProfesor --> Control : ok
+    deactivate RepoProfesor
+    Control --> Boundary : void
+    Boundary --> Docente : 200 OK
+else Profesor no existe
+    Control --> Boundary : throw RuntimeException
+    Boundary --> Docente : 400 Bad Request
+end
+
+deactivate Control
+deactivate Boundary
+
+@enduml

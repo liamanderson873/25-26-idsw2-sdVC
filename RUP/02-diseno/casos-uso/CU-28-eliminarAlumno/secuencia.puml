@@ -1,0 +1,41 @@
+@startuml secuencia-cu28-eliminar-alumno
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorAlumno" as Boundary <<Boundary>>
+participant "ServicioAlumno" as Control <<Control>>
+participant "RepositorioAlumno" as RepoAlumno <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : DELETE /api/alumnos/{id}
+activate Boundary
+
+Boundary -> Control : eliminar(id)
+activate Control
+
+Control -> RepoAlumno : existsById(id)
+activate RepoAlumno
+RepoAlumno -> DB : SELECT EXISTS
+DB --> RepoAlumno : true/false
+RepoAlumno --> Control : boolean
+deactivate RepoAlumno
+
+alt Alumno existe
+    Control -> RepoAlumno : deleteById(id)
+    activate RepoAlumno
+    RepoAlumno -> DB : DELETE FROM alumnos
+    DB --> RepoAlumno : ok
+    RepoAlumno --> Control : ok
+    deactivate RepoAlumno
+    Control --> Boundary : void
+    Boundary --> Docente : 200 OK
+else Alumno no existe
+    Control --> Boundary : throw RuntimeException
+    Boundary --> Docente : 400 Bad Request
+end
+
+deactivate Control
+deactivate Boundary
+
+@enduml

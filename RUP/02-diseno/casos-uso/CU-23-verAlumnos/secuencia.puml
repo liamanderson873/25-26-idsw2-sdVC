@@ -1,0 +1,30 @@
+@startuml secuencia-cu23-ver-alumno
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorAlumno" as Boundary <<Boundary>>
+participant "ServicioAlumno" as Control <<Control>>
+participant "RepositorioAlumno" as RepoAlumno <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : GET /api/alumnos
+activate Boundary
+
+Boundary -> Control : listarTodos()
+activate Control
+
+Control -> RepoAlumno : findAll()
+activate RepoAlumno
+RepoAlumno -> DB : SELECT * FROM alumnos
+DB --> RepoAlumno : lista de alumnos
+RepoAlumno --> Control : List<Alumno>
+deactivate RepoAlumno
+
+Control --> Boundary : List<DTO_Alumno>
+deactivate Control
+
+Boundary --> Docente : 200 OK (JSON lista)
+deactivate Boundary
+
+@enduml

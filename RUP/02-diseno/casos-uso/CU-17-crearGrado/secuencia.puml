@@ -1,0 +1,37 @@
+@startuml secuencia-cu17-crear-grado
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorGrado" as Boundary <<Boundary>>
+participant "ServicioGrado" as Control <<Control>>
+participant "RepositorioGrado" as RepoGrado <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : POST /api/grados (DTO_Grado)
+activate Boundary
+
+Boundary -> Control : crearOActualizar(dto)
+activate Control
+
+Control -> RepoGrado : findByCodigo(codigo)
+activate RepoGrado
+RepoGrado -> DB : SELECT grado
+DB --> RepoGrado : null
+RepoGrado --> Control : Optional.empty()
+deactivate RepoGrado
+
+Control -> RepoGrado : save(nuevoGrado)
+activate RepoGrado
+RepoGrado -> DB : INSERT grado
+DB --> RepoGrado : ok
+RepoGrado --> Control : grado
+deactivate RepoGrado
+
+Control --> Boundary : void
+deactivate Control
+
+Boundary --> Docente : 200 OK
+deactivate Boundary
+
+@enduml

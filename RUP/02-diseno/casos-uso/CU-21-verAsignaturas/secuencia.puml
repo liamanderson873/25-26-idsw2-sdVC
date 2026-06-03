@@ -1,0 +1,30 @@
+@startuml secuencia-cu21-ver-asignatura
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorAsignatura" as Boundary <<Boundary>>
+participant "ServicioAsignatura" as Control <<Control>>
+participant "RepositorioAsignatura" as RepoAsig <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : GET /api/asignaturas
+activate Boundary
+
+Boundary -> Control : listarTodos()
+activate Control
+
+Control -> RepoAsig : findAll()
+activate RepoAsig
+RepoAsig -> DB : SELECT * FROM asignaturas
+DB --> RepoAsig : lista de asignaturas
+RepoAsig --> Control : List<Asignatura>
+deactivate RepoAsig
+
+Control --> Boundary : List<DTO_Asignatura>
+deactivate Control
+
+Boundary --> Docente : 200 OK (JSON lista)
+deactivate Boundary
+
+@enduml

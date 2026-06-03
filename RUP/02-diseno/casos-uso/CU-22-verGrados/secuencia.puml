@@ -1,0 +1,30 @@
+@startuml secuencia-cu22-ver-grado
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorGrado" as Boundary <<Boundary>>
+participant "ServicioGrado" as Control <<Control>>
+participant "RepositorioGrado" as RepoGrado <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : GET /api/grados
+activate Boundary
+
+Boundary -> Control : listarTodos()
+activate Control
+
+Control -> RepoGrado : findAll()
+activate RepoGrado
+RepoGrado -> DB : SELECT * FROM grados
+DB --> RepoGrado : lista de grados
+RepoGrado --> Control : List<Grado>
+deactivate RepoGrado
+
+Control --> Boundary : List<DTO_Grado>
+deactivate Control
+
+Boundary --> Docente : 200 OK (JSON lista)
+deactivate Boundary
+
+@enduml

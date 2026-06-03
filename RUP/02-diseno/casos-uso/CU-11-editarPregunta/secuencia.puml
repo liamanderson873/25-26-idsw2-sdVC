@@ -1,0 +1,62 @@
+@startuml secuencia-cu11-editar-pregunta
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorPregunta" as Boundary <<Boundary>>
+participant "ServicioPregunta" as Control <<Control>>
+participant "RepositorioTema" as RepoTema <<Entity>>
+participant "RepositorioPregunta" as RepoPregunta <<Entity>>
+participant "RepositorioRespuesta" as RepoRespuesta <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : POST /api/preguntas (DTO_Pregunta con ID)
+activate Boundary
+
+Boundary -> Control : guardarIndividual(dto)
+activate Control
+
+Control -> RepoTema : findById(temaId)
+activate RepoTema
+RepoTema -> DB : SELECT tema
+DB --> RepoTema : tema
+RepoTema --> Control : Optional<Tema>
+deactivate RepoTema
+
+Control -> RepoPregunta : findById(id)
+activate RepoPregunta
+RepoPregunta -> DB : SELECT pregunta
+DB --> RepoPregunta : preguntaExistente
+RepoPregunta --> Control : Optional<Pregunta>
+deactivate RepoPregunta
+
+Control -> RepoRespuesta : deleteByPregunta(pregunta)
+activate RepoRespuesta
+RepoRespuesta -> DB : DELETE FROM respuestas WHERE pregunta_id = ?
+DB --> RepoRespuesta : ok
+RepoRespuesta --> Control : ok
+deactivate RepoRespuesta
+
+Control -> RepoPregunta : save(preguntaActualizada)
+activate RepoPregunta
+RepoPregunta -> DB : UPDATE pregunta
+DB --> RepoPregunta : ok
+RepoPregunta --> Control : ok
+deactivate RepoPregunta
+
+loop por cada DTO_Respuesta
+    Control -> RepoRespuesta : save(nuevaRespuesta)
+    activate RepoRespuesta
+    RepoRespuesta -> DB : INSERT respuesta
+    DB --> RepoRespuesta : ok
+    RepoRespuesta --> Control : ok
+    deactivate RepoRespuesta
+end
+
+Control --> Boundary : void
+deactivate Control
+
+Boundary --> Docente : 200 OK
+deactivate Boundary
+
+@enduml

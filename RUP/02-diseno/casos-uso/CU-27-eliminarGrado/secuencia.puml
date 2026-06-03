@@ -1,0 +1,41 @@
+@startuml secuencia-cu27-eliminar-grado
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorGrado" as Boundary <<Boundary>>
+participant "ServicioGrado" as Control <<Control>>
+participant "RepositorioGrado" as RepoGrado <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : DELETE /api/grados/{id}
+activate Boundary
+
+Boundary -> Control : eliminar(id)
+activate Control
+
+Control -> RepoGrado : existsById(id)
+activate RepoGrado
+RepoGrado -> DB : SELECT EXISTS
+DB --> RepoGrado : true/false
+RepoGrado --> Control : boolean
+deactivate RepoGrado
+
+alt Grado existe
+    Control -> RepoGrado : deleteById(id)
+    activate RepoGrado
+    RepoGrado -> DB : DELETE FROM grados
+    DB --> RepoGrado : ok
+    RepoGrado --> Control : ok
+    deactivate RepoGrado
+    Control --> Boundary : void
+    Boundary --> Docente : 200 OK
+else Grado no existe
+    Control --> Boundary : throw RuntimeException
+    Boundary --> Docente : 400 Bad Request
+end
+
+deactivate Control
+deactivate Boundary
+
+@enduml

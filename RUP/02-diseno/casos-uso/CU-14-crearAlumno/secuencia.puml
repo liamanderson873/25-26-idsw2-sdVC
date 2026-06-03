@@ -1,0 +1,50 @@
+@startuml secuencia-cu14-crear-alumno
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorAlumno" as Boundary <<Boundary>>
+participant "ServicioAlumno" as Control <<Control>>
+participant "RepositorioGrado" as RepoGrado <<Entity>>
+participant "RepositorioAlumno" as RepoAlumno <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : POST /api/alumnos (DTO_Alumno)
+activate Boundary
+
+Boundary -> Control : guardarIndividual(dto)
+activate Control
+
+Control -> RepoGrado : findByCodigo(codigoGrado)
+activate RepoGrado
+RepoGrado -> DB : SELECT grado
+DB --> RepoGrado : resultado
+RepoGrado --> Control : Optional<Grado>
+deactivate RepoGrado
+
+alt Grado no existe
+    Control --> Boundary : throw RuntimeException
+    Boundary --> Docente : 400 Bad Request
+else Grado existe
+    Control -> RepoAlumno : findByDni(dni)
+    activate RepoAlumno
+    RepoAlumno -> DB : SELECT alumno
+    DB --> RepoAlumno : null
+    RepoAlumno --> Control : Optional.empty()
+    deactivate RepoAlumno
+
+    Control -> RepoAlumno : save(nuevoAlumno)
+    activate RepoAlumno
+    RepoAlumno -> DB : INSERT alumno
+    DB --> RepoAlumno : ok
+    RepoAlumno --> Control : alumno
+    deactivate RepoAlumno
+
+    Control --> Boundary : void
+    deactivate Control
+
+    Boundary --> Docente : 200 OK
+end
+deactivate Boundary
+
+@enduml

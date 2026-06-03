@@ -1,0 +1,30 @@
+@startuml secuencia-cu24-ver-profesor
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorProfesor" as Boundary <<Boundary>>
+participant "ServicioProfesor" as Control <<Control>>
+participant "RepositorioProfesor" as RepoProfesor <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : GET /api/profesores
+activate Boundary
+
+Boundary -> Control : listarTodos()
+activate Control
+
+Control -> RepoProfesor : findAll()
+activate RepoProfesor
+RepoProfesor -> DB : SELECT * FROM profesores
+DB --> RepoProfesor : lista de profesores
+RepoProfesor --> Control : List<Profesor>
+deactivate RepoProfesor
+
+Control --> Boundary : List<DTO_Profesor>
+deactivate Control
+
+Boundary --> Docente : 200 OK (JSON lista)
+deactivate Boundary
+
+@enduml

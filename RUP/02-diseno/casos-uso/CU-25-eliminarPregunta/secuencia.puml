@@ -1,0 +1,30 @@
+@startuml secuencia-cu25-eliminar-pregunta
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorPregunta" as Boundary <<Boundary>>
+participant "ServicioPregunta" as Control <<Control>>
+participant "RepositorioPregunta" as RepoPregunta <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : DELETE /api/preguntas/{id}
+activate Boundary
+
+Boundary -> Control : eliminar(id)
+activate Control
+
+Control -> RepoPregunta : deleteById(id)
+activate RepoPregunta
+RepoPregunta -> DB : DELETE FROM preguntas WHERE id = ?
+DB --> RepoPregunta : ok
+RepoPregunta --> Control : ok
+deactivate RepoPregunta
+
+Control --> Boundary : void
+deactivate Control
+
+Boundary --> Docente : 200 OK
+deactivate Boundary
+
+@enduml

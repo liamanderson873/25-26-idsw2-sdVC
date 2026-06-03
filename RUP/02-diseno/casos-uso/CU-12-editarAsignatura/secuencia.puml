@@ -1,0 +1,45 @@
+@startuml secuencia-cu12-editar-asignatura
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorAsignatura" as Boundary <<Boundary>>
+participant "ServicioAsignatura" as Control <<Control>>
+participant "RepositorioProfesor" as RepoProfesor <<Entity>>
+participant "RepositorioAsignatura" as RepoAsig <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : POST /api/asignaturas (DTO_Asignatura con código existente)
+activate Boundary
+
+Boundary -> Control : crearOActualizar(dto)
+activate Control
+
+Control -> RepoProfesor : findByDni(dniProfesor)
+activate RepoProfesor
+RepoProfesor -> DB : SELECT profesor
+DB --> RepoProfesor : resultado
+RepoProfesor --> Control : Optional<Profesor>
+deactivate RepoProfesor
+
+Control -> RepoAsig : findByCodigo(codigo)
+activate RepoAsig
+RepoAsig -> DB : SELECT asignatura
+DB --> RepoAsig : resultado
+RepoAsig --> Control : Optional<Asignatura>
+deactivate RepoAsig
+
+Control -> RepoAsig : save(asignaturaActualizada)
+activate RepoAsig
+RepoAsig -> DB : UPDATE asignatura
+DB --> RepoAsig : ok
+RepoAsig --> Control : asignatura
+deactivate RepoAsig
+
+Control --> Boundary : void
+deactivate Control
+
+Boundary --> Docente : 200 OK
+deactivate Boundary
+
+@enduml

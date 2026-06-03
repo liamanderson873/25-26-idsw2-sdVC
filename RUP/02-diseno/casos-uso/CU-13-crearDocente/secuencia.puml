@@ -1,0 +1,37 @@
+@startuml secuencia-cu13-crear-profesor
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Docente
+participant "ControladorProfesor" as Boundary <<Boundary>>
+participant "ServicioProfesor" as Control <<Control>>
+participant "RepositorioProfesor" as RepoProfesor <<Entity>>
+database "PostgreSQL" as DB
+
+Docente -> Boundary : POST /api/profesores (DTO_Profesor)
+activate Boundary
+
+Boundary -> Control : crearOActualizar(dto)
+activate Control
+
+Control -> RepoProfesor : findByDni(dni)
+activate RepoProfesor
+RepoProfesor -> DB : SELECT profesor
+DB --> RepoProfesor : null
+RepoProfesor --> Control : Optional.empty()
+deactivate RepoProfesor
+
+Control -> RepoProfesor : save(nuevoProfesor)
+activate RepoProfesor
+RepoProfesor -> DB : INSERT profesor
+DB --> RepoProfesor : ok
+RepoProfesor --> Control : profesor
+deactivate RepoProfesor
+
+Control --> Boundary : void
+deactivate Control
+
+Boundary --> Docente : 200 OK
+deactivate Boundary
+
+@enduml
