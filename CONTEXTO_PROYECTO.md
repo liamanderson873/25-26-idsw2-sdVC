@@ -8,7 +8,7 @@
 >    - El `README.md`, Glosario y detallados de Casos de Uso en **ModelingRepo**.
 >    - Las bases de la asignatura en **TheoryRepo**.
 >    - El `conversation-log.md` para situarte cronológicamente en el último punto exacto de trabajo.
-> 2. **ACTUALIZACIÓN CONTINUA Y SINCRÓNICA (REGLA DE ORO):** Es tu responsabilidad mantener la "consciencia" del proyecto viva. **DEBES añadir cada nueva decisión técnica, descubrimiento, cambio en el flujo de trabajo o instrucción de Liam inmediatamente a este archivo.** No esperes al final de la sesión; hazlo en cuanto la información sea relevante para asegurar que el contexto nunca se degrade.
+> 2. **ACTUALIZACIÓN CONTINUA Y SINCRÓNICA:** Es tu responsabilidad mantener la "consciencia" del proyecto viva. Cada decisión técnica, cambio en el flujo de trabajo o instrucción de Liam DEBE reflejarse inmediatamente en este archivo y en el `conversation-log.md`.
 > 3. **OBJETIVO DE CONTINUIDAD:** Liam NUNCA debe repetir explicaciones. Tu misión es retomar el trabajo exactamente donde se dejó, conociendo no solo el código, sino la intención, el diseño y las reglas de oro.
 
 ---
@@ -23,23 +23,27 @@
 
 ## 2. Reglas de Oro Obligatorias (Workflow de Liam)
 1.  **REGLA DEL VISTO BUENO (DRAFT PREVIO)**: NUNCA crees código, cambies la arquitectura o generes diagramas finales sin presentar un **Borrador (Draft)** previo para debate y recibir el "OK" de Liam.
-2.  **GESTIÓN ESTRICTA DE RAMAS (GIT) Y PULL REQUESTS**: Trabajo por defecto en **`develop`**. Commits granulares y frecuentes siguiendo convenciones (*feat*, *fix*, *docs*). Los **Pull Requests a `main`** se harán agrupando bloques lógicos de trabajo (múltiples Casos de Uso o Hitos completos).
-3.  **CONVERSATION LOG (Sagrado)**: El `conversation-log.md` debe actualizarse con el formato narrativo de pySigHor, reflejando hitos, bugs y validaciones empíricas.
+2.  **GESTIÓN ESTRICTA DE RAMAS (GIT) Y PULL REQUESTS**: Trabajo por defecto en **`develop`**. Commits granulares y frecuentes siguiendo convenciones (*feat*, *fix*, *docs*). Los **Pull Requests a `main`** se harán agrupando bloques lógicos de trabajo (múltiples Casos de Uso o Hitos completos) para evitar la sobrecarga administrativa, tal como instruyó Liam.
+3.  **CONVERSATION LOG (Nuevo Estándar pySigHor)**: El `conversation-log.md` es sagrado. A partir de ahora, cada entrada debe seguir este formato narrativo y estructurado:
+    - **Título**: Número de Conversación y Tema principal.
+    - **Participantes y Fecha**.
+    - **Contexto de la Sesión**: Breve resumen de la situación inicial.
+    - **Prompt Clave de Liam**: Cita textual de la instrucción detonante.
+    - **Desarrollo Principal**: Lista de hitos técnicos, resoluciones de bugs (como el de Lombok) y validaciones empíricas. Debe reflejar *cómo* se solucionaron los problemas, no solo *qué* se hizo.
 4.  **TRAZABILIDAD TEÓRICA**: Cada decisión técnica relevante debe justificarse en `TRAZABILIDAD_TEORICA.md` vinculándola con los contenidos de IDSW2.
-5.  **VERIFICACIÓN TÉCNICA**: Antes de dar una tarea por terminada, se debe intentar compilar (`mvn compile`) y validar el comportamiento (Postman/Curl).
+5.  **VERIFICACIÓN TÉCNICA**: Antes de dar una tarea por terminada, se debe intentar compilar (`mvn compile`) y, si es posible, ejecutar para validar el comportamiento.
 
 ---
 
-## 3. Estado del Proyecto y Stack Tecnológico (Actualizado: 2026-06-03)
-- **Fase**: Construcción - Finalización de Épica de Corrección e I/O.
-- **Stack**: Java 21, Maven 3.9.16, Spring Boot 3.2.5, JPA, PostgreSQL 17 (Puerto 9090).
+## 3. Estado del Proyecto y Stack Tecnológico (Actualizado)
+- **Fase**: Construcción - Implementación de Capa de Servicios y Controladores.
+- **Stack**: Java 21, Maven 3.9.16, Spring Boot 3.2.5, JPA, PostgreSQL 17 (Estable).
 - **Hitos Recientes**:
-    - [x] **Épica de Maestros**: Implementación de CRUDs completos para Profesores, Alumnos, Grados, Asignaturas, Temas y Preguntas.
-    - [x] **Sincronización RUP**: Generación masiva de 26 diagramas de secuencia de diseño alineados con la implementación.
-    - [x] **Ingeniería Documental**: Implementación de Proxy PlantUML en todos los READMEs para visualización directa en GitHub.
-    - [x] **Entorno**: Creado `run-jorgestor.ps1` y estandarizada la estructura de carpetas `RUP/02-diseno`.
-- **Pendiente Inmediato**: 
-    - Inicio de Frontend React (Dashboard de Gestión).
+    - [x] Configuración de entorno (Maven instalado en PATH).
+    - [x] Solución de errores en `pom.xml`.
+    - [x] Implementación de `ServicioExamen` (CU-09) con lógica de Hash SHA-256 para la Clave de Corrección.
+    - [x] Actualización de Logs y Mapas Mentales (`2Think.md`).
+- **Pendiente Inmediato**: Diseño e implementación de la lógica de generación aleatoria (CU-02).
 
 ---
 *Este documento es la memoria viva del proyecto. Si no está aquí, no sucedió.*
