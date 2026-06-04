@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getExamenes, asignarExamen } from '../services/examenService';
 import { getAlumnos } from '../services/alumnoService';
@@ -6,21 +6,23 @@ import { getGrados } from '../services/gradoService';
 import { getAsignaturas } from '../services/asignaturaService';
 
 const AsignarExamenPage: React.FC = () => {
+  const queryClient = useQueryClient();
+
+  // Estados de UI
   const [selectedExamenId, setSelectedExamenId] = useState<number>(0);
   const [selectedAlumnoIds, setSelectedAlumnoIds] = useState<number[]>([]);
-  
   const [filterGradoId, setFilterGradoId] = useState<number>(0);
   const [searchTermAlumno, setSearchTermAlumno] = useState('');
   const [filterAsignaturaId, setFilterAsignaturaId] = useState<number>(0);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
-  const queryClient = useQueryClient();
+  // Consultas de datos
+  const { data: examenes, isLoading: loadEx, isError: errEx } = useQuery({ queryKey: ['examenes'], queryFn: getExamenes });
+  const { data: alumnos, isLoading: loadAl, isError: errAl } = useQuery({ queryKey: ['alumnos'], queryFn: getAlumnos });
+  const { data: grados, isLoading: loadGr, isError: errGr } = useQuery({ queryKey: ['grados'], queryFn: getGrados });
+  const { data: asignaturas, isLoading: loadAs, isError: errAs } = useQuery({ queryKey: ['asignaturas'], queryFn: getAsignaturas });
 
-  const { data: examenes = [], isLoading: loadEx } = useQuery({ queryKey: ['examenes'], queryFn: getExamenes });
-  const { data: alumnos = [], isLoading: loadAl } = useQuery({ queryKey: ['alumnos'], queryFn: getAlumnos });
-  const { data: grados = [], isLoading: loadGr } = useQuery({ queryKey: ['grados'], queryFn: getGrados });
-  const { data: asignaturas = [], isLoading: loadAs } = useQuery({ queryKey: ['asignaturas'], queryFn: getAsignaturas });
-
+  // Mutación
   const mutation = useMutation({
     mutationFn: () => asignarExamen(selectedExamenId, selectedAlumnoIds),
     onSuccess: (data) => {
@@ -30,37 +32,48 @@ const AsignarExamenPage: React.FC = () => {
     }
   });
 
+  // Filtrado de Exámenes (Memorizado para estabilidad)
+  const examenesFiltrados = useMemo(() => {
+    if (!examenes) return [];
+    return examenes.filter(ex => filterAsignaturaId === 0 || ex.asignatura?.id === filterAsignaturaId);
+  }, [examenes, filterAsignaturaId]);
+
+  // Filtrado de Alumnos (Memorizado para estabilidad)
+  const alumnosFiltrados = useMemo(() => {
+    if (!alumnos) return [];
+    return alumnos.filter(a => {
+      const matchGrado = filterGradoId === 0 || a.gradoId === filterGradoId;
+      const searchLower = (searchTermAlumno || '').toLowerCase();
+      const matchSearch = (a.nombre || '').toLowerCase().includes(searchLower) || 
+                          (a.apellidos || '').toLowerCase().includes(searchLower) || 
+                          (a.dni || '').toLowerCase().includes(searchLower);
+      return matchGrado && matchSearch;
+    });
+  }, [alumnos, filterGradoId, searchTermAlumno]);
+
+  // Manejo de carga
   if (loadEx || loadAl || loadGr || loadAs) {
-    return <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>Cargando datos del sistema...</div>;
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh', flexDirection: 'column', gap: '1rem' }}>
+        <div style={{ fontSize: '1.2rem', fontWeight: '600', color: 'var(--primary)' }}>Cargando ecosistema...</div>
+        <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Sincronizando modelos, alumnos y grados</div>
+      </div>
+    );
   }
 
-  // Safeguard: Ensure data exists before filtering
-  const safeExamenes = examenes || [];
-  const safeAlumnos = alumnos || [];
-  const safeGrados = grados || [];
-  const safeAsignaturas = asignaturas || [];
-
-  const examenesFiltrados = safeExamenes.filter(ex => filterAsignaturaId === 0 || ex.asignatura?.id === filterAsignaturaId);
-
-  const alumnosFiltrados = safeAlumnos.filter(a => {
-    const matchGrado = filterGradoId === 0 || a.gradoId === filterGradoId;
-    const nombre = a.nombre || '';
-    const apellidos = a.apellidos || '';
-    const dni = a.dni || '';
-    const searchLower = (searchTermAlumno || '').toLowerCase();
-    
-    const matchSearch = nombre.toLowerCase().includes(searchLower) || 
-                        apellidos.toLowerCase().includes(searchLower) || 
-                        dni.toLowerCase().includes(searchLower);
-    return matchGrado && matchSearch;
-  });
+  // Manejo de errores de conexión
+  if (errEx || errAl || errGr || errAs) {
+    return (
+      <div style={{ padding: '2rem', background: '#fef2f2', border: '1px solid #ef4444', borderRadius: '12px', color: '#991b1b', textAlign: 'center' }}>
+        <h3>Error de Conexión</h3>
+        <p>No se ha podido recuperar la información del servidor. Verifica que el backend esté corriendo.</p>
+        <button onClick={() => window.location.reload()} style={{ marginTop: '1rem', padding: '0.5rem 1rem', background: '#ef4444', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>Reintentar</button>
+      </div>
+    );
+  }
 
   const handleToggleAlumno = (id: number) => {
-    const current = [...selectedAlumnoIds];
-    const idx = current.indexOf(id);
-    if (idx > -1) current.splice(idx, 1);
-    else current.push(id);
-    setSelectedAlumnoIds(current);
+    setSelectedAlumnoIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
   };
 
   return (
@@ -80,7 +93,7 @@ const AsignarExamenPage: React.FC = () => {
               style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid var(--border)', marginBottom: '1.5rem' }}
             >
               <option value={0}>Todas las Asignaturas</option>
-              {safeAsignaturas.map(asig => <option key={asig.id} value={asig.id}>{asig.nombre}</option>)}
+              {(asignaturas || []).map(asig => <option key={asig.id} value={asig.id}>{asig.nombre}</option>)}
             </select>
 
             <div style={{ maxHeight: '500px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
@@ -103,6 +116,7 @@ const AsignarExamenPage: React.FC = () => {
                   <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>ID: {ex.id} • {ex.tipoEvaluacion}</div>
                 </div>
               ))}
+              {examenesFiltrados.length === 0 && <div style={{ textAlign: 'center', padding: '2rem', color: '#999', fontSize: '0.85rem' }}>No hay modelos disponibles</div>}
             </div>
           </div>
         </section>
@@ -126,7 +140,7 @@ const AsignarExamenPage: React.FC = () => {
                   style={{ padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', background: '#f8fafc' }}
                 >
                   <option value={0}>Todos los Grados</option>
-                  {safeGrados.map(g => <option key={g.id} value={g.id}>{g.nombre}</option>)}
+                  {(grados || []).map(g => <option key={g.id} value={g.id}>{g.nombre}</option>)}
                 </select>
              </div>
 
@@ -146,6 +160,7 @@ const AsignarExamenPage: React.FC = () => {
                         <td style={{ padding: '0.75rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>{al.dni}</td>
                       </tr>
                     ))}
+                    {alumnosFiltrados.length === 0 && <tr><td colSpan={3} style={{ textAlign: 'center', padding: '2rem', color: '#999' }}>No se han encontrado alumnos</td></tr>}
                   </tbody>
                 </table>
              </div>
