@@ -12,6 +12,7 @@ const AsignarExamenPage: React.FC = () => {
   const [filterGradoId, setFilterGradoId] = useState<number>(0);
   const [searchTermAlumno, setSearchTermAlumno] = useState('');
   const [filterAsignaturaId, setFilterAsignaturaId] = useState<number>(0);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   const queryClient = useQueryClient();
 
@@ -23,7 +24,7 @@ const AsignarExamenPage: React.FC = () => {
   const mutation = useMutation({
     mutationFn: () => asignarExamen(selectedExamenId, selectedAlumnoIds),
     onSuccess: (data) => {
-      alert(data);
+      setSuccessMsg(data);
       setSelectedAlumnoIds([]);
       queryClient.invalidateQueries({ queryKey: ['examenes'] });
     }
@@ -33,10 +34,15 @@ const AsignarExamenPage: React.FC = () => {
     return <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>Cargando datos del sistema...</div>;
   }
 
-  const examenesFiltrados = (examenes || []).filter(ex => filterAsignaturaId === 0 || ex.asignatura?.id === filterAsignaturaId);
+  // Safeguard: Ensure data exists before filtering
+  const safeExamenes = examenes || [];
+  const safeAlumnos = alumnos || [];
+  const safeGrados = grados || [];
+  const safeAsignaturas = asignaturas || [];
 
+  const examenesFiltrados = safeExamenes.filter(ex => filterAsignaturaId === 0 || ex.asignatura?.id === filterAsignaturaId);
 
-  const alumnosFiltrados = (alumnos || []).filter(a => {
+  const alumnosFiltrados = safeAlumnos.filter(a => {
     const matchGrado = filterGradoId === 0 || a.gradoId === filterGradoId;
     const nombre = a.nombre || '';
     const apellidos = a.apellidos || '';
@@ -74,7 +80,7 @@ const AsignarExamenPage: React.FC = () => {
               style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid var(--border)', marginBottom: '1.5rem' }}
             >
               <option value={0}>Todas las Asignaturas</option>
-              {asignaturas.map(asig => <option key={asig.id} value={asig.id}>{asig.nombre}</option>)}
+              {safeAsignaturas.map(asig => <option key={asig.id} value={asig.id}>{asig.nombre}</option>)}
             </select>
 
             <div style={{ maxHeight: '500px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
@@ -120,7 +126,7 @@ const AsignarExamenPage: React.FC = () => {
                   style={{ padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', background: '#f8fafc' }}
                 >
                   <option value={0}>Todos los Grados</option>
-                  {grados.map(g => <option key={g.id} value={g.id}>{g.nombre}</option>)}
+                  {safeGrados.map(g => <option key={g.id} value={g.id}>{g.nombre}</option>)}
                 </select>
              </div>
 
