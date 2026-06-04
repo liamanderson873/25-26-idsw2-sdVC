@@ -112,7 +112,7 @@ const PreguntasPage: React.FC = () => {
                   style={{ padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
                 >
                   <option value={0}>Selecciona Tema...</option>
-                  {temas.map((t: Tema) => <option key={t.id} value={t.id}>{t.nombre}</option>)}
+                  {(temas || []).map((t: Tema) => <option key={t.id} value={t.id}>{t.nombre}</option>)}
                 </select>
                 <select 
                   value={preguntaForm.dificultad} 
@@ -127,7 +127,7 @@ const PreguntasPage: React.FC = () => {
 
               <div style={{ marginBottom: '1rem' }}>
                 <h4>Opciones de Respuesta</h4>
-                {preguntaForm.respuestas.map((resp: Respuesta, idx: number) => (
+                {(preguntaForm.respuestas || []).map((resp: Respuesta, idx: number) => (
                   <div key={idx} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', alignItems: 'center' }}>
                     <input 
                       type="radio" 
@@ -163,7 +163,7 @@ const PreguntasPage: React.FC = () => {
               { header: 'Dificultad', accessor: 'dificultad' },
               { 
                 header: 'Tema', 
-                accessor: (p) => temas.find(t => t.id === p.temaId)?.nombre || '...'
+                accessor: (p) => (temas || []).find(t => t.id === p.temaId)?.nombre || '...'
               }
             ]}
             onEdit={handleEditClick}

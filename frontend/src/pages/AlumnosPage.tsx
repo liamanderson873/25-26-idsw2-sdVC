@@ -49,6 +49,10 @@ const AlumnosPage: React.FC = () => {
     createMutation.mutate(form);
   };
 
+  if (loadingAlumnos) {
+    return <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>Cargando alumnos...</div>;
+  }
+
   return (
     <div>
       <h1>Gestión de Alumnos</h1>
@@ -74,7 +78,7 @@ const AlumnosPage: React.FC = () => {
               style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
             >
               <option value={0}>Selecciona un grado...</option>
-              {grados.map(g => (
+              {(grados || []).map(g => (
                 <option key={g.id} value={g.id}>{g.nombre}</option>
               ))}
             </select>
@@ -121,8 +125,8 @@ const AlumnosPage: React.FC = () => {
           { 
             header: 'Grado', 
             accessor: (alumno) => {
-              const grado = grados.find(g => g.id === alumno.gradoId);
-              return grado ? grado.nombre : 'Cargando...';
+              const grado = (grados || []).find(g => g.id === alumno.gradoId);
+              return grado ? grado.nombre : '...';
             }
           }
         ]}

@@ -10,7 +10,8 @@ const AsignaturasPage: React.FC = () => {
     nombre: '',
     codigo: '',
     cursoAcademico: '2025/26',
-    dniProfesor: ''
+    dniProfesor: '',
+    gradoId: 0
   });
   
   const queryClient = useQueryClient();
@@ -20,16 +21,21 @@ const AsignaturasPage: React.FC = () => {
     queryFn: getAsignaturas,
   });
 
-  const { data: profesores = [] } = useQuery({
+  const { data: profesores = [], isLoading: loadingProfs } = useQuery({
     queryKey: ['profesores'],
     queryFn: getProfesores,
+  });
+
+  const { data: grados = [], isLoading: loadingGrados } = useQuery({
+    queryKey: ['grados'],
+    queryFn: getGrados,
   });
 
   const createMutation = useMutation({
     mutationFn: createAsignatura,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['asignaturas'] });
-      setForm({ nombre: '', codigo: '', cursoAcademico: '2025/26', dniProfesor: '' });
+      setForm({ nombre: '', codigo: '', cursoAcademico: '2025/26', dniProfesor: '', gradoId: 0 });
     },
   });
 
@@ -42,12 +48,16 @@ const AsignaturasPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.nombre || !form.codigo || !form.dniProfesor) {
+    if (!form.nombre || !form.codigo || !form.dniProfesor || !form.gradoId) {
       alert('Por favor, rellena todos los campos obligatorios.');
       return;
     }
     createMutation.mutate(form);
   };
+
+  if (loadingAsig || loadingProfs || loadingGrados) {
+    return <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>Cargando asignaturas...</div>;
+  }
 
   return (
     <div>
@@ -77,6 +87,19 @@ const AsignaturasPage: React.FC = () => {
             />
           </div>
           <div>
+            <label style={{ display: 'block', marginBottom: '0.4rem' }}>Grado</label>
+            <select
+              value={form.gradoId}
+              onChange={(e) => setForm({...form, gradoId: Number(e.target.value)})}
+              style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
+            >
+              <option value={0}>Selecciona un grado...</option>
+              {(grados || []).map(g => (
+                <option key={g.id} value={g.id}>{g.nombre}</option>
+              ))}
+            </select>
+          </div>
+          <div>
             <label style={{ display: 'block', marginBottom: '0.4rem' }}>Curso Académico</label>
             <input
               type="text"
@@ -93,7 +116,7 @@ const AsignaturasPage: React.FC = () => {
               style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
             >
               <option value="">Selecciona un profesor...</option>
-              {profesores.map(p => (
+              {(profesores || []).map(p => (
                 <option key={p.id} value={p.dni}>{p.apellidos}, {p.nombre} ({p.dni})</option>
               ))}
             </select>
@@ -116,6 +139,10 @@ const AsignaturasPage: React.FC = () => {
         columns={[
           { header: 'Código', accessor: 'codigo' },
           { header: 'Nombre', accessor: 'nombre' },
+          { 
+            header: 'Grado', 
+            accessor: (asig) => (grados || []).find(g => g.id === asig.gradoId)?.nombre || '...' 
+          },
           { header: 'Curso', accessor: 'cursoAcademico' },
           { header: 'DNI Profesor', accessor: 'dniProfesor' }
         ]}
