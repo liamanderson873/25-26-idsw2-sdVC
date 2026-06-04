@@ -15,10 +15,12 @@ import java.util.stream.Collectors;
 public class ServicioAsignatura {
     private final RepositorioAsignatura repoAsignatura;
     private final RepositorioProfesor repoProfesor;
+    private final com.jorgestor.api.repositorio.RepositorioGrado repoGrado;
 
-    public ServicioAsignatura(RepositorioAsignatura repoAsignatura, RepositorioProfesor repoProfesor) {
+    public ServicioAsignatura(RepositorioAsignatura repoAsignatura, RepositorioProfesor repoProfesor, com.jorgestor.api.repositorio.RepositorioGrado repoGrado) {
         this.repoAsignatura = repoAsignatura;
         this.repoProfesor = repoProfesor;
+        this.repoGrado = repoGrado;
     }
 
     @Transactional(readOnly = true)
@@ -29,7 +31,8 @@ public class ServicioAsignatura {
                         a.getNombre(),
                         a.getCodigo(),
                         a.getCursoAcademico(),
-                        a.getProfesor() != null ? a.getProfesor().getDni() : null))
+                        a.getProfesor() != null ? a.getProfesor().getDni() : null,
+                        a.getGrado() != null ? a.getGrado().getId() : null))
                 .collect(Collectors.toList());
     }
 
@@ -37,6 +40,9 @@ public class ServicioAsignatura {
     public void crearOActualizar(DTO_Asignatura dto) {
         Profesor profe = repoProfesor.findByDni(dto.getDniProfesor())
                 .orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
+        
+        com.jorgestor.api.modelo.Grado grado = repoGrado.findById(dto.getGradoId())
+                .orElseThrow(() -> new RuntimeException("Grado no encontrado"));
 
         Asignatura asig = repoAsignatura.findByCodigo(dto.getCodigo())
                 .orElse(new Asignatura());
@@ -45,6 +51,7 @@ public class ServicioAsignatura {
         asig.setNombre(dto.getNombre());
         asig.setCursoAcademico(dto.getCursoAcademico());
         asig.setProfesor(profe);
+        asig.setGrado(grado);
         
         repoAsignatura.save(asig);
     }

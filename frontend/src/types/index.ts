@@ -9,6 +9,7 @@ export interface Asignatura {
   codigo: string;
   cursoAcademico: string;
   dniProfesor: string;
+  gradoId?: number;
 }
 
 export interface Profesor {

@@ -13,4 +13,5 @@ public class DTO_Asignatura {
     private String codigo;
     private String cursoAcademico;
     private String dniProfesor;
+    private Long gradoId;
 }

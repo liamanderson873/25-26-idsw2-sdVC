@@ -450,6 +450,29 @@ Inicio de jornada para el desarrollo de ajustes en los CRUDs. Se identifica la n
 ---
 *Entorno listo. Iniciamos fase de ajustes en los CRUDs.*
 
+## Conversación 35: Refactorización de Modelo y Flujo de Vida del Examen
+**Fecha**: 2026-06-04
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Detección de fallos funcionales tras la estabilización visual. Se identifican problemas en la jerarquía de datos y el flujo de navegación.
+
+**Prompts clave de Liam**:
+> "cuando genero un nuevo examen y luego voy a asignarlo no me sale"
+> "cuando selecciono un grado... dejan de salirme las asignaturas"
+> "todavia no tenemos algo para una vez hemos asignado a alumnos los examenes que esos examenes puedan pasar de estar 'asignados' a completados"
+
+### Desarrollo Principal
+1.  **Refactorización del Modelo (Grado -> Asignatura)**: Se ha corregido la omisión del vínculo entre Asignaturas y Grados. Se actualizó `Asignatura.java`, `DTO_Asignatura.java` y `ServicioAsignatura.java` para soportar `grado_id`. Esto habilita los filtros jerárquicos en el Frontend.
+2.  **Sincronización de Caché**: Se implementó `queryClient.invalidateQueries` en `GenerarExamenPage.tsx`. Ahora, al crear un examen, la lista de asignación se actualiza instantáneamente.
+3.  **Cierre de Ciclo (Asignación -> Corrección)**: 
+    - Se añadió un acceso directo "IR A CORREGIR" tras asignar alumnos con éxito.
+    - Se validó el botón de "SIMULAR ENTREGAS" en la página de corrección para transicionar ejemplares de `ASIGNADO` a `PENDIENTE_CORRECCION`.
+4.  **Hito de Integridad**: El sistema ahora respeta la jerarquía RUP donde las asignaturas pertenecen a un grado, permitiendo una navegación fluida por el catálogo académico.
+
+---
+*Flujo funcional restaurado. El sistema es ahora operativamente completo.*
+
 
 
 

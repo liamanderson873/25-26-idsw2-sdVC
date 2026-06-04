@@ -144,9 +144,15 @@ const AsignarExamenPage: React.FC = () => {
              </div>
 
              <div style={{ marginTop: '2rem' }}>
+                {successMsg && (
+                  <div style={{ marginBottom: '1rem', padding: '1rem', background: '#ecfdf5', borderRadius: '8px', border: '1px solid #10b981', color: '#065f46', fontSize: '0.85rem' }}>
+                    {successMsg} 
+                    <button onClick={() => window.location.href='/corregir-examen'} style={{ marginLeft: '10px', background: '#10b981', color: 'white', border: 'none', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer' }}>IR A CORREGIR</button>
+                  </div>
+                )}
                 <button 
                   disabled={selectedExamenId === 0 || selectedAlumnoIds.length === 0 || mutation.isPending}
-                  onClick={() => mutation.mutate()}
+                  onClick={() => { setSuccessMsg(null); mutation.mutate(); }}
                   style={{ 
                     width: '100%', 
                     padding: '1rem', 

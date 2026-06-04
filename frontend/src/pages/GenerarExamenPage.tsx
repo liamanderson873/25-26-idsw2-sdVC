@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getAsignaturas } from '../services/asignaturaService';
 import { getTemas } from '../services/temaService';
 import { generarExamen } from '../services/examenService';
@@ -19,9 +19,14 @@ const GenerarExamenPage: React.FC = () => {
     enabled: asignaturaId > 0 
   });
 
+  const queryClient = useQueryClient();
+
   const mutation = useMutation({
     mutationFn: generarExamen,
-    onSuccess: (data) => setResultado(data),
+    onSuccess: (data) => {
+      setResultado(data);
+      queryClient.invalidateQueries({ queryKey: ['examenes'] });
+    },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
