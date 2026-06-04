@@ -1,32 +1,32 @@
-# Jorgestor > CU-24-verDocentes > Análisis
+﻿# Jorgestor > CU-24-verDocentes > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-24-verDocentes/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-24-verDocentes/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis del caso de uso Ver Docentes.
+AnÃ¡lisis del caso de uso Ver Docentes.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: verDocentes()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-24-verDocentes/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: verDocentes()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-24-verDocentes.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-24-verDocentes.puml](analisis-colaboracion-CU-24-verDocentes.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -34,7 +34,7 @@ Análisis del caso de uso Ver Docentes.
 |**Teacher**|Representa al docente con sus credenciales y datos personales|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
 |**TeacherListView**|Interfaz para visualizar lista y solicitar filtrado de docentes|Wireframe|
 
@@ -43,12 +43,12 @@ Análisis del caso de uso Ver Docentes.
 |-|-|-|
 |**TeacherController**|Recupera lista de docentes autorizados y aplica filtros|verDocentes()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
-|**AdministradorInstitucional**|**TeacherListView**|`solicitarVerDocentes()`|Iniciar visualización|
-|**TeacherListView**|**TeacherController**|`obtenerDocentes()`|Delegar recuperación|
+|**AdministradorInstitucional**|**TeacherListView**|`solicitarVerDocentes()`|Iniciar visualizaciÃ³n|
+|**TeacherListView**|**TeacherController**|`obtenerDocentes()`|Delegar recuperaciÃ³n|
 |**TeacherController**|**Teacher**|`consultarTodos()`|Consultar entidades|
 |**AdministradorInstitucional**|**TeacherListView**|`aplicarFiltro(criterios)`|Solicitar filtrado|
 |**TeacherListView**|**TeacherController**|`filtrar(criterios)`|Procesar criterios|
@@ -78,3 +78,50 @@ TeacherController --> Teacher: consultar(criterios)
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

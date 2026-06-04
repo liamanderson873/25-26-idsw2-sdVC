@@ -1,62 +1,62 @@
-# Jorgestor > CU-31-cerrarSesion > Análisis
+﻿# Jorgestor > CU-31-cerrarSesion > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-31-cerrarSesion/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-31-cerrarSesion/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis tecnológico agnóstico del caso de uso Cerrar Sesión, siguiendo la metodología RUP. Permite analizar el proceso de finalización de la sesión de usuario de forma segura.
+AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Cerrar SesiÃ³n, siguiendo la metodologÃ­a RUP. Permite analizar el proceso de finalizaciÃ³n de la sesiÃ³n de usuario de forma segura.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: cerrarSesion()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-31-cerrarSesion/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: cerrarSesion()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-31-cerrarSesion/analisis-colaboracion-CU-31-cerrarSesion.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-31-cerrarSesion.puml](analisis-colaboracion-CU-31-cerrarSesion.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
-|**UserSession**|Mantiene el estado de autenticación del usuario|Modelo del dominio|
+|**UserSession**|Mantiene el estado de autenticaciÃ³n del usuario|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
-|**SessionView**|Interfaz que permite solicitar el cierre y confirmar la acción|Wireframe|
+|**SessionView**|Interfaz que permite solicitar el cierre y confirmar la acciÃ³n|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**LogoutController**|Gestiona la invalidación de la sesión y la transición de estado|cerrarSesion()|
+|**LogoutController**|Gestiona la invalidaciÃ³n de la sesiÃ³n y la transiciÃ³n de estado|cerrarSesion()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
-|**Usuario**|**SessionView**|`solicitarCierre()`|Manifestar la intención de salir|
-|**SessionView**|**Usuario**|`pedirConfirmacion()`|Solicitar validación final|
-|**Usuario**|**SessionView**|`confirmarCierre()`|Aceptar el cierre de sesión|
-|**SessionView**|**LogoutController**|`cerrarSesion()`|Delegar la invalidación de la sesión|
-|**LogoutController**|**UserSession**|`invalidar()`|Eliminar el estado de autenticación|
+|**Usuario**|**SessionView**|`solicitarCierre()`|Manifestar la intenciÃ³n de salir|
+|**SessionView**|**Usuario**|`pedirConfirmacion()`|Solicitar validaciÃ³n final|
+|**Usuario**|**SessionView**|`confirmarCierre()`|Aceptar el cierre de sesiÃ³n|
+|**SessionView**|**LogoutController**|`cerrarSesion()`|Delegar la invalidaciÃ³n de la sesiÃ³n|
+|**LogoutController**|**UserSession**|`invalidar()`|Eliminar el estado de autenticaciÃ³n|
 
 ## trazabilidad con artefactos previos
 
-### con especificación detallada
-- **Estados internos** → `SolicitandoCierre`, `ConfirmandoCierre`
+### con especificaciÃ³n detallada
+- **Estados internos** â†’ `SolicitandoCierre`, `ConfirmandoCierre`
 
 
 ```plantuml
@@ -78,3 +78,50 @@ LogoutController --> UserSession: invalidar()
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

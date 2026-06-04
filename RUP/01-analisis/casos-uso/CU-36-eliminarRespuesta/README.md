@@ -1,62 +1,62 @@
-# Jorgestor > CU-36-eliminarRespuesta > Análisis
+﻿# Jorgestor > CU-36-eliminarRespuesta > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-36-eliminarRespuesta/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-36-eliminarRespuesta/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis tecnológico agnóstico del caso de uso Eliminar Respuesta, siguiendo la metodología RUP. Permite analizar el flujo de confirmación y baja definitiva de una respuesta del sistema.
+AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Eliminar Respuesta, siguiendo la metodologÃ­a RUP. Permite analizar el flujo de confirmaciÃ³n y baja definitiva de una respuesta del sistema.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: eliminarRespuesta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-36-eliminarRespuesta/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: eliminarRespuesta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-36-eliminarRespuesta/analisis-colaboracion-CU-36-eliminarRespuesta.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-36-eliminarRespuesta.puml](analisis-colaboracion-CU-36-eliminarRespuesta.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
-|**Answer**|Entidad que será eliminada del sistema|Modelo del dominio|
+|**Answer**|Entidad que serÃ¡ eliminada del sistema|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
-|**AnswerDeletionView**|Interfaz que muestra información de la respuesta y solicita confirmación|Wireframe|
+|**AnswerDeletionView**|Interfaz que muestra informaciÃ³n de la respuesta y solicita confirmaciÃ³n|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**AnswerDeletionController**|Valida la posibilidad de borrado y coordina la eliminación|eliminarRespuesta()|
+|**AnswerDeletionController**|Valida la posibilidad de borrado y coordina la eliminaciÃ³n|eliminarRespuesta()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
 |**Docente**|**AnswerDeletionView**|`solicitarEliminar()`|Iniciar el flujo de borrado|
 |**AnswerDeletionView**|**Answer**|`getDatos()`|Obtener detalles para mostrar advertencia|
-|**Docente**|**AnswerDeletionView**|`confirmarEliminar()`|Validar la acción definitiva|
-|**AnswerDeletionView**|**AnswerDeletionController**|`eliminarRespuesta(answer)`|Delegar la ejecución de la baja|
-|**AnswerDeletionController**|**Answer**|`delete()`|Eliminar físicamente la entidad|
+|**Docente**|**AnswerDeletionView**|`confirmarEliminar()`|Validar la acciÃ³n definitiva|
+|**AnswerDeletionView**|**AnswerDeletionController**|`eliminarRespuesta(answer)`|Delegar la ejecuciÃ³n de la baja|
+|**AnswerDeletionController**|**Answer**|`delete()`|Eliminar fÃ­sicamente la entidad|
 
 ## trazabilidad con artefactos previos
 
-### con especificación detallada
-- **Estados internos** → `ConfirmandoEliminacion`, `EliminandoRespuesta`
+### con especificaciÃ³n detallada
+- **Estados internos** â†’ `ConfirmandoEliminacion`, `EliminandoRespuesta`
 
 
 ```plantuml
@@ -78,3 +78,50 @@ AnswerDeletionController --> Answer: delete()
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

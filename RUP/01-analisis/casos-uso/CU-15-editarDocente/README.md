@@ -1,62 +1,62 @@
-# Jorgestor > CU-15-editarDocente > Análisis
+﻿# Jorgestor > CU-15-editarDocente > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-15-editarDocente/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-15-editarDocente/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis del caso de uso Editar Docente.
+AnÃ¡lisis del caso de uso Editar Docente.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: editarDocente()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-15-editarDocente/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: editarDocente()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-15-editarDocente.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-15-editarDocente.puml](analisis-colaboracion-CU-15-editarDocente.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
-|**Docent**|La entidad docente que se está editando|Modelo del dominio|
+|**Docent**|La entidad docente que se estÃ¡ editando|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
-|**DocentEditView**|Interfaz que muestra datos actuales y permite modificación o eliminación|Wireframe|
+|**DocentEditView**|Interfaz que muestra datos actuales y permite modificaciÃ³n o eliminaciÃ³n|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**DocentController**|Gestiona actualización y lógica de eliminación|editarDocente()|
+|**DocentController**|Gestiona actualizaciÃ³n y lÃ³gica de eliminaciÃ³n|editarDocente()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
 |**AdministradorInstitucional**|**DocentEditView**|`modificarDatos(datos)`|Introducir cambios|
-|**DocentEditView**|**DocentController**|`guardar(datos)`|Solicitar actualización|
+|**DocentEditView**|**DocentController**|`guardar(datos)`|Solicitar actualizaciÃ³n|
 |**DocentController**|**Docent**|`actualizar(datos)`|Persistir cambios|
-|**AdministradorInstitucional**|**DocentEditView**|`eliminarDocente()`|Solicitar eliminación|
-|**DocentEditView**|**DocentController**|`eliminar()`|Gestionar eliminación|
+|**AdministradorInstitucional**|**DocentEditView**|`eliminarDocente()`|Solicitar eliminaciÃ³n|
+|**DocentEditView**|**DocentController**|`eliminar()`|Gestionar eliminaciÃ³n|
 |**DocentController**|**Docent**|`delete()`|Eliminar entidad|
 
 ## trazabilidad con artefactos previos
 
-- **Identificadores**: DNI y usuario actúan como claves de integridad.
+- **Identificadores**: DNI y usuario actÃºan como claves de integridad.
 
 ```plantuml
 @startuml editarDocente-analisis
@@ -79,3 +79,50 @@ DocentController --> Docent: delete()
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

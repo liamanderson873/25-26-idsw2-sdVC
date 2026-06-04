@@ -1,41 +1,41 @@
-# Jorgestor > CU-22-verGrados > Análisis
+﻿# Jorgestor > CU-22-verGrados > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-22-verGrados/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-22-verGrados/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis del caso de uso Ver Grados. Permite listar y filtrar los grados académicos.
+AnÃ¡lisis del caso de uso Ver Grados. Permite listar y filtrar los grados acadÃ©micos.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: verGrados()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-22-verGrados/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: verGrados()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-22-verGrados.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-22-verGrados.puml](analisis-colaboracion-CU-22-verGrados.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
-|**Grade**|Representa el grado académico en el sistema|Modelo del dominio|
+|**Grade**|Representa el grado acadÃ©mico en el sistema|Modelo del dominio|
 |**Student**|Entidad relacionada para mostrar alumnos por grado|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
 |**GradeListView**|Interfaz para visualizar lista y solicitar filtrado de grados|Wireframe|
 
@@ -44,12 +44,12 @@ Análisis del caso de uso Ver Grados. Permite listar y filtrar los grados acadé
 |-|-|-|
 |**GradeController**|Recupera grados existentes y gestiona criterios de filtrado|verGrados()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
-|**Docente**|**GradeListView**|`solicitarVerGrados()`|Iniciar visualización|
-|**GradeListView**|**GradeController**|`obtenerGrados()`|Delegar recuperación|
+|**Docente**|**GradeListView**|`solicitarVerGrados()`|Iniciar visualizaciÃ³n|
+|**GradeListView**|**GradeController**|`obtenerGrados()`|Delegar recuperaciÃ³n|
 |**GradeController**|**Grade**|`consultarTodos()`|Consultar entidades|
 |**Docente**|**GradeListView**|`aplicarFiltro(criterios)`|Solicitar filtrado|
 |**GradeListView**|**GradeController**|`filtrar(criterios)`|Procesar criterios|
@@ -81,3 +81,50 @@ GradeController --> Grade: consultar(criterios)
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

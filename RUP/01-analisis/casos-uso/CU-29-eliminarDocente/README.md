@@ -1,32 +1,32 @@
-# Jorgestor > CU-29-eliminarDocente > Análisis
+﻿# Jorgestor > CU-29-eliminarDocente > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-29-eliminarDocente/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-29-eliminarDocente/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis tecnológico agnóstico del caso de uso Eliminar Docente, siguiendo la metodología RUP. Permite analizar el flujo y la validación de la baja de un docente en el sistema.
+AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Eliminar Docente, siguiendo la metodologÃ­a RUP. Permite analizar el flujo y la validaciÃ³n de la baja de un docente en el sistema.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: eliminarDocente()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-29-eliminarDocente/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: eliminarDocente()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-29-eliminarDocente.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-29-eliminarDocente.puml](analisis-colaboracion-CU-29-eliminarDocente.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -34,29 +34,29 @@ Análisis tecnológico agnóstico del caso de uso Eliminar Docente, siguiendo la
 |**Teacher**|Entidad docente que se desea eliminar|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
-|**TeacherDeleteView**|Interfaz que permite revisar datos, visualizar advertencias y confirmar la eliminación|Wireframe|
+|**TeacherDeleteView**|Interfaz que permite revisar datos, visualizar advertencias y confirmar la eliminaciÃ³n|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**TeacherController**|Gestiona la lógica de baja del docente y verifica permisos|eliminarDocente()|
+|**TeacherController**|Gestiona la lÃ³gica de baja del docente y verifica permisos|eliminarDocente()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
-|**Administrador**|**TeacherDeleteView**|`solicitarEliminar()`|Solicitar la eliminación de un docente|
-|**TeacherDeleteView**|**Teacher**|`getDatos()`|Obtener información del docente|
-|**Administrador**|**TeacherDeleteView**|`confirmarEliminar()`|Confirmar la acción de borrado|
-|**TeacherDeleteView**|**TeacherController**|`eliminarDocente()`|Delegar la eliminación al controlador|
-|**TeacherController**|**Teacher**|`delete()`|Eliminar físicamente la entidad|
+|**Administrador**|**TeacherDeleteView**|`solicitarEliminar()`|Solicitar la eliminaciÃ³n de un docente|
+|**TeacherDeleteView**|**Teacher**|`getDatos()`|Obtener informaciÃ³n del docente|
+|**Administrador**|**TeacherDeleteView**|`confirmarEliminar()`|Confirmar la acciÃ³n de borrado|
+|**TeacherDeleteView**|**TeacherController**|`eliminarDocente()`|Delegar la eliminaciÃ³n al controlador|
+|**TeacherController**|**Teacher**|`delete()`|Eliminar fÃ­sicamente la entidad|
 
 ## trazabilidad con artefactos previos
 
-### con especificación detallada
-- **Estados internos** → `ConfirmingDeletion`, `DeletingTeacher`
+### con especificaciÃ³n detallada
+- **Estados internos** â†’ `ConfirmingDeletion`, `DeletingTeacher`
 
 
 ```plantuml
@@ -78,3 +78,50 @@ TeacherController --> Teacher: delete()
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

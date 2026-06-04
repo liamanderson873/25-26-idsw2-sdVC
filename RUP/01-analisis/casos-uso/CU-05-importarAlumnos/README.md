@@ -1,32 +1,32 @@
-# Jorgestor > CU-05-importarAlumnos > Análisis
+﻿# Jorgestor > CU-05-importarAlumnos > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-05-importarAlumnos/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-05-importarAlumnos/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis del caso de uso Importar Alumnos. Describe la importación desde archivos externos.
+AnÃ¡lisis del caso de uso Importar Alumnos. Describe la importaciÃ³n desde archivos externos.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: importarAlumnos()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-05-importarAlumnos/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: importarAlumnos()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-05-importarAlumnos.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-05-importarAlumnos.puml](analisis-colaboracion-CU-05-importarAlumnos.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -34,30 +34,30 @@ Análisis del caso de uso Importar Alumnos. Describe la importación desde archi
 |**Student**|Entidad que representa al alumno en el sistema|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
-|**StudentImportView**|Interfaz para seleccionar archivo y confirmar importación de alumnos|Wireframe|
+|**StudentImportView**|Interfaz para seleccionar archivo y confirmar importaciÃ³n de alumnos|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
 |**StudentImportController**|Orquesta, valida formato y gestiona la persistencia|importarAlumnos()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
 |**Docente**|**StudentImportView**|`seleccionarArchivo(archivo)`|Proporcionar el archivo|
-|**StudentImportView**|**StudentImportController**|`procesarArchivo(archivo)`|Delegar la validación y procesamiento|
+|**StudentImportView**|**StudentImportController**|`procesarArchivo(archivo)`|Delegar la validaciÃ³n y procesamiento|
 |**StudentImportController**|**Student**|`validarDuplicado()`|Comprobar si el alumno ya existe|
-|**StudentImportController**|**StudentImportView**|`mostrarPrevisualizacion()`|Solicitar confirmación de la importación|
+|**StudentImportController**|**StudentImportView**|`mostrarPrevisualizacion()`|Solicitar confirmaciÃ³n de la importaciÃ³n|
 |**Docente**|**StudentImportView**|`confirmarImportacion()`|Confirmar los alumnos a importar|
 |**StudentImportView**|**StudentImportController**|`persistirAlumnos()`|Persistir los nuevos alumnos|
 |**StudentImportController**|**Student**|`guardar()`|Guardar alumnos en el sistema|
 
 ## trazabilidad con artefactos previos
 
-- **Especialización**: Se centra exclusivamente en la entidad `Student`.
+- **EspecializaciÃ³n**: Se centra exclusivamente en la entidad `Student`.
 
 ```plantuml
 @startuml importarAlumnos-analisis
@@ -81,3 +81,50 @@ StudentImportController --> Student: guardar()
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,32 +1,32 @@
-# Jorgestor > CU-13-crearDocente > Análisis
+﻿# Jorgestor > CU-13-crearDocente > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-13-crearDocente/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-13-crearDocente/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis del caso de uso Crear Docente. Permite dar de alta a un nuevo profesor.
+AnÃ¡lisis del caso de uso Crear Docente. Permite dar de alta a un nuevo profesor.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: crearDocente()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-13-crearDocente/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: crearDocente()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-13-crearDocente.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-13-crearDocente.puml](analisis-colaboracion-CU-13-crearDocente.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -34,29 +34,29 @@ Análisis del caso de uso Crear Docente. Permite dar de alta a un nuevo profesor
 |**Docent**|Entidad que representa al nuevo profesor en el sistema|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
-|**DocentCreationView**|Interfaz para introducir datos mínimos obligatorios|Wireframe|
+|**DocentCreationView**|Interfaz para introducir datos mÃ­nimos obligatorios|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**DocentController**|Gestiona creación y valida datos obligatorios/duplicados|crearDocente()|
+|**DocentController**|Gestiona creaciÃ³n y valida datos obligatorios/duplicados|crearDocente()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
 |**AdministradorInstitucional**|**DocentCreationView**|`solicitarCreacion()`|Iniciar proceso|
-|**AdministradorInstitucional**|**DocentCreationView**|`proporcionarDatos(dni, nombre, apellidos, usuario, email, password)`|Enviar información|
-|**DocentCreationView**|**DocentController**|`crearDocente(datos)`|Delegar la creación|
+|**AdministradorInstitucional**|**DocentCreationView**|`proporcionarDatos(dni, nombre, apellidos, usuario, email, password)`|Enviar informaciÃ³n|
+|**DocentCreationView**|**DocentController**|`crearDocente(datos)`|Delegar la creaciÃ³n|
 |**DocentController**|**Docent**|`validarNoDuplicado(dni, usuario)`|Verificar integridad|
 |**DocentController**|**Docent**|`inicializar(datos)`|Crear nueva instancia|
-|**DocentController**|**DocentCreationView**|`notificarExitoYRedirigir()`|Informar y pasar a edición|
+|**DocentController**|**DocentCreationView**|`notificarExitoYRedirigir()`|Informar y pasar a ediciÃ³n|
 
 ## trazabilidad con artefactos previos
 
-- **Flujo**: Redirige a edición para completar perfiles complejos.
+- **Flujo**: Redirige a ediciÃ³n para completar perfiles complejos.
 
 ```plantuml
 @startuml crearDocente-analisis
@@ -78,3 +78,50 @@ DocentController --> DocentCreationView: notificarExitoYRedirigir()
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

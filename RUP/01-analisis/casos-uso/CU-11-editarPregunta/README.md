@@ -1,32 +1,32 @@
-# Jorgestor > CU-11-editarPregunta > Análisis
+﻿# Jorgestor > CU-11-editarPregunta > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-11-editarPregunta/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-11-editarPregunta/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis del caso de uso Editar Pregunta. Permite la modificación de una pregunta y sus respuestas.
+AnÃ¡lisis del caso de uso Editar Pregunta. Permite la modificaciÃ³n de una pregunta y sus respuestas.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: editarPregunta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-11-editarPregunta/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: editarPregunta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-11-editarPregunta.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-11-editarPregunta.puml](analisis-colaboracion-CU-11-editarPregunta.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -37,30 +37,30 @@ Análisis del caso de uso Editar Pregunta. Permite la modificación de una pregu
 |**Answer**|Respuestas vinculadas a la pregunta|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
-|**QuestionEditView**|Interfaz que presenta datos actuales y permite edición|Wireframe|
+|**QuestionEditView**|Interfaz que presenta datos actuales y permite ediciÃ³n|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**QuestionController**|Coordina actualización, valida cambios y gestiona persistencia|editarPregunta()|
+|**QuestionController**|Coordina actualizaciÃ³n, valida cambios y gestiona persistencia|editarPregunta()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
 |**Docente**|**QuestionEditView**|`modificarCampos(datos)`|Introducir cambios|
 |**QuestionEditView**|**QuestionController**|`guardarCambios(datos)`|Solicitar persistencia|
 |**QuestionController**|**Question**|`actualizar(datos)`|Modificar entidad|
 |**QuestionController**|**Answer**|`actualizarRespuestas(respuestas)`|Modificar respuestas vinculadas|
-|**Docente**|**QuestionEditView**|`eliminarPregunta()`|Solicitar eliminación|
-|**QuestionEditView**|**QuestionController**|`eliminar()`|Gestionar eliminación de la entidad|
+|**Docente**|**QuestionEditView**|`eliminarPregunta()`|Solicitar eliminaciÃ³n|
+|**QuestionEditView**|**QuestionController**|`eliminar()`|Gestionar eliminaciÃ³n de la entidad|
 
 ## trazabilidad con artefactos previos
 
-- **Contextualidad**: Permite edición tanto en contextos generales como específicos de asignatura.
-- **Eliminación**: Considera dependencias (ej: uso en exámenes generados).
+- **Contextualidad**: Permite ediciÃ³n tanto en contextos generales como especÃ­ficos de asignatura.
+- **EliminaciÃ³n**: Considera dependencias (ej: uso en exÃ¡menes generados).
 
 ```plantuml
 @startuml editarPregunta-analisis
@@ -87,3 +87,50 @@ QuestionController --> Question: delete()
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

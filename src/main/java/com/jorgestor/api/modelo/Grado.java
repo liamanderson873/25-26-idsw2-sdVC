@@ -18,6 +18,7 @@ public class Grado {
     private String nombre;
 
     @OneToMany(mappedBy = "grado")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Alumno> alumnos;
 
     public Grado() {}

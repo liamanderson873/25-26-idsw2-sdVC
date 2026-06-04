@@ -37,10 +37,10 @@ public class ServicioExamen {
     private final RepositorioPregunta repoPregunta;
     private final RepositorioExamenAlumnoMarca repoMarcas;
 
-    public ServicioExamen(RepositorioExamen repoExamen, 
+    public ServicioExamen(RepositorioExamen repoExamen,
                           RepositorioExamenAlumno repoExamenAlumno, 
                           RepositorioAlumno repoAlumno,
-                          RepositorioAsignatura repoAsignatura,
+                          RepositorioAsignatura repoAsignatura,     
                           RepositorioPregunta repoPregunta,
                           RepositorioExamenAlumnoMarca repoMarcas) {
         this.repoExamen = repoExamen;
@@ -51,8 +51,88 @@ public class ServicioExamen {
         this.repoMarcas = repoMarcas;
     }
 
+    @Transactional(readOnly = true)
+    public List<Examen> listarTodos() {
+        return repoExamen.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<ExamenAlumno> listarEjemplaresPorExamen(Long examenId) {
+        return repoExamenAlumno.findByExamenId(examenId);
+    }
+
+    @Transactional
+    public void simularEntregaMasiva(Long examenId) {
+        Examen examen = repoExamen.findById(examenId)
+                .orElseThrow(() -> new RuntimeException("Examen no encontrado"));
+
+        List<ExamenAlumno> ejemplares = repoExamenAlumno.findByExamenId(examenId);
+
+        for (ExamenAlumno ej : ejemplares) {
+            if (ej.getEstado() == EstadoExamen.ASIGNADO || ej.getEstado() == EstadoExamen.PENDIENTE) {
+                // Simular marcas aleatorias (Captura de la IA)
+                for (Pregunta p : examen.getPreguntas()) {
+                    int randomIdx = (int) (Math.random() * 4);
+                    Respuesta resp = p.getRespuestas().stream()
+                            .filter(r -> r.getIndice().equals(randomIdx))
+                            .findFirst().orElse(null);
+
+                    ExamenAlumnoMarca marca = new ExamenAlumnoMarca();
+                    marca.setExamenAlumno(ej);
+                    marca.setPregunta(p);
+                    marca.setRespuesta(resp);
+                    marca.setIndiceMarcado(randomIdx);
+                    repoMarcas.save(marca);
+                }
+                ej.setEstado(EstadoExamen.PENDIENTE_CALIFICACION);
+                repoExamenAlumno.save(ej);
+            }
+        }
+    }
+
     /**
-     * CU-01: Corrección de Examen.
+     * Procesa la corrección de TODOS los alumnos que han entregado el examen.
+     * Representa la "gracia" del sistema: la automatización masiva.
+     */
+    @Transactional
+    public void corregirMasivo(Long examenId) {
+        List<ExamenAlumno> ejemplares = repoExamenAlumno.findByExamenId(examenId);
+
+        for (ExamenAlumno ej : ejemplares) {
+            // Solo corregimos los que están entregados pero no corregidos
+            if (ej.getEstado() == EstadoExamen.PENDIENTE_CALIFICACION || ej.getEstado() == EstadoExamen.REALIZADO) {
+                
+                List<ExamenAlumnoMarca> marcasAlumno = repoMarcas.findAll().stream()
+                        .filter(m -> m.getExamenAlumno().getId().equals(ej.getId()))
+                        .collect(Collectors.toList());
+
+                if (marcasAlumno.isEmpty()) continue;
+
+                double aciertos = 0;
+                double fallos = 0;
+
+                for (ExamenAlumnoMarca marca : marcasAlumno) {
+                    if (marca.getRespuesta() != null && marca.getRespuesta().isEsCorrecta()) {
+                        aciertos++;
+                    } else if (marca.getRespuesta() != null) {
+                        fallos++;
+                    }
+                }
+
+                double totalPreguntas = ej.getExamen().getPreguntas().size();
+                double penalizacion = fallos / 3.0;
+                double notaCalculada = ((aciertos - penalizacion) / totalPreguntas) * 10.0;
+                
+                ej.setNotaFinal(Math.max(0, Math.round(notaCalculada * 100.0) / 100.0));
+                ej.setEstado(EstadoExamen.CORREGIDO);
+                repoExamenAlumno.save(ej);
+            }
+        }
+    }
+
+    /**
+     * CU-01: Corrección de Examen (Manual).
+
      * Procesa los datos de la IA, calcula la nota y guarda auditoría.
      */
     @Transactional

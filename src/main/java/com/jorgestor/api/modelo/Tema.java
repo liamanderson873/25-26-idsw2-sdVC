@@ -22,6 +22,7 @@ public class Tema {
 
     @ManyToOne
     @JoinColumn(name = "asignatura_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Asignatura asignatura;
 
     @OneToMany(mappedBy = "tema")

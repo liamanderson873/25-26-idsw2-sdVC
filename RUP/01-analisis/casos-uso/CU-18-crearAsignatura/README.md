@@ -1,65 +1,65 @@
-# Jorgestor > CU-18-crearAsignatura > Análisis
+﻿# Jorgestor > CU-18-crearAsignatura > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-18-crearAsignatura/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-18-crearAsignatura/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis del caso de uso Crear Asignatura. Implica la inicialización de recursos vinculados.
+AnÃ¡lisis del caso de uso Crear Asignatura. Implica la inicializaciÃ³n de recursos vinculados.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: crearAsignatura()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-18-crearAsignatura/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: crearAsignatura()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-18-crearAsignatura.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-18-crearAsignatura.puml](analisis-colaboracion-CU-18-crearAsignatura.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
 |**Subject**|La nueva entidad asignatura|Modelo del dominio|
-|**QuestionBank**|Batería de preguntas asociada (conceptual)|Análisis|
+|**QuestionBank**|BaterÃ­a de preguntas asociada (conceptual)|AnÃ¡lisis|
 |**Student**|Alumnos matriculados|Modelo del dominio|
 |**Grade**|Grados asociados|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
-|**SubjectCreationView**|Interfaz para introducir datos mínimos, alumnos y grados|Wireframe|
+|**SubjectCreationView**|Interfaz para introducir datos mÃ­nimos, alumnos y grados|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**SubjectController**|Gestiona creación e inicialización de recursos vinculados|crearAsignatura()|
+|**SubjectController**|Gestiona creaciÃ³n e inicializaciÃ³n de recursos vinculados|crearAsignatura()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
 |**Docente**|**SubjectCreationView**|`solicitarCreacion()`|Iniciar proceso|
-|**Docente**|**SubjectCreationView**|`introducirDatos(nombre, codigo, curso)`|Enviar información obligatoria|
-|**SubjectCreationView**|**SubjectController**|`crearAsignatura(datos)`|Delegar creación|
+|**Docente**|**SubjectCreationView**|`introducirDatos(nombre, codigo, curso)`|Enviar informaciÃ³n obligatoria|
+|**SubjectCreationView**|**SubjectController**|`crearAsignatura(datos)`|Delegar creaciÃ³n|
 |**SubjectController**|**Subject**|`inicializar(datos)`|Crear entidad|
 |**SubjectController**|**QuestionBank**|`crearBateria()`|Inicializar espacio de trabajo|
-|**SubjectController**|**SubjectCreationView**|`notificarExitoYRedirigir()`|Informar y pasar a edición|
+|**SubjectController**|**SubjectCreationView**|`notificarExitoYRedirigir()`|Informar y pasar a ediciÃ³n|
 
 ## trazabilidad con artefactos previos
 
-- **Recursos**: Desencadena la creación de un espacio de trabajo (batería de preguntas).
+- **Recursos**: Desencadena la creaciÃ³n de un espacio de trabajo (baterÃ­a de preguntas).
 
 ```plantuml
 @startuml crearAsignatura-analisis
@@ -84,3 +84,50 @@ SubjectController --> SubjectCreationView: notificarExitoYRedirigir()
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

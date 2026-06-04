@@ -1,32 +1,32 @@
-# Jorgestor > CU-08-exportarPreguntas > Análisis
+﻿# Jorgestor > CU-08-exportarPreguntas > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-08-exportarPreguntas/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-08-exportarPreguntas/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis del caso de uso Exportar Preguntas.
+AnÃ¡lisis del caso de uso Exportar Preguntas.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: exportarPreguntas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-08-exportarPreguntas/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: exportarPreguntas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-08-exportarPreguntas/analisis-colaboracion-CU-08-exportarPreguntas.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-08-exportarPreguntas.puml](analisis-colaboracion-CU-08-exportarPreguntas.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -35,21 +35,21 @@ Análisis del caso de uso Exportar Preguntas.
 |**Answer**|Contiene las opciones de respuesta|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
-|**QuestionExportView**|Interfaz para gestionar exportación|Wireframe|
+|**QuestionExportView**|Interfaz para gestionar exportaciÃ³n|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**ExportController**|Orquesta recopilación y asegura integridad|exportarPreguntas()|
+|**ExportController**|Orquesta recopilaciÃ³n y asegura integridad|exportarPreguntas()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
-|**Docente**|**QuestionExportView**|`exportarPreguntas()`|Solicitar exportación|
-|**QuestionExportView**|**ExportController**|`recopilarPreguntas()`|Delegar recopilación|
+|**Docente**|**QuestionExportView**|`exportarPreguntas()`|Solicitar exportaciÃ³n|
+|**QuestionExportView**|**ExportController**|`recopilarPreguntas()`|Delegar recopilaciÃ³n|
 |**ExportController**|**Question**|`obtenerPreguntas()`|Consultar fuente|
 |**ExportController**|**Answer**|`obtenerRespuestas(pregunta)`|Consultar respuestas asociadas|
 |**ExportController**|**QuestionExportView**|`notificarExito()`|Informar resultado|
@@ -78,3 +78,50 @@ ExportController --> QuestionExportView: notificarExito()
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

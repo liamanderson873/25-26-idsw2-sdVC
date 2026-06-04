@@ -1,32 +1,32 @@
-# Jorgestor > CU-34-crearRespuesta > Análisis
+﻿# Jorgestor > CU-34-crearRespuesta > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-34-crearRespuesta/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-34-crearRespuesta/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis tecnológico agnóstico del caso de uso Crear Respuesta, siguiendo la metodología RUP. Permite analizar el proceso de alta de una nueva respuesta vinculada a una pregunta.
+AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Crear Respuesta, siguiendo la metodologÃ­a RUP. Permite analizar el proceso de alta de una nueva respuesta vinculada a una pregunta.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: crearRespuesta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-34-crearRespuesta/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: crearRespuesta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-34-crearRespuesta/analisis-colaboracion-CU-34-crearRespuesta.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-34-crearRespuesta.puml](analisis-colaboracion-CU-34-crearRespuesta.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -35,30 +35,30 @@ Análisis tecnológico agnóstico del caso de uso Crear Respuesta, siguiendo la 
 |**Question**|Entidad a la que se asocia la nueva respuesta|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
-|**AnswerCreationView**|Interfaz para introducir datos mínimos y confirmar la creación|Wireframe|
+|**AnswerCreationView**|Interfaz para introducir datos mÃ­nimos y confirmar la creaciÃ³n|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**AnswerCreationController**|Valida datos y coordina la creación de la entidad|crearRespuesta()|
+|**AnswerCreationController**|Valida datos y coordina la creaciÃ³n de la entidad|crearRespuesta()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
-|**Docente**|**AnswerCreationView**|`solicitarCrear()`|Manifestar intención de crear respuesta|
+|**Docente**|**AnswerCreationView**|`solicitarCrear()`|Manifestar intenciÃ³n de crear respuesta|
 |**AnswerCreationView**|**Docente**|`pedirDatos()`|Solicitar contenido y veracidad|
-|**Docente**|**AnswerCreationView**|`proporcionarDatos()`|Introducir la información requerida|
-|**AnswerCreationView**|**AnswerCreationController**|`crearRespuesta(datos)`|Delegar la lógica de creación|
+|**Docente**|**AnswerCreationView**|`proporcionarDatos()`|Introducir la informaciÃ³n requerida|
+|**AnswerCreationView**|**AnswerCreationController**|`crearRespuesta(datos)`|Delegar la lÃ³gica de creaciÃ³n|
 |**AnswerCreationController**|**Answer**|`new()`|Instanciar la nueva entidad|
 |**AnswerCreationController**|**Question**|`addAnswer(answer)`|Vincular la respuesta a la pregunta|
 
 ## trazabilidad con artefactos previos
 
-### con especificación detallada
-- **Estados internos** → `SolicitandoDatosRespuesta`, `ProcesandoCreacion`
+### con especificaciÃ³n detallada
+- **Estados internos** â†’ `SolicitandoDatosRespuesta`, `ProcesandoCreacion`
 
 
 ```plantuml
@@ -82,3 +82,50 @@ AnswerCreationController --> Question: addAnswer()
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

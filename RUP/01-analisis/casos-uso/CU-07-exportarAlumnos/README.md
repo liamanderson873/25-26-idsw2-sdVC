@@ -1,32 +1,32 @@
-# Jorgestor > CU-07-exportarAlumnos > Análisis
+﻿# Jorgestor > CU-07-exportarAlumnos > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-07-exportarAlumnos/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-07-exportarAlumnos/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis del caso de uso Exportar Alumnos.
+AnÃ¡lisis del caso de uso Exportar Alumnos.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: exportarAlumnos()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-07-exportarAlumnos/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: exportarAlumnos()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-07-exportarAlumnos/analisis-colaboracion-CU-07-exportarAlumnos.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-07-exportarAlumnos.puml](analisis-colaboracion-CU-07-exportarAlumnos.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -34,27 +34,27 @@ Análisis del caso de uso Exportar Alumnos.
 |**Student**|Fuente de los datos de alumnos|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
-|**StudentExportView**|Interfaz para solicitar exportación y ver resultado|Wireframe|
+|**StudentExportView**|Interfaz para solicitar exportaciÃ³n y ver resultado|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**ExportController**|Gestiona extracción y transformación de datos|exportarAlumnos()|
+|**ExportController**|Gestiona extracciÃ³n y transformaciÃ³n de datos|exportarAlumnos()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
-|**Docente**|**StudentExportView**|`exportarAlumnos()`|Solicitar exportación|
-|**StudentExportView**|**ExportController**|`prepararDatos()`|Delegar preparación|
+|**Docente**|**StudentExportView**|`exportarAlumnos()`|Solicitar exportaciÃ³n|
+|**StudentExportView**|**ExportController**|`prepararDatos()`|Delegar preparaciÃ³n|
 |**ExportController**|**Student**|`obtenerTodos()`|Consultar fuente|
 |**ExportController**|**StudentExportView**|`notificarExito()`|Informar resultado|
 
 ## trazabilidad con artefactos previos
 
-- **Abstracción**: Puede ser invocado de forma independiente o como parte de la Exportación Global.
+- **AbstracciÃ³n**: Puede ser invocado de forma independiente o como parte de la ExportaciÃ³n Global.
 
 ```plantuml
 @startuml exportarAlumnos-analisis
@@ -74,3 +74,50 @@ ExportController --> StudentExportView: notificarExito()
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

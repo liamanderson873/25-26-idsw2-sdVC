@@ -1,32 +1,32 @@
-# Jorgestor > CU-20-verPreguntas > Análisis
+﻿# Jorgestor > CU-20-verPreguntas > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-20-verPreguntas/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-20-verPreguntas/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis del caso de uso Ver Preguntas. Enfocado en la visualización y filtrado de la batería.
+AnÃ¡lisis del caso de uso Ver Preguntas. Enfocado en la visualizaciÃ³n y filtrado de la baterÃ­a.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: verPreguntas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-20-verPreguntas/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: verPreguntas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-20-verPreguntas.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-20-verPreguntas.puml](analisis-colaboracion-CU-20-verPreguntas.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -35,7 +35,7 @@ Análisis del caso de uso Ver Preguntas. Enfocado en la visualización y filtrad
 |**Subject**|Necesario para filtrado contextual|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
 |**QuestionListView**|Interfaz para visualizar lista y solicitar filtrado|Wireframe|
 
@@ -44,12 +44,12 @@ Análisis del caso de uso Ver Preguntas. Enfocado en la visualización y filtrad
 |-|-|-|
 |**QuestionController**|Recupera lista y aplica criterios de filtrado|verPreguntas()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
-|**Docente**|**QuestionListView**|`solicitarVerPreguntas()`|Iniciar visualización|
-|**QuestionListView**|**QuestionController**|`obtenerLista(contexto)`|Delegar recuperación|
+|**Docente**|**QuestionListView**|`solicitarVerPreguntas()`|Iniciar visualizaciÃ³n|
+|**QuestionListView**|**QuestionController**|`obtenerLista(contexto)`|Delegar recuperaciÃ³n|
 |**QuestionController**|**Question**|`consultar(contexto)`|Consultar entidades|
 |**Docente**|**QuestionListView**|`aplicarFiltro(criterios)`|Solicitar filtrado|
 |**QuestionListView**|**QuestionController**|`filtrar(criterios)`|Procesar criterios|
@@ -80,3 +80,50 @@ QuestionController --> Question: consultar(criterios)
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

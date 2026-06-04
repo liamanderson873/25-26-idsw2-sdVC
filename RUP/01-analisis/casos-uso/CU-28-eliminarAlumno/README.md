@@ -1,32 +1,32 @@
-# Jorgestor > CU-28-eliminarAlumno > Análisis
+﻿# Jorgestor > CU-28-eliminarAlumno > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-28-eliminarAlumno/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-28-eliminarAlumno/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis tecnológico agnóstico del caso de uso Eliminar Alumno, siguiendo la metodología RUP. Permite analizar el flujo y la validación de la baja de un alumno en el sistema.
+AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Eliminar Alumno, siguiendo la metodologÃ­a RUP. Permite analizar el flujo y la validaciÃ³n de la baja de un alumno en el sistema.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: eliminarAlumno()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-28-eliminarAlumno/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: eliminarAlumno()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-28-eliminarAlumno.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-28-eliminarAlumno.puml](analisis-colaboracion-CU-28-eliminarAlumno.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -34,29 +34,29 @@ Análisis tecnológico agnóstico del caso de uso Eliminar Alumno, siguiendo la 
 |**Student**|Entidad que representa al alumno a eliminar|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
-|**StudentDeleteView**|Interfaz que permite revisar datos, mostrar advertencias y confirmar la eliminación|Wireframe|
+|**StudentDeleteView**|Interfaz que permite revisar datos, mostrar advertencias y confirmar la eliminaciÃ³n|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**StudentController**|Gestiona la lógica de eliminación y coordina la baja del alumno|eliminarAlumno()|
+|**StudentController**|Gestiona la lÃ³gica de eliminaciÃ³n y coordina la baja del alumno|eliminarAlumno()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
-|**Docente**|**StudentDeleteView**|`solicitarEliminar()`|Solicitar la eliminación de un alumno|
-|**StudentDeleteView**|**Student**|`getDatos()`|Obtener información del alumno|
-|**Docente**|**StudentDeleteView**|`confirmarEliminar()`|Confirmar la acción de borrado|
-|**StudentDeleteView**|**StudentController**|`eliminarAlumno()`|Delegar la eliminación al controlador|
-|**StudentController**|**Student**|`delete()`|Eliminar físicamente la entidad|
+|**Docente**|**StudentDeleteView**|`solicitarEliminar()`|Solicitar la eliminaciÃ³n de un alumno|
+|**StudentDeleteView**|**Student**|`getDatos()`|Obtener informaciÃ³n del alumno|
+|**Docente**|**StudentDeleteView**|`confirmarEliminar()`|Confirmar la acciÃ³n de borrado|
+|**StudentDeleteView**|**StudentController**|`eliminarAlumno()`|Delegar la eliminaciÃ³n al controlador|
+|**StudentController**|**Student**|`delete()`|Eliminar fÃ­sicamente la entidad|
 
 ## trazabilidad con artefactos previos
 
-### con especificación detallada
-- **Estados internos** → `ConfirmingDeletion`, `DeletingStudent`
+### con especificaciÃ³n detallada
+- **Estados internos** â†’ `ConfirmingDeletion`, `DeletingStudent`
 
 
 ```plantuml
@@ -78,3 +78,50 @@ StudentController --> Student: delete()
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

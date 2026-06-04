@@ -1,32 +1,32 @@
-# Jorgestor > CU-33-verRespuestas > Análisis
+﻿# Jorgestor > CU-33-verRespuestas > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-33-verRespuestas/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-33-verRespuestas/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis tecnológico agnóstico del caso de uso Ver Respuestas, siguiendo la metodología RUP. Permite analizar la lógica de visualización y filtrado de las respuestas asociadas a una pregunta.
+AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Ver Respuestas, siguiendo la metodologÃ­a RUP. Permite analizar la lÃ³gica de visualizaciÃ³n y filtrado de las respuestas asociadas a una pregunta.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: verRespuestas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-33-verRespuestas/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: verRespuestas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-33-verRespuestas/analisis-colaboracion-CU-33-verRespuestas.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-33-verRespuestas.puml](analisis-colaboracion-CU-33-verRespuestas.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -35,18 +35,18 @@ Análisis tecnológico agnóstico del caso de uso Ver Respuestas, siguiendo la m
 |**Question**|Representa la pregunta a la que pertenecen las respuestas|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
 |**AnswerListView**|Interfaz que muestra la lista de respuestas y permite filtrar|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**AnswerConsultationController**|Gestiona la recuperación y el filtrado de respuestas|verRespuestas()|
+|**AnswerConsultationController**|Gestiona la recuperaciÃ³n y el filtrado de respuestas|verRespuestas()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
 |**Docente**|**AnswerListView**|`solicitarVerRespuestas()`|Solicitar la lista de respuestas|
 |**AnswerListView**|**AnswerConsultationController**|`getRespuestas(question)`|Recuperar respuestas de la entidad|
@@ -57,8 +57,8 @@ Análisis tecnológico agnóstico del caso de uso Ver Respuestas, siguiendo la m
 
 ## trazabilidad con artefactos previos
 
-### con especificación detallada
-- **Estados internos** → `MostrandoRespuestas`, `FiltrandoRespuestas`
+### con especificaciÃ³n detallada
+- **Estados internos** â†’ `MostrandoRespuestas`, `FiltrandoRespuestas`
 
 
 ```plantuml
@@ -82,3 +82,50 @@ AnswerListView --> AnswerConsultationController: filtrar()
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,19 +1,19 @@
-# Jorgestor > exportarAsignaturas > Análisis
+﻿# Jorgestor > exportarAsignaturas > AnÃ¡lisis
 
-## Propósito
-Análisis del caso de uso `exportarAsignaturas()` mediante diagrama de colaboración MVC, identificando clases de análisis y sus interacciones.
+## PropÃ³sito
+AnÃ¡lisis del caso de uso `exportarAsignaturas()` mediante diagrama de colaboraciÃ³n MVC, identificando clases de anÃ¡lisis y sus interacciones.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: exportarAsignaturas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-40-exportarAsignaturas/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: exportarAsignaturas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-40-exportarAsignaturas/analisis-colaboracion-CU-40-exportarAsignaturas.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-40-exportarAsignaturas.puml](analisis-colaboracion-CU-40-exportarAsignaturas.puml)|
 
 </div>
 
-## Clases de Análisis Identificadas
+## Clases de AnÃ¡lisis Identificadas
 
 ### Clases Model (Entidad)
 | Clase | Responsabilidad |
@@ -23,19 +23,19 @@ Análisis del caso de uso `exportarAsignaturas()` mediante diagrama de colaborac
 ### Clases View (Frontera)
 | Clase | Responsabilidad |
 |-------|-----------------|
-| **SubjectExportView** | Interfaz para configurar la exportación de asignaturas. |
+| **SubjectExportView** | Interfaz para configurar la exportaciÃ³n de asignaturas. |
 
 ### Clases Controller (Control)
 | Clase | Responsabilidad |
 |-------|-----------------|
-| **SubjectExportController** | Orquesta la recopilación de datos y generación del archivo. |
+| **SubjectExportController** | Orquesta la recopilaciÃ³n de datos y generaciÃ³n del archivo. |
 
-## Mensajes de Colaboración
-| Origen | Destino | Mensaje | Intención |
+## Mensajes de ColaboraciÃ³n
+| Origen | Destino | Mensaje | IntenciÃ³n |
 |--------|---------|---------|-----------|
-| **Docente** | **SubjectExportView** | `exportarAsignaturas()` | Iniciar proceso de exportación. |
-| **SubjectExportView** | **SubjectExportController** | `procesarExportacion()` | Delegar la lógica de exportación. |
-| **SubjectExportController** | **Subject** | `obtenerDatosAsignaturas()` | Recopilar información de las entidades. |
+| **Docente** | **SubjectExportView** | `exportarAsignaturas()` | Iniciar proceso de exportaciÃ³n. |
+| **SubjectExportView** | **SubjectExportController** | `procesarExportacion()` | Delegar la lÃ³gica de exportaciÃ³n. |
+| **SubjectExportController** | **Subject** | `obtenerDatosAsignaturas()` | Recopilar informaciÃ³n de las entidades. |
 
 ```plantuml
 @startuml
@@ -49,3 +49,50 @@ SubjectExportView -> SubjectExportController : procesarExportacion()
 SubjectExportController -> Subject : obtenerDatosAsignaturas()
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

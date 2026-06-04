@@ -1,42 +1,42 @@
-# Jorgestor > CU-21-verAsignaturas > Análisis
+﻿# Jorgestor > CU-21-verAsignaturas > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-21-verAsignaturas/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-21-verAsignaturas/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis del caso de uso Ver Asignaturas. Enfocado en la visualización y filtrado de las materias.
+AnÃ¡lisis del caso de uso Ver Asignaturas. Enfocado en la visualizaciÃ³n y filtrado de las materias.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: verAsignaturas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-21-verAsignaturas/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: verAsignaturas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-21-verAsignaturas.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-21-verAsignaturas.puml](analisis-colaboracion-CU-21-verAsignaturas.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
-|**Subject**|Representa la asignatura con su información básica y relaciones|Modelo del dominio|
+|**Subject**|Representa la asignatura con su informaciÃ³n bÃ¡sica y relaciones|Modelo del dominio|
 |**Student**|Necesario para contabilizar o listar los alumnos matriculados|Modelo del dominio|
 |**Grade**|Necesario para mostrar los grados asociados|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
 |**SubjectListView**|Interfaz para visualizar lista y solicitar filtrado|Wireframe|
 
@@ -45,12 +45,12 @@ Análisis del caso de uso Ver Asignaturas. Enfocado en la visualización y filtr
 |-|-|-|
 |**SubjectController**|Recupera lista completa y procesa solicitudes de filtrado|verAsignaturas()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
-|**Docente**|**SubjectListView**|`solicitarVerAsignaturas()`|Iniciar visualización|
-|**SubjectListView**|**SubjectController**|`obtenerLista()`|Delegar recuperación|
+|**Docente**|**SubjectListView**|`solicitarVerAsignaturas()`|Iniciar visualizaciÃ³n|
+|**SubjectListView**|**SubjectController**|`obtenerLista()`|Delegar recuperaciÃ³n|
 |**SubjectController**|**Subject**|`consultarTodos()`|Consultar entidades|
 |**Docente**|**SubjectListView**|`aplicarFiltro(criterios)`|Solicitar filtrado|
 |**SubjectListView**|**SubjectController**|`filtrar(criterios)`|Procesar criterios|
@@ -84,3 +84,50 @@ SubjectController --> Subject: consultar(criterios)
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,65 +1,65 @@
-# Jorgestor > CU-19-editarGrado > Análisis
+﻿# Jorgestor > CU-19-editarGrado > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-19-editarGrado/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-19-editarGrado/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis del caso de uso Editar Grado.
+AnÃ¡lisis del caso de uso Editar Grado.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: editarGrado()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-19-editarGrado/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: editarGrado()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-19-editarGrado.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-19-editarGrado.puml](analisis-colaboracion-CU-19-editarGrado.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
-|**Grade**|Entidad que representa el grado académico|Modelo del dominio|
+|**Grade**|Entidad que representa el grado acadÃ©mico|Modelo del dominio|
 |**Student**|Entidades asociadas al grado|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
-|**GradeEditView**|Interfaz para visualizar, modificar o solicitar eliminación|Wireframe|
+|**GradeEditView**|Interfaz para visualizar, modificar o solicitar eliminaciÃ³n|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**GradeController**|Gestiona lógica de edición, validación y coordinación|editarGrado()|
+|**GradeController**|Gestiona lÃ³gica de ediciÃ³n, validaciÃ³n y coordinaciÃ³n|editarGrado()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
-|**Docente**|**GradeEditView**|`verDatosActuales()`|Solicitar visualización|
-|**GradeEditView**|**GradeController**|`obtenerDatos()`|Delegar recuperación|
+|**Docente**|**GradeEditView**|`verDatosActuales()`|Solicitar visualizaciÃ³n|
+|**GradeEditView**|**GradeController**|`obtenerDatos()`|Delegar recuperaciÃ³n|
 |**GradeController**|**Grade**|`getDatos()`|Consultar entidad|
 |**Docente**|**GradeEditView**|`modificarCampos(datos)`|Introducir cambios|
 |**GradeEditView**|**GradeController**|`guardar(datos)`|Solicitar persistencia|
 |**GradeController**|**Grade**|`actualizar(datos)`|Persistir cambios|
-|**Docente**|**GradeEditView**|`eliminarGrado()`|Solicitar eliminación|
-|**GradeEditView**|**GradeController**|`eliminar()`|Gestionar eliminación|
+|**Docente**|**GradeEditView**|`eliminarGrado()`|Solicitar eliminaciÃ³n|
+|**GradeEditView**|**GradeController**|`eliminar()`|Gestionar eliminaciÃ³n|
 
 ## trazabilidad con artefactos previos
 
-- **Estados**: `EditingData`, `SavingData` (procesamiento de guardado o eliminación).
+- **Estados**: `EditingData`, `SavingData` (procesamiento de guardado o eliminaciÃ³n).
 
 ```plantuml
 @startuml editarGrado-analisis
@@ -87,3 +87,50 @@ GradeController --> Grade: delete()
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

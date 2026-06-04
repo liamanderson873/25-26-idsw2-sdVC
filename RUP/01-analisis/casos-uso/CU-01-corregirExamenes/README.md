@@ -20,9 +20,9 @@ Análisis tecnológico agnóstico del caso de uso Corregir Exámenes, siguiendo 
 
 <div align=center>
 
-|![Análisis: corregirExamenes()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-01-corregirExamenes/colaboracion.puml&fmt=svg)|
+|![Análisis: corregirExamenes()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-01-corregirExamenes/analisis-colaboracion-CU-01-corregirExamenes.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|Código fuente: [analisis-colaboracion-CU-01-corregirExamenes.puml](analisis-colaboracion-CU-01-corregirExamenes.puml)|
 
 </div>
 
@@ -30,9 +30,9 @@ Análisis tecnológico agnóstico del caso de uso Corregir Exámenes, siguiendo 
 
 <div align=center>
 
-|![Realización: CU-01-corregirExamenes](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-01-corregirExamenes/secuencia.puml&fmt=svg)|
+|![Realización: CU-01-corregirExamenes](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-01-corregirExamenes/analisis-secuencia-CU-01-corregirExamenes.puml&fmt=svg)|
 |-|
-|Código fuente: [secuencia.puml](secuencia.puml)|
+|Código fuente: [analisis-secuencia-CU-01-corregirExamenes.puml](analisis-secuencia-CU-01-corregirExamenes.puml)|
 
 </div>
 

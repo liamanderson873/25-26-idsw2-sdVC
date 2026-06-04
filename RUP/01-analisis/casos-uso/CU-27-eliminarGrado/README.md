@@ -1,64 +1,64 @@
-# Jorgestor > CU-27-eliminarGrado > Análisis
+﻿# Jorgestor > CU-27-eliminarGrado > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-27-eliminarGrado/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-27-eliminarGrado/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis tecnológico agnóstico del caso de uso Eliminar Grado, siguiendo la metodología RUP. Permite analizar el flujo y la validación de la baja de un grado en el sistema, considerando su impacto en los alumnos.
+AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Eliminar Grado, siguiendo la metodologÃ­a RUP. Permite analizar el flujo y la validaciÃ³n de la baja de un grado en el sistema, considerando su impacto en los alumnos.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: eliminarGrado()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-27-eliminarGrado/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: eliminarGrado()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-27-eliminarGrado.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-27-eliminarGrado.puml](analisis-colaboracion-CU-27-eliminarGrado.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
 |**Grade**|Entidad que representa el grado a eliminar|Modelo del dominio|
-|**Student**|Entidad relacionada para informar del impacto de la eliminación|Modelo del dominio|
+|**Student**|Entidad relacionada para informar del impacto de la eliminaciÃ³n|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
-|**GradeDeleteView**|Interfaz que permite visualizar información, advertencias y confirmar la eliminación|Wireframe|
+|**GradeDeleteView**|Interfaz que permite visualizar informaciÃ³n, advertencias y confirmar la eliminaciÃ³n|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**GradeController**|Gestiona la lógica de eliminación y procesa la baja de la entidad|eliminarGrado()|
+|**GradeController**|Gestiona la lÃ³gica de eliminaciÃ³n y procesa la baja de la entidad|eliminarGrado()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
-|**Docente**|**GradeDeleteView**|`solicitarEliminar()`|Solicitar la eliminación de un grado|
-|**GradeDeleteView**|**Grade**|`getDatos()`|Obtener información del grado|
+|**Docente**|**GradeDeleteView**|`solicitarEliminar()`|Solicitar la eliminaciÃ³n de un grado|
+|**GradeDeleteView**|**Grade**|`getDatos()`|Obtener informaciÃ³n del grado|
 |**GradeDeleteView**|**Student**|`getAlumnosAfectados()`|Obtener lista de alumnos que pertenecen al grado|
-|**Docente**|**GradeDeleteView**|`confirmarEliminar()`|Confirmar la acción de borrado|
-|**GradeDeleteView**|**GradeController**|`eliminarGrado()`|Delegar la eliminación al controlador|
-|**GradeController**|**Grade**|`delete()`|Eliminar físicamente la entidad|
+|**Docente**|**GradeDeleteView**|`confirmarEliminar()`|Confirmar la acciÃ³n de borrado|
+|**GradeDeleteView**|**GradeController**|`eliminarGrado()`|Delegar la eliminaciÃ³n al controlador|
+|**GradeController**|**Grade**|`delete()`|Eliminar fÃ­sicamente la entidad|
 
 ## trazabilidad con artefactos previos
 
-### con especificación detallada
-- **Estados internos** → `ConfirmingDeletion`, `DeletingGrade`
+### con especificaciÃ³n detallada
+- **Estados internos** â†’ `ConfirmingDeletion`, `DeletingGrade`
 
 
 ```plantuml
@@ -82,3 +82,50 @@ GradeController --> Grade: delete()
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

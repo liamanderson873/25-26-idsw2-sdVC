@@ -17,12 +17,43 @@ public class ControladorExamen {
 
     private final ServicioExamen servicioExamen;
 
-    public ControladorExamen(ServicioExamen servicioExamen) {
+    public ControladorExamen(ServicioExamen servicioExamen) {       
         this.servicioExamen = servicioExamen;
+    }
+
+    @GetMapping
+    public ResponseEntity<?> listar() {
+        return ResponseEntity.ok(servicioExamen.listarTodos());
+    }
+
+    @GetMapping("/{id}/ejemplares")
+    public ResponseEntity<?> listarEjemplares(@PathVariable Long id) {
+        return ResponseEntity.ok(servicioExamen.listarEjemplaresPorExamen(id));
+    }
+
+    @PostMapping("/{id}/entregar")
+    public ResponseEntity<?> entregarExamen(@PathVariable Long id) {
+        try {
+            servicioExamen.simularEntregaMasiva(id);
+            return ResponseEntity.ok("Todos los alumnos han 'realizado' el examen. Listos para corrección.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/{id}/corregir-masivo")
+    public ResponseEntity<?> corregirMasivo(@PathVariable Long id) {
+        try {
+            servicioExamen.corregirMasivo(id);
+            return ResponseEntity.ok("Corrección masiva completada por la IA para todos los alumnos entregados.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     /**
      * Endpoint para generar un nuevo examen (CU-02)
+
      */
     @PostMapping("/generar")
     public ResponseEntity<?> generarExamen(@RequestBody DTO_GenerarExamen dto) {

@@ -1,63 +1,63 @@
-# Jorgestor > CU-25-eliminarPregunta > Análisis
+﻿# Jorgestor > CU-25-eliminarPregunta > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-25-eliminarPregunta/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-25-eliminarPregunta/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
 > |-|-|-|-|-|-|-|
 
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis del caso de uso Eliminar Pregunta. Sigue el patrón de eliminación segura con confirmación explícita.
+AnÃ¡lisis del caso de uso Eliminar Pregunta. Sigue el patrÃ³n de eliminaciÃ³n segura con confirmaciÃ³n explÃ­cita.
 
-## diagrama de colaboración
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Análisis: eliminarPregunta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-25-eliminarPregunta/colaboracion.puml&fmt=svg)|
+|![AnÃ¡lisis: eliminarPregunta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-25-eliminarPregunta.puml&fmt=svg)|
 |-|
-|Código fuente: [colaboracion.puml](colaboracion.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-25-eliminarPregunta.puml](analisis-colaboracion-CU-25-eliminarPregunta.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
-|**Question**|La entidad que será eliminada del sistema|Modelo del dominio|
+|**Question**|La entidad que serÃ¡ eliminada del sistema|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
-|**QuestionDeleteView**|Interfaz para visualizar detalles, advertencias y confirmación|Wireframe|
+|**QuestionDeleteView**|Interfaz para visualizar detalles, advertencias y confirmaciÃ³n|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**QuestionController**|Gestiona el proceso de eliminación lógica o física|eliminarPregunta()|
+|**QuestionController**|Gestiona el proceso de eliminaciÃ³n lÃ³gica o fÃ­sica|eliminarPregunta()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
 |**Docente**|**QuestionDeleteView**|`solicitarEliminacion(id)`|Iniciar proceso de baja|
-|**QuestionDeleteView**|**QuestionController**|`obtenerDatosPregunta(id)`|Delegar recuperación para confirmación|
+|**QuestionDeleteView**|**QuestionController**|`obtenerDatosPregunta(id)`|Delegar recuperaciÃ³n para confirmaciÃ³n|
 |**QuestionController**|**Question**|`getDetalles()`|Consultar entidad|
 |**QuestionDeleteView**|**QuestionDeleteView**|`mostrarAdvertencia()`|Alertar sobre irreversibilidad|
-|**Docente**|**QuestionDeleteView**|`confirmarEliminacion()`|Confirmar acción|
+|**Docente**|**QuestionDeleteView**|`confirmarEliminacion()`|Confirmar acciÃ³n|
 |**QuestionDeleteView**|**QuestionController**|`eliminarDefinitivamente(id)`|Ejecutar la baja|
 |**QuestionController**|**Question**|`delete()`|Eliminar del sistema|
 
 ## trazabilidad con artefactos previos
 
-- **Seguridad**: Implementa eliminación con confirmación obligatoria.
+- **Seguridad**: Implementa eliminaciÃ³n con confirmaciÃ³n obligatoria.
 - **Estados**: `ConfirmingDeletion`, `DeletingQuestion`.
 
 ```plantuml
@@ -82,3 +82,50 @@ QuestionController --> Question: delete()
 
 @enduml
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

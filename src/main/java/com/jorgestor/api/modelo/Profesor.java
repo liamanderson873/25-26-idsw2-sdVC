@@ -30,5 +30,6 @@ public class Profesor {
     private String email;
 
     @OneToMany(mappedBy = "profesor")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Asignatura> asignaturas;
 }
