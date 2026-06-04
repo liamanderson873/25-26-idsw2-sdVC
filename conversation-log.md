@@ -443,6 +443,9 @@ Inicio de jornada para el desarrollo de ajustes en los CRUDs. Se identifica la n
 1.  **Script start-all.ps1**: Creación de un script de PowerShell en la raíz que unifica la limpieza de puertos, el arranque del backend en la terminal actual y el lanzamiento del frontend en una nueva ventana de terminal.
 2.  **Actualización de Instrucciones**: Se ha incluido el comando unificado en `CONTEXTO_PROYECTO.md` para evitar que el usuario tenga que recordar la ruta manual del frontend.
 3.  **Hito de Eficiencia**: El tiempo de inicialización del entorno se reduce a un solo comando, garantizando que ambos servicios estén sincronizados desde el inicio.
+4.  **Estabilización Frontend (Anti-Crash)**: Resolución definitiva del problema de "Pantalla en Blanco" mediante:
+    - **Sincronización de Rutas**: Ajuste de NavLinks en `Sidebar.tsx` para coincidir con `App.tsx`.
+    - **Programación Defensiva**: Implementación masiva de encadenamiento opcional (`?.`) y estados de carga (`isLoading`) en todas las páginas core para prevenir errores de tipo al cargar datos asíncronos.
 
 ---
 *Entorno listo. Iniciamos fase de ajustes en los CRUDs.*

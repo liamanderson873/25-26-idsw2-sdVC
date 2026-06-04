@@ -29,14 +29,18 @@ const AsignarExamenPage: React.FC = () => {
     }
   });
 
-  const examenesFiltrados = examenes.filter(ex => filterAsignaturaId === 0 || ex.asignatura.id === filterAsignaturaId);
+  const examenesFiltrados = (examenes || []).filter(ex => filterAsignaturaId === 0 || ex.asignatura?.id === filterAsignaturaId);
 
-  const alumnosFiltrados = alumnos.filter(a => {
+  const alumnosFiltrados = (alumnos || []).filter(a => {
     const matchGrado = filterGradoId === 0 || a.gradoId === filterGradoId;
-    const searchLower = searchTermAlumno.toLowerCase();
-    const matchSearch = a.nombre.toLowerCase().includes(searchLower) || 
-                        a.apellidos.toLowerCase().includes(searchLower) || 
-                        a.dni.toLowerCase().includes(searchLower);
+    const nombre = a.nombre || '';
+    const apellidos = a.apellidos || '';
+    const dni = a.dni || '';
+    const searchLower = (searchTermAlumno || '').toLowerCase();
+    
+    const matchSearch = nombre.toLowerCase().includes(searchLower) || 
+                        apellidos.toLowerCase().includes(searchLower) || 
+                        dni.toLowerCase().includes(searchLower);
     return matchGrado && matchSearch;
   });
 
@@ -82,7 +86,9 @@ const AsignarExamenPage: React.FC = () => {
                     transition: 'all 0.2s'
                   }}
                 >
-                  <div style={{ fontWeight: '600', fontSize: '0.9rem', color: selectedExamenId === ex.id ? 'var(--primary)' : 'var(--text-main)' }}>{ex.asignatura.nombre}</div>
+                  <div style={{ fontWeight: '600', fontSize: '0.9rem', color: selectedExamenId === ex.id ? 'var(--primary)' : 'var(--text-main)' }}>
+                    {ex.asignatura?.nombre || 'Sin asignatura'}
+                  </div>
                   <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>ID: {ex.id} • {ex.tipoEvaluacion}</div>
                 </div>
               ))}
@@ -150,6 +156,17 @@ const AsignarExamenPage: React.FC = () => {
                   }}
                 >
                   {mutation.isPending ? 'Asignando...' : 'VINCULAR MODELO (' + selectedAlumnoIds.length + ' ALUMNOS)'}
+                </button>
+             </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+};
+
+export default AsignarExamenPage;
+lectedAlumnoIds.length + ' ALUMNOS)'}
                 </button>
              </div>
           </div>

@@ -15,10 +15,10 @@ const Sidebar: React.FC = () => {
           <NavLink to="/" className={({ isActive }) => isActive ? styles.active : ''}>
              <span style={{ marginRight: '10px' }}>⚡</span> Generar Examen
           </NavLink>
-          <NavLink to="/asignar" className={({ isActive }) => isActive ? styles.active : ''}>
+          <NavLink to="/asignar-examen" className={({ isActive }) => isActive ? styles.active : ''}>
              <span style={{ marginRight: '10px' }}>👥</span> Asignar Alumnos
           </NavLink>
-          <NavLink to="/corregir" className={({ isActive }) => isActive ? styles.active : ''}>
+          <NavLink to="/corregir-examen" className={({ isActive }) => isActive ? styles.active : ''}>
              <span style={{ marginRight: '10px' }}>✅</span> Corregir Exámenes
           </NavLink>
         </div>

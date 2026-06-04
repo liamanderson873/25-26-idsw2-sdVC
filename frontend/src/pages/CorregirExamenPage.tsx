@@ -82,9 +82,9 @@ const CorregirExamenPage: React.FC = () => {
     }));
   };
 
-  const asignaturasFiltradas = asignaturas.filter(a => selGradoId === 0 || a.gradoId === selGradoId);
-  const examenesFiltrados = examenes.filter(e => selAsignaturaId === 0 || e.asignatura.id === selAsignaturaId);
-  const hayPendientesDeEntrega = ejemplares.some(ej => ej.estado === 'PENDIENTE' || ej.estado === 'ASIGNADO');
+  const asignaturasFiltradas = (asignaturas || []).filter(a => selGradoId === 0 || a.gradoId === selGradoId);
+  const examenesFiltrados = (examenes || []).filter(e => selAsignaturaId === 0 || e.asignatura?.id === selAsignaturaId);
+  const hayPendientesDeEntrega = (ejemplares || []).some(ej => ej.estado === 'PENDIENTE' || ej.estado === 'ASIGNADO');
 
   return (
     <div style={{ maxWidth: '1200px' }}>
@@ -135,7 +135,7 @@ const CorregirExamenPage: React.FC = () => {
                           📥 SIMULAR ENTREGAS
                         </button>
                       )}
-                      {selExamenId > 0 && !hayPendientesDeEntrega && ejemplares.some(ej => ej.estado !== 'CORREGIDO') && (
+                      {selExamenId > 0 && !hayPendientesDeEntrega && (ejemplares || []).some(ej => ej.estado !== 'CORREGIDO') && (
                         <button 
                           onClick={() => corregirMasivoMutation.mutate()}
                           style={{ padding: '0.5rem 1rem', background: 'var(--success)', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', fontSize: '0.8rem' }}
@@ -157,10 +157,10 @@ const CorregirExamenPage: React.FC = () => {
                          </tr>
                       </thead>
                       <tbody>
-                         {ejemplares.map(ej => (
+                         {(ejemplares || []).map(ej => (
                            <tr key={ej.id} style={{ borderBottom: '1px solid var(--border)', fontSize: '0.9rem' }}>
                               <td style={{ padding: '1rem' }}>
-                                 <div style={{ fontWeight: '600' }}>{ej.alumno.apellidos}, {ej.alumno.nombre}</div>
+                                 <div style={{ fontWeight: '600' }}>{ej.alumno?.apellidos || 'Sin apellidos'}, {ej.alumno?.nombre || 'Sin nombre'}</div>
                                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>{ej.claveCorreccion}</div>
                               </td>
                               <td style={{ padding: '1rem' }}>
@@ -198,14 +198,14 @@ const CorregirExamenPage: React.FC = () => {
         <div style={{ background: 'white', padding: '2.5rem', borderRadius: 'var(--radius)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-lg)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem', borderBottom: '2px solid var(--background)', paddingBottom: '1.5rem' }}>
               <div>
-                <h2 style={{ fontSize: '1.5rem' }}>{selEjemplar.alumno.nombre} {selEjemplar.alumno.apellidos}</h2>
-                <p style={{ color: 'var(--text-muted)' }}>{examenData.nombreAsignatura} • {selEjemplar.claveCorreccion}</p>
+                <h2 style={{ fontSize: '1.5rem' }}>{selEjemplar?.alumno?.nombre || 'Alumno'} {selEjemplar?.alumno?.apellidos || ''}</h2>
+                <p style={{ color: 'var(--text-muted)' }}>{examenData?.nombreAsignatura || 'Asignatura'} • {selEjemplar?.claveCorreccion}</p>
               </div>
               <button onClick={() => setPaso(1)} style={{ padding: '0.6rem 1.2rem', background: '#f1f5f9', border: '1px solid var(--border)', borderRadius: '8px', cursor: 'pointer', fontWeight: '600' }}>Cerrar</button>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem' }}>
-            {examenData.preguntas.map((preg: any, idx: number) => (
+            {(examenData?.preguntas || []).map((preg: any, idx: number) => (
               <div key={idx} style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border)', background: '#f8fafc' }}>
                 <div style={{ fontSize: '0.7rem', fontWeight: '800', color: 'var(--primary)', marginBottom: '0.5rem' }}>PREGUNTA {idx + 1}</div>
                 <p style={{ fontSize: '0.9rem', fontWeight: '500', marginBottom: '1.25rem', height: '3em', overflow: 'hidden' }}>{preg.enunciado}</p>
