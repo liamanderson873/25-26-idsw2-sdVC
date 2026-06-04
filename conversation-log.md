@@ -429,6 +429,24 @@ Mantenimiento preventivo del repositorio para eliminar ruido técnico y asegurar
 ---
 *Sesión de limpieza completada. El entorno está optimizado para continuar con el desarrollo del Frontend.*
 
+## Conversación 34: Unificación de Arranque y Preparación de Entorno
+**Fecha**: 2026-06-04
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Inicio de jornada para el desarrollo de ajustes en los CRUDs. Se identifica la necesidad de simplificar el arranque del ecosistema completo.
+
+**Prompt clave de Liam**:
+> "podemos hacer alguna manera para iniciar los dos a la vez?"
+
+### Desarrollo Principal
+1.  **Script start-all.ps1**: Creación de un script de PowerShell en la raíz que unifica la limpieza de puertos, el arranque del backend en la terminal actual y el lanzamiento del frontend en una nueva ventana de terminal.
+2.  **Actualización de Instrucciones**: Se ha incluido el comando unificado en `CONTEXTO_PROYECTO.md` para evitar que el usuario tenga que recordar la ruta manual del frontend.
+3.  **Hito de Eficiencia**: El tiempo de inicialización del entorno se reduce a un solo comando, garantizando que ambos servicios estén sincronizados desde el inicio.
+
+---
+*Entorno listo. Iniciamos fase de ajustes en los CRUDs.*
+
 
 
 
