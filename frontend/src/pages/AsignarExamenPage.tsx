@@ -15,10 +15,10 @@ const AsignarExamenPage: React.FC = () => {
 
   const queryClient = useQueryClient();
 
-  const { data: examenes = [] } = useQuery({ queryKey: ['examenes'], queryFn: getExamenes });
-  const { data: alumnos = [] } = useQuery({ queryKey: ['alumnos'], queryFn: getAlumnos });
-  const { data: grados = [] } = useQuery({ queryKey: ['grados'], queryFn: getGrados });
-  const { data: asignaturas = [] } = useQuery({ queryKey: ['asignaturas'], queryFn: getAsignaturas });
+  const { data: examenes = [], isLoading: loadEx } = useQuery({ queryKey: ['examenes'], queryFn: getExamenes });
+  const { data: alumnos = [], isLoading: loadAl } = useQuery({ queryKey: ['alumnos'], queryFn: getAlumnos });
+  const { data: grados = [], isLoading: loadGr } = useQuery({ queryKey: ['grados'], queryFn: getGrados });
+  const { data: asignaturas = [], isLoading: loadAs } = useQuery({ queryKey: ['asignaturas'], queryFn: getAsignaturas });
 
   const mutation = useMutation({
     mutationFn: () => asignarExamen(selectedExamenId, selectedAlumnoIds),
@@ -28,6 +28,10 @@ const AsignarExamenPage: React.FC = () => {
       queryClient.invalidateQueries({ queryKey: ['examenes'] });
     }
   });
+
+  if (loadEx || loadAl || loadGr || loadAs) {
+    return <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>Cargando datos del sistema...</div>;
+  }
 
   const examenesFiltrados = (examenes || []).filter(ex => filterAsignaturaId === 0 || ex.asignatura?.id === filterAsignaturaId);
 
@@ -156,17 +160,6 @@ const AsignarExamenPage: React.FC = () => {
                   }}
                 >
                   {mutation.isPending ? 'Asignando...' : 'VINCULAR MODELO (' + selectedAlumnoIds.length + ' ALUMNOS)'}
-                </button>
-             </div>
-          </div>
-        </section>
-      </div>
-    </div>
-  );
-};
-
-export default AsignarExamenPage;
-lectedAlumnoIds.length + ' ALUMNOS)'}
                 </button>
              </div>
           </div>
