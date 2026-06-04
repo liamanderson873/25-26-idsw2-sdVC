@@ -409,6 +409,24 @@ Reactivación del proyecto para el desarrollo del Frontend. Se detecta que el si
 ---
 *Fin de la sesión. Mañana continuaremos con los ajustes de los CRUDs.*
 
+## Conversación 33: Limpieza de Infraestructura y Refactorización de Archivos
+**Fecha**: 2026-06-04
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Mantenimiento preventivo del repositorio para eliminar ruido técnico y asegurar un historial limpio antes de las entregas finales.
+
+**Prompt clave de Liam**:
+> "los fix... necesito que quites todos porque es algo que no quiero subir al proyecto y no sirve tenerlo al menos en el repositorio de jorgestor"
+
+### Desarrollo Principal
+1.  **Limpieza de Scripts**: Eliminación masiva de archivos temporales de utilidad (`fix_encoding_v*.ps1`, `fix_diagrams_v*.ps1`, `fix_encoding.py`, `rename_diagrams.ps1`, `update_diagrams.ps1`). Estos archivos fueron vitales durante la fase de corrección de codificación y renderizado de diagramas, pero su permanencia en el repositorio de producción es innecesaria.
+2.  **Nueva Regla de Oro**: Se ha formalizado en `CONTEXTO_PROYECTO.md` la prohibición de incluir scripts de utilidad temporal en el repositorio para garantizar un historial limpio y profesional.
+3.  **Hito de Calidad**: El repositorio ahora cumple con el estándar de "Taller Limpio", manteniendo únicamente los artefactos de código fuente, documentación RUP y scripts operativos esenciales (`run-jorgestor.ps1`).
+
+---
+*Sesión de limpieza completada. El entorno está optimizado para continuar con el desarrollo del Frontend.*
+
 
 
 
