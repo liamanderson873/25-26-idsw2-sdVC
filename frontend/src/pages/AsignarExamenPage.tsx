@@ -35,6 +35,7 @@ const AsignarExamenPage: React.FC = () => {
 
   const examenesFiltrados = (examenes || []).filter(ex => filterAsignaturaId === 0 || ex.asignatura?.id === filterAsignaturaId);
 
+
   const alumnosFiltrados = (alumnos || []).filter(a => {
     const matchGrado = filterGradoId === 0 || a.gradoId === filterGradoId;
     const nombre = a.nombre || '';
