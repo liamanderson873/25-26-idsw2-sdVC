@@ -473,6 +473,26 @@ Detección de fallos funcionales tras la estabilización visual. Se identifican 
 ---
 *Flujo funcional restaurado. El sistema es ahora operativamente completo.*
 
+## Conversación 36: Crisis de Consistencia y Saneamiento de Infraestructura
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Detección de un fallo crítico de "Pantalla en Blanco" masivo (49 errores en consola) tras la refactorización de la jerarquía Grado-Asignatura. Los datos antiguos en la base de datos quedaron inconsistentes, provocando excepciones en el renderizado del Frontend.
+
+**Prompt clave de Liam**:
+> "mira mi ultima captura pone que hay 49 errores no?"
+> "pudes decirme como configurar el path para que puedas directamente hacer tu todo lo del postgradesql"
+
+### Desarrollo Principal
+1.  **Diagnóstico Visual**: El análisis de capturas en `OneDrive\Pictures\Screenshots` confirmó que el Frontend estaba colapsando al intentar leer propiedades `null` de objetos antiguos.
+2.  **Mecanismo de Recuperación (Botón de Pánico)**: Se ha implementado `DatabaseCleaner.java` y la propiedad `jorgestor.db.clean-on-startup=true` para forzar un `TRUNCATE` masivo de tablas en el próximo arranque.
+3.  **Habilitación de Superpoderes**: Se han proporcionado instrucciones para añadir PostgreSQL al PATH del sistema, lo que permitirá a la IA ejecutar comandos SQL directos en el futuro.
+4.  **Hito de Estabilización**: Se ha blindado la interfaz de Asignación con `useMemo` y estados de carga individualizados, garantizando que el sistema sea inmune a latencias o datos parciales.
+
+---
+*Sesión suspendida para reinicio de CLI y configuración de PATH. Objetivo: Base de datos limpia y control total vía SQL.*
+
 
 
 
