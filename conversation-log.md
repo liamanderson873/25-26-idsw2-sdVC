@@ -422,7 +422,8 @@ Mantenimiento preventivo del repositorio para eliminar ruido técnico y asegurar
 ### Desarrollo Principal
 1.  **Limpieza de Scripts**: Eliminación masiva de archivos temporales de utilidad (`fix_encoding_v*.ps1`, `fix_diagrams_v*.ps1`, `fix_encoding.py`, `rename_diagrams.ps1`, `update_diagrams.ps1`). Estos archivos fueron vitales durante la fase de corrección de codificación y renderizado de diagramas, pero su permanencia en el repositorio de producción es innecesaria.
 2.  **Nueva Regla de Oro**: Se ha formalizado en `CONTEXTO_PROYECTO.md` la prohibición de incluir scripts de utilidad temporal en el repositorio para garantizar un historial limpio y profesional.
-3.  **Hito de Calidad**: El repositorio ahora cumple con el estándar de "Taller Limpio", manteniendo únicamente los artefactos de código fuente, documentación RUP y scripts operativos esenciales (`run-jorgestor.ps1`).
+3.  **Política de Datos**: Se ha eliminado el archivo `datos_prueba.sql` y se ha establecido la obligatoriedad de poblar datos directamente en PostgreSQL 17, alineándose con la arquitectura de persistencia del proyecto.
+4.  **Hito de Calidad**: El repositorio ahora cumple con el estándar de "Taller Limpio", manteniendo únicamente los artefactos de código fuente, documentación RUP y scripts operativos esenciales (`run-jorgestor.ps1`).
 
 ---
 *Sesión de limpieza completada. El entorno está optimizado para continuar con el desarrollo del Frontend.*
