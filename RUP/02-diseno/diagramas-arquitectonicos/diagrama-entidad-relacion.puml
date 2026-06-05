@@ -1,105 +1,116 @@
 @startuml
 title Diagrama de Entidad-Relación - Jorgestor (Implementación Final)
 
+' Definición de la disposición visual para que sea idéntica a la original
+'pero incluyendo los campos técnicos reales.
+
 class Examen{
- - id: Long
- - fecha: LocalDate
- - evaluación: EvaluaciónExamen
- - esPersonalizado: Boolean
+ -id: Long
+ -evaluación: EvaluaciónExamen
+ -clave corrección: String
+ -fecha: LocalDate
+ -esPersonalizado: Boolean
 }
 
 class Asignatura{
- - id: Long
- - título: String
- - código: String
- - curso académico: String
- - curso sugerido: Integer
+ -id: Long
+ -título: String
+ -código: String
+ -curso académico: String
+ -curso sugerido: Integer
 }
 
 class Pregunta{
- - id: Long
- - enunciado: String
- - dificultad: DificultadPregunta
+ -id: Long
+ -asignatura: Asignatura
+ -enunciado: String
+ -tema: Tema
+ -dificultad: DificultadPregunta
+}
+
+class BateriaDePreguntas{
 }
 
 class Grado{
- - id: Long
- - título: String
- - código: String
+ -id: Long
+ -título: String
+ -código: String
 }
 
 class Profesor{
- - id: Long
- - nombre: String
- - apellidos: String
- - DNI: String
- - email: String
+ -id: Long
+ -nombre: String
+ -apellidos: String
+ -DNI: String
 }
 
 class Alumno{
- - id: Long
- - nombre: String
- - apellidos: String
- - DNI: String
- - curso: Integer
+ -id: Long
+ -nombre: String
+ -apellidos: String
+ -DNI: String
+ -curso: Integer
 }
 
 enum EvaluaciónExamen{
- PARCIAL_1
- PARCIAL_2
- PARCIAL_3
- FINAL
- EXTRAORDINARIO
+ -Parcial 1
+ -Parcial 2
+ -Parcial 3
+ -Examen final
+ -Examen extraordinario
 }
 
 enum DificultadPregunta{
- FACIL
- MEDIO
- DIFICIL
+ -facil
+ -medio
+ -dificil
 }
 
 class Respuesta{
- - id: Long
- - contenido: String
- - esCorrecta: Boolean
- - índice: Integer
+ -id: Long
+ -opción: String
+ -esCorrecta: Boolean
+ -índice: Integer
 }
 
-class Tema {
- - id: Long
- - nombre: String
+class Tema{
+ -id: Long
+ -nombre: String
 }
 
 class ExamenAlumno {
- - id: Long
- - claveCorreccion: String (SHA-256)
- - notaFinal: Double
- - estado: EstadoExamen
+ -id: Long
+ -claveCorreccion: String (SHA-256)
+ -notaFinal: Double
+ -estado: EstadoExamen
 }
 
 class ExamenAlumnoMarca {
- - id: Long
- - índiceMarcado: Integer
+ -id: Long
+ -indiceMarcado: Integer
 }
 
-' Relaciones exactas al original pero extendidas
-Respuesta "*" -u-o "1" Pregunta : contiene
+' Relaciones del diagrama original (Baseline)
+Respuesta -u-* Pregunta
 Pregunta ..> DificultadPregunta
-Pregunta "*" -u-o "1" Examen : contiene
+Pregunta -u-o Examen : contiene
+Pregunta -u-* BateriaDePreguntas : contiene
 Examen ..> EvaluaciónExamen
-Examen "*" -- "1" Asignatura : tiene
-Profesor "1" -r- "*" Asignatura : imparte
-Asignatura "*" --> "*" Grado : pertenece
-Alumno "*" -u-o "*" ExamenAlumno : realiza
-Examen "1" -d- "*" ExamenAlumno : tiene
-Alumno "*" -- "*" Asignatura : se imparte
-Alumno "*" -- "1" Grado : se cursa
-Pregunta "*" ..> "1" Tema : pertenece
-Tema "*" -- "1" Asignatura : tiene
+BateriaDePreguntas -u-* Asignatura : tiene
+Examen -u-* Asignatura : tiene
+Profesor o-r- Asignatura : tiene
+Asignatura --> Grado : pertenece
+Alumno -u-o Examen : realiza
+Alumno -u-* Asignatura : se imparte
+Alumno -u-* Grado : se cursa
+Pregunta ..> Tema
 
-' Auditoría (Nuevo pero integrado en la línea)
-ExamenAlumno "1" *-- "*" ExamenAlumnoMarca : registra
-ExamenAlumnoMarca "*" -- "1" Pregunta
-ExamenAlumnoMarca "*" -- "1" Respuesta
+' Extensiones de la Implementación (As-Built) conectadas sin romper la jerarquía original
+Examen "1" -- "*" ExamenAlumno : genera
+Alumno "1" -- "*" ExamenAlumno : posee
+ExamenAlumno "1" *-- "*" ExamenAlumnoMarca : auditoría
+ExamenAlumnoMarca "*" -- "1" Pregunta : marcada
+ExamenAlumnoMarca "*" -- "1" Respuesta : elegida
+Tema "*" -- "1" Asignatura : pertenece
 
 @enduml
