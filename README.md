@@ -1,58 +1,57 @@
 # 🎓 Jorgestor: Sistema de Gestión de Exámenes Inteligente
 
+[![IDSW2](https://img.shields.io/badge/Asignatura-IDSW2-blue?style=for-the-badge&logo=spring)](../../)
+[![RUP](https://img.shields.io/badge/Metodología-RUP-orange?style=for-the-badge&logo=blueprint)](../../)
+[![Premium UI](https://img.shields.io/badge/Estética-Premium%20Apple-lightgrey?style=for-the-badge&logo=apple)](../../)
+
 Bienvenido al repositorio oficial de **Jorgestor**, una solución integral para la generación, asignación y auditoría de exámenes, desarrollada bajo los estándares de **Ingeniería del Software II (IDSW2)**.
 
 ---
 
-## 🚀 Navegación por el Proyecto
+## 🚀 Centro de Mando: Navegación Visual
 
-Accede rápidamente a las fases clave del desarrollo:
-
-1.  **[Análisis y Requisitos (RUP)](RUP/01-analisis/README.md)**: Detallado de casos de uso y diagramas de robustez iniciales.
-2.  **[Diseño Arquitectónico (RUP)](RUP/02-diseno/README.md)**: Definición de la estructura de datos y estados.
-3.  **[Trazabilidad Teórica IDSW2](TRAZABILIDAD_TEORICA.md)**: Justificación académica de cada decisión técnica.
-4.  **[Evolución del Diseño (Antes vs. Después)](RUP/EVOLUCION_DISENO.md)**: Comparativa técnica entre el modelado inicial y la implementación final.
+| [📂 ANÁLISIS](RUP/01-analisis/README.md) | [📂 DISEÑO](RUP/02-diseno/README.md) | [📂 TRAZABILIDAD](TRAZABILIDAD_TEORICA.md) | [📂 EVOLUCIÓN](RUP/EVOLUCION_DISENO.md) |
+| :---: | :---: | :---: | :---: |
+| ![Análisis](https://img.shields.io/badge/-Análisis%20MVC-white?style=flat&logo=diagramsdotnet&logoColor=black) | ![Diseño](https://img.shields.io/badge/-Arquitectura%20N:M-white?style=flat&logo=postgresql&logoColor=black) | ![Trazabilidad](https://img.shields.io/badge/-Teoría%20IDSW2-white?style=flat&logo=gitbook&logoColor=black) | ![Evolución](https://img.shields.io/badge/-Antes%20vs%20Después-white?style=flat&logo=chartjs&logoColor=black) |
 
 ---
 
-## 📈 Evolución del Modelado (Análisis vs. Realidad)
+## 📈 Evolución del Modelado (Baseline vs. Realidad)
 
-A continuación, se presenta la evolución del sistema siguiendo la metodología **JEDUF** (Just Enough Design Up Front). Los diagramas se renderizan en tiempo real:
+A continuación, se presenta la evolución técnica del sistema siguiendo la metodología **JEDUF** (Just Enough Design Up Front). Los diagramas se sincronizan con la arquitectura final implementada:
 
-### 1. Modelo de Datos (Diagrama Entidad-Relación)
+### 1. Arquitectura de Datos (Entidad-Relación)
 
-| **Baseline (Modelado Original)** | **As-Built (Implementado Final)** |
+| **Diseño Original (Baseline)** | **Implementación Final (As-Built)** |
 | :---: | :---: |
-| ![Modelado Original](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/documents/modelos/diagramas/diagramaEntidad/diagramaEntidad.puml) | ![Implementación Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagrama-entidad-relacion.puml) |
+| ![Original](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramaEntidad/original.puml) | ![Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagrama-entidad-relacion.puml) |
 
-### 2. Ciclo de Vida (Diagrama de Estados)
+### 2. Comportamiento (Ciclo de Vida del Examen)
 
-| **Flujo Original** | **Flujo Real Evolucionado** |
+| **Flujo Teórico** | **Flujo Real de Auditoría** |
 | :---: | :---: |
-| ![Estados Original](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/documents/modelos/diagramas/diagramaEstados/diagramaEstadosExamen/diagramaEstadosExamen.puml) | ![Estados Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagrama-estados-examen.puml) |
+| ![Original](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramaEstadosExamen/original.puml) | ![Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagrama-estados-examen.puml) |
 
 ---
 
-## 🛠️ Tecnologías y Estándares
+## 🛠️ Stack Tecnológico Premium
 
--   **Backend**: Java 21 + Spring Boot 3.2.5 (Arquitectura en capas).
--   **Frontend**: React + Vite (Estética Premium Apple Style).
--   **Base de Datos**: PostgreSQL 17 (3FN y ACID).
--   **Seguridad**: RBAC (Control de acceso por roles) y firmas SHA-256.
+- **Backend**: `Java 21` + `Spring Boot 3.2.5` + `PostgreSQL 17`.
+- **Frontend**: `React` + `Vite` + `TanStack Query`.
+- **Seguridad**: Autenticación `RBAC`, Firmas `SHA-256` y Auditoría Técnica.
+- **Calidad**: 100% libre de emojis, estética compacta de alta densidad.
 
 ---
 
-## 🚀 Cómo Iniciar el Ecosistema
-
-Para levantar el sistema completo (Frontend + Backend) con un solo comando:
+## 🚀 Cómo Iniciar el Sistema
 
 ```powershell
 .\start-all.ps1
 ```
 
-*Credenciales de prueba:*
+*Credenciales de acceso:*
 - **Administrador:** `admin` / `admin123`
 - **Docente:** `docente` / `docente123`
 
 ---
-*Este proyecto es la culminación de la aplicación práctica de la Ingeniería del Software, transformando requisitos complejos en un sistema robusto, mantenible y visualmente excepcional.*
+*Este repositorio es una prueba empírica de la aplicación de la ingeniería del software para resolver problemas académicos complejos de forma profesional.*
