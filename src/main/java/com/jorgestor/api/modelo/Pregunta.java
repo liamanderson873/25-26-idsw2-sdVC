@@ -26,6 +26,7 @@ public class Pregunta {
 
     @ManyToOne
     @JoinColumn(name = "tema_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Tema tema;
 
     @OneToMany(mappedBy = "pregunta", cascade = CascadeType.ALL, orphanRemoval = true)

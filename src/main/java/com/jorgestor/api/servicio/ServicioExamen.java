@@ -62,25 +62,38 @@ public class ServicioExamen {
     }
 
     @Transactional
+    public void simularRealizacionExamenes(Long examenId) {
+        simularEntregaMasiva(examenId);
+    }
+
+    @Transactional
     public void simularEntregaMasiva(Long examenId) {
         Examen examen = repoExamen.findById(examenId)
                 .orElseThrow(() -> new RuntimeException("Examen no encontrado"));
 
         List<ExamenAlumno> ejemplares = repoExamenAlumno.findByExamenId(examenId);
+        List<Pregunta> preguntas = examen.getPreguntas();
 
         for (ExamenAlumno ej : ejemplares) {
             if (ej.getEstado() == EstadoExamen.ASIGNADO || ej.getEstado() == EstadoExamen.PENDIENTE) {
-                // Simular marcas aleatorias (Captura de la IA)
-                for (Pregunta p : examen.getPreguntas()) {
+                // Limpiar marcas previas
+                repoMarcas.deleteByExamenAlumnoId(ej.getId());
+
+                for (Pregunta p : preguntas) {
                     int randomIdx = (int) (Math.random() * 4);
-                    Respuesta resp = p.getRespuestas().stream()
-                            .filter(r -> r.getIndice().equals(randomIdx))
-                            .findFirst().orElse(null);
+                    List<Respuesta> resps = p.getRespuestas();
+                    Respuesta respElegida = null;
+                    if (resps != null && !resps.isEmpty()) {
+                        respElegida = resps.stream()
+                            .filter(r -> r.getIndice() != null && r.getIndice().equals(randomIdx))
+                            .findFirst()
+                            .orElse(resps.get(0));
+                    }
 
                     ExamenAlumnoMarca marca = new ExamenAlumnoMarca();
                     marca.setExamenAlumno(ej);
                     marca.setPregunta(p);
-                    marca.setRespuesta(resp);
+                    marca.setRespuesta(respElegida);
                     marca.setIndiceMarcado(randomIdx);
                     repoMarcas.save(marca);
                 }
@@ -100,7 +113,7 @@ public class ServicioExamen {
 
         for (ExamenAlumno ej : ejemplares) {
             // Solo corregimos los que están entregados pero no corregidos
-            if (ej.getEstado() == EstadoExamen.PENDIENTE_CALIFICACION || ej.getEstado() == EstadoExamen.REALIZADO) {
+            if (ej.getEstado() == EstadoExamen.PENDIENTE_CALIFICACION || ej.getEstado() == EstadoExamen.REALIZADO || ej.getEstado() == EstadoExamen.ENTREGADO) {
                 
                 List<ExamenAlumnoMarca> marcasAlumno = repoMarcas.findAll().stream()
                         .filter(m -> m.getExamenAlumno().getId().equals(ej.getId()))
@@ -120,6 +133,8 @@ public class ServicioExamen {
                 }
 
                 double totalPreguntas = ej.getExamen().getPreguntas().size();
+                if (totalPreguntas == 0) continue;
+                
                 double penalizacion = fallos / 3.0;
                 double notaCalculada = ((aciertos - penalizacion) / totalPreguntas) * 10.0;
                 
@@ -132,7 +147,6 @@ public class ServicioExamen {
 
     /**
      * CU-01: Corrección de Examen (Manual).
-
      * Procesa los datos de la IA, calcula la nota y guarda auditoría.
      */
     @Transactional

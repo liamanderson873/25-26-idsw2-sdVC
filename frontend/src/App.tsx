@@ -9,6 +9,7 @@ import PreguntasPage from './pages/PreguntasPage';
 import GenerarExamenPage from './pages/GenerarExamenPage';
 import AsignarExamenPage from './pages/AsignarExamenPage';
 import CorregirExamenPage from './pages/CorregirExamenPage';
+import AuditoriaExamenesPage from './pages/AuditoriaExamenesPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="generar-examen" element={<GenerarExamenPage />} />
         <Route path="asignar-examen" element={<AsignarExamenPage />} />
         <Route path="corregir-examen" element={<CorregirExamenPage />} />
+        <Route path="auditoria-examenes" element={<AuditoriaExamenesPage />} />
         
         {/* Administración */}
         <Route path="grados" element={<GradosPage />} />

@@ -3,7 +3,7 @@ import type { Alumno } from '../types';
 
 export const getAlumnos = async (): Promise<Alumno[]> => {
   const response = await api.get<Alumno[]>('/alumnos');
-  return response.data;
+  return Array.isArray(response.data) ? response.data : [];
 };
 
 export const createAlumno = async (alumno: Alumno): Promise<Alumno> => {

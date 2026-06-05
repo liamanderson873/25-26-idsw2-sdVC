@@ -31,7 +31,7 @@ public class Asignatura {
     private Profesor profesor;
 
     @ManyToOne
-    @JoinColumn(name = "grado_id", nullable = true)
+    @JoinColumn(name = "grado_id", nullable = false)
     private Grado grado;
 
     @OneToMany(mappedBy = "asignatura")

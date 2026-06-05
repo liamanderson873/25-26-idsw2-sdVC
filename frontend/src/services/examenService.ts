@@ -3,12 +3,12 @@ import type { GenerarExamenDTO, Examen, ProcesarCorreccionDTO } from '../types';
 
 export const getExamenes = async (): Promise<Examen[]> => {
   const response = await api.get<Examen[]>('/examenes');
-  return response.data;
+  return Array.isArray(response.data) ? response.data : [];
 };
 
 export const getEjemplares = async (examenId: number): Promise<any[]> => {
   const response = await api.get<any[]>(`/examenes/${examenId}/ejemplares`);
-  return response.data;
+  return Array.isArray(response.data) ? response.data : [];
 };
 
 export const generarExamen = async (dto: GenerarExamenDTO): Promise<string> => {

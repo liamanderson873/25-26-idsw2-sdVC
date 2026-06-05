@@ -20,7 +20,7 @@ public class ServicioProfesor {
     @Transactional(readOnly = true)
     public List<DTO_Profesor> listarTodos() {
         return repoProfesor.findAll().stream()
-                .map(p -> new DTO_Profesor(p.getId(), p.getDni(), p.getNombre(), p.getApellidos(), p.getEmail()))
+                .map(p -> new DTO_Profesor(p.getId(), p.getDni(), p.getNombre(), p.getApellidos(), p.getEmail(), p.getUsuario(), p.getPassword()))
                 .collect(Collectors.toList());
     }
 
@@ -32,6 +32,8 @@ public class ServicioProfesor {
         profe.setNombre(dto.getNombre());
         profe.setApellidos(dto.getApellidos());
         profe.setEmail(dto.getEmail());
+        profe.setUsuario(dto.getUsuario());
+        profe.setPassword(dto.getPassword());
         repoProfesor.save(profe);
     }
 

@@ -3,7 +3,7 @@ import type { Asignatura } from '../types';
 
 export const getAsignaturas = async (): Promise<Asignatura[]> => {
   const response = await api.get<Asignatura[]>('/asignaturas');
-  return response.data;
+  return Array.isArray(response.data) ? response.data : [];
 };
 
 export const createAsignatura = async (asignatura: Asignatura): Promise<Asignatura> => {

@@ -3,7 +3,7 @@ import type { Grado } from '../types';
 
 export const getGrados = async (): Promise<Grado[]> => {
   const response = await api.get<Grado[]>('/grados');
-  return response.data;
+  return Array.isArray(response.data) ? response.data : [];
 };
 
 export const createGrado = async (grado: Grado): Promise<Grado> => {

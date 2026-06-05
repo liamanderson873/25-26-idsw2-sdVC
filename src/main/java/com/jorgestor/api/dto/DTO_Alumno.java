@@ -13,4 +13,5 @@ public class DTO_Alumno {
     private String nombre;
     private String apellidos;
     private String codigoGrado;
+    private Long gradoId;
 }

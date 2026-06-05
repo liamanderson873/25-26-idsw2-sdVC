@@ -21,10 +21,19 @@ const Sidebar: React.FC = () => {
           <NavLink to="/corregir-examen" className={({ isActive }) => isActive ? styles.active : ''}>
              <span style={{ marginRight: '10px' }}>✅</span> Corregir Exámenes
           </NavLink>
+          <NavLink to="/auditoria-examenes" className={({ isActive }) => isActive ? styles.active : ''}>
+             <span style={{ marginRight: '10px' }}>📊</span> Auditoría de Exámenes
+          </NavLink>
         </div>
 
         <div className={styles.section}>
           <div className={styles.sectionTitle}>Administración</div>
+          <NavLink to="/grados" className={({ isActive }) => isActive ? styles.active : ''}>
+             <span style={{ marginRight: '10px' }}>🏛️</span> Grados
+          </NavLink>
+          <NavLink to="/asignaturas" className={({ isActive }) => isActive ? styles.active : ''}>
+             <span style={{ marginRight: '10px' }}>📖</span> Asignaturas
+          </NavLink>
           <NavLink to="/preguntas" className={({ isActive }) => isActive ? styles.active : ''}>
              <span style={{ marginRight: '10px' }}>📚</span> Batería de Preguntas
           </NavLink>

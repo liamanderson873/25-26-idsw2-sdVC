@@ -27,12 +27,18 @@ public class ServicioAlumno {
     @Transactional(readOnly = true)
     public List<DTO_Alumno> listarTodos() {
         return repoAlumno.findAll().stream()
-                .map(a -> new DTO_Alumno(
-                        a.getId(),
-                        a.getDni(),
-                        a.getNombre(),
-                        a.getApellidos(),
-                        a.getGrado() != null ? a.getGrado().getCodigo() : null))
+                .map(a -> {
+                    DTO_Alumno dto = new DTO_Alumno();
+                    dto.setId(a.getId());
+                    dto.setDni(a.getDni());
+                    dto.setNombre(a.getNombre());
+                    dto.setApellidos(a.getApellidos());
+                    if (a.getGrado() != null) {
+                        dto.setCodigoGrado(a.getGrado().getCodigo());
+                        dto.setGradoId(a.getGrado().getId());
+                    }
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 

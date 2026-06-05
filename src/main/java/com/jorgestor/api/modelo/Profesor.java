@@ -29,6 +29,12 @@ public class Profesor {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false, unique = true)
+    private String usuario;
+
+    @Column(nullable = false)
+    private String password;
+
     @OneToMany(mappedBy = "profesor")
     @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Asignatura> asignaturas;

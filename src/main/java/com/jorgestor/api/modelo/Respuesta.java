@@ -28,5 +28,6 @@ public class Respuesta {
 
     @ManyToOne
     @JoinColumn(name = "pregunta_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Pregunta pregunta;
 }

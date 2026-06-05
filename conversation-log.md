@@ -493,6 +493,34 @@ Detección de un fallo crítico de "Pantalla en Blanco" masivo (49 errores en co
 ---
 *Sesión suspendida para reinicio de CLI y configuración de PATH. Objetivo: Base de datos limpia y control total vía SQL.*
 
+## Conversación 37: Estabilización Post-Saneamiento y Ajustes de CRUDs
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Nueva sesión de trabajo tras el saneamiento masivo de la base de datos (DatabaseCleaner). El objetivo es retomar el desarrollo del Frontend con una base de datos limpia y consistente.
+
+**Prompt clave de Liam**:
+> "empezemos con eso" (refiriéndose a la desactivación del modo limpieza y ajustes de CRUDs)
+
+### Desarrollo Principal
+1.  **Blindaje de Datos**: Desactivación de la propiedad `jorgestor.db.clean-on-startup` en `application.properties` para iniciar la persistencia real de datos.
+2.  **Arranque Unificado**: Ejecución de `start-all.ps1` para levantar simultáneamente el Backend (9090) y el Frontend (Vite).
+3.  **Hito de Estabilidad**: El sistema arranca con éxito sin rastro de los errores de inconsistencia previos.
+4.  **Refactorización CRUD (Frontend Full)**:
+    - **Grados, Asignaturas, Alumnos**: Se ha implementado la funcionalidad de edición (Update) en todas estas páginas, transformándolas en CRUDs completos.
+    - **Corrección de Referencias**: Se solucionó un error de importación de `getGrados` en `AsignaturasPage.tsx`.
+    - **Batería de Preguntas**: Implementación del formulario de creación de **Temas** y mejora en la visualización de la relación Tema-Asignatura.
+    - **Seguridad UI**: Se añadieron estados de edición visuales (bordes naranjas) y botones de cancelación para mejorar la UX.
+5.  **Refuerzo de Integridad (Backend)**: Sincronización estricta con el modelo de dominio al hacer obligatoria la relación entre `Asignatura` y `Grado` (`nullable = false`).
+6.  **Población Masiva de Pruebas**: Inyección de un set denso de datos (30 alumnos con nombres realistas, 75 preguntas) y limpieza de tildes para asegurar legibilidad total.
+7.  **Módulo de Auditoría y Simulación Core**: 
+    - Implementación de `AuditoriaExamenesPage.tsx` y botón de "Simular Realización".
+    - Resolución de error de recursividad infinita (StackOverflow) mediante `@JsonIgnore` en el modelo.
+    - Cierre del ciclo funcional: Generación -> Asignación -> Simulación de entrega masiva. Los alumnos quedan en estado `PENDIENTE_CALIFICACION`.
+
+---
+
 
 
 

@@ -26,7 +26,11 @@ const CorregirExamenPage: React.FC = () => {
   const { data: examenes = [] } = useQuery({ queryKey: ['examenes'], queryFn: getExamenes });
   const { data: ejemplares = [], isLoading: loadingEjemplares } = useQuery({ 
     queryKey: ['ejemplares', selExamenId], 
-    queryFn: () => getEjemplares(selExamenId),
+    queryFn: async () => {
+      const data = await getEjemplares(selExamenId);
+      console.log('Ejemplares cargados:', data);
+      return data || [];
+    },
     enabled: selExamenId > 0
   });
 
@@ -49,7 +53,7 @@ const CorregirExamenPage: React.FC = () => {
 
   const corregirMutation = useMutation({
     mutationFn: () => corregirExamen({
-      claveSHA256: selEjemplar.claveCorreccion,
+      claveSHA256: selEjemplar?.claveCorreccion || '',
       marcas: marcas
     }),
     onSuccess: (data) => {
@@ -60,12 +64,13 @@ const CorregirExamenPage: React.FC = () => {
   });
 
   const handleSelectAlumno = async (ejemplar: any) => {
+    if (!ejemplar) return;
     setSelEjemplar(ejemplar);
     try {
       const data = await exportarExamen(selExamenId);
       setExamenData(data);
       const initialMarcas: Record<string, number> = {};
-      data.preguntas.forEach((p: any, idx: number) => {
+      (data?.preguntas || []).forEach((p: any, idx: number) => {
         initialMarcas[p.id?.toString() || idx.toString()] = -1;
       });
       setMarcas(initialMarcas);
@@ -84,7 +89,7 @@ const CorregirExamenPage: React.FC = () => {
 
   const asignaturasFiltradas = (asignaturas || []).filter(a => selGradoId === 0 || a.gradoId === selGradoId);
   const examenesFiltrados = (examenes || []).filter(e => selAsignaturaId === 0 || e.asignatura?.id === selAsignaturaId);
-  const hayPendientesDeEntrega = (ejemplares || []).some(ej => ej.estado === 'PENDIENTE' || ej.estado === 'ASIGNADO');
+  const hayPendientesDeEntrega = (ejemplares || []).some(ej => ej && (ej.estado === 'PENDIENTE' || ej.estado === 'ASIGNADO'));
 
   return (
     <div style={{ maxWidth: '1200px' }}>
@@ -99,7 +104,7 @@ const CorregirExamenPage: React.FC = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                    <div>
                       <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--text-muted)', display: 'block', marginBottom: '0.5rem' }}>Grado</label>
-                      <select value={selGradoId} onChange={e => setSelGradoId(Number(e.target.value))} style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid var(--border)' }}>
+                      <select value={selGradoId} onChange={e => { setSelGradoId(Number(e.target.value)); setSelAsignaturaId(0); setSelExamenId(0); }} style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid var(--border)' }}>
                         <option value={0}>Todos...</option>
                         {grados.map(g => <option key={g.id} value={g.id}>{g.nombre}</option>)}
                       </select>
@@ -115,7 +120,7 @@ const CorregirExamenPage: React.FC = () => {
                       <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--text-muted)', display: 'block', marginBottom: '0.5rem' }}>Modelo</label>
                       <select value={selExamenId} onChange={e => setSelExamenId(Number(e.target.value))} style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid var(--border)' }}>
                         <option value={0}>Seleccionar...</option>
-                        {examenesFiltrados.map(ex => <option key={ex.id} value={ex.id}>ID: {ex.id} - {ex.tipoEvaluacion}</option>)}
+                        {examenesFiltrados.map(ex => <option key={ex.id} value={ex.id}>ID: {ex.id} - {ex.tipoEvaluacion?.replace('_', ' ')}</option>)}
                       </select>
                    </div>
                 </div>
@@ -130,15 +135,15 @@ const CorregirExamenPage: React.FC = () => {
                       {selExamenId > 0 && hayPendientesDeEntrega && (
                         <button 
                           onClick={() => entregarMasivoMutation.mutate()}
-                          style={{ padding: '0.5rem 1rem', background: 'var(--warning)', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', fontSize: '0.8rem' }}
+                          style={{ padding: '0.5rem 1rem', background: '#f59e0b', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', fontSize: '0.8rem' }}
                         >
                           📥 SIMULAR ENTREGAS
                         </button>
                       )}
-                      {selExamenId > 0 && !hayPendientesDeEntrega && (ejemplares || []).some(ej => ej.estado !== 'CORREGIDO') && (
+                      {selExamenId > 0 && !hayPendientesDeEntrega && (ejemplares || []).some(ej => ej && ej.estado !== 'CORREGIDO') && (
                         <button 
                           onClick={() => corregirMasivoMutation.mutate()}
-                          style={{ padding: '0.5rem 1rem', background: 'var(--success)', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', fontSize: '0.8rem' }}
+                          style={{ padding: '0.5rem 1rem', background: '#10b981', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', fontSize: '0.8rem' }}
                         >
                           🤖 CORRECCIÓN IA
                         </button>
@@ -147,47 +152,52 @@ const CorregirExamenPage: React.FC = () => {
                 </div>
 
                 <div style={{ maxHeight: '550px', overflowY: 'auto' }}>
-                   <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                      <thead>
-                         <tr style={{ textAlign: 'left', fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
-                            <th style={{ padding: '1rem' }}>Estudiante</th>
-                            <th style={{ padding: '1rem' }}>Estado</th>
-                            <th style={{ padding: '1rem', textAlign: 'center' }}>Nota</th>
-                            <th style={{ padding: '1rem', textAlign: 'right' }}>Acción</th>
-                         </tr>
-                      </thead>
-                      <tbody>
-                         {(ejemplares || []).map(ej => (
-                           <tr key={ej.id} style={{ borderBottom: '1px solid var(--border)', fontSize: '0.9rem' }}>
-                              <td style={{ padding: '1rem' }}>
-                                 <div style={{ fontWeight: '600' }}>{ej.alumno?.apellidos || 'Sin apellidos'}, {ej.alumno?.nombre || 'Sin nombre'}</div>
-                                 <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>{ej.claveCorreccion}</div>
-                              </td>
-                              <td style={{ padding: '1rem' }}>
-                                 <span style={{ 
-                                   padding: '0.25rem 0.6rem', borderRadius: '20px', fontSize: '0.7rem', fontWeight: '700',
-                                   background: ej.estado === 'CORREGIDO' ? '#ecfdf5' : '#fff7ed',
-                                   color: ej.estado === 'CORREGIDO' ? '#059669' : '#d97706'
-                                 }}>
-                                   {ej.estado}
-                                 </span>
-                              </td>
-                              <td style={{ padding: '1rem', textAlign: 'center', fontWeight: '700' }}>
-                                 {ej.notaFinal !== null ? ej.notaFinal : '-'}
-                              </td>
-                              <td style={{ padding: '1rem', textAlign: 'right' }}>
-                                 <button 
-                                   onClick={() => handleSelectAlumno(ej)}
-                                   disabled={ej.estado === 'PENDIENTE' || ej.estado === 'ASIGNADO'}
-                                   style={{ padding: '0.4rem 0.8rem', background: 'var(--primary)', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', opacity: (ej.estado === 'PENDIENTE' || ej.estado === 'ASIGNADO') ? 0.5 : 1 }}
-                                 >
-                                   Manual
-                                 </button>
-                              </td>
+                   {loadingEjemplares ? <p>Cargando alumnos...</p> : (
+                     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <thead>
+                           <tr style={{ textAlign: 'left', fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
+                              <th style={{ padding: '1rem' }}>Estudiante</th>
+                              <th style={{ padding: '1rem' }}>Estado</th>
+                              <th style={{ padding: '1rem', textAlign: 'center' }}>Nota</th>
+                              <th style={{ padding: '1rem', textAlign: 'right' }}>Acción</th>
                            </tr>
-                         ))}
-                      </tbody>
-                   </table>
+                        </thead>
+                        <tbody>
+                           {(ejemplares || []).map(ej => {
+                             if (!ej) return null;
+                             return (
+                               <tr key={ej.id} style={{ borderBottom: '1px solid var(--border)', fontSize: '0.9rem' }}>
+                                  <td style={{ padding: '1rem' }}>
+                                     <div style={{ fontWeight: '600' }}>{ej.alumno?.apellidos || 'Sin apellidos'}, {ej.alumno?.nombre || 'Sin nombre'}</div>
+                                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>{ej.claveCorreccion}</div>
+                                  </td>
+                                  <td style={{ padding: '1rem' }}>
+                                     <span style={{ 
+                                       padding: '0.25rem 0.6rem', borderRadius: '20px', fontSize: '0.7rem', fontWeight: '700',
+                                       background: ej.estado === 'CORREGIDO' ? '#ecfdf5' : '#fff7ed',
+                                       color: ej.estado === 'CORREGIDO' ? '#059669' : '#d97706'
+                                     }}>
+                                       {ej.estado}
+                                     </span>
+                                  </td>
+                                  <td style={{ padding: '1rem', textAlign: 'center', fontWeight: '700' }}>
+                                     {ej.notaFinal !== null ? ej.notaFinal : '-'}
+                                  </td>
+                                  <td style={{ padding: '1rem', textAlign: 'right' }}>
+                                     <button 
+                                       onClick={() => handleSelectAlumno(ej)}
+                                       disabled={ej.estado === 'PENDIENTE' || ej.estado === 'ASIGNADO'}
+                                       style={{ padding: '0.4rem 0.8rem', background: 'var(--primary)', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', opacity: (ej.estado === 'PENDIENTE' || ej.estado === 'ASIGNADO') ? 0.5 : 1 }}
+                                     >
+                                       Manual
+                                     </button>
+                                  </td>
+                               </tr>
+                             );
+                           })}
+                        </tbody>
+                     </table>
+                   )}
                 </div>
              </div>
           </main>

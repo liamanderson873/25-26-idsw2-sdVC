@@ -13,4 +13,6 @@ public class DTO_Profesor {
     private String nombre;
     private String apellidos;
     private String email;
+    private String usuario;
+    private String password;
 }
