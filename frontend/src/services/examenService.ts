@@ -41,4 +41,9 @@ export const exportarExamen = async (id: number): Promise<any> => {
   return response.data;
 };
 
+export const getAuditoriaAlumno = async (ejemplarId: number): Promise<any> => {
+  const response = await api.get(`/examenes/ejemplar/${ejemplarId}/auditoria`);
+  return response.data;
+};
+
 

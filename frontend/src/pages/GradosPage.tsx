@@ -1,6 +1,6 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getGrados, createGrado, deleteGrado } from '../services/gradoService';
+import { getGrados, createGrado, deleteGrado, updateGrado } from '../services/gradoService';
 import DataTable from '../components/DataTable';
 import type { Grado } from '../types';
 
@@ -15,7 +15,7 @@ const GradosPage: React.FC = () => {
   });
 
   const saveMutation = useMutation({
-    mutationFn: (grado: Grado) => createGrado(grado),
+    mutationFn: (grado: Grado) => editingId ? updateGrado(editingId, grado) : createGrado(grado),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['grados'] });
       resetForm();
@@ -42,54 +42,50 @@ const GradosPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.nombre.trim() || !form.codigo.trim()) return;
+    if (!form.nombre.trim() || !form.codigo?.trim()) return;
     saveMutation.mutate(form);
   };
 
   return (
-    <div>
-      <h1>Gestión de Grados</h1>
+    <div className="page-container fade-in">
+      <h1>Grados Académicos</h1>
+      <p className="subtitle">Gestión de la oferta educativa y códigos institucionales.</p>
       
-      <section style={{ marginBottom: '2rem', background: 'white', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', border: editingId ? '2px solid #e67e22' : 'none' }}>
-        <h3>{editingId ? '📝 Editar Grado' : '✨ Añadir Nuevo Grado'}</h3>
+      <section className="card" style={{ marginBottom: '2rem', maxWidth: '800px', border: editingId ? '1px solid var(--primary)' : '1px solid var(--border)' }}>
+        <h3 style={{ fontSize: '0.9rem', marginBottom: '1.25rem' }}>{editingId ? 'Editar Registro' : 'Añadir Nuevo Grado'}</h3>
         <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: '1rem', alignItems: 'end' }}>
           <div>
-            <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.4rem' }}>Código del Grado</label>
+            <label>Código</label>
             <input
               type="text"
               value={form.codigo}
               onChange={(e) => setForm({...form, codigo: e.target.value})}
               placeholder="Ej. GII"
-              style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
               disabled={!!editingId}
             />
           </div>
           <div>
-            <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.4rem' }}>Nombre del Grado</label>
+            <label>Nombre del Grado</label>
             <input
               type="text"
               value={form.nombre}
               onChange={(e) => setForm({...form, nombre: e.target.value})}
               placeholder="Ej. Ingeniería Informática"
-              style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
             />
           </div>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             {editingId && (
-              <button 
-                type="button" 
-                onClick={resetForm}
-                style={{ padding: '0.6rem 1.2rem', background: '#95a5a6', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-              >
+              <button type="button" onClick={resetForm} className="btn btn-secondary">
                 Cancelar
               </button>
             )}
             <button 
               type="submit" 
               disabled={saveMutation.isPending}
-              style={{ padding: '0.6rem 1.2rem', background: editingId ? '#e67e22' : '#3498db', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+              className="btn btn-primary"
+              style={{ minWidth: '100px' }}
             >
-              {saveMutation.isPending ? 'Guardando...' : (editingId ? 'Guardar' : 'Añadir')}
+              {saveMutation.isPending ? '...' : (editingId ? 'Actualizar' : 'Añadir')}
             </button>
           </div>
         </form>
@@ -99,7 +95,7 @@ const GradosPage: React.FC = () => {
         data={grados}
         isLoading={isLoading}
         columns={[
-          { header: 'Código', accessor: 'codigo' },
+          { header: 'Código', accessor: (g) => g.codigo || '...' },
           { header: 'Título del Grado', accessor: 'nombre' }
         ]}
         onEdit={handleEdit}
@@ -110,5 +106,3 @@ const GradosPage: React.FC = () => {
 };
 
 export default GradosPage;
-
-

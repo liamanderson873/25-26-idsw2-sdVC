@@ -9,12 +9,11 @@ import lombok.AllArgsConstructor;
  * Entidad de Auditoría: Registra la marca exacta que el alumno puso en el papel (o que la IA leyó).
  */
 @Entity
-@Table(name = "examen_alumno_marcas")
+@Table(name = "marcas_examen_alumno")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExamenAlumnoMarca {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

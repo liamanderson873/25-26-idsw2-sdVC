@@ -1,4 +1,4 @@
-﻿import api from '../api/axios';
+import api from '../api/axios';
 import type { Grado } from '../types';
 
 export const getGrados = async (): Promise<Grado[]> => {
@@ -11,8 +11,11 @@ export const createGrado = async (grado: Grado): Promise<Grado> => {
   return response.data;
 };
 
+export const updateGrado = async (id: number, grado: Grado): Promise<Grado> => {
+  const response = await api.put<Grado>(`/grados/${id}`, grado);
+  return response.data;
+};
+
 export const deleteGrado = async (id: number): Promise<void> => {
   await api.delete(`/grados/${id}`);
 };
-
-

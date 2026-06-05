@@ -24,6 +24,7 @@ public class DTO_ExportarExamen {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class PreguntaExport {
+        private Long id;
         private String enunciado;
         private String dificultad;
         private List<String> opciones;

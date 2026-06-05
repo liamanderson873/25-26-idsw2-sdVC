@@ -15,43 +15,50 @@ interface DataTableProps<T> {
 }
 
 function DataTable<T extends { id?: number }>({ data, columns, isLoading, onEdit, onDelete }: DataTableProps<T>) {
-  if (isLoading) return <div style={{ textAlign: 'center', padding: '2rem' }}>Cargando datos...</div>;
+  if (isLoading) {
+    return (
+      <div className={styles.loading}>
+        <div className={styles.spinner}></div>
+        <p>Cargando datos...</p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.tableContainer}>
       <table className={styles.table}>
-        <thead>
+        <thead className={styles.thead}>
           <tr>
             {columns.map((col, idx) => (
-              <th key={idx}>{col.header}</th>
+              <th key={idx} className={styles.th}>{col.header}</th>
             ))}
-            {(onEdit || onDelete) && <th style={{ textAlign: 'center' }}>Acciones</th>}
+            {(onEdit || onDelete) && <th className={styles.th} style={{ textAlign: 'center' }}>Acciones</th>}
           </tr>
         </thead>
         <tbody>
           {data.length === 0 ? (
             <tr>
-              <td colSpan={columns.length + (onEdit || onDelete ? 1 : 0)} style={{ textAlign: 'center', padding: '2rem', color: '#999' }}>
+              <td colSpan={columns.length + (onEdit || onDelete ? 1 : 0)} className={styles.empty}>
                 No hay registros disponibles.
               </td>
             </tr>
           ) : (
             data.map((item, rowIdx) => (
-              <tr key={item.id || rowIdx}>
+              <tr key={item.id || rowIdx} className={styles.tr}>
                 {columns.map((col, colIdx) => (
-                  <td key={colIdx}>
+                  <td key={colIdx} className={styles.td}>
                     {typeof col.accessor === 'function' 
                       ? col.accessor(item) 
                       : (item[col.accessor] as React.ReactNode)}
                   </td>
                 ))}
                 {(onEdit || onDelete) && (
-                  <td style={{ textAlign: 'center' }}>
+                  <td className={styles.td} style={{ textAlign: 'center' }}>
                     <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
                       {onEdit && (
                         <button 
                           onClick={() => onEdit(item)}
-                          className={styles.editButton}
+                          style={{ padding: '0.4rem', background: '#eff6ff', color: 'var(--primary)', border: '1px solid #dbeafe', borderRadius: '6px' }}
                           title="Editar"
                         >
                           ✎
@@ -64,7 +71,7 @@ function DataTable<T extends { id?: number }>({ data, columns, isLoading, onEdit
                               onDelete(item);
                             }
                           }}
-                          className={styles.deleteButton}
+                          style={{ padding: '0.4rem', background: '#fef2f2', color: 'var(--danger)', border: '1px solid #fee2e2', borderRadius: '6px' }}
                           title="Eliminar"
                         >
                           ✖

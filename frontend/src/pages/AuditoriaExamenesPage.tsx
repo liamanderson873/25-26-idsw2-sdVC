@@ -1,10 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getExamenes, getEjemplares, entregarExamenMasivo, corregirExamenMasivo } from '../services/examenService';
+import { getExamenes, getEjemplares, entregarExamenMasivo, corregirExamenMasivo, exportarExamen, getAuditoriaAlumno } from '../services/examenService';
 import { getGrados } from '../services/gradoService';
 import { getAsignaturas } from '../services/asignaturaService';
 import DataTable from '../components/DataTable';
-import { Examen, Grado, Asignatura } from '../types';
 
 const AuditoriaExamenesPage: React.FC = () => {
   const queryClient = useQueryClient();
@@ -13,6 +12,12 @@ const AuditoriaExamenesPage: React.FC = () => {
   const [filterGradoId, setFilterGradoId] = useState<number>(0);
   const [filterAsignaturaId, setFilterAsignaturaId] = useState<number>(0);
   const [selectedExamenId, setSelectedExamenId] = useState<number | null>(null);
+
+  // Estado para Revisión
+  const [revisionEjemplar, setRevisionEjemplar] = useState<any>(null);
+  const [examenRevisionData, setExamenRevisionData] = useState<any>(null);
+  const [marcasRevision, setMarcasRevision] = useState<Record<string, number>>({});
+  const [isRevisionOpen, setIsRevisionOpen] = useState(false);
 
   // Queries
   const { data: grados = [] } = useQuery({ queryKey: ['grados'], queryFn: getGrados });
@@ -61,6 +66,20 @@ const AuditoriaExamenesPage: React.FC = () => {
     });
   }, [examenes, filterGradoId, filterAsignaturaId]);
 
+  const handleOpenRevision = async (ejemplar: any) => {
+    try {
+      setRevisionEjemplar(ejemplar);
+      const exData = await exportarExamen(selectedExamenId!);
+      const audData = await getAuditoriaAlumno(ejemplar.id);
+      
+      setExamenRevisionData(exData);
+      setMarcasRevision(audData.marcas || {});
+      setIsRevisionOpen(true);
+    } catch (err) {
+      alert("Error al cargar la revisión técnica.");
+    }
+  };
+
   const hayPendientes = useMemo(() => 
     (ejemplares || []).some(ej => ej && (ej.estado === 'ASIGNADO' || ej.estado === 'PENDIENTE')),
   [ejemplares]);
@@ -70,34 +89,75 @@ const AuditoriaExamenesPage: React.FC = () => {
   [ejemplares]);
 
   return (
-    <div style={{ maxWidth: '1200px' }}>
+    <div style={{ maxWidth: '1200px' }} className="fade-in">
       <h1>Auditoría de Exámenes</h1>
-      <p style={{ color: 'var(--text-muted)', marginBottom: '2.5rem' }}>Vista centralizada de modelos generados, asignaciones y actas de calificación.</p>
+      <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>Vista centralizada de modelos generados, asignaciones y actas de calificación.</p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: '2.5rem', alignItems: 'start' }}>
+      {/* MODAL DE REVISIÓN */}
+      {isRevisionOpen && examenRevisionData && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.4)', zIndex: 1000, display: 'grid', placeItems: 'center', padding: '1.5rem' }}>
+          <div className="card" style={{ width: '100%', maxWidth: '800px', maxHeight: '90vh', overflowY: 'auto', padding: '1.5rem' }}>
+             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.75rem' }}>
+                <div>
+                  <h2 style={{ fontSize: '1.1rem' }}>Revisión: {revisionEjemplar?.alumno?.nombre} {revisionEjemplar?.alumno?.apellidos}</h2>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>ID Ejemplar: {revisionEjemplar?.id} • Nota: {revisionEjemplar?.notaFinal?.toFixed(2) || '0.00'}</p>
+                </div>
+                <button onClick={() => setIsRevisionOpen(false)} className="btn btn-secondary" style={{ padding: '0.4rem 0.8rem' }}>Cerrar</button>
+             </div>
+
+             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                {(examenRevisionData.preguntas || []).map((p: any, idx: number) => {
+                  const rtaMarcada = marcasRevision[p.id] !== undefined ? marcasRevision[p.id] : -1;
+                  return (
+                    <div key={idx} style={{ padding: '1rem', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--background)' }}>
+                      <div style={{ fontSize: '0.65rem', fontWeight: '800', color: 'var(--primary)', marginBottom: '0.4rem', textTransform: 'uppercase' }}>Pregunta {idx + 1}</div>
+                      <p style={{ fontSize: '0.85rem', fontWeight: '600', marginBottom: '0.75rem' }}>{p.enunciado}</p>
+                      
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+                        {(p.opciones || []).map((opt: string, oIdx: number) => {
+                          const esLaMarcada = rtaMarcada === oIdx;
+                          return (
+                            <div key={oIdx} style={{ 
+                              padding: '0.6rem', borderRadius: '8px', border: '1px solid var(--border)', fontSize: '0.8rem',
+                              background: esLaMarcada ? 'var(--primary)' : 'white',
+                              color: esLaMarcada ? 'white' : 'var(--text-main)',
+                              display: 'flex', alignItems: 'center', gap: '0.4rem'
+                            }}>
+                              <span style={{ fontWeight: 'bold' }}>{String.fromCharCode(65 + oIdx)})</span> {opt}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+             </div>
+          </div>
+        </div>
+      )}
+
+      <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '2rem', alignItems: 'start' }}>
         
         {/* PANEL DE FILTROS Y MODELOS */}
         <aside>
-          <div style={{ background: 'white', padding: '1.5rem', borderRadius: 'var(--radius)', border: '1px solid var(--border)', boxShadow: 'var(--shadow)', marginBottom: '1.5rem' }}>
-            <h3 style={{ fontSize: '1rem', marginBottom: '1.25rem' }}>Filtros de Búsqueda</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div className="card" style={{ marginBottom: '1rem' }}>
+            <h3 style={{ fontSize: '0.9rem', marginBottom: '1rem' }}>Filtros de Búsqueda</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                <div>
-                  <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--text-muted)', display: 'block', marginBottom: '0.5rem' }}>Grado Académico</label>
+                  <label>Grado Académico</label>
                   <select 
                     value={filterGradoId} 
                     onChange={e => { setFilterGradoId(Number(e.target.value)); setFilterAsignaturaId(0); }} 
-                    style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid var(--border)' }}
                   >
                     <option value={0}>Todos los grados</option>
                     {(grados || []).map(g => g && <option key={g.id} value={g.id}>{g.nombre}</option>)}
                   </select>
                </div>
                <div>
-                  <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--text-muted)', display: 'block', marginBottom: '0.5rem' }}>Asignatura</label>
+                  <label>Asignatura</label>
                   <select 
                     value={filterAsignaturaId} 
                     onChange={e => setFilterAsignaturaId(Number(e.target.value))} 
-                    style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid var(--border)' }}
                   >
                     <option value={0}>Todas las asignaturas</option>
                     {asignaturasFiltradas.map(a => a && <option key={a.id} value={a.id}>{a.nombre}</option>)}
@@ -106,27 +166,27 @@ const AuditoriaExamenesPage: React.FC = () => {
             </div>
           </div>
 
-          <div style={{ background: 'white', padding: '1.5rem', borderRadius: 'var(--radius)', border: '1px solid var(--border)', boxShadow: 'var(--shadow)' }}>
-            <h3 style={{ fontSize: '1rem', marginBottom: '1.25rem' }}>Modelos Generados</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxHeight: '500px', overflowY: 'auto' }}>
+          <div className="card">
+            <h3 style={{ fontSize: '0.9rem', marginBottom: '1rem' }}>Modelos Generados</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: '450px', overflowY: 'auto' }}>
               {examenesFiltrados.length === 0 ? (
-                <p style={{ color: '#999', textAlign: 'center', padding: '1rem' }}>No hay exámenes con estos filtros.</p>
+                <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '1rem', fontSize: '0.8rem' }}>No hay exámenes con estos filtros.</p>
               ) : (
                 examenesFiltrados.map(ex => ex && (
                   <div 
                     key={ex.id} 
                     onClick={() => setSelectedExamenId(ex.id!)}
                     style={{ 
-                      padding: '1rem', 
+                      padding: '0.75rem', 
                       borderRadius: '10px', 
-                      border: `2px solid ${selectedExamenId === ex.id ? 'var(--primary)' : 'transparent'}`,
-                      background: selectedExamenId === ex.id ? '#eff6ff' : '#f8fafc',
+                      border: `1px solid ${selectedExamenId === ex.id ? 'var(--primary)' : 'transparent'}`,
+                      background: selectedExamenId === ex.id ? 'rgba(37, 99, 235, 0.1)' : 'var(--background)',
                       cursor: 'pointer',
                       transition: 'all 0.2s'
                     }}
                   >
-                    <div style={{ fontWeight: '600', fontSize: '0.9rem' }}>{ex.asignatura?.nombre || 'Sin Nombre'}</div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>ID: {ex.id} • {ex.tipoEvaluacion?.replace('_', ' ') || 'S/E'}</div>
+                    <div style={{ fontWeight: '700', fontSize: '0.85rem', color: selectedExamenId === ex.id ? 'var(--primary)' : 'var(--text-main)' }}>{ex.asignatura?.nombre || 'Sin Nombre'}</div>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>ID: {ex.id} • {ex.tipoEvaluacion?.replace('_', ' ')}</div>
                   </div>
                 ))
               )}
@@ -137,34 +197,34 @@ const AuditoriaExamenesPage: React.FC = () => {
         {/* PANEL DE DETALLE: EJEMPLARES Y CALIFICACIONES */}
         <main>
           {selectedExamenId ? (
-            <div style={{ background: 'white', padding: '2rem', borderRadius: 'var(--radius)', border: '1px solid var(--border)', boxShadow: 'var(--shadow)' }}>
-               <div style={{ marginBottom: '2rem', borderBottom: '1px solid var(--border)', paddingBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="card">
+               <div style={{ marginBottom: '1.5rem', borderBottom: '1px solid var(--border)', paddingBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
-                    <h2 style={{ fontSize: '1.25rem' }}>Detalle de Modelo #{selectedExamenId}</h2>
-                    <p style={{ color: 'var(--text-muted)' }}>Listado de alumnos vinculados y estado de calificación.</p>
+                    <h2 style={{ fontSize: '1.1rem' }}>Detalle de Modelo #{selectedExamenId}</h2>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Listado de alumnos vinculados y estado de calificación.</p>
                   </div>
-                  <div style={{ display: 'flex', gap: '0.75rem' }}>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
                     {hayPendientes && (
                       <button 
                         onClick={() => mutationSimular.mutate()}
-                        disabled={mutationSimular.isPending}
-                        style={{ padding: '0.6rem 1.2rem', background: 'var(--warning)', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}
+                        className="btn btn-primary"
+                        style={{ background: 'var(--warning)', color: 'black' }}
                       >
-                        {mutationSimular.isPending ? 'RECOGIENDO...' : '📥 HACER EXAMEN'}
+                        {mutationSimular.isPending ? 'RECOGIENDO...' : 'HACER EXAMEN'}
                       </button>
                     )}
                     {hayParaCorregir && (
                       <button 
                         onClick={() => mutationCorregir.mutate()}
-                        disabled={mutationCorregir.isPending}
-                        style={{ padding: '0.6rem 1.2rem', background: 'var(--success)', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}
+                        className="btn btn-primary"
+                        style={{ background: 'var(--success)' }}
                       >
-                        {mutationCorregir.isPending ? 'CORRIGIENDO...' : '🤖 CORREGIR IA'}
+                        {mutationCorregir.isPending ? 'CORRIGIENDO...' : 'CORREGIR IA'}
                       </button>
                     )}
                     <button 
                       onClick={() => window.location.href=`/corregir-examen`} 
-                      style={{ padding: '0.6rem 1.2rem', background: 'var(--primary)', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}
+                      className="btn btn-secondary"
                     >
                       MANUAL
                     </button>
@@ -178,44 +238,54 @@ const AuditoriaExamenesPage: React.FC = () => {
                    { 
                      header: 'Alumno', 
                      accessor: (ej) => (ej && ej.alumno) ? (
-                       <div>
-                         <div style={{ fontWeight: '600' }}>{ej.alumno.apellidos || 'N/A'}, {ej.alumno.nombre || 'Alumno'}</div>
-                         <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>{ej.alumno.dni || 'S/D'}</div>
+                       <div style={{ padding: '0.25rem 0' }}>
+                         <div style={{ fontWeight: '700', color: 'var(--text-main)', fontSize: '0.85rem' }}>{ej.alumno.apellidos}, {ej.alumno.nombre}</div>
+                         <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>{ej.alumno.dni}</div>
                        </div>
                      ) : <div>Sin Alumno</div>
                    },
                    { 
                      header: 'Estado', 
                      accessor: (ej) => ej && (
-                       <span style={{ 
-                         padding: '0.25rem 0.6rem', borderRadius: '20px', fontSize: '0.7rem', fontWeight: '700',
-                         background: ej.estado === 'CORREGIDO' ? '#ecfdf5' : (ej.estado === 'PENDIENTE_CALIFICACION' || ej.estado === 'ENTREGADO') ? '#eef2ff' : '#fff7ed',
-                         color: ej.estado === 'CORREGIDO' ? '#059669' : (ej.estado === 'PENDIENTE_CALIFICACION' || ej.estado === 'ENTREGADO') ? '#4f46e5' : '#d97706'
-                       }}>
-                         {ej.estado?.replace('_', ' ') || 'DESCONOCIDO'}
+                       <span className={`badge ${ej.estado === 'CORREGIDO' ? 'badge-success' : 'badge-warning'}`} style={{ 
+                         background: ej.estado === 'CORREGIDO' ? 'var(--success)' : 'var(--warning)',
+                         color: ej.estado === 'CORREGIDO' ? 'white' : 'black'
+                        }}>
+                         {ej.estado?.replace('_', ' ')}
                        </span>
                      )
                    },
                    { 
                      header: 'Nota Final', 
                      accessor: (ej) => ej && (
-                       <div style={{ fontWeight: '800', color: (ej.notaFinal !== null && ej.notaFinal >= 5) ? 'var(--success)' : (ej.notaFinal === null) ? 'var(--text-muted)' : 'var(--danger)' }}>
+                       <div style={{ fontWeight: '800', fontSize: '0.95rem', color: (ej.notaFinal !== null && ej.notaFinal >= 5) ? 'var(--success)' : (ej.notaFinal === null) ? 'var(--text-muted)' : 'var(--danger)' }}>
                          {ej.notaFinal !== null ? ej.notaFinal.toFixed(2) : '-'}
                        </div>
                      )
                    },
                    { 
-                     header: 'Clave Firma', 
-                     accessor: (ej) => ej && <code style={{ fontSize: '0.7rem', color: '#94a3b8' }}>{ej.claveCorreccion?.substring(0,12) || '...'}</code> 
+                     header: 'Acciones', 
+                     accessor: (ej) => (ej && ej.estado !== 'ASIGNADO' && ej.estado !== 'PENDIENTE') && (
+                       <button 
+                         onClick={() => handleOpenRevision(ej)}
+                         className="btn btn-secondary"
+                         style={{ padding: '0.25rem 0.5rem', fontSize: '0.65rem' }}
+                       >
+                         REVISIÓN
+                       </button>
+                     )
                    }
                  ]}
                />
             </div>
           ) : (
-            <div style={{ height: '400px', display: 'grid', placeItems: 'center', background: '#f1f5f9', borderRadius: 'var(--radius)', border: '2px dashed var(--border)', color: 'var(--text-muted)' }}>
+            <div style={{ height: '350px', display: 'grid', placeItems: 'center', background: 'white', borderRadius: 'var(--radius)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}>
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📋</div>
-                <p>Selecciona un modelo de examen en la izquierda para ver su auditoría.</p>
+                <div style={{ width: '40px', height: '40px', background: 'var(--background)', borderRadius: '50%', display: 'grid', placeItems: 'center', margin: '0 auto 1rem', border: '1px solid var(--border)' }}>
+                   <div style={{ width: '10px', height: '10px', borderRadius: '2px', border: '2px solid var(--border-strong)' }}></div>
+                </div>
+                <p style={{ fontWeight: '600', fontSize: '0.85rem' }}>Selecciona un modelo de examen</p>
+                <p style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>Utiliza el panel de la izquierda para ver la auditoría.</p>
               </div>
             </div>
           )}

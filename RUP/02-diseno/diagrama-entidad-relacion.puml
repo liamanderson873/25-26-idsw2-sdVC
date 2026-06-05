@@ -1,93 +1,111 @@
 @startuml
-!theme plain
-skinparam Linetype ortho
+title Diagrama de Entidad-Relación - Jorgestor (Evolucionado)
 
-entity "grados" as grados {
-  * id : BIGINT <<generated>>
-  --
-  * nombre : VARCHAR(100)
-  * codigo : VARCHAR(20) <<unique>>
+class Examen {
+  - id: Long
+  - fecha: LocalDate
+  - tipoEvaluacion: EvaluaciónExamen
+  - esPersonalizado: Boolean
 }
 
-entity "profesores" as profesores {
-  * id : BIGINT <<generated>>
-  --
-  * dni : VARCHAR(9) <<unique>>
-  * nombre : VARCHAR(50)
-  * apellidos : VARCHAR(50)
-  * email : VARCHAR(100)
+class Asignatura {
+  - id: Long
+  - título: String
+  - código: String
+  - cursoAcademico: String
+  - cursoSugerido: Integer
 }
 
-entity "asignaturas" as asignaturas {
-  * id : BIGINT <<generated>>
-  --
-  * nombre : VARCHAR(100)
-  * codigo : VARCHAR(20) <<unique>>
-  * curso_academico : VARCHAR(10)
-  * profesor_id : BIGINT <<FK>>
+class Pregunta {
+  - id: Long
+  - enunciado: String
+  - dificultad: DificultadPregunta
 }
 
-entity "alumnos" as alumnos {
-  * id : BIGINT <<generated>>
-  --
-  * dni : VARCHAR(9) <<unique>>
-  * nombre : VARCHAR(50)
-  * apellidos : VARCHAR(50)
-  * grado_id : BIGINT <<FK>>
+class Grado {
+  - id: Long
+  - título: String
+  - código: String
 }
 
-entity "asignaturas_alumnos" as asignaturas_alumnos {
-  * asignatura_id : BIGINT <<FK>>
-  * alumno_id : BIGINT <<FK>>
+class Profesor {
+  - id: Long
+  - nombre: String
+  - apellidos: String
+  - DNI: String
+  - email: String
 }
 
-entity "temas" as temas {
-  * id : BIGINT <<generated>>
-  --
-  * nombre : VARCHAR(100)
-  * asignatura_id : BIGINT <<FK>>
+class Alumno {
+  - id: Long
+  - nombre: String
+  - apellidos: String
+  - DNI: String
+  - curso: Integer
 }
 
-entity "preguntas" as preguntas {
-  * id : BIGINT <<generated>>
-  --
-  * enunciado : TEXT
-  * dificultad : ENUM(FACIL, MEDIO, DIFICIL)
-  * tema_id : BIGINT <<FK>>
+class ExamenAlumno {
+  - id: Long
+  - claveCorreccion: String (SHA-256)
+  - notaFinal: Double
+  - estado: EstadoExamen
 }
 
-entity "respuestas" as respuestas {
-  * id : BIGINT <<generated>>
-  --
-  * texto : VARCHAR(255)
-  * es_correcta : BOOLEAN
-  * indice : INTEGER
-  * pregunta_id : BIGINT <<FK>>
+class ExamenAlumnoMarca {
+  - id: Long
+  - indiceMarcado: Integer
 }
 
-entity "examen_alumno_marcas" as examen_alumno_marcas {
-  * id : BIGINT <<generated>>
-  --
-  * examen_alumno_id : BIGINT <<FK>>
-  * pregunta_id : BIGINT <<FK>>
-  * respuesta_id : BIGINT <<FK>>
-  * indice_marcado : INTEGER
+class Respuesta {
+  - id: Long
+  - contenido: String
+  - esCorrecta: Boolean
+  - indice: Integer
 }
 
-grados ||--o{ alumnos
-profesores ||--o{ asignaturas
-asignaturas ||--o{ temas
-asignaturas ||--o{ examenes
-temas ||--o{ preguntas
-preguntas ||--o{ respuestas
-examenes ||--o{ examen_preguntas
-preguntas ||--o{ examen_preguntas
-alumnos ||--o{ examen_alumnos
-examenes ||--o{ examen_alumnos
-examen_alumnos ||--o{ examen_alumno_marcas
-preguntas ||--o{ examen_alumno_marcas
-respuestas ||--o{ examen_alumno_marcas
-asignaturas ||--o{ asignaturas_alumnos
-alumnos ||--o{ asignaturas_alumnos
+enum EvaluaciónExamen {
+  PARCIAL_1
+  PARCIAL_2
+  PARCIAL_3
+  FINAL
+  EXTRAORDINARIO
+}
+
+enum DificultadPregunta {
+  FACIL
+  MEDIO
+  DIFICIL
+}
+
+class Tema {
+  - id: Long
+  - nombre: String
+}
+
+' Relaciones Actualizadas
+Respuesta "*" -u-o "1" Pregunta : contiene
+Pregunta ..> DificultadPregunta
+Examen "1" -o "*" Pregunta : se compone de
+Examen "*" -- "1" Asignatura : pertenece a
+Profesor "1" -- "*" Asignatura : imparte
+
+' N:M Transversalidad
+Asignatura "*" -- "*" Grado : se imparte en
+
+' N:M Matriculación
+Alumno "*" -- "*" Asignatura : matriculado en (Matrículas)
+Alumno "*" -- "1" Grado : pertenece a
+
+' Relación Modelo vs Ejemplar (Core IDSW2)
+Examen "1" -- "*" ExamenAlumno : genera ejemplares
+Alumno "1" -- "*" ExamenAlumno : realiza
+
+' Auditoría Detallada
+ExamenAlumno "1" *-- "*" ExamenAlumnoMarca : registra
+ExamenAlumnoMarca "*" -- "1" Pregunta : de la pregunta
+ExamenAlumnoMarca "*" -- "1" Respuesta : respuesta elegida
+
+Pregunta "*" -- "1" Tema : pertenece a
+Tema "*" -- "1" Asignatura : de la asignatura
 
 @enduml

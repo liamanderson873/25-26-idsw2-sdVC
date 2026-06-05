@@ -1,0 +1,22 @@
+@startuml
+title Diagrama de Estados - Ciclo de Vida del Examen (Ejemplar)
+
+[*] --> PENDIENTE : generar examen
+
+PENDIENTE --> ASIGNADO : asignar alumnos
+
+ASIGNADO --> ENTREGADO : simular entrega / escanear
+note on link
+  Se generan las marcas de auditoría
+end note
+
+ENTREGADO --> PENDIENTE_CALIFICACION : validación técnica
+
+PENDIENTE_CALIFICACION --> CORREGIDO : corrección IA o Manual
+note on link
+  Cálculo de nota final (Aciertos - Fallos/3)
+end note
+
+CORREGIDO --> [*] : acta cerrada
+
+@enduml

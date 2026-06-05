@@ -11,6 +11,27 @@
 ## Resumen
 Este archivo mantiene un registro cronológico y aditivo de todas las interacciones, decisiones estratégicas y evolución técnica del sistema **Jorgestor** (Generación y Corrección de Exámenes). Siguiendo el estándar de **pySigHor**, este log documenta el flujo de trabajo paso a paso, capturando cada prompt relevante y la respuesta técnica asociada.
 
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
+
 ---
 
 ## Conversación 01: Inicio de Infraestructura y Análisis Puro (CU-01, CU-02)
@@ -28,6 +49,27 @@ Arranque oficial del proyecto. El objetivo es establecer un entorno de trabajo d
 2.  **Hito de Alcance**: Redacción de `QUE_HACE.md`. Se elimina la mención a "Inteligencia Artificial" para centrar el sistema en la gestión de datos, delegando el escaneo a un servicio externo conceptual.
 3.  **Análisis BCE Inicial**: Identificación de clases para CU-01 (Corregir) y CU-02 (Generar).
 
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
+
 ---
 
 ## Conversación 02: Recuperación de Contexto y Gestión de Pull Requests
@@ -44,6 +86,27 @@ Reinicio de sesión. Se valida la memoria de la IA y se optimiza el flujo de tra
 - Se acuerda agrupar los casos de uso en bloques por Pull Request para agilizar el avance.
 - Se confirma la consistencia con el proyecto de referencia `pySigHor`.
 
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
+
 ---
 
 ## Conversación 03: Bloque de Análisis 2 - Configuración e Importaciones
@@ -59,6 +122,27 @@ Inicio de la ejecución por bloques en la rama `feat/analisis-puro-bloque-2`.
 ### Desarrollo Principal
 - Análisis de CU-03 (Importar Configuración Global), CU-04 (Exportar), CU-05 (Alumnos) y CU-06 (Preguntas).
 - Se establece la importancia de la atomicidad en las cargas masivas.
+
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
 
 ---
 
@@ -77,6 +161,27 @@ Decisión de procesar los 35 casos de uso restantes en tres bloques masivos.
 - Definición de CRUDs para las entidades principales.
 - Se introduce el patrón de "Creación Delgada" con redirección a edición.
 
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
+
 ---
 
 ## Conversación 05: Sincronización de Ramas y Cambio a Develop
@@ -93,6 +198,27 @@ Gestión de una incidencia de merge y cambio de flujo a trabajo directo en `deve
 - Se establece el uso de commits detallados.
 - Análisis Bloque 4 (CU-19 a CU-30): Vistas de listado y procesos de eliminación.
 
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
+
 ---
 
 ## Conversación 06: Bloque de Análisis 5 y Cierre de Fase Agnóstica
@@ -108,6 +234,27 @@ Finalización de los casos de uso pendientes para completar el análisis.
 ### Desarrollo Principal
 - Análisis de CU-31 a CU-41 (Respuestas, Sesión, Exportaciones específicas).
 - El proyecto alcanza el hito de los 41 casos de uso analizados según el patrón BCE.
+
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
 
 ---
 
@@ -126,6 +273,27 @@ El usuario solicita elevar la calidad documental al nivel del proyecto de refere
 - **Refactorización**: Migración de los 41 CUs a carpetas individuales con `README.md` enriquecidos y diagramas `colaboracion.puml`.
 - **Sincronización**: Se puebla `/00-casos-uso` con activos del `ModelingRepo`.
 
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
+
 ---
 
 ## Conversación 08: Selección de Stack Tecnológico y Arquitectura
@@ -142,6 +310,27 @@ Apertura de la Fase de Diseño. Debate sobre el lenguaje de programación.
 - **Decisión**: Se elige **Java 21 + Spring Boot 3 + PostgreSQL**.
 - **Arquitectura**: Se define una estructura de **3 Capas** (Presentation, Business, Data).
 - Se explica el funcionamiento de Spring Boot (IoC, DI) para alinearlo con IDSW2.
+
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
 
 ---
 
@@ -160,6 +349,27 @@ Necesidad de detallar los flujos técnicos antes de codificar.
 - **Debate de IA**: Se acuerda el uso de interfaces y simulación JSON para la corrección delegada.
 - **Debate de Importación**: Se acuerda la estrategia **UPSERT** basada en claves naturales (DNI/Código).
 
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
+
 ---
 
 ## Conversación 10: Resolución de Conflictos sobre la Clave de Corrección
@@ -177,6 +387,27 @@ Debate sobre el momento exacto en que se genera la clave del examen.
 - **Investigación**: Gemini audita el Glosario y el diagrama de estados del examen en el `ModelingRepo`.
 - **Hito**: Se confirma que la clave se genera en la **Asignación** mediante un **Hash (MD5/SHA)** que une datos del examen, respuestas y alumno. Se acuerda un flujo de asignación permisivo (B).
 
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
+
 ---
 
 ## Conversación 11: Refinamiento de Workflow y Memoria Persistente
@@ -192,6 +423,27 @@ Blindaje de la continuidad del proyecto y ajuste de las reglas de actualización
 ### Desarrollo Principal
 1.  **Blindaje**: Creación de `CONTEXTO_PROYECTO.md` con instrucciones imperativas.
 2.  **Workflow**: Se establece el trabajo en `develop` y la actualización progresiva del log.
+
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
 
 ---
 
@@ -210,6 +462,27 @@ Debate y definición de la estructura de base de datos para PostgreSQL.
 - **Clave de Corrección**: Se detalla el flujo de generación (Hash MD5/SHA) y su uso durante el escaneo de la IA.
 - **Resultado**: Creación de un DER de 11 tablas incluyendo `student_exams` como entidad central para la evaluación.
 
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
+
 ---
 
 ## Conversación 13: Inicio de Construcción y Mapeo JPA
@@ -227,6 +500,27 @@ Transición a la Fase de Construcción y aprendizaje del stack Spring Boot.
 2.  **Mapeo del Dominio**: Traducción del DER a clases Java `@Entity`. Se implementan las 11 entidades y los Enums de control.
 3.  **Capa de Persistencia**: Creación de interfaces `@Repository` extendiendo de `JpaRepository`. Se introduce el concepto de **Query Methods** (ej. `findByDni`).
 4.  **Sincronización Git**: Se establece la política de commits frecuentes en la rama `develop`.
+
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
 
 ---
 
@@ -247,6 +541,27 @@ Implementación de los servicios base y resolución de problemas de entorno (Jav
 3.  **Patrón DTO**: Introducción de los *Data Transfer Objects* para desacoplar la API de la base de datos.
 4.  **Entorno**: Se identifica la necesidad de JDK 21 y Maven. El usuario procede con la instalación técnica.
 
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
+
 ---
 
 ## Conversación 15: Configuración de Maven e Implementación de CU-09
@@ -264,6 +579,27 @@ Verificación del entorno y continuación de la lógica de negocio (Asignación 
 1.  **Entorno**: Instalación de **Maven 3.9.16** y configuración de `MAVEN_HOME`. Solución de error en `pom.xml` (caracteres extraños en dependencia PostgreSQL).
 2.  **Lógica CU-09**: Implementación de `ServicioExamen` para gestionar la vinculación de alumnos y exámenes.
 3.  **Hito de Seguridad**: Diseño del algoritmo de generación de la **Clave de Corrección** usando SHA-256 (DNI + ID Examen + Salt), cumpliendo con la trazabilidad de diseño.
+
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
 
 ---
 
@@ -382,6 +718,27 @@ Finalización de infraestructura y desarrollo de la lógica de generación aleat
 - **Consolidación**: Se actualizó el `README.md` maestro de diseño con una tabla navegable por épicas y entidades.
 - **Hito de Calidad**: El proyecto alcanza un estado de "Documentación Viva", donde cada línea de código de los servicios tiene su correspondiente blueprint visual en la rama `develop`.
 
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
+
 ---
 *Este registro continuará con el inicio del Frontend en React.*
 
@@ -406,6 +763,27 @@ Reactivación del proyecto para el desarrollo del Frontend. Se detecta que el si
     - **Ajuste Manual**: Permite al docente supervisar y corregir marcas individualmente.
 5.  **Estabilización API**: Solución de errores de recursividad infinita mediante `@JsonIgnore`.
 
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
+
 ---
 *Fin de la sesión. Mañana continuaremos con los ajustes de los CRUDs.*
 
@@ -425,6 +803,27 @@ Mantenimiento preventivo del repositorio para eliminar ruido técnico y asegurar
 3.  **Política de Datos**: Se ha eliminado el archivo `datos_prueba.sql` y se ha establecido la obligatoriedad de poblar datos directamente en PostgreSQL 17, alineándose con la arquitectura de persistencia del proyecto.
 4.  **Blindaje de Memoria**: Se ha elevado a "Regla Crítica" (#8) la obligación de actualizar proactivamente la documentación de contexto. Esto asegura que la "consciencia" del proyecto Jorgestor sea inmune a fallos del sistema o resets de sesión.
 5.  **Hito de Calidad**: El repositorio ahora cumple con el estándar de "Taller Limpio", manteniendo únicamente los artefactos de código fuente, documentación RUP y scripts operativos esenciales (`run-jorgestor.ps1`).
+
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
 
 ---
 *Sesión de limpieza completada. El entorno está optimizado para continuar con el desarrollo del Frontend.*
@@ -446,6 +845,27 @@ Inicio de jornada para el desarrollo de ajustes en los CRUDs. Se identifica la n
 4.  **Estabilización Frontend (Anti-Crash)**: Resolución definitiva del problema de "Pantalla en Blanco" mediante:
     - **Sincronización de Rutas**: Ajuste de NavLinks en `Sidebar.tsx` para coincidir con `App.tsx`.
     - **Programación Defensiva**: Implementación masiva de encadenamiento opcional (`?.`) y estados de carga (`isLoading`) en todas las páginas core para prevenir errores de tipo al cargar datos asíncronos.
+
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
 
 ---
 *Entorno listo. Iniciamos fase de ajustes en los CRUDs.*
@@ -470,6 +890,27 @@ Detección de fallos funcionales tras la estabilización visual. Se identifican 
     - Se validó el botón de "SIMULAR ENTREGAS" en la página de corrección para transicionar ejemplares de `ASIGNADO` a `PENDIENTE_CORRECCION`.
 4.  **Hito de Integridad**: El sistema ahora respeta la jerarquía RUP donde las asignaturas pertenecen a un grado, permitiendo una navegación fluida por el catálogo académico.
 
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
+
 ---
 *Flujo funcional restaurado. El sistema es ahora operativamente completo.*
 
@@ -489,6 +930,27 @@ Detección de un fallo crítico de "Pantalla en Blanco" masivo (49 errores en co
 2.  **Mecanismo de Recuperación (Botón de Pánico)**: Se ha implementado `DatabaseCleaner.java` y la propiedad `jorgestor.db.clean-on-startup=true` para forzar un `TRUNCATE` masivo de tablas en el próximo arranque.
 3.  **Habilitación de Superpoderes**: Se han proporcionado instrucciones para añadir PostgreSQL al PATH del sistema, lo que permitirá a la IA ejecutar comandos SQL directos en el futuro.
 4.  **Hito de Estabilización**: Se ha blindado la interfaz de Asignación con `useMemo` y estados de carga individualizados, garantizando que el sistema sea inmune a latencias o datos parciales.
+
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
 
 ---
 *Sesión suspendida para reinicio de CLI y configuración de PATH. Objetivo: Base de datos limpia y control total vía SQL.*
@@ -518,6 +980,48 @@ Nueva sesión de trabajo tras el saneamiento masivo de la base de datos (Databas
     - Implementación de `AuditoriaExamenesPage.tsx` y botón de "Simular Realización".
     - Resolución de error de recursividad infinita (StackOverflow) mediante `@JsonIgnore` en el modelo.
     - Cierre del ciclo funcional: Generación -> Asignación -> Simulación de entrega masiva. Los alumnos quedan en estado `PENDIENTE_CALIFICACION`.
+
+## Conversación 38: Reparación del Núcleo de Calificación y Auditoría Detallada
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+El usuario reporta que el botón "Corregir" no realiza ninguna acción. Se inicia una investigación profunda del flujo completo (Backend/Frontend).
+
+**Prompt clave de Liam**:
+> "si ahora lo que queria hacer es arreglar el corregir porque cuando pulso el boton no hace nada"
+> "una cosa que si me gustaria que se pudiese ver la correcion hecha "manualmente" que pudieses meterte a ver cuales ha dado por correcta cuales no en caso de que alguien quiera revisar el examen"
+
+### Desarrollo Principal
+1.  **Optimización Masiva (Fin del "Cuelgue")**: Se identificó un cuello de botella en `ServicioExamen.corregirMasivo` donde se cargaban todas las marcas del sistema en memoria repetidamente. Se implementó el método `findByExamenAlumnoId` en el repositorio, logrando una corrección IA casi instantánea.
+2.  **Sincronización del Modelo de Estados**: Se añadió el estado `ENTREGADO` al Enum `EstadoExamen.java` para evitar inconsistencias lógicas en el servicio.
+3.  **Cierre de Ciclo Manual**: Se modificó la lógica de corrección manual para que las notas se registren como `notaFinal` y el estado pase a `CORREGIDO`, permitiendo al docente cerrar el acta de forma efectiva.
+4.  **Ingeniería de Revisión (Auditoría Detallada)**:
+    - Se creó `DTO_AuditoriaAlumno` y un nuevo endpoint de auditoría.
+    - Se actualizó el DTO de exportación para incluir IDs de preguntas, permitiendo el cruce de datos en el frontend.
+    - **UX Mejorada**: Se movió la visualización de respuestas a una nueva sección de **"REVISIÓN"** dentro de la página de Auditoría, dejando la pantalla de Corrección para tareas puras de calificación.
+5.  **Hito de Estabilidad**: El sistema permite ahora una trazabilidad total: ver exactamente qué respondió el alumno en un panel de solo lectura profesional.
+
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Tras auditar la alineación con el modelado RUP, se procede a implementar el sistema de seguridad y control de acceso.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo de Datos de Seguridad**: Creación de la entidad `Usuario` y el enum `Rol` (`DOCENTE`, `ADMINISTRADOR_INSTITUCIONAL`).
+2.  **Infraestructura de Usuarios por Defecto**: Actualización del `DatabaseCleaner` para auto-poblar la tabla de usuarios al arranque. Credenciales: `admin/admin123` y `docente/docente123`.
+3.  **Controlador de Autenticación**: Implementación de `/api/auth/login` para validar credenciales y devolver el perfil del usuario.
+4.  **Seguridad Frontend (RBAC)**:
+    - **Página de Login**: Nueva interfaz de acceso con manejo de errores y redirección.
+    - **Rutas Protegidas**: Configuración en `App.tsx` para bloquear el acceso al sistema sin sesión activa.
+    - **Sidebar Dinámico**: Implementación de lógica de visibilidad. El enlace a "Docentes" ahora solo es visible para el Administrador.
+    - **Cierre de Sesión**: Botón de logout integrado que limpia el almacenamiento local y redirige al acceso.
+5.  **Hito de Cumplimiento**: El sistema alcanza el nivel de madurez exigido por el RUP, separando responsabilidades según el rol del actor.
 
 ---
 
