@@ -1,36 +1,34 @@
 # 🎓 Jorgestor: Sistema de Gestión de Exámenes Inteligente
 
-[![IDSW2](https://img.shields.io/badge/Asignatura-IDSW2-blue?style=for-the-badge&logo=spring)](../../)
-[![RUP](https://img.shields.io/badge/Metodología-RUP-orange?style=for-the-badge&logo=blueprint)](../../)
-[![Premium UI](https://img.shields.io/badge/Estética-Premium%20Apple-lightgrey?style=for-the-badge&logo=apple)](../../)
-
 Bienvenido al repositorio oficial de **Jorgestor**, una solución integral para la generación, asignación y auditoría de exámenes, desarrollada bajo los estándares de **Ingeniería del Software II (IDSW2)**.
 
 ---
 
 ## 🚀 Centro de Mando: Navegación Visual
 
-| [📂 ANÁLISIS](RUP/01-analisis/README.md) | [📂 DISEÑO](RUP/02-diseno/README.md) | [📂 TRAZABILIDAD](TRAZABILIDAD_TEORICA.md) | [📂 EVOLUCIÓN](RUP/EVOLUCION_DISENO.md) |
+Puse a tu disposición los accesos directos a las fases del ciclo de vida. Haz clic en los iconos para navegar:
+
+| [Análisis y Requisitos](RUP/01-analisis/README.md) | [Diseño Arquitectónico](RUP/02-diseno/README.md) | [Trazabilidad Teórica](TRAZABILIDAD_TEORICA.md) | [Evolución RUP](RUP/EVOLUCION_DISENO.md) |
 | :---: | :---: | :---: | :---: |
-| ![Análisis](https://img.shields.io/badge/-Análisis%20MVC-white?style=flat&logo=diagramsdotnet&logoColor=black) | ![Diseño](https://img.shields.io/badge/-Arquitectura%20N:M-white?style=flat&logo=postgresql&logoColor=black) | ![Trazabilidad](https://img.shields.io/badge/-Teoría%20IDSW2-white?style=flat&logo=gitbook&logoColor=black) | ![Evolución](https://img.shields.io/badge/-Antes%20vs%20Después-white?style=flat&logo=chartjs&logoColor=black) |
+| [![Análisis](https://img.shields.io/badge/Disciplina-Análisis-blue?style=for-the-badge&logo=diagramsdotnet)](RUP/01-analisis/README.md) | [![Diseño](https://img.shields.io/badge/Disciplina-Diseño-orange?style=for-the-badge&logo=postgresql)](RUP/02-diseno/README.md) | [![Trazabilidad](https://img.shields.io/badge/IDSW2-Teoría-lightgrey?style=for-the-badge&logo=gitbook)](TRAZABILIDAD_TEORICA.md) | [![Evolución](https://img.shields.io/badge/Modelado-Evolución-success?style=for-the-badge&logo=chartjs)](RUP/EVOLUCION_DISENO.md) |
 
 ---
 
 ## 📈 Evolución del Modelado (Baseline vs. Realidad)
 
-A continuación, se presenta la evolución técnica del sistema siguiendo la metodología **JEDUF** (Just Enough Design Up Front). Los diagramas se sincronizan con la arquitectura final implementada:
+Demostración del proceso de **Diseño Evolutivo (JEDUF)**. Los diagramas se sincronizan con la arquitectura final implementada:
 
 ### 1. Arquitectura de Datos (Entidad-Relación)
 
 | **Diseño Original (Baseline)** | **Implementación Final (As-Built)** |
 | :---: | :---: |
-| ![Original](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramaEntidad/original.puml) | ![Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagrama-entidad-relacion.puml) |
+| ![Original](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramaEntidad/original.puml) | ![Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-entidad-relacion.puml) |
 
 ### 2. Comportamiento (Ciclo de Vida del Examen)
 
 | **Flujo Teórico** | **Flujo Real de Auditoría** |
 | :---: | :---: |
-| ![Original](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramaEstadosExamen/original.puml) | ![Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagrama-estados-examen.puml) |
+| ![Original](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramas-arquitectonicos/diagrama-estados-examen.puml) | ![Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-estados-examen.puml) |
 
 ---
 

@@ -1,0 +1,103 @@
+@startuml
+title Diagrama de Entidad-Relación - Jorgestor (Implementación Final)
+
+skinparam linetype ortho
+skinparam nodesep 60
+skinparam ranksep 60
+
+package "Estructura Organizativa" {
+    class Grado {
+        +id: Long
+        +título: String
+        +código: String
+    }
+
+    class Profesor {
+        +id: Long
+        +nombre: String
+        +apellidos: String
+        +DNI: String
+        +email: String
+    }
+}
+
+package "Estructura Académica" {
+    class Asignatura {
+        +id: Long
+        +título: String
+        +código: String
+        +cursoAcademico: String
+        +cursoSugerido: Integer
+    }
+
+    class Tema {
+        +id: Long
+        +nombre: String
+    }
+}
+
+package "Censo Estudiantil" {
+    class Alumno {
+        +id: Long
+        +nombre: String
+        +apellidos: String
+        +DNI: String
+        +curso: Integer
+    }
+}
+
+package "Evaluación y Auditoría" {
+    class Examen {
+        +id: Long
+        +fecha: LocalDate
+        +tipoEvaluacion: EvaluaciónExamen
+        +esPersonalizado: Boolean
+    }
+
+    class ExamenAlumno {
+        +id: Long
+        +claveCorreccion: String (SHA-256)
+        +notaFinal: Double
+        +estado: EstadoExamen
+    }
+
+    class ExamenAlumnoMarca {
+        +id: Long
+        +indiceMarcado: Integer
+    }
+
+    class Pregunta {
+        +id: Long
+        +enunciado: String
+        +dificultad: DificultadPregunta
+    }
+
+    class Respuesta {
+        +id: Long
+        +contenido: String
+        +esCorrecta: Boolean
+        +indice: Integer
+    }
+}
+
+' Relaciones organizadas
+Grado "1" -- "*" Alumno : pertenece
+Profesor "1" -- "*" Asignatura : imparte
+Asignatura "*" -- "*" Grado : se imparte en
+Alumno "*" -- "*" Asignatura : matriculado en
+
+Asignatura "1" -- "*" Tema : contiene
+Tema "1" -- "*" Pregunta : tiene
+Pregunta "1" -- "*" Respuesta : contiene
+
+Examen "*" -- "1" Asignatura : del modelo
+Examen "1" -- "*" Pregunta : se compone de
+
+Examen "1" -- "*" ExamenAlumno : genera ejemplares
+Alumno "1" -- "*" ExamenAlumno : realiza
+
+ExamenAlumno "1" *-- "*" ExamenAlumnoMarca : auditoría
+ExamenAlumnoMarca "*" -- "1" Pregunta : pregunta marcada
+ExamenAlumnoMarca "*" -- "1" Respuesta : opción elegida
+
+@enduml
