@@ -1,109 +1,105 @@
 @startuml
-title Diagrama de Entidad-Relación - Jorgestor (Jerarquía Final)
+title Diagrama de Entidad-Relación - Jorgestor (Implementación Final)
 
-' Configuración de layout vertical
-top to bottom direction
-skinparam linetype ortho
-
-' --- NIVEL 1: LAS DEFINICIONES (EL MODELO) ---
-package "Capa de Definición (Modelo)" {
-    class Examen {
-        +id: Long
-        +fecha: LocalDate
-        +tipoEvaluacion: EvaluaciónExamen
-        +esPersonalizado: Boolean
-    }
-
-    class Asignatura {
-        +id: Long
-        +título: String
-        +código: String
-        +cursoAcademico: String
-        +cursoSugerido: Integer
-    }
-
-    class Grado {
-        +id: Long
-        +título: String
-        +código: String
-    }
-
-    class Profesor {
-        +id: Long
-        +nombre: String
-        +apellidos: String
-        +DNI: String
-    }
+class Examen{
+ - id: Long
+ - fecha: LocalDate
+ - evaluación: EvaluaciónExamen
+ - esPersonalizado: Boolean
 }
 
-' --- NIVEL 2: EL CONTENIDO (LA ESTRUCTURA) ---
-package "Capa de Contenido" {
-    class Tema {
-        +id: Long
-        +nombre: String
-    }
-
-    class Pregunta {
-        +id: Long
-        +enunciado: String
-        +dificultad: DificultadPregunta
-    }
-
-    class Respuesta {
-        +id: Long
-        +contenido: String
-        +esCorrecta: Boolean
-        +indice: Integer
-    }
+class Asignatura{
+ - id: Long
+ - título: String
+ - código: String
+ - curso académico: String
+ - curso sugerido: Integer
 }
 
-' --- NIVEL 3: LAS INSTANCIAS (EL EJEMPLAR) ---
-package "Capa de Ejecución (Ejemplar)" {
-    class Alumno {
-        +id: Long
-        +nombre: String
-        +apellidos: String
-        +DNI: String
-        +curso: Integer
-    }
-
-    class ExamenAlumno {
-        +id: Long
-        +claveCorreccion: String (SHA-256)
-        +notaFinal: Double
-        +estado: EstadoExamen
-    }
-
-    class ExamenAlumnoMarca {
-        +id: Long
-        +indiceMarcado: Integer
-    }
+class Pregunta{
+ - id: Long
+ - enunciado: String
+ - dificultad: DificultadPregunta
 }
 
-' --- RELACIONES JERÁRQUICAS ---
+class Grado{
+ - id: Long
+ - título: String
+ - código: String
+}
 
-' Nivel 1 -> Nivel 1
-Profesor "1" -- "*" Asignatura : imparte
-Asignatura "*" -- "*" Grado : se imparte en
+class Profesor{
+ - id: Long
+ - nombre: String
+ - apellidos: String
+ - DNI: String
+ - email: String
+}
 
-' Nivel 1 -> Nivel 2
-Asignatura "1" -- "*" Tema : contiene
-Tema "1" -- "*" Pregunta : tiene
-Pregunta "1" -- "*" Respuesta : contiene
+class Alumno{
+ - id: Long
+ - nombre: String
+ - apellidos: String
+ - DNI: String
+ - curso: Integer
+}
 
-' Nivel 1 -> Nivel 2
-Examen "*" -- "1" Asignatura : basado en
-Examen "1" -- "*" Pregunta : selecciona
+enum EvaluaciónExamen{
+ PARCIAL_1
+ PARCIAL_2
+ PARCIAL_3
+ FINAL
+ EXTRAORDINARIO
+}
 
-' Nivel 1 & 2 -> Nivel 3 (Instanciación)
-Examen "1" -- "*" ExamenAlumno : genera ejemplares
-Alumno "1" -- "*" ExamenAlumno : realiza
-Alumno "*" -- "*" Asignatura : matriculado en
-Alumno "*" -- "1" Grado : pertenece
+enum DificultadPregunta{
+ FACIL
+ MEDIO
+ DIFICIL
+}
 
-' Nivel 3 -> Nivel 3 (Auditoría)
+class Respuesta{
+ - id: Long
+ - contenido: String
+ - esCorrecta: Boolean
+ - índice: Integer
+}
+
+class Tema {
+ - id: Long
+ - nombre: String
+}
+
+class ExamenAlumno {
+ - id: Long
+ - claveCorreccion: String (SHA-256)
+ - notaFinal: Double
+ - estado: EstadoExamen
+}
+
+class ExamenAlumnoMarca {
+ - id: Long
+ - índiceMarcado: Integer
+}
+
+' Relaciones exactas al original pero extendidas
+Respuesta "*" -u-o "1" Pregunta : contiene
+Pregunta ..> DificultadPregunta
+Pregunta "*" -u-o "1" Examen : contiene
+Examen ..> EvaluaciónExamen
+Examen "*" -- "1" Asignatura : tiene
+Profesor "1" -r- "*" Asignatura : imparte
+Asignatura "*" --> "*" Grado : pertenece
+Alumno "*" -u-o "*" ExamenAlumno : realiza
+Examen "1" -d- "*" ExamenAlumno : tiene
+Alumno "*" -- "*" Asignatura : se imparte
+Alumno "*" -- "1" Grado : se cursa
+Pregunta "*" ..> "1" Tema : pertenece
+Tema "*" -- "1" Asignatura : tiene
+
+' Auditoría (Nuevo pero integrado en la línea)
 ExamenAlumno "1" *-- "*" ExamenAlumnoMarca : registra
-ExamenAlumnoMarca "*" -- "1" Pregunta : pregunta marcada
-ExamenAlumnoMarca "*" -- "1" Respuesta : opción elegida
+ExamenAlumnoMarca "*" -- "1" Pregunta
+ExamenAlumnoMarca "*" -- "1" Respuesta
 
 @enduml
