@@ -6,11 +6,10 @@ Bienvenido al repositorio oficial de **Jorgestor**, una solución integral para 
 
 ## 🚀 Centro de Mando: Navegación Visual
 
-Puse a tu disposición los accesos directos a las fases del ciclo de vida. Haz clic en los iconos para navegar:
+Haz clic en los badges para explorar las fases del proyecto:
 
-| [Análisis y Requisitos](RUP/01-analisis/README.md) | [Diseño Arquitectónico](RUP/02-diseno/README.md) | [Trazabilidad Teórica](TRAZABILIDAD_TEORICA.md) | [Evolución RUP](RUP/EVOLUCION_DISENO.md) |
-| :---: | :---: | :---: | :---: |
 | [![Análisis](https://img.shields.io/badge/Disciplina-Análisis-blue?style=for-the-badge&logo=diagramsdotnet)](RUP/01-analisis/README.md) | [![Diseño](https://img.shields.io/badge/Disciplina-Diseño-orange?style=for-the-badge&logo=postgresql)](RUP/02-diseno/README.md) | [![Trazabilidad](https://img.shields.io/badge/IDSW2-Teoría-lightgrey?style=for-the-badge&logo=gitbook)](TRAZABILIDAD_TEORICA.md) | [![Evolución](https://img.shields.io/badge/Modelado-Evolución-success?style=for-the-badge&logo=chartjs)](RUP/EVOLUCION_DISENO.md) |
+| :---: | :---: | :---: | :---: |
 
 ---
 
@@ -28,7 +27,7 @@ Demostración del proceso de **Diseño Evolutivo (JEDUF)**. Los diagramas se sin
 
 | **Flujo Teórico** | **Flujo Real de Auditoría** |
 | :---: | :---: |
-| ![Original](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramas-arquitectonicos/diagrama-estados-examen.puml) | ![Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-estados-examen.puml) |
+| ![Original](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramaEstadosExamen/original.puml) | ![Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-estados-examen.puml) |
 
 ---
 
