@@ -1,116 +1,106 @@
 @startuml
-title Diagrama de Entidad-Relación - Jorgestor (Implementación Final)
+title Diagrama de Entidad-Relación - Jorgestor (Jerarquía Evolucionada)
 
-' Definición de la disposición visual para que sea idéntica a la original
-'pero incluyendo los campos técnicos reales.
+' Forzar disposición vertical de arriba a abajo
+top to bottom direction
+skinparam linetype ortho
 
-class Examen{
- -id: Long
- -evaluación: EvaluaciónExamen
- -clave corrección: String
- -fecha: LocalDate
- -esPersonalizado: Boolean
+' --- NIVEL 1: CIMIENTOS (LOS MAESTROS) ---
+class Grado {
+  -id: Long
+  -título: String
+  -código: String
 }
 
-class Asignatura{
- -id: Long
- -título: String
- -código: String
- -curso académico: String
- -curso sugerido: Integer
+class Profesor {
+  -id: Long
+  -nombre: String
+  -apellidos: String
+  -DNI: String
+  -email: String
 }
 
-class Pregunta{
- -id: Long
- -asignatura: Asignatura
- -enunciado: String
- -tema: Tema
- -dificultad: DificultadPregunta
+' --- NIVEL 2: DEFINICIÓN ACADÉMICA ---
+class Asignatura {
+  -id: Long
+  -título: String
+  -código: String
+  -cursoAcademico: String
+  -cursoSugerido: Integer
 }
 
-class BateriaDePreguntas{
+' --- NIVEL 3: RECURSOS (LA BATERÍA) ---
+class Tema {
+  -id: Long
+  -nombre: String
 }
 
-class Grado{
- -id: Long
- -título: String
- -código: String
+class Pregunta {
+  -id: Long
+  -enunciado: String
+  -dificultad: DificultadPregunta
 }
 
-class Profesor{
- -id: Long
- -nombre: String
- -apellidos: String
- -DNI: String
+class Respuesta {
+  -id: Long
+  -contenido: String
+  -esCorrecta: Boolean
+  -índice: Integer
 }
 
-class Alumno{
- -id: Long
- -nombre: String
- -apellidos: String
- -DNI: String
- -curso: Integer
+' --- NIVEL 4: OPERACIÓN (EL MODELO) ---
+class Examen {
+  -id: Long
+  -fecha: LocalDate
+  -evaluación: EvaluaciónExamen
+  -esPersonalizado: Boolean
 }
 
-enum EvaluaciónExamen{
- -Parcial 1
- -Parcial 2
- -Parcial 3
- -Examen final
- -Examen extraordinario
-}
-
-enum DificultadPregunta{
- -facil
- -medio
- -dificil
-}
-
-class Respuesta{
- -id: Long
- -opción: String
- -esCorrecta: Boolean
- -índice: Integer
-}
-
-class Tema{
- -id: Long
- -nombre: String
+' --- NIVEL 5: EJECUCIÓN (EL EJEMPLAR) ---
+class Alumno {
+  -id: Long
+  -nombre: String
+  -apellidos: String
+  -DNI: String
+  -curso: Integer
 }
 
 class ExamenAlumno {
- -id: Long
- -claveCorreccion: String (SHA-256)
- -notaFinal: Double
- -estado: EstadoExamen
+  -id: Long
+  -claveCorreccion: String (SHA-256)
+  -notaFinal: Double
+  -estado: EstadoExamen
 }
 
 class ExamenAlumnoMarca {
- -id: Long
- -indiceMarcado: Integer
+  -id: Long
+  -índiceMarcado: Integer
 }
 
-' Relaciones del diagrama original (Baseline)
-Respuesta -u-* Pregunta
-Pregunta ..> DificultadPregunta
-Pregunta -u-o Examen : contiene
-Pregunta -u-* BateriaDePreguntas : contiene
-Examen ..> EvaluaciónExamen
-BateriaDePreguntas -u-* Asignatura : tiene
-Examen -u-* Asignatura : tiene
-Profesor o-r- Asignatura : tiene
-Asignatura --> Grado : pertenece
-Alumno -u-o Examen : realiza
-Alumno -u-* Asignatura : se imparte
-Alumno -u-* Grado : se cursa
-Pregunta ..> Tema
+' --- RELACIONES JERÁRQUICAS ---
 
-' Extensiones de la Implementación (As-Built) conectadas sin romper la jerarquía original
+' Nivel 1 -> Nivel 2
+Profesor "1" -- "*" Asignatura : imparte
+Asignatura "*" -- "*" Grado : se imparte en
+
+' Nivel 2 -> Nivel 3
+Asignatura "1" -- "*" Tema : contiene
+Tema "1" -- "*" Pregunta : tiene
+Pregunta "1" -- "*" Respuesta : contiene
+
+' Nivel 2 -> Nivel 4
+Examen "*" -- "1" Asignatura : basado en
+Examen "1" -- "*" Pregunta : selecciona
+
+' Nivel 4 -> Nivel 5 (Instanciación)
 Examen "1" -- "*" ExamenAlumno : genera
 Alumno "1" -- "*" ExamenAlumno : posee
-ExamenAlumno "1" *-- "*" ExamenAlumnoMarca : auditoría
+Alumno "*" -- "*" Asignatura : matriculado
+Alumno "*" -- "1" Grado : pertenece
+
+' Nivel 5 (Auditoría)
+ExamenAlumno "1" *-- "*" ExamenAlumnoMarca : registra
 ExamenAlumnoMarca "*" -- "1" Pregunta : marcada
 ExamenAlumnoMarca "*" -- "1" Respuesta : elegida
-Tema "*" -- "1" Asignatura : pertenece
 
 @enduml
