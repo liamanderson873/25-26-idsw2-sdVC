@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getAsignaturas } from '../services/asignaturaService';
 import { getTemas } from '../services/temaService';
+import { getGrados } from '../services/gradoService';
 import { generarExamen } from '../services/examenService';
 import { Dificultad, TipoEvaluacion } from '../types';
 
 const GenerarExamenPage: React.FC = () => {
+  const queryClient = useQueryClient();
+
+  // Selección jerárquica
+  const [gradoId, setGradoId] = useState<number>(0);
   const [asignaturaId, setAsignaturaId] = useState<number>(0);
   const [temaIds, setTemaIds] = useState<number[]>([]);
   const [numPreguntas, setNumPreguntas] = useState<number>(10);
@@ -19,29 +24,40 @@ const GenerarExamenPage: React.FC = () => {
     [Dificultad.DIFICIL]: 0.2,
   });
 
-  const { data: asignaturas = [] } = useQuery({ queryKey: ['asignaturas'], queryFn: async () => {
-    const data = await getAsignaturas();
-    console.log('Asignaturas recibidas:', data);
-    return data;
-  }});
+  // Queries
+  const { data: grados = [] } = useQuery({ queryKey: ['grados'], queryFn: getGrados });
+  const { data: asignaturas = [] } = useQuery({ queryKey: ['asignaturas'], queryFn: getAsignaturas });
   const { data: temas = [] } = useQuery({ 
     queryKey: ['temas', asignaturaId], 
-    queryFn: async () => {
-      const data = await getTemas();
-      console.log('Temas recibidos para asig ' + asignaturaId + ':', data);
-      return data;
-    },
+    queryFn: getTemas,
     enabled: asignaturaId > 0 
   });
 
-  const queryClient = useQueryClient();
+  // Filtrado Lógico en Cascada
+  const asignaturasDelGrado = useMemo(() => {
+    return (asignaturas || []).filter(a => gradoId === 0 || a.gradoId === gradoId || (a as any).gradoIds?.includes(gradoId));
+  }, [asignaturas, gradoId]);
+
+  const temasDeAsignatura = useMemo(() => {
+    if (asignaturaId === 0) return [];
+    const asig = asignaturas.find(a => a.id === asignaturaId);
+    return (temas || []).filter(t => t.asignaturaId === asignaturaId || t.codigoAsignatura === asig?.codigo);
+  }, [temas, asignaturaId, asignaturas]);
 
   const mutation = useMutation({
     mutationFn: generarExamen,
     onSuccess: (data) => {
       setResultado(data);
       queryClient.invalidateQueries({ queryKey: ['examenes'] });
+      // Scroll automático suave hacia el resultado de éxito
+      setTimeout(() => {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      }, 100);
     },
+    onError: (error: any) => {
+      const msg = error.response?.data || error.message || "Error desconocido al generar";
+      alert("❌ NO SE PUDO GENERAR: " + msg);
+    }
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -66,9 +82,9 @@ const GenerarExamenPage: React.FC = () => {
   };
 
   return (
-    <div className="page-container">
-      <h1>Generar Examen</h1>
-      <p className="subtitle">Configure los parámetros para la creación del modelo de evaluación.</p>
+    <div className="page-container fade-in">
+      <h1>Generar Modelo de Examen</h1>
+      <p className="subtitle">Configure los parámetros técnicos para la generación aleatoria estratificada.</p>
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
         
@@ -79,37 +95,49 @@ const GenerarExamenPage: React.FC = () => {
             Parámetros Generales
           </h3>
           
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '1.25rem' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Asignatura</label>
+              <label>Grado Académico</label>
               <select 
-                value={asignaturaId} 
-                onChange={(e) => setAsignaturaId(Number(e.target.value))}
-                style={{ width: '100%', background: '#f8fafc' }}
+                value={gradoId} 
+                onChange={(e) => { setGradoId(Number(e.target.value)); setAsignaturaId(0); setTemaIds([]); }}
+                style={{ width: '100%' }}
               >
-                <option value={0}>Seleccionar...</option>
-                {asignaturas.map(a => <option key={a.id} value={a.id}>{a.nombre}</option>)}
+                <option value={0}>Seleccionar Grado...</option>
+                {grados.map(g => <option key={g.id} value={g.id}>{g.nombre}</option>)}
               </select>
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Evaluación</label>
+              <label>Asignatura</label>
+              <select 
+                value={asignaturaId} 
+                onChange={(e) => { setAsignaturaId(Number(e.target.value)); setTemaIds([]); }}
+                style={{ width: '100%' }}
+                disabled={!gradoId}
+              >
+                <option value={0}>Seleccionar Asignatura...</option>
+                {asignaturasDelGrado.map(a => <option key={a.id} value={a.id}>{a.nombre}</option>)}
+              </select>
+            </div>
+            <div>
+              <label>Bloque de Evaluación</label>
               <select 
                 value={tipo} 
                 onChange={(e) => setTipo(e.target.value as TipoEvaluacion)}
-                style={{ width: '100%', background: '#f8fafc' }}
+                style={{ width: '100%' }}
               >
                 {Object.values(TipoEvaluacion).map(t => <option key={t} value={t}>{t.replace('_', ' ')}</option>)}
               </select>
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '800', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Cuestiones</label>
+              <label>Cuestiones</label>
               <input 
                 type="number" 
                 min={1} 
                 max={50}
                 value={numPreguntas} 
                 onChange={e => setNumPreguntas(Number(e.target.value))}
-                style={{ width: '100%', background: '#f8fafc' }}
+                style={{ width: '100%' }}
               />
             </div>
           </div>
@@ -123,10 +151,10 @@ const GenerarExamenPage: React.FC = () => {
               Selección de Temas
             </h3>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-              {temas.length === 0 ? (
-                <p style={{ color: '#999', gridColumn: 'span 2', textAlign: 'center', padding: '1rem' }}>No hay temas registrados.</p>
+              {temasDeAsignatura.length === 0 ? (
+                <p style={{ color: '#999', gridColumn: 'span 2', textAlign: 'center', padding: '1rem' }}>No hay temas registrados para esta materia.</p>
               ) : (
-                temas.map((t: any) => (
+                temasDeAsignatura.map((t: any) => (
                   <div 
                     key={t.id} 
                     onClick={() => toggleTema(t.id)}
@@ -180,15 +208,6 @@ const GenerarExamenPage: React.FC = () => {
               <input type="range" min="0" max="100" step="5" value={proporciones[Dificultad.DIFICIL]*100} onChange={e => handlePropChange(Dificultad.DIFICIL, e.target.value)} style={{ width: '100%', accentColor: 'var(--danger)' }} />
             </div>
           </div>
-          
-          <div style={{ marginTop: '2rem', padding: '1rem', borderRadius: '8px', background: '#f8fafc', textAlign: 'center' }}>
-             <span style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-muted)' }}>
-               Distribución Total: 
-               <span style={{ color: Math.round((proporciones[Dificultad.FACIL] + proporciones[Dificultad.MEDIO] + proporciones[Dificultad.DIFICIL])*100) === 100 ? 'var(--success)' : 'var(--danger)', marginLeft: '0.5rem', fontWeight: '900' }}>
-                 {Math.round((proporciones[Dificultad.FACIL] + proporciones[Dificultad.MEDIO] + proporciones[Dificultad.DIFICIL])*100)}%
-               </span>
-             </span>
-          </div>
         </div>
 
         <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1rem' }}>
@@ -198,7 +217,7 @@ const GenerarExamenPage: React.FC = () => {
             onClick={() => window.location.reload()}
             style={{ flex: 1, padding: '1.25rem' }}
           >
-            CANCELAR OPERACIÓN
+            REINICIAR FORMULARIO
           </button>
           <button 
             type="submit" 
@@ -206,13 +225,13 @@ const GenerarExamenPage: React.FC = () => {
             disabled={mutation.isPending || !asignaturaId || temaIds.length === 0 || Math.round((proporciones[Dificultad.FACIL] + proporciones[Dificultad.MEDIO] + proporciones[Dificultad.DIFICIL])*100) !== 100}
             style={{ flex: 2, padding: '1.25rem', fontSize: '1.1rem' }}
           >
-            {mutation.isPending ? 'PROCESANDO ALGORITMO...' : 'GENERAR MODELO'}
+            {mutation.isPending ? 'CREANDO MODELO...' : 'GENERAR MODELO DE EXAMEN'}
           </button>
         </div>
       </form>
 
       {resultado && (
-        <div style={{ marginTop: '3rem', padding: '2.5rem', background: 'white', borderRadius: 'var(--radius)', border: '2px solid var(--success)', textAlign: 'center', boxShadow: '0 20px 25px -5px rgba(16, 185, 129, 0.1)' }}>
+        <div className="card" style={{ marginTop: '3rem', border: '2px solid var(--success)', textAlign: 'center', boxShadow: '0 20px 25px -5px rgba(16, 185, 129, 0.1)' }}>
           <div style={{ width: '60px', height: '60px', background: '#ecfdf5', color: 'var(--success)', borderRadius: '50%', display: 'grid', placeItems: 'center', margin: '0 auto 1.5rem', fontSize: '1.5rem', fontWeight: 'bold' }}>✓</div>
           <h2 style={{ color: '#065f46', marginBottom: '0.75rem' }}>Examen Generado</h2>
           <p style={{ color: 'var(--text-muted)', fontWeight: '500', marginBottom: '2rem' }}>{resultado}</p>
@@ -221,7 +240,7 @@ const GenerarExamenPage: React.FC = () => {
             onClick={() => window.location.href='/asignar-examen'}
             style={{ padding: '1rem 3rem' }}
           >
-            CONTINUAR A ASIGNACIÓN
+            PASAR A ASIGNACIÓN
           </button>
         </div>
       )}

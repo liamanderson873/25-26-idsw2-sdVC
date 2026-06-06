@@ -81,22 +81,36 @@ public class ServicioExamen {
                 // Limpiar marcas previas
                 repoMarcas.deleteByExamenAlumnoId(ej.getId());
 
+                // Asignamos un "nivel de preparación" aleatorio al alumno para este examen (entre 30% y 95%)
+                // Esto hará que cada alumno tenga una nota media distinta
+                double nivelPreparacion = 0.3 + (Math.random() * 0.65);
+
                 for (Pregunta p : preguntas) {
-                    int randomIdx = (int) (Math.random() * 4);
-                    List<Respuesta> resps = p.getRespuestas();
-                    Respuesta respElegida = null;
-                    if (resps != null && !resps.isEmpty()) {
-                        respElegida = resps.stream()
-                            .filter(r -> r.getIndice() != null && r.getIndice().equals(randomIdx))
+                    // Buscamos la respuesta correcta real
+                    Respuesta correcta = p.getRespuestas().stream()
+                            .filter(Respuesta::isEsCorrecta)
                             .findFirst()
-                            .orElse(resps.get(0));
+                            .orElse(p.getRespuestas().get(0));
+
+                    int indiceElegido;
+                    // El alumno acierta según su nivel de preparación individual
+                    if (Math.random() < nivelPreparacion) {
+                        indiceElegido = correcta.getIndice();
+                    } else {
+                        // Si falla, elige una al azar entre las 4
+                        indiceElegido = (int) (Math.random() * 4);
                     }
+
+                    Respuesta respElegida = p.getRespuestas().stream()
+                            .filter(r -> r.getIndice().equals(indiceElegido))
+                            .findFirst()
+                            .orElse(correcta);
 
                     ExamenAlumnoMarca marca = new ExamenAlumnoMarca();
                     marca.setExamenAlumno(ej);
                     marca.setPregunta(p);
                     marca.setRespuesta(respElegida);
-                    marca.setIndiceMarcado(randomIdx);
+                    marca.setIndiceMarcado(indiceElegido);
                     repoMarcas.save(marca);
                 }
                 ej.setEstado(EstadoExamen.PENDIENTE_CALIFICACION);
