@@ -594,3 +594,59 @@ Auditoría completa de conformidad del proyecto Jorgestor contra la teoría de I
 
 ---
 *Misión cumplida. Jorgestor está listo para la entrega oficial.*
+
+## Conversación 42: Corrección de CUs Abstractos y Rediseño de Generación de Exámenes
+**Fecha**: 2026-06-07
+**Participantes**: Liam + Claude Sonnet 4.6 (Claude Code CLI)
+
+### Contexto de la Sesión
+Continuación de la auditoría de la sesión 41. Se identificaron dos problemas restantes: (1) los 4 CUs abstractos del módulo de exportación tenían actor directo en sus diagramas de análisis, y (2) la generación de exámenes asignaba el mismo examen a todos los alumnos en lugar de generar uno único por alumno.
+
+**Prompts clave de Liam**:
+> "si vale revisa los cus abstractos para quitarles el actor en los diagramas de analisis"
+> "la gracia del sistema es que cada alumno tenga un examen personalizado que ha sido generado aleatoriamente"
+> "si implementamos mejor la c"
+
+### Desarrollo Principal
+
+**1. Corrección de CUs abstractos (CU-07, CU-08, CU-40, CU-41)**
+
+Los CUs de exportación parcial (`exportarAlumnos`, `exportarPreguntas`, `exportarAsignaturas`, `exportarGrados`) pertenecen al `"Módulo Exportación [Abstracto]"` en `actores-casos-uso.puml`, activados vía `<<include>>` desde CU-04. Sus 8 diagramas de análisis (4 colaboración + 4 secuencia) mostraban `actor Docente` con flecha directa, lo cual es incorrecto en RUP.
+
+*Cambios en los 8 archivos:*
+- **Colaboración**: eliminado `actor Docente` y su flecha; añadida nota `<<abstracto>>\nInvocado desde CU-04: exportarConfiguracionGlobal`
+- **Secuencia**: eliminado `actor "Docente" as Actor` y mensajes `Actor -> Boundary` / `Boundary --> Actor`; sustituidos por `[->` (llamada externa anónima) y `[<-` con nota `<<abstracto>>`
+
+**2. Bug del botón "Habilitada/Inhabilitada" en preguntas**
+
+*Causa*: `CorsConfig.java` solo listaba `GET, POST, PUT, DELETE, OPTIONS` — `PATCH` estaba ausente. El navegador bloqueaba el preflight silenciosamente y la mutación fallaba sin mostrar error (no había `onError`).
+
+*Fix*: Añadido `"PATCH"` a `allowedMethods` en `CorsConfig.java`.
+
+**3. Rediseño de generación de exámenes (Opción C del análisis)**
+
+*Problema*: `generarExamen` creaba UN único `Examen` compartido por todos los alumnos. La generación aleatoria ocurría una sola vez, no por alumno.
+
+*Decisión de diseño*: Se eligió la **Opción C** (fusión de generación + asignación) sobre las alternativas:
+- **Opción A descartada**: almacenar el pool en `Examen` es redundante con la batería de preguntas existente.
+- **Opción B descartada**: hacer que la asignación re-ejecute el algoritmo de generación viola SRP (la asignación no debería saber generar). El `Examen`-plantilla es un artefacto técnico sin sentido semántico en el dominio.
+- **Opción C elegida**: alinea con el ModelingRepo ("número de exámenes para cada grado"), cumple SRP, y el `Examen` nace ya vinculado a un alumno (correcto semánticamente). Soporta configuración independiente por grado (distinto numPreguntas y proporciones de dificultad).
+
+*Cambios implementados:*
+
+Backend:
+- `DTO_GenerarYAsignar.java` (nuevo): DTO con `asignaturaId`, `temaIds`, `tipoEvaluacion` y lista de `ConfigPorGrado` (gradoId, numPreguntas, proporcionesDificultad, alumnoIds)
+- `ServicioExamen.generarYAsignar()` (nuevo método): por cada alumno de cada configuración de grado, selecciona aleatoriamente preguntas de forma independiente del pool y crea un `Examen` + `ExamenAlumno` únicos
+- `ControladorExamen` (nuevo endpoint): `POST /api/examenes/generar-y-asignar`
+
+Frontend:
+- `types/index.ts`: añadidos `ConfigPorGrado` y `GenerarYAsignarDTO`
+- `examenService.ts`: añadida función `generarYAsignar()`
+- `GenerarExamenPage.tsx`: rediseñada completamente — paso 01 (asignatura + tipo), paso 02 (temas), pasos 03-N (panel por cada grado con sliders de dificultad + selector de alumnos del grado). Un botón único genera y asigna en un solo paso.
+
+### Regla de trabajo recordada
+- Commits directamente en `develop` (no crear ramas feature para cambios de documentación/diagramas). Se corrigió tras crear accidentalmente una rama para los CUs abstractos.
+
+### Validación
+- CORS fix verificable: botón "Habilitada/Inhabilitada" en PreguntasPage debe responder tras reiniciar el backend.
+- Generación personalizada: cada alumno tendrá su propio `Examen` en BD con `esPersonalizado = true` y preguntas independientemente aleatorizadas.

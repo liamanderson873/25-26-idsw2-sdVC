@@ -2,6 +2,7 @@ package com.jorgestor.api.controlador;
 
 import com.jorgestor.api.dto.DTO_AsignarExamen;
 import com.jorgestor.api.dto.DTO_GenerarExamen;
+import com.jorgestor.api.dto.DTO_GenerarYAsignar;
 import com.jorgestor.api.dto.DTO_ProcesarCorreccion;
 import com.jorgestor.api.modelo.Examen;
 import com.jorgestor.api.servicio.ServicioExamen;
@@ -59,6 +60,20 @@ public class ControladorExamen {
             return ResponseEntity.ok("Generación cancelada. Examen eliminado correctamente.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    /**
+     * CU-02 + CU-09 combinados: genera un Examen personalizado por alumno y lo asigna.
+     * Cada alumno recibe preguntas seleccionadas de forma independiente y aleatoria.
+     */
+    @PostMapping("/generar-y-asignar")
+    public ResponseEntity<?> generarYAsignar(@RequestBody DTO_GenerarYAsignar dto) {
+        try {
+            int total = servicioExamen.generarYAsignar(dto);
+            return ResponseEntity.ok("Generados y asignados " + total + " exámenes personalizados correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error en la generación: " + e.getMessage());
         }
     }
 

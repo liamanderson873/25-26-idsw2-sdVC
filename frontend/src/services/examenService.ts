@@ -1,5 +1,5 @@
 ﻿import api from '../api/axios';
-import type { GenerarExamenDTO, Examen, ProcesarCorreccionDTO } from '../types';
+import type { GenerarExamenDTO, GenerarYAsignarDTO, Examen, ProcesarCorreccionDTO } from '../types';
 
 export const getExamenes = async (): Promise<Examen[]> => {
   const response = await api.get<Examen[]>('/examenes');
@@ -13,6 +13,11 @@ export const getEjemplares = async (examenId: number): Promise<any[]> => {
 
 export const generarExamen = async (dto: GenerarExamenDTO): Promise<string> => {
   const response = await api.post('/examenes/generar', dto);
+  return response.data;
+};
+
+export const generarYAsignar = async (dto: GenerarYAsignarDTO): Promise<string> => {
+  const response = await api.post('/examenes/generar-y-asignar', dto);
   return response.data;
 };
 

@@ -3,6 +3,7 @@ package com.jorgestor.api.servicio;
 import com.jorgestor.api.dto.DTO_AuditoriaAlumno;
 import com.jorgestor.api.dto.DTO_ExportarExamen;
 import com.jorgestor.api.dto.DTO_GenerarExamen;
+import com.jorgestor.api.dto.DTO_GenerarYAsignar;
 import com.jorgestor.api.dto.DTO_ProcesarCorreccion;
 import com.jorgestor.api.modelo.*;
 import com.jorgestor.api.repositorio.RepositorioAlumno;
@@ -324,6 +325,66 @@ public class ServicioExamen {
         examen.setPreguntas(new java.util.HashSet<>(seleccionFinal));
 
         return repoExamen.save(examen);
+    }
+
+    /**
+     * CU-02 + CU-09 combinados: genera un Examen personalizado por alumno.
+     * Cada alumno recibe una selección aleatoria independiente del pool de preguntas,
+     * garantizando exámenes únicos incluso con los mismos parámetros de configuración.
+     */
+    @Transactional
+    public int generarYAsignar(DTO_GenerarYAsignar dto) {
+        Asignatura asignatura = repoAsignatura.findById(dto.getAsignaturaId())
+                .orElseThrow(() -> new RuntimeException("Asignatura no encontrada"));
+
+        List<Pregunta> poolTotal = repoPregunta.findByTemaIdInAndHabilitadaTrue(dto.getTemaIds());
+
+        Map<Dificultad, List<Pregunta>> sacosPorDificultad = poolTotal.stream()
+                .collect(Collectors.groupingBy(Pregunta::getDificultad));
+
+        int totalGenerados = 0;
+
+        for (DTO_GenerarYAsignar.ConfigPorGrado config : dto.getConfiguraciones()) {
+            for (Long alumnoId : config.getAlumnoIds()) {
+                List<Pregunta> seleccion = new ArrayList<>();
+
+                for (Map.Entry<Dificultad, Double> entrada : config.getProporcionesDificultad().entrySet()) {
+                    Dificultad dif = entrada.getKey();
+                    int cantidad = (int) Math.round(config.getNumPreguntas() * entrada.getValue());
+                    if (cantidad == 0) continue;
+
+                    List<Pregunta> saco = new ArrayList<>(sacosPorDificultad.getOrDefault(dif, new ArrayList<>()));
+                    if (saco.size() < cantidad) {
+                        throw new RuntimeException("Preguntas insuficientes para dificultad " + dif
+                                + " (pedidas: " + cantidad + ", disponibles: " + saco.size() + ")");
+                    }
+                    Collections.shuffle(saco);
+                    seleccion.addAll(saco.subList(0, cantidad));
+                }
+
+                Examen examen = new Examen();
+                examen.setAsignatura(asignatura);
+                examen.setFechaExamen(LocalDate.now());
+                examen.setTipoEvaluacion(dto.getTipoEvaluacion());
+                examen.setEsPersonalizado(true);
+                examen.setPreguntas(new java.util.HashSet<>(seleccion));
+                repoExamen.save(examen);
+
+                Alumno alumno = repoAlumno.findById(alumnoId)
+                        .orElseThrow(() -> new RuntimeException("Alumno no encontrado: " + alumnoId));
+
+                ExamenAlumno ejemplar = new ExamenAlumno();
+                ejemplar.setExamen(examen);
+                ejemplar.setAlumno(alumno);
+                ejemplar.setEstado(EstadoExamen.ASIGNADO);
+                ejemplar.setClaveCorreccion(generarClaveCorreccion(alumno, examen));
+                repoExamenAlumno.save(ejemplar);
+
+                totalGenerados++;
+            }
+        }
+
+        return totalGenerados;
     }
 
     /**
