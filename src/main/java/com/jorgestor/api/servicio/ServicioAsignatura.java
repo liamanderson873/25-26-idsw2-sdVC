@@ -3,21 +3,24 @@ package com.jorgestor.api.servicio;
 import com.jorgestor.api.dto.DTO_Asignatura;
 import com.jorgestor.api.modelo.Asignatura;
 import com.jorgestor.api.modelo.Profesor;
+import com.jorgestor.api.modelo.Grado;
 import com.jorgestor.api.repositorio.RepositorioAsignatura;
 import com.jorgestor.api.repositorio.RepositorioProfesor;
+import com.jorgestor.api.repositorio.RepositorioGrado;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 @Service
 public class ServicioAsignatura {
     private final RepositorioAsignatura repoAsignatura;
     private final RepositorioProfesor repoProfesor;
-    private final com.jorgestor.api.repositorio.RepositorioGrado repoGrado;
+    private final RepositorioGrado repoGrado;
 
-    public ServicioAsignatura(RepositorioAsignatura repoAsignatura, RepositorioProfesor repoProfesor, com.jorgestor.api.repositorio.RepositorioGrado repoGrado) {
+    public ServicioAsignatura(RepositorioAsignatura repoAsignatura, RepositorioProfesor repoProfesor, RepositorioGrado repoGrado) {
         this.repoAsignatura = repoAsignatura;
         this.repoProfesor = repoProfesor;
         this.repoGrado = repoGrado;
@@ -26,13 +29,20 @@ public class ServicioAsignatura {
     @Transactional(readOnly = true)
     public List<DTO_Asignatura> listarTodos() {
         return repoAsignatura.findAll().stream()
-                .map(a -> new DTO_Asignatura(
+                .map(a -> {
+                    List<Long> gIds = a.getGrados() != null ? a.getGrados().stream().map(Grado::getId).collect(Collectors.toList()) : new ArrayList<>();
+                    Long firstGId = gIds.isEmpty() ? null : gIds.get(0);
+                    return new DTO_Asignatura(
                         a.getId(),
                         a.getNombre(),
                         a.getCodigo(),
                         a.getCursoAcademico(),
+                        a.getCursoSugerido(),
                         a.getProfesor() != null ? a.getProfesor().getDni() : null,
-                        a.getGrado() != null ? a.getGrado().getId() : null))
+                        firstGId,
+                        gIds
+                    );
+                })
                 .collect(Collectors.toList());
     }
 
@@ -40,18 +50,30 @@ public class ServicioAsignatura {
     public void crearOActualizar(DTO_Asignatura dto) {
         Profesor profe = repoProfesor.findByDni(dto.getDniProfesor())
                 .orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
-        
-        com.jorgestor.api.modelo.Grado grado = repoGrado.findById(dto.getGradoId())
-                .orElseThrow(() -> new RuntimeException("Grado no encontrado"));
 
-        Asignatura asig = repoAsignatura.findByCodigo(dto.getCodigo())
-                .orElse(new Asignatura());
+        Asignatura asig;
+        if (dto.getId() != null) {
+            asig = repoAsignatura.findById(dto.getId())
+                    .orElseThrow(() -> new RuntimeException("Asignatura no encontrada con ID: " + dto.getId()));
+        } else {
+            asig = repoAsignatura.findByCodigo(dto.getCodigo()).orElse(new Asignatura());
+        }
         
         asig.setCodigo(dto.getCodigo());
         asig.setNombre(dto.getNombre());
         asig.setCursoAcademico(dto.getCursoAcademico());
+        asig.setCursoSugerido(dto.getCursoSugerido() != null ? dto.getCursoSugerido() : 1);
         asig.setProfesor(profe);
-        asig.setGrado(grado);
+        
+        // Manejo N:M con Grados
+        if (dto.getGradoIds() != null && !dto.getGradoIds().isEmpty()) {
+            List<Grado> grados = repoGrado.findAllById(dto.getGradoIds());
+            asig.setGrados(grados);
+        } else if (dto.getGradoId() != null) {
+            List<Grado> grados = new ArrayList<>();
+            repoGrado.findById(dto.getGradoId()).ifPresent(grados::add);
+            asig.setGrados(grados);
+        }
         
         repoAsignatura.save(asig);
     }

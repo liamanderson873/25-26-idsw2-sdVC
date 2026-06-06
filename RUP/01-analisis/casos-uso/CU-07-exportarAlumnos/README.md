@@ -1,8 +1,5 @@
 ﻿# Jorgestor > CU-07-exportarAlumnos > AnÃ¡lisis
 
-> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-07-exportarAlumnos/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
-> |-|-|-|-|-|-|-|
-
 ## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
@@ -74,6 +71,7 @@ ExportController --> StudentExportView: notificarExito()
 
 @enduml
 ```
+
 
 
 

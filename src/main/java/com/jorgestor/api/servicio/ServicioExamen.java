@@ -1,5 +1,6 @@
 package com.jorgestor.api.servicio;
 
+import com.jorgestor.api.dto.DTO_AuditoriaAlumno;
 import com.jorgestor.api.dto.DTO_ExportarExamen;
 import com.jorgestor.api.dto.DTO_GenerarExamen;
 import com.jorgestor.api.dto.DTO_ProcesarCorreccion;
@@ -19,6 +20,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HexFormat;
 import java.util.List;
 import java.util.Map;
@@ -79,22 +81,36 @@ public class ServicioExamen {
                 // Limpiar marcas previas
                 repoMarcas.deleteByExamenAlumnoId(ej.getId());
 
+                // Asignamos un "nivel de preparación" aleatorio al alumno para este examen (entre 30% y 95%)
+                // Esto hará que cada alumno tenga una nota media distinta
+                double nivelPreparacion = 0.3 + (Math.random() * 0.65);
+
                 for (Pregunta p : preguntas) {
-                    int randomIdx = (int) (Math.random() * 4);
-                    List<Respuesta> resps = p.getRespuestas();
-                    Respuesta respElegida = null;
-                    if (resps != null && !resps.isEmpty()) {
-                        respElegida = resps.stream()
-                            .filter(r -> r.getIndice() != null && r.getIndice().equals(randomIdx))
+                    // Buscamos la respuesta correcta real
+                    Respuesta correcta = p.getRespuestas().stream()
+                            .filter(Respuesta::isEsCorrecta)
                             .findFirst()
-                            .orElse(resps.get(0));
+                            .orElse(p.getRespuestas().get(0));
+
+                    int indiceElegido;
+                    // El alumno acierta según su nivel de preparación individual
+                    if (Math.random() < nivelPreparacion) {
+                        indiceElegido = correcta.getIndice();
+                    } else {
+                        // Si falla, elige una al azar entre las 4
+                        indiceElegido = (int) (Math.random() * 4);
                     }
+
+                    Respuesta respElegida = p.getRespuestas().stream()
+                            .filter(r -> r.getIndice().equals(indiceElegido))
+                            .findFirst()
+                            .orElse(correcta);
 
                     ExamenAlumnoMarca marca = new ExamenAlumnoMarca();
                     marca.setExamenAlumno(ej);
                     marca.setPregunta(p);
                     marca.setRespuesta(respElegida);
-                    marca.setIndiceMarcado(randomIdx);
+                    marca.setIndiceMarcado(indiceElegido);
                     repoMarcas.save(marca);
                 }
                 ej.setEstado(EstadoExamen.PENDIENTE_CALIFICACION);
@@ -115,9 +131,7 @@ public class ServicioExamen {
             // Solo corregimos los que están entregados pero no corregidos
             if (ej.getEstado() == EstadoExamen.PENDIENTE_CALIFICACION || ej.getEstado() == EstadoExamen.REALIZADO || ej.getEstado() == EstadoExamen.ENTREGADO) {
                 
-                List<ExamenAlumnoMarca> marcasAlumno = repoMarcas.findAll().stream()
-                        .filter(m -> m.getExamenAlumno().getId().equals(ej.getId()))
-                        .collect(Collectors.toList());
+                List<ExamenAlumnoMarca> marcasAlumno = repoMarcas.findByExamenAlumnoId(ej.getId());
 
                 if (marcasAlumno.isEmpty()) continue;
 
@@ -196,11 +210,11 @@ public class ServicioExamen {
         double penalizacion = fallos / 3.0; // Estándar para 4 opciones
         double notaCalculada = ((aciertos - penalizacion) / totalPreguntas) * 10.0;
         
-        // Ajustamos para que la nota no sea negativa y guardamos como NOTA SUGERIDA
-        ejemplar.setNotaSugerida(Math.max(0, Math.round(notaCalculada * 100.0) / 100.0));
+        // Guardamos la nota final calculada tras la validación manual
+        ejemplar.setNotaFinal(Math.max(0, Math.round(notaCalculada * 100.0) / 100.0));
         
-        // El estado pasa a PENDIENTE_CALIFICACION (el profesor debe validar según la minuta)
-        ejemplar.setEstado(EstadoExamen.PENDIENTE_CALIFICACION);
+        // El estado pasa a CORREGIDO
+        ejemplar.setEstado(EstadoExamen.CORREGIDO);
 
         repoExamenAlumno.save(ejemplar);
     }
@@ -226,7 +240,7 @@ public class ServicioExamen {
             List<String> opciones = p.getRespuestas().stream()
                     .map(Respuesta::getContenido)
                     .collect(Collectors.toList());
-            preguntasExport.add(new DTO_ExportarExamen.PreguntaExport(p.getEnunciado(), p.getDificultad().toString(), opciones));
+            preguntasExport.add(new DTO_ExportarExamen.PreguntaExport(p.getId(), p.getEnunciado(), p.getDificultad().toString(), opciones));
         }
         dto.setPreguntas(preguntasExport);
 
@@ -316,6 +330,35 @@ public class ServicioExamen {
 
             repoExamenAlumno.save(ejemplar);
         }
+    }
+
+    /**
+     * Recupera las marcas registradas de un alumno para su revisión (Auditoría).
+     */
+    @Transactional(readOnly = true)
+    public DTO_AuditoriaAlumno obtenerAuditoriaAlumno(Long ejemplarId) {
+        ExamenAlumno ej = repoExamenAlumno.findById(ejemplarId)
+                .orElseThrow(() -> new RuntimeException("Ejemplar no encontrado"));
+
+        List<ExamenAlumnoMarca> marcas = repoMarcas.findByExamenAlumnoId(ejemplarId);
+        
+        // Uso de HashMap tradicional para evitar fallos por duplicados o valores nulos
+        Map<Long, Integer> mapaMarcas = new HashMap<>();
+        for (ExamenAlumnoMarca m : marcas) {
+            if (m.getPregunta() != null && m.getPregunta().getId() != null) {
+                mapaMarcas.put(m.getPregunta().getId(), m.getIndiceMarcado());
+            }
+        }
+
+        DTO_AuditoriaAlumno dto = new DTO_AuditoriaAlumno();
+        dto.setNombreAlumno(ej.getAlumno().getNombre());
+        dto.setApellidosAlumno(ej.getAlumno().getApellidos());
+        dto.setClaveCorreccion(ej.getClaveCorreccion());
+        dto.setNotaFinal(ej.getNotaFinal());
+        dto.setEstado(ej.getEstado().toString());
+        dto.setMarcas(mapaMarcas);
+
+        return dto;
     }
 
     /**

@@ -1,8 +1,5 @@
 ﻿# Jorgestor > CU-30-iniciarSesion > AnÃ¡lisis
 
-> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-30-iniciarSesion/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
-> |-|-|-|-|-|-|-|
-
 ## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
@@ -77,6 +74,7 @@ LoginController --> LoginView: mostrarError()
 
 @enduml
 ```
+
 
 
 

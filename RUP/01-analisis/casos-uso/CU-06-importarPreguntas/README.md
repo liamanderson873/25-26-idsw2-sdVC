@@ -1,8 +1,5 @@
 ﻿# Jorgestor > CU-06-importarPreguntas > AnÃ¡lisis
 
-> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-06-importarPreguntas/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
-> |-|-|-|-|-|-|-|
-
 ## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
@@ -86,6 +83,7 @@ QuestionImportController --> Question: guardar()
 
 @enduml
 ```
+
 
 
 

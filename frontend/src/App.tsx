@@ -1,9 +1,9 @@
 ﻿import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
+import LoginPage from './pages/LoginPage';
 import GradosPage from './pages/GradosPage';
 import AsignaturasPage from './pages/AsignaturasPage';
 import ProfesoresPage from './pages/ProfesoresPage';
-
 import AlumnosPage from './pages/AlumnosPage';
 import PreguntasPage from './pages/PreguntasPage';
 import GenerarExamenPage from './pages/GenerarExamenPage';
@@ -12,9 +12,13 @@ import CorregirExamenPage from './pages/CorregirExamenPage';
 import AuditoriaExamenesPage from './pages/AuditoriaExamenesPage';
 
 function App() {
+  const user = localStorage.getItem('user');
+
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" replace />} />
+      
+      <Route path="/" element={user ? <Layout /> : <Navigate to="/login" replace />}>
         <Route index element={<Navigate to="/generar-examen" replace />} />
         
         {/* Core */}

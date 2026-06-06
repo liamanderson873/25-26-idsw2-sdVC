@@ -1,36 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getPreguntas, createPregunta, deletePregunta } from '../services/preguntaService';
-import { getTemas, createTema, deleteTema } from '../services/temaService';
+import { getTemas } from '../services/temaService';
 import { getAsignaturas } from '../services/asignaturaService';
+import { getGrados } from '../services/gradoService';
 import DataTable from '../components/DataTable';
-import { Pregunta, Tema, Dificultad, Respuesta, Asignatura } from '../types';
+import { Pregunta, Dificultad, Respuesta } from '../types';
 
 const PreguntasPage: React.FC = () => {
   const queryClient = useQueryClient();
-  const [activeTab, setActiveTab] = useState<'preguntas' | 'temas'>('preguntas');
-  const [searchEnunciado, setSearchEnunciado] = useState('');
+  
+  // Estados de navegación y filtrado
+  const [selectedAsignaturaId, setSelectedAsignaturaId] = useState<number | null>(null);
+  const [searchAsig, setSearchAsig] = useState('');
+  const [filterGradoId, setFilterGradoId] = useState<number>(0);
+  const [filterTemaId, setFilterTemaId] = useState<number>(0);
   const [filterDificultad, setFilterDificultad] = useState<string>('');
-
-  // Form states
   const [isEditing, setIsEditing] = useState(false);
-  const [temaForm, setTemaForm] = useState<Tema>({ nombre: '', codigoAsignatura: '' });
+
+  // Estado de formulario Pregunta
   const [preguntaForm, setPreguntaForm] = useState<Pregunta>({
     enunciado: '',
     dificultad: Dificultad.MEDIO,
     temaId: 0,
     respuestas: [
-      { contenido: '', esCorrecta: true, indice: 0 },
-      { contenido: '', esCorrecta: false, indice: 1 },
-      { contenido: '', esCorrecta: false, indice: 2 },
-      { contenido: '', esCorrecta: false, indice: 3 },
+      { contenido: '', esCorrecta: true },
+      { contenido: '', esCorrecta: false },
+      { contenido: '', esCorrecta: false },
+      { contenido: '', esCorrecta: false },
     ]
   });
 
   // Queries
   const { data: preguntas = [], isLoading: loadingPregs } = useQuery({ queryKey: ['preguntas'], queryFn: getPreguntas });
-  const { data: temas = [], isLoading: loadingTemas } = useQuery({ queryKey: ['temas'], queryFn: getTemas });
+  const { data: temas = [] } = useQuery({ queryKey: ['temas'], queryFn: getTemas });
   const { data: asignaturas = [] } = useQuery({ queryKey: ['asignaturas'], queryFn: getAsignaturas });
+  const { data: grados = [] } = useQuery({ queryKey: ['grados'], queryFn: getGrados });
 
   // Mutations
   const createPregMutation = useMutation({
@@ -41,12 +46,9 @@ const PreguntasPage: React.FC = () => {
     }
   });
 
-  const createTemaMutation = useMutation({
-    mutationFn: createTema,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['temas'] });
-      setTemaForm({ nombre: '', codigoAsignatura: '' });
-    }
+  const deletePregMutation = useMutation({
+    mutationFn: deletePregunta,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['preguntas'] })
   });
 
   const resetForm = () => {
@@ -56,18 +58,12 @@ const PreguntasPage: React.FC = () => {
       dificultad: Dificultad.MEDIO,
       temaId: 0,
       respuestas: [
-        { contenido: '', esCorrecta: true, indice: 0 },
-        { contenido: '', esCorrecta: false, indice: 1 },
-        { contenido: '', esCorrecta: false, indice: 2 },
-        { contenido: '', esCorrecta: false, indice: 3 },
+        { contenido: '', esCorrecta: true },
+        { contenido: '', esCorrecta: false },
+        { contenido: '', esCorrecta: false },
+        { contenido: '', esCorrecta: false },
       ]
     });
-  };
-
-  const handleEditClick = (p: Pregunta) => {
-    setPreguntaForm({ ...p });
-    setIsEditing(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleRespuestaChange = (index: number, field: keyof Respuesta, value: any) => {
@@ -80,228 +76,211 @@ const PreguntasPage: React.FC = () => {
     setPreguntaForm({ ...preguntaForm, respuestas: newRespuestas });
   };
 
-  const handleTemaSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!temaForm.nombre || !temaForm.codigoAsignatura) {
-      alert('Rellena los campos obligatorios del tema.');
-      return;
-    }
-    createTemaMutation.mutate(temaForm);
-  };
+  // Filtrado de Asignaturas (Panel Izquierdo)
+  const asignaturasFiltradas = useMemo(() => {
+    return asignaturas.filter(asig => {
+      const matchesGrado = filterGradoId === 0 || asig.gradoId === filterGradoId;
+      const matchesSearch = !searchAsig || asig.nombre.toLowerCase().includes(searchAsig.toLowerCase());
+      return matchesGrado && matchesSearch;
+    });
+  }, [asignaturas, filterGradoId, searchAsig]);
 
-  const handleCreateOrUpdate = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!preguntaForm.enunciado || !preguntaForm.temaId) {
-      alert('Rellena los campos obligatorios.');
-      return;
-    }
-    createPregMutation.mutate(preguntaForm);
-  };
+  // Filtrado de Preguntas (Panel Derecho)
+  const preguntasFiltradas = useMemo(() => {
+    if (!selectedAsignaturaId) return [];
+    const asig = asignaturas.find(a => a.id === selectedAsignaturaId);
+    return preguntas.filter(p => {
+      const tema = temas.find(t => t.id === p.temaId);
+      const matchesAsig = tema && (tema.asignaturaId === selectedAsignaturaId || tema.codigoAsignatura === asig?.codigo);
+      const matchesTema = filterTemaId === 0 || p.temaId === filterTemaId;
+      const matchesDif = !filterDificultad || p.dificultad === filterDificultad;
+      return matchesAsig && matchesTema && matchesDif;
+    });
+  }, [preguntas, selectedAsignaturaId, filterTemaId, filterDificultad, temas, asignaturas]);
 
-  const filteredPreguntas = (preguntas || []).filter(p => {
-    const matchesSearch = !searchEnunciado || p.enunciado.toLowerCase().includes(searchEnunciado.toLowerCase());
-    const matchesDif = !filterDificultad || p.dificultad === filterDificultad;
-    return matchesSearch && matchesDif;
-  });
+  const temasDeAsignatura = useMemo(() => {
+    if (!selectedAsignaturaId) return [];
+    const asig = asignaturas.find(a => a.id === selectedAsignaturaId);
+    return temas.filter(t => t.asignaturaId === selectedAsignaturaId || t.codigoAsignatura === asig?.codigo);
+  }, [temas, selectedAsignaturaId, asignaturas]);
 
   return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <h1>Batería de Preguntas</h1>
-        <button style={{ padding: '0.6rem 1.2rem', background: '#2ecc71', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>📥 Importar Banco</button>
+    <div className="page-container fade-in">
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+        <div>
+          <h1>Baterías de Preguntas</h1>
+          <p className="subtitle">Gestión del banco de reactivos por disciplina académica.</p>
+        </div>
       </div>
 
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
-        <button 
-          onClick={() => setActiveTab('preguntas')}
-          style={{ padding: '0.6rem 1.5rem', borderRadius: '4px', border: 'none', background: activeTab === 'preguntas' ? '#3498db' : '#ddd', color: activeTab === 'preguntas' ? 'white' : '#333', cursor: 'pointer', fontWeight: 'bold' }}
-        >
-          PREGUNTAS
-        </button>
-        <button 
-          onClick={() => setActiveTab('temas')}
-          style={{ padding: '0.6rem 1.5rem', borderRadius: '4px', border: 'none', background: activeTab === 'temas' ? '#3498db' : '#ddd', color: activeTab === 'temas' ? 'white' : '#333', cursor: 'pointer', fontWeight: 'bold' }}
-        >
-          TEMAS / UNIDADES
-        </button>
-      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '2rem', alignItems: 'start' }}>
+        
+        {/* PANEL IZQUIERDO: SELECCIÓN DE ASIGNATURA */}
+        <aside style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div className="card" style={{ padding: '1rem' }}>
+             <label style={{ fontSize: '0.65rem' }}>Filtrar por Grado</label>
+             <select 
+                value={filterGradoId} 
+                onChange={e => setFilterGradoId(Number(e.target.value))}
+                style={{ marginBottom: '1rem' }}
+             >
+                <option value={0}>Todos los grados</option>
+                {grados.map(g => <option key={g.id} value={g.id}>{g.nombre}</option>)}
+             </select>
+             
+             <input 
+                type="text" 
+                placeholder="Buscar asignatura..." 
+                value={searchAsig}
+                onChange={e => setSearchAsig(e.target.value)}
+                style={{ background: 'white !important', border: '1px solid var(--border) !important' }}
+             />
+          </div>
 
-      {activeTab === 'preguntas' && (
-        <section>
-          {/* Formulario Preguntas */}
-          <div style={{ background: 'white', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', marginBottom: '2rem', border: isEditing ? '2px solid #e67e22' : 'none' }}>
-            <h3>{isEditing ? '📝 Editando Pregunta (ID: ' + preguntaForm.id + ')' : '✨ Nueva Pregunta'}</h3>
-            <form onSubmit={handleCreateOrUpdate}>
-              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', marginBottom: '0.3rem' }}>Enunciado</label>
-                  <input 
-                    placeholder="Enunciado de la pregunta" 
-                    value={preguntaForm.enunciado} 
-                    onChange={e => setPreguntaForm({...preguntaForm, enunciado: e.target.value})}
-                    style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', marginBottom: '0.3rem' }}>Tema</label>
-                  <select 
-                    value={preguntaForm.temaId} 
-                    onChange={e => setPreguntaForm({...preguntaForm, temaId: Number(e.target.value)})}
-                    style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
+          <div className="card" style={{ padding: '1rem' }}>
+            <h3 style={{ fontSize: '0.75rem', marginBottom: '1rem', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Asignaturas</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', maxHeight: '50vh', overflowY: 'auto' }}>
+              {asignaturasFiltradas.length === 0 ? (
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textAlign: 'center' }}>No se encontraron asignaturas.</p>
+              ) : (
+                asignaturasFiltradas.map(asig => (
+                  <div 
+                    key={asig.id} 
+                    onClick={() => { setSelectedAsignaturaId(asig.id!); setFilterTemaId(0); resetForm(); }}
+                    style={{ 
+                      padding: '0.6rem 0.85rem', 
+                      borderRadius: '8px', 
+                      cursor: 'pointer',
+                      fontSize: '0.8rem',
+                      fontWeight: '600',
+                      transition: 'all 0.2s',
+                      background: selectedAsignaturaId === asig.id ? 'var(--primary-soft)' : 'transparent',
+                      color: selectedAsignaturaId === asig.id ? 'var(--primary)' : 'var(--text-main)',
+                      border: `1px solid ${selectedAsignaturaId === asig.id ? 'var(--primary)' : 'transparent'}`
+                    }}
                   >
-                    <option value={0}>Selecciona Tema...</option>
-                    {(temas || []).map((t: Tema) => <option key={t.id} value={t.id}>{t.nombre}</option>)}
+                    {asig.nombre}
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </aside>
+
+        {/* PANEL DERECHO: PREGUNTAS Y FILTROS */}
+        <main>
+          {selectedAsignaturaId ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              
+              {/* FILTROS DE LA BATERÍA */}
+              <div className="card" style={{ display: 'flex', gap: '1rem', alignItems: 'end', padding: '1rem 1.5rem' }}>
+                <div style={{ flex: 2 }}>
+                  <label>Filtrar por Tema</label>
+                  <select value={filterTemaId} onChange={e => setFilterTemaId(Number(e.target.value))}>
+                    <option value={0}>Todos los temas</option>
+                    {temasDeAsignatura.map(t => <option key={t.id} value={t.id}>{t.nombre}</option>)}
                   </select>
                 </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', marginBottom: '0.3rem' }}>Dificultad</label>
-                  <select 
-                    value={preguntaForm.dificultad} 
-                    onChange={e => setPreguntaForm({...preguntaForm, dificultad: e.target.value as Dificultad})}
-                    style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
-                  >
+                <div style={{ flex: 1 }}>
+                  <label>Dificultad</label>
+                  <select value={filterDificultad} onChange={e => setFilterDificultad(e.target.value)}>
+                    <option value="">Cualquiera</option>
                     <option value={Dificultad.FACIL}>Fácil</option>
                     <option value={Dificultad.MEDIO}>Medio</option>
                     <option value={Dificultad.DIFICIL}>Difícil</option>
                   </select>
                 </div>
+                <button className="btn btn-primary" onClick={() => setIsEditing(true)}>Nueva Pregunta</button>
               </div>
 
-              <div style={{ marginBottom: '1.5rem', background: '#f8fafc', padding: '1rem', borderRadius: '8px' }}>
-                <h4 style={{ margin: '0 0 1rem 0', fontSize: '0.9rem' }}>Opciones de Respuesta</h4>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                  {(preguntaForm.respuestas || []).map((resp: Respuesta, idx: number) => (
-                    <div key={idx} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', alignItems: 'center' }}>
-                      <input 
-                        type="radio" 
-                        name="correcta"
-                        checked={resp.esCorrecta} 
-                        onChange={() => handleRespuestaChange(idx, 'esCorrecta', true)}
-                      />
-                      <input 
-                        placeholder={`Opción ${idx + 1}`} 
-                        value={resp.contenido} 
-                        onChange={e => handleRespuestaChange(idx, 'contenido', e.target.value)}
-                        style={{ flex: 1, padding: '0.5rem', borderRadius: '4px', border: '1px solid #ddd' }}
+              {/* FORMULARIO DE EDICIÓN */}
+              {isEditing && (
+                <div className="card" style={{ border: '1px solid var(--primary)', background: 'var(--primary-soft)' }}>
+                  <h3 style={{ fontSize: '0.9rem', marginBottom: '1.25rem' }}>Configuración de la Cuestión</h3>
+                  <form onSubmit={(e) => { e.preventDefault(); createPregMutation.mutate(preguntaForm); }}>
+                    <div style={{ marginBottom: '1.5rem' }}>
+                      <label>Enunciado</label>
+                      <textarea 
+                        value={preguntaForm.enunciado} 
+                        onChange={e => setPreguntaForm({...preguntaForm, enunciado: e.target.value})}
+                        style={{ background: 'white !important', minHeight: '80px' }}
+                        required
                       />
                     </div>
-                  ))}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
+                       <div>
+                         <label>Tema Asociado</label>
+                         <select 
+                            value={preguntaForm.temaId} 
+                            onChange={e => setPreguntaForm({...preguntaForm, temaId: Number(e.target.value)})}
+                            required
+                         >
+                           <option value={0}>Seleccionar tema...</option>
+                           {temasDeAsignatura.map(t => <option key={t.id} value={t.id}>{t.nombre}</option>)}
+                         </select>
+                       </div>
+                       <div>
+                         <label>Nivel de Dificultad</label>
+                         <select value={preguntaForm.dificultad} onChange={e => setPreguntaForm({...preguntaForm, dificultad: e.target.value as Dificultad})}>
+                           {Object.values(Dificultad).map(d => <option key={d} value={d}>{d}</option>)}
+                         </select>
+                       </div>
+                    </div>
+                    <div style={{ marginBottom: '1.5rem' }}>
+                      <label>Respuestas (Marca la correcta)</label>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                        {preguntaForm.respuestas.map((r, idx) => (
+                          <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', background: 'white', padding: '0.5rem', borderRadius: '10px', border: '1px solid var(--border)' }}>
+                            <div className={`custom-checkbox ${r.esCorrecta ? 'checked' : ''}`} onClick={() => handleRespuestaChange(idx, 'esCorrecta', true)}></div>
+                            <input 
+                              value={r.contenido} 
+                              onChange={e => handleRespuestaChange(idx, 'contenido', e.target.value)}
+                              style={{ border: 'none', background: 'transparent', boxShadow: 'none' }}
+                              placeholder={`Opción ${String.fromCharCode(65+idx)}`}
+                              required
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
+                       <button type="button" onClick={resetForm} className="btn btn-secondary">Cancelar</button>
+                       <button type="submit" className="btn btn-primary">Guardar Pregunta</button>
+                    </div>
+                  </form>
                 </div>
+              )}
+
+              {/* LISTADO DE PREGUNTAS */}
+              <div className="card" style={{ padding: '0' }}>
+                 <DataTable<Pregunta>
+                   data={preguntasFiltradas}
+                   isLoading={loadingPregs}
+                   columns={[
+                     { header: 'Enunciado', accessor: (p) => <div style={{ fontWeight: '600', maxWidth: '400px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.enunciado}</div> },
+                     { header: 'Tema', accessor: (p) => temas.find(t => t.id === p.temaId)?.nombre || '...' },
+                     { header: 'Dificultad', accessor: (p) => (
+                       <span className={`badge ${p.dificultad === Dificultad.FACIL ? 'badge-success' : p.dificultad === Dificultad.MEDIO ? 'badge-warning' : 'badge-danger'}`}>
+                         {p.dificultad}
+                       </span>
+                     )}
+                   ]}
+                   onEdit={(p) => { setPreguntaForm({...p}); setIsEditing(true); window.scrollTo({top: 0, behavior: 'smooth'}); }}
+                   onDelete={(p) => deletePregMutation.mutate(p.id!)}
+                 />
               </div>
-
-              <div style={{ textAlign: 'right', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-                {isEditing && <button type="button" onClick={resetForm} style={{ padding: '0.7rem 2rem', background: '#95a5a6', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Cancelar</button>}
-                <button type="submit" disabled={createPregMutation.isPending} style={{ padding: '0.7rem 2rem', background: isEditing ? '#e67e22' : '#3498db', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-                  {createPregMutation.isPending ? 'Guardando...' : (isEditing ? 'Guardar Cambios' : 'Crear Pregunta')}
-                </button>
-              </div>
-            </form>
-          </div>
-
-          {/* Filtros de Búsqueda */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 200px', gap: '1rem', marginBottom: '1.5rem' }}>
-            <input 
-              placeholder="🔍 Buscar en enunciados..." 
-              value={searchEnunciado}
-              onChange={e => setSearchEnunciado(e.target.value)}
-              style={{ padding: '0.8rem', borderRadius: '8px', border: '1px solid #ddd', background: '#f8fafc' }}
-            />
-            <select 
-              value={filterDificultad} 
-              onChange={e => setFilterDificultad(e.target.value)}
-              style={{ padding: '0.8rem', borderRadius: '8px', border: '1px solid #ddd', background: '#f8fafc' }}
-            >
-              <option value="">Todas las Dificultades</option>
-              <option value={Dificultad.FACIL}>Fácil</option>
-              <option value={Dificultad.MEDIO}>Medio</option>
-              <option value={Dificultad.DIFICIL}>Difícil</option>
-            </select>
-          </div>
-
-          <DataTable<Pregunta>
-            data={filteredPreguntas}
-            isLoading={loadingPregs}
-            columns={[
-              { header: 'ID', accessor: 'id' },
-              { header: 'Enunciado', accessor: 'enunciado' },
-              { header: 'Dificultad', accessor: (p) => (
-                <span style={{ 
-                  padding: '2px 8px', 
-                  borderRadius: '12px', 
-                  fontSize: '0.75rem', 
-                  fontWeight: 'bold',
-                  background: p.dificultad === Dificultad.FACIL ? '#dcfce7' : p.dificultad === Dificultad.MEDIO ? '#fef3c7' : '#fee2e2',
-                  color: p.dificultad === Dificultad.FACIL ? '#166534' : p.dificultad === Dificultad.MEDIO ? '#92400e' : '#991b1b'
-                }}>
-                  {p.dificultad}
-                </span>
-              )},
-              { 
-                header: 'Tema', 
-                accessor: (p) => (temas || []).find(t => t.id === p.temaId)?.nombre || '...'
-              }
-            ]}
-            onEdit={handleEditClick}
-            onDelete={(p) => p.id && deletePregunta(p.id).then(() => queryClient.invalidateQueries({queryKey:['preguntas']}))}
-          />
-        </section>
-      )}
-
-      {activeTab === 'temas' && (
-        <section>
-          <div style={{ background: 'white', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', marginBottom: '2rem' }}>
-            <h3>✨ Nuevo Tema</h3>
-            <form onSubmit={handleTemaSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: '1rem', alignItems: 'end' }}>
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.4rem' }}>Nombre del Tema</label>
-                <input 
-                  value={temaForm.nombre} 
-                  onChange={e => setTemaForm({...temaForm, nombre: e.target.value})}
-                  placeholder="Ej. Tema 1: Introducción"
-                  style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
-                />
-              </div>
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.4rem' }}>Asignatura</label>
-                <select 
-                  value={temaForm.codigoAsignatura} 
-                  onChange={e => setTemaForm({...temaForm, codigoAsignatura: e.target.value})}
-                  style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
-                >
-                  <option value="">Selecciona Asignatura...</option>
-                  {(asignaturas || []).map((asig: Asignatura) => (
-                    <option key={asig.id} value={asig.codigo}>{asig.nombre} ({asig.codigo})</option>
-                  ))}
-                </select>
-              </div>
-              <button 
-                type="submit" 
-                disabled={createTemaMutation.isPending}
-                style={{ padding: '0.7rem 2rem', background: '#3498db', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-              >
-                {createTemaMutation.isPending ? 'Guardando...' : 'Crear Tema'}
-              </button>
-            </form>
-          </div>
-
-          <DataTable<Tema>
-            data={temas}
-            isLoading={loadingTemas}
-            columns={[
-              { header: 'ID', accessor: 'id' },
-              { header: 'Nombre', accessor: 'nombre' },
-              { 
-                header: 'Asignatura', 
-                accessor: (t) => {
-                  const asig = (asignaturas || []).find(a => a.codigo === t.codigoAsignatura);
-                  return asig ? `${asig.nombre} (${t.codigoAsignatura})` : t.codigoAsignatura;
-                }
-              }
-            ]}
-            onDelete={(t) => t.id && deleteTema(t.id).then(() => queryClient.invalidateQueries({queryKey:['temas']}))}
-          />
-        </section>
-      )}
+            </div>
+          ) : (
+            <div className="card" style={{ height: '400px', display: 'grid', placeItems: 'center', textAlign: 'center' }}>
+               <div>
+                  <div style={{ width: '64px', height: '64px', background: 'var(--primary-soft)', color: 'var(--primary)', borderRadius: '50%', display: 'grid', placeItems: 'center', margin: '0 auto 1.5rem', fontWeight: '900', fontSize: '1.5rem' }}>?</div>
+                  <h3 style={{ marginBottom: '0.5rem' }}>Selecciona una Asignatura</h3>
+                  <p style={{ color: 'var(--text-muted)', maxWidth: '300px' }}>Para gestionar las preguntas, primero debes elegir una asignatura del panel izquierdo.</p>
+               </div>
+            </div>
+          )}
+        </main>
+      </div>
     </div>
   );
 };

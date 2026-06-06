@@ -1,9 +1,10 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getAlumnos, createAlumno, deleteAlumno } from '../services/alumnoService';
 import { getGrados } from '../services/gradoService';
+import { getAsignaturas } from '../services/asignaturaService';
 import DataTable from '../components/DataTable';
-import type { Alumno } from '../types';
+import type { Alumno, Asignatura } from '../types';
 
 const AlumnosPage: React.FC = () => {
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -12,7 +13,9 @@ const AlumnosPage: React.FC = () => {
     dni: '',
     nombre: '',
     apellidos: '',
-    gradoId: 0
+    curso: 1,
+    gradoId: 0,
+    asignaturaIds: []
   });
   
   const queryClient = useQueryClient();
@@ -25,6 +28,11 @@ const AlumnosPage: React.FC = () => {
   const { data: grados = [] } = useQuery({
     queryKey: ['grados'],
     queryFn: getGrados,
+  });
+
+  const { data: asignaturas = [] } = useQuery({
+    queryKey: ['asignaturas'],
+    queryFn: getAsignaturas,
   });
 
   const saveMutation = useMutation({
@@ -44,12 +52,12 @@ const AlumnosPage: React.FC = () => {
 
   const resetForm = () => {
     setEditingId(null);
-    setForm({ dni: '', nombre: '', apellidos: '', gradoId: 0 });
+    setForm({ dni: '', nombre: '', apellidos: '', curso: 1, gradoId: 0, asignaturaIds: [] });
   };
 
   const handleEdit = (alumno: Alumno) => {
     setEditingId(alumno.id || null);
-    setForm({ ...alumno });
+    setForm({ ...alumno, asignaturaIds: alumno.asignaturaIds || [] });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -62,6 +70,15 @@ const AlumnosPage: React.FC = () => {
     saveMutation.mutate(form);
   };
 
+  const toggleAsignatura = (id: number) => {
+    const ids = form.asignaturaIds || [];
+    if (ids.includes(id)) {
+      setForm({ ...form, asignaturaIds: ids.filter(asigId => asigId !== id) });
+    } else {
+      setForm({ ...form, asignaturaIds: [...ids, id] });
+    }
+  };
+
   const filteredAlumnos = (alumnos || []).filter(a => 
     !searchTerm || 
     a.nombre.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -69,92 +86,128 @@ const AlumnosPage: React.FC = () => {
     a.dni.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const asignaturasDelGrado = asignaturas.filter(a => a.gradoId === form.gradoId);
+
   return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <h1>Gestión de Alumnos</h1>
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <button style={{ padding: '0.6rem 1.2rem', background: '#2ecc71', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>📥 Importar CSV</button>
-          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ padding: '0.6rem 1.2rem', background: '#3498db', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>✨ Crear Nuevo</button>
+    <div className="page-container fade-in">
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+        <div>
+          <h1>Gestión de Alumnos</h1>
+          <p className="subtitle">Administración del censo estudiantil y matriculación por curso.</p>
         </div>
       </div>
       
-      <section style={{ marginBottom: '2rem', background: 'white', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', border: editingId ? '2px solid #e67e22' : 'none' }}>
-        <h3>{editingId ? '📝 Editar Alumno' : '✨ Registrar Nuevo Alumno'}</h3>
-        <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-          <div>
-            <label style={{ display: 'block', marginBottom: '0.4rem' }}>DNI</label>
-            <input
-              type="text"
-              value={form.dni}
-              onChange={(e) => setForm({...form, dni: e.target.value})}
-              placeholder="Ej. 12345678A"
-              style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
-              disabled={!!editingId}
-            />
-          </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: '0.4rem' }}>Grado</label>
-            <select
-              value={form.gradoId}
-              onChange={(e) => setForm({...form, gradoId: Number(e.target.value)})}
-              style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
-            >
-              <option value={0}>Selecciona un grado...</option>
-              {(grados || []).map(g => (
-                <option key={g.id} value={g.id}>{g.nombre}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: '0.4rem' }}>Nombre</label>
-            <input
-              type="text"
-              value={form.nombre}
-              onChange={(e) => setForm({...form, nombre: e.target.value})}
-              placeholder="Nombre"
-              style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
-            />
-          </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: '0.4rem' }}>Apellidos</label>
-            <input
-              type="text"
-              value={form.apellidos}
-              onChange={(e) => setForm({...form, apellidos: e.target.value})}
-              placeholder="Apellidos"
-              style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
-            />
-          </div>
-          <div style={{ gridColumn: 'span 2', textAlign: 'right', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-            {editingId && (
-              <button 
-                type="button" 
-                onClick={resetForm}
-                style={{ padding: '0.7rem 2rem', background: '#95a5a6', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+      <section className="card" style={{ marginBottom: '2rem', border: editingId ? '1px solid var(--primary)' : '1px solid var(--border)' }}>
+        <h3 style={{ fontSize: '0.9rem', marginBottom: '1.25rem' }}>{editingId ? 'Modificar Matrícula' : 'Registrar Nuevo Alumno'}</h3>
+        <form onSubmit={handleSubmit}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem', marginBottom: '1.5rem' }}>
+            <div>
+              <label>Identificación (DNI)</label>
+              <input
+                type="text"
+                value={form.dni}
+                onChange={(e) => setForm({...form, dni: e.target.value})}
+                placeholder="Ej. 12345678A"
+                disabled={!!editingId}
+              />
+            </div>
+            <div>
+              <label>Nombre</label>
+              <input
+                type="text"
+                value={form.nombre}
+                onChange={(e) => setForm({...form, nombre: e.target.value})}
+                placeholder="Nombre"
+              />
+            </div>
+            <div>
+              <label>Apellidos</label>
+              <input
+                type="text"
+                value={form.apellidos}
+                onChange={(e) => setForm({...form, apellidos: e.target.value})}
+                placeholder="Apellidos"
+              />
+            </div>
+            <div>
+              <label>Año / Curso</label>
+              <select value={form.curso} onChange={e => setForm({...form, curso: Number(e.target.value)})}>
+                <option value={1}>1º Año</option>
+                <option value={2}>2º Año</option>
+                <option value={3}>3º Año</option>
+                <option value={4}>4º Año</option>
+              </select>
+            </div>
+            <div style={{ gridColumn: 'span 2' }}>
+              <label>Grado Académico</label>
+              <select
+                value={form.gradoId}
+                onChange={(e) => setForm({...form, gradoId: Number(e.target.value), asignaturaIds: []})}
               >
+                <option value={0}>Selecciona un grado...</option>
+                {(grados || []).map(g => (
+                  <option key={g.id} value={g.id}>{g.nombre}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {form.gradoId > 0 && (
+            <div style={{ marginBottom: '2rem', background: 'var(--background)', padding: '1.25rem', borderRadius: '12px' }}>
+              <label style={{ marginBottom: '1rem' }}>Matriculación en Asignaturas</label>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                {asignaturasDelGrado.length === 0 ? (
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>No hay asignaturas registradas para este grado.</p>
+                ) : (
+                  asignaturasDelGrado.map((asig: Asignatura) => (
+                    <div 
+                      key={asig.id} 
+                      onClick={() => toggleAsignatura(asig.id!)}
+                      style={{ 
+                        padding: '0.75rem', 
+                        borderRadius: '10px', 
+                        border: `1px solid ${form.asignaturaIds?.includes(asig.id!) ? 'var(--primary)' : 'var(--border)'}`,
+                        background: 'white',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '1rem',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      <div className={`custom-checkbox ${form.asignaturaIds?.includes(asig.id!) ? 'checked' : ''}`}></div>
+                      <span style={{ fontSize: '0.85rem', fontWeight: '600', color: form.asignaturaIds?.includes(asig.id!) ? 'var(--primary)' : 'var(--text-main)' }}>{asig.nombre}</span>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+            {editingId && (
+              <button type="button" onClick={resetForm} className="btn btn-secondary">
                 Cancelar
               </button>
             )}
             <button 
               type="submit" 
               disabled={saveMutation.isPending}
-              style={{ padding: '0.7rem 2rem', background: editingId ? '#e67e22' : '#3498db', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+              className="btn btn-primary"
+              style={{ padding: '0.6rem 2.5rem' }}
             >
-              {saveMutation.isPending ? 'Guardando...' : (editingId ? 'Guardar Cambios' : 'Registrar Alumno')}
+              {saveMutation.isPending ? '...' : (editingId ? 'Actualizar Matrícula' : 'Matricular Alumno')}
             </button>
           </div>
         </form>
       </section>
 
-      {/* Filtro de Búsqueda */}
-      <div style={{ marginBottom: '1.5rem' }}>
+      <div style={{ marginBottom: '1.5rem', maxWidth: '400px' }}>
         <input 
           type="text" 
-          placeholder="🔍 Buscar por nombre, apellidos o DNI..." 
+          placeholder="Buscar estudiante..." 
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
-          style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', border: '1px solid #ddd', background: '#f8fafc' }}
         />
       </div>
 
@@ -162,15 +215,19 @@ const AlumnosPage: React.FC = () => {
         data={filteredAlumnos}
         isLoading={loadingAlumnos}
         columns={[
-          { header: 'DNI', accessor: 'dni' },
-          { header: 'Nombre', accessor: 'nombre' },
-          { header: 'Apellidos', accessor: 'apellidos' },
+          { header: 'DNI', accessor: (al) => <code style={{ fontSize: '0.8rem' }}>{al.dni}</code> },
+          { header: 'Apellidos y Nombre', accessor: (al) => <div style={{ fontWeight: '700' }}>{al.apellidos}, {al.nombre}</div> },
+          { header: 'Curso', accessor: (al) => <span className="badge" style={{ background: '#f1f5f9', color: '#475569' }}>{al.curso}º Año</span> },
           { 
             header: 'Grado', 
             accessor: (alumno) => {
               const grado = (grados || []).find(g => g.id === alumno.gradoId);
               return grado ? grado.nombre : '...';
             }
+          },
+          {
+            header: 'Carga Lectiva',
+            accessor: (alumno) => <span style={{ fontWeight: '800', color: 'var(--primary)' }}>{alumno.asignaturaIds?.length || 0} asigs.</span>
           }
         ]}
         onEdit={handleEdit}
@@ -181,5 +238,3 @@ const AlumnosPage: React.FC = () => {
 };
 
 export default AlumnosPage;
-
-

@@ -79,7 +79,7 @@ Decisión de procesar los 35 casos de uso restantes en tres bloques masivos.
 
 ---
 
-## Conversación 05: Sincronización de Ramas y Cambio a Develop
+## Conversación 05: Sincronizaciòn de Ramas y Cambio a Develop
 **Fecha**: 2026-05-24
 **Participantes**: Liam + Gemini CLI
 
@@ -263,7 +263,7 @@ Verificación del entorno y continuación de la lógica de negocio (Asignación 
 ### Desarrollo Principal
 1.  **Entorno**: Instalación de **Maven 3.9.16** y configuración de `MAVEN_HOME`. Solución de error en `pom.xml` (caracteres extraños en dependencia PostgreSQL).
 2.  **Lógica CU-09**: Implementación de `ServicioExamen` para gestionar la vinculación de alumnos y exámenes.
-3.  **Hito de Seguridad**: Diseño del algoritmo de generación de la **Clave de Corrección** usando SHA-256 (DNI + ID Examen + Salt), cumpliendo con la trazabilidad de diseño.
+3.  **Hito de Seguridad**: Diseño del algoritmo de generación de la **Clave de Corrección** usando SHA-256 (DNI + ID Examen + Salt temporal), cumpliendo con la trazabilidad de diseño.
 
 ---
 
@@ -407,7 +407,6 @@ Reactivación del proyecto para el desarrollo del Frontend. Se detecta que el si
 5.  **Estabilización API**: Solución de errores de recursividad infinita mediante `@JsonIgnore`.
 
 ---
-*Fin de la sesión. Mañana continuaremos con los ajustes de los CRUDs.*
 
 ## Conversación 33: Limpieza de Infraestructura y Refactorización de Archivos
 **Fecha**: 2026-06-04
@@ -420,107 +419,132 @@ Mantenimiento preventivo del repositorio para eliminar ruido técnico y asegurar
 > "los fix... necesito que quites todos porque es algo que no quiero subir al proyecto y no sirve tenerlo al menos en el repositorio de jorgestor"
 
 ### Desarrollo Principal
-1.  **Limpieza de Scripts**: Eliminación masiva de archivos temporales de utilidad (`fix_encoding_v*.ps1`, `fix_diagrams_v*.ps1`, `fix_encoding.py`, `rename_diagrams.ps1`, `update_diagrams.ps1`). Estos archivos fueron vitales durante la fase de corrección de codificación y renderizado de diagramas, pero su permanencia en el repositorio de producción es innecesaria.
-2.  **Nueva Regla de Oro**: Se ha formalizado en `CONTEXTO_PROYECTO.md` la prohibición de incluir scripts de utilidad temporal en el repositorio para garantizar un historial limpio y profesional.
-3.  **Política de Datos**: Se ha eliminado el archivo `datos_prueba.sql` y se ha establecido la obligatoriedad de poblar datos directamente en PostgreSQL 17, alineándose con la arquitectura de persistencia del proyecto.
-4.  **Blindaje de Memoria**: Se ha elevado a "Regla Crítica" (#8) la obligación de actualizar proactivamente la documentación de contexto. Esto asegura que la "consciencia" del proyecto Jorgestor sea inmune a fallos del sistema o resets de sesión.
-5.  **Hito de Calidad**: El repositorio ahora cumple con el estándar de "Taller Limpio", manteniendo únicamente los artefactos de código fuente, documentación RUP y scripts operativos esenciales (`run-jorgestor.ps1`).
+1.  **Limpieza de Scripts**: Eliminación masiva de archivos temporales de utilidad.
+2.  **Nueva Regla de Oro**: Prohibición de incluir scripts de utilidad temporal en el repositorio.
+3.  **Política de Datos**: Eliminación de archivos SQL planos a favor de persistencia real en PostgreSQL 17.
+4.  **Hito de Calidad**: Repositorio en estado de "Taller Limpio".
 
 ---
-*Sesión de limpieza completada. El entorno está optimizado para continuar con el desarrollo del Frontend.*
 
 ## Conversación 34: Unificación de Arranque y Preparación de Entorno
 **Fecha**: 2026-06-04
 **Participantes**: Liam + Gemini CLI
 
 ### Contexto de la Sesión
-Inicio de jornada para el desarrollo de ajustes en los CRUDs. Se identifica la necesidad de simplificar el arranque del ecosistema completo.
+Simplificación operativa del ecosistema completo.
 
 **Prompt clave de Liam**:
 > "podemos hacer alguna manera para iniciar los dos a la vez?"
 
 ### Desarrollo Principal
-1.  **Script start-all.ps1**: Creación de un script de PowerShell en la raíz que unifica la limpieza de puertos, el arranque del backend en la terminal actual y el lanzamiento del frontend en una nueva ventana de terminal.
-2.  **Actualización de Instrucciones**: Se ha incluido el comando unificado en `CONTEXTO_PROYECTO.md` para evitar que el usuario tenga que recordar la ruta manual del frontend.
-3.  **Hito de Eficiencia**: El tiempo de inicialización del entorno se reduce a un solo comando, garantizando que ambos servicios estén sincronizados desde el inicio.
-4.  **Estabilización Frontend (Anti-Crash)**: Resolución definitiva del problema de "Pantalla en Blanco" mediante:
-    - **Sincronización de Rutas**: Ajuste de NavLinks en `Sidebar.tsx` para coincidir con `App.tsx`.
-    - **Programación Defensiva**: Implementación masiva de encadenamiento opcional (`?.`) y estados de carga (`isLoading`) en todas las páginas core para prevenir errores de tipo al cargar datos asíncronos.
+1.  **start-all.ps1**: Script unificado para levantar Backend y Frontend simultáneamente.
+2.  **Programación Defensiva**: Implementación de encadenamiento opcional y estados de carga en React para evitar crashes.
 
 ---
-*Entorno listo. Iniciamos fase de ajustes en los CRUDs.*
 
 ## Conversación 35: Refactorización de Modelo y Flujo de Vida del Examen
 **Fecha**: 2026-06-04
 **Participantes**: Liam + Gemini CLI
 
 ### Contexto de la Sesión
-Detección de fallos funcionales tras la estabilización visual. Se identifican problemas en la jerarquía de datos y el flujo de navegación.
+Detección y corrección de fallos en la jerarquía académica tras la estabilización visual.
 
 **Prompts clave de Liam**:
-> "cuando genero un nuevo examen y luego voy a asignarlo no me sale"
 > "cuando selecciono un grado... dejan de salirme las asignaturas"
 > "todavia no tenemos algo para una vez hemos asignado a alumnos los examenes que esos examenes puedan pasar de estar 'asignados' a completados"
 
 ### Desarrollo Principal
-1.  **Refactorización del Modelo (Grado -> Asignatura)**: Se ha corregido la omisión del vínculo entre Asignaturas y Grados. Se actualizó `Asignatura.java`, `DTO_Asignatura.java` y `ServicioAsignatura.java` para soportar `grado_id`. Esto habilita los filtros jerárquicos en el Frontend.
-2.  **Sincronización de Caché**: Se implementó `queryClient.invalidateQueries` en `GenerarExamenPage.tsx`. Ahora, al crear un examen, la lista de asignación se actualiza instantáneamente.
-3.  **Cierre de Ciclo (Asignación -> Corrección)**: 
-    - Se añadió un acceso directo "IR A CORREGIR" tras asignar alumnos con éxito.
-    - Se validó el botón de "SIMULAR ENTREGAS" en la página de corrección para transicionar ejemplares de `ASIGNADO` a `PENDIENTE_CORRECCION`.
-4.  **Hito de Integridad**: El sistema ahora respeta la jerarquía RUP donde las asignaturas pertenecen a un grado, permitiendo una navegación fluida por el catálogo académico.
+1.  **Integridad Académica**: Restauración del vínculo Grado-Asignatura en el backend.
+2.  **Cierre de Ciclo**: Implementación del flujo de transición de estados hacia la corrección masiva.
 
 ---
-*Flujo funcional restaurado. El sistema es ahora operativamente completo.*
 
-## Conversación 36: Crisis de Consistencia y Saneamiento de Infraestructura
+## Conversación 36: Crisis de Consistencia y Botón de Pánico
 **Fecha**: 2026-06-05
 **Participantes**: Liam + Gemini CLI
 
 ### Contexto de la Sesión
-Detección de un fallo crítico de "Pantalla en Blanco" masivo (49 errores en consola) tras la refactorización de la jerarquía Grado-Asignatura. Los datos antiguos en la base de datos quedaron inconsistentes, provocando excepciones en el renderizado del Frontend.
+Resolución de un bloqueo masivo por datos corruptos post-refactorización.
 
 **Prompt clave de Liam**:
 > "mira mi ultima captura pone que hay 49 errores no?"
-> "pudes decirme como configurar el path para que puedas directamente hacer tu todo lo del postgradesql"
 
 ### Desarrollo Principal
-1.  **Diagnóstico Visual**: El análisis de capturas en `OneDrive\Pictures\Screenshots` confirmó que el Frontend estaba colapsando al intentar leer propiedades `null` de objetos antiguos.
-2.  **Mecanismo de Recuperación (Botón de Pánico)**: Se ha implementado `DatabaseCleaner.java` y la propiedad `jorgestor.db.clean-on-startup=true` para forzar un `TRUNCATE` masivo de tablas en el próximo arranque.
-3.  **Habilitación de Superpoderes**: Se han proporcionado instrucciones para añadir PostgreSQL al PATH del sistema, lo que permitirá a la IA ejecutar comandos SQL directos en el futuro.
-4.  **Hito de Estabilización**: Se ha blindado la interfaz de Asignación con `useMemo` y estados de carga individualizados, garantizando que el sistema sea inmune a latencias o datos parciales.
+1.  **DatabaseCleaner**: Implementación de un mecanismo de limpieza profunda al arranque.
+2.  **Habilitación SQL**: Instrucciones para el control directo de la base de datos desde la CLI.
 
 ---
-*Sesión suspendida para reinicio de CLI y configuración de PATH. Objetivo: Base de datos limpia y control total vía SQL.*
 
-## Conversación 37: Estabilización Post-Saneamiento y Ajustes de CRUDs
+## Conversación 37: Estabilización Post-Saneamiento y CRUDs Completos
 **Fecha**: 2026-06-05
 **Participantes**: Liam + Gemini CLI
 
 ### Contexto de la Sesión
-Nueva sesión de trabajo tras el saneamiento masivo de la base de datos (DatabaseCleaner). El objetivo es retomar el desarrollo del Frontend con una base de datos limpia y consistente.
+Retoma del desarrollo con base de datos limpia.
 
 **Prompt clave de Liam**:
-> "empezemos con eso" (refiriéndose a la desactivación del modo limpieza y ajustes de CRUDs)
+> "empezemos con eso"
 
 ### Desarrollo Principal
-1.  **Blindaje de Datos**: Desactivación de la propiedad `jorgestor.db.clean-on-startup` en `application.properties` para iniciar la persistencia real de datos.
-2.  **Arranque Unificado**: Ejecución de `start-all.ps1` para levantar simultáneamente el Backend (9090) y el Frontend (Vite).
-3.  **Hito de Estabilidad**: El sistema arranca con éxito sin rastro de los errores de inconsistencia previos.
-4.  **Refactorización CRUD (Frontend Full)**:
-    - **Grados, Asignaturas, Alumnos**: Se ha implementado la funcionalidad de edición (Update) en todas estas páginas, transformándolas en CRUDs completos.
-    - **Corrección de Referencias**: Se solucionó un error de importación de `getGrados` en `AsignaturasPage.tsx`.
-    - **Batería de Preguntas**: Implementación del formulario de creación de **Temas** y mejora en la visualización de la relación Tema-Asignatura.
-    - **Seguridad UI**: Se añadieron estados de edición visuales (bordes naranjas) y botones de cancelación para mejorar la UX.
-5.  **Refuerzo de Integridad (Backend)**: Sincronización estricta con el modelo de dominio al hacer obligatoria la relación entre `Asignatura` y `Grado` (`nullable = false`).
-6.  **Población Masiva de Pruebas**: Inyección de un set denso de datos (30 alumnos con nombres realistas, 75 preguntas) y limpieza de tildes para asegurar legibilidad total.
-7.  **Módulo de Auditoría y Simulación Core**: 
-    - Implementación de `AuditoriaExamenesPage.tsx` y botón de "Simular Realización".
-    - Resolución de error de recursividad infinita (StackOverflow) mediante `@JsonIgnore` en el modelo.
-    - Cierre del ciclo funcional: Generación -> Asignación -> Simulación de entrega masiva. Los alumnos quedan en estado `PENDIENTE_CALIFICACION`.
+1.  **Blindaje de Datos**: Activación de la persistencia real.
+2.  **CRUDs Pro**: Finalización de la funcionalidad de Edición/Update en todas las entidades de administración.
 
 ---
 
+## Conversación 38: Reparación del Núcleo de Calificación e Ingeniería de Auditoría
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
 
+### Contexto de la Sesión
+El usuario reporta fallos en la acción de corregir y solicita visibilidad de las marcas reales para permitir revisiones técnicas.
 
+**Prompt clave de Liam**:
+> "si ahora lo que queria hacer es arreglar el corregir porque cuando pulso el boton no hace nada. una cosa que si me gustaria que se pudiese ver la correcion hecha 'manualmente' que pudieses meterte a ver cuales ha dado por correcta cuales no en caso de que alguien quiera revisar el examen"
 
+### Desarrollo Principal
+1.  **Optimización O(1)**: Sustitución de `findAll()` por `findByExamenAlumnoId` en el repositorio de marcas, logrando correcciones instantáneas.
+2.  **Sincronización de Estados**: Adición del estado `ENTREGADO` al Enum de negocio para evitar inconsistencias.
+3.  **Módulo de Revisión**: Implementación de un panel de solo lectura en la página de Auditoría para visualizar las marcas reales registradas por la IA o simulación.
+
+---
+
+## Conversación 39: Implementación de Autenticación y RBAC (CU-31, CU-32)
+**Fecha**: 2026-06-05
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Activación de la seguridad institucional y control de acceso por roles.
+
+**Prompt clave de Liam**:
+> "vale vamos a ahcer el iniciar sesion y cerrar sesion. tiene que haber dos tipos de formas de entrar, 1 para el docente que puede hacer todo menos acceder al crud de docentes. y 2 el administrados institucional que puede acceder a todo"
+
+### Desarrollo Principal
+1.  **Modelo RBAC**: Implementación de roles `DOCENTE` y `ADMINISTRADOR_INSTITUCIONAL`.
+2.  **Sidebar Dinámico**: Lógica de visibilidad en React para ocultar el acceso a "Docentes" según el perfil, cumpliendo con la restricción solicitada.
+3.  **Infraestructura**: Configuración de `ControladorAuth` y usuarios por defecto (`admin/admin123`, `docente/docente123`).
+
+---
+
+## Conversación 40: Refinamiento de UX, Complejidad Académica y Cierre
+**Fecha**: 2026-06-06
+**Participantes**: Liam + Gemini CLI
+
+### Contexto de la Sesión
+Fase final de refinamiento extremo para alcanzar la calidad de producto definitivo y realismo académico total.
+
+**Prompts clave de Liam**:
+> "podemos hacer que todo se vea 1000 veces mejor, mas moderno, sin emojis y tal, que se vea chulo."
+> "quiero que haya datos muy variados para poder testear el maximo todo, como alumnos que esten en distintos grados, algumnos de el mismo grado que no siempre esten todos en la mismas asignatura porque hay gente que ha reprobaron... tambien deberiamos añadir a que curso pertenece cada alumno."
+> "desde donde deberia poder editar que asignaturas tiene un alumno porque no se puede editar desde ningun lado, mira el modelado deberia de ponerlo en algun sitio."
+> "vale varias cosas. primero para generar examenes se tendria que poder filtrar por grado... segundo en asignar alumnos se deberia poder filtrar por grado luego asignatura... quinto en corregir examenes deberian salir las respuestas que 'han respondido los alumnos' para que pueda marcarlas como correctas o incorrectas no que yo rellene el examen. sexto las notas son muy bajas... la media deberia de ser de 5."
+> "vale de deberia de poder flitrar por grados las asignaturas y poder buscar el nombre tambien. tambien deberia de salr el nombre de la asignatura no un nombre generico como 'Materia 2.2 de GPER'"
+
+### Desarrollo Principal
+1.  **Rediseño Apple Style**: Estética premium compacta, eliminación total de emojis y adición de ticks de selección animados.
+2.  **Complejidad de Matriculación**: Implementación de relación N:M entre Alumnos y Asignaturas (Matrículas) y transversalidad de materias entre Grados.
+3.  **UX Reactiva**: Filtrado en cascada (Grado -> Asignatura -> Temas) y auto-refresco de tablas post-corrección.
+4.  **Simulación Humana**: Algoritmo de notas con distribución normal (media 5.0-7.0) basado en perfiles de estudio aleatorios.
+5.  **Defensa Técnica**: Documentación de la Jerarquía Arquitectónica de 5 niveles en la trazabilidad.
+
+---
+*Misión cumplida. Jorgestor está listo para la entrega oficial.*

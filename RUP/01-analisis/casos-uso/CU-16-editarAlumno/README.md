@@ -1,8 +1,5 @@
 ﻿# Jorgestor > CU-16-editarAlumno > AnÃ¡lisis
 
-> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-16-editarAlumno/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
-> |-|-|-|-|-|-|-|
-
 ## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
@@ -79,6 +76,7 @@ StudentController --> Student: delete()
 
 @enduml
 ```
+
 
 
 

@@ -1,8 +1,5 @@
 ﻿# Jorgestor > CU-33-verRespuestas > AnÃ¡lisis
 
-> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-33-verRespuestas/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
-> |-|-|-|-|-|-|-|
-
 ## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
@@ -82,6 +79,7 @@ AnswerListView --> AnswerConsultationController: filtrar()
 
 @enduml
 ```
+
 
 
 

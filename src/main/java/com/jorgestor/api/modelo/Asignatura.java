@@ -26,13 +26,20 @@ public class Asignatura {
     @Column(name = "curso_academico", nullable = false)
     private String cursoAcademico;
 
+    @Column(nullable = true)
+    private Integer cursoSugerido; // 1, 2, 3 o 4
+
     @ManyToOne
     @JoinColumn(name = "profesor_id", nullable = false)
     private Profesor profesor;
 
-    @ManyToOne
-    @JoinColumn(name = "grado_id", nullable = false)
-    private Grado grado;
+    @ManyToMany
+    @JoinTable(
+        name = "asignatura_grados",
+        joinColumns = @JoinColumn(name = "asignatura_id"),
+        inverseJoinColumns = @JoinColumn(name = "grado_id")
+    )
+    private List<Grado> grados;
 
     @OneToMany(mappedBy = "asignatura")
     private List<Tema> temas;

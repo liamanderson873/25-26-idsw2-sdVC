@@ -1,0 +1,70 @@
+@startuml
+!theme plain
+skinparam Linetype ortho
+skinparam packageStyle rectangle
+
+package "com.jorgestor.api" {
+    package "controlador" {
+        class ControladorAuth {
+            + login(dto: DTO_Login): ResponseEntity
+        }
+        class ControladorExamen {
+            + generar(dto: DTO_GenerarExamen): ResponseEntity
+            + asignar(dto: DTO_AsignarExamen): ResponseEntity
+            + corregirMasivo(id: Long): ResponseEntity
+        }
+        class ControladorAlumno {
+            + listarTodos(): List<DTO_Alumno>
+            + guardar(dto: DTO_Alumno): ResponseEntity
+        }
+        class ControladorAsignatura {
+            + listarTodas(): List<DTO_Asignatura>
+        }
+    }
+
+    package "servicio" {
+        class ServicioExamen {
+            + generarExamen(dto: DTO_GenerarExamen): Examen
+            + asignarExamenAAlumnos(id: Long, alumnos: List<Long>): void
+            + corregirMasivo(id: Long): void
+            + simularEntregaMasiva(id: Long): void
+        }
+        
+        class ServicioAlumno {
+            + listarTodos(): List<DTO_Alumno>
+            + guardarIndividual(dto: DTO_Alumno): void
+        }
+
+        class ServicioAsignatura {
+            + listarTodos(): List<DTO_Asignatura>
+        }
+    }
+
+    package "repositorio" {
+        interface RepositorioAlumno <<Repository>>
+        interface RepositorioExamen <<Repository>>
+        interface RepositorioExamenAlumno <<Repository>>
+        interface RepositorioAsignatura <<Repository>>
+        interface RepositorioExamenAlumnoMarca <<Repository>>
+    }
+
+    package "modelo" {
+        class Alumno <<Entity>>
+        class Examen <<Entity>>
+        class Asignatura <<Entity>>
+        class ExamenAlumno <<Entity>>
+        class ExamenAlumnoMarca <<Entity>>
+        class Pregunta <<Entity>>
+        class Respuesta <<Entity>>
+    }
+}
+
+' Relaciones entre capas
+controlador ..> servicio : utiliza
+servicio ..> repositorio : utiliza
+repositorio ..> modelo : gestiona
+
+' Relaciones de colaboración
+ServicioExamen ..> RepositorioExamenAlumnoMarca : audita
+ServicioAlumno ..> RepositorioAsignatura : matricula
+@enduml

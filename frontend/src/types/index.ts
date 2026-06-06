@@ -1,6 +1,7 @@
-﻿export interface Grado {
+export interface Grado {
   id?: number;
   nombre: string;
+  codigo?: string;
 }
 
 export interface Asignatura {
@@ -18,6 +19,8 @@ export interface Profesor {
   nombre: string;
   apellidos: string;
   email: string;
+  usuario?: string;
+  password?: string;
 }
 
 export interface Alumno {
@@ -25,7 +28,9 @@ export interface Alumno {
   dni: string;
   nombre: string;
   apellidos: string;
+  curso: number;
   gradoId: number;
+  asignaturaIds?: number[];
 }
 
 export enum Dificultad {
@@ -39,6 +44,7 @@ export interface Pregunta {
   enunciado: string;
   dificultad: Dificultad;
   temaId: number;
+  asignaturaId?: number;
   respuestas: Respuesta[];
 }
 
@@ -46,6 +52,7 @@ export interface Tema {
   id?: number;
   nombre: string;
   codigoAsignatura: string;
+  asignaturaId?: number;
 }
 
 export interface Respuesta {
@@ -82,7 +89,17 @@ export interface Examen {
 
 export interface ProcesarCorreccionDTO {
   claveSHA256: string;
-  marcas: Record<number, number>;
+  marcas: Record<string, number>;
 }
 
+export interface Usuario {
+  id: number;
+  username: string;
+  rol: 'DOCENTE' | 'ADMINISTRADOR_INSTITUCIONAL';
+  nombre: string;
+}
 
+export interface LoginDTO {
+  username: string;
+  password: string;
+}

@@ -82,75 +82,69 @@ const AsignaturasPage: React.FC = () => {
   });
 
   return (
-    <div>
+    <div className="fade-in">
       <h1>Gestión de Asignaturas</h1>
 
       {/* 1. Criterios de Búsqueda */}
-      <section style={{ marginBottom: '2rem', background: '#f8fafc', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-        <h3 style={{ fontSize: '0.9rem', color: '#64748b', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>🔍 Criterios de Búsqueda</h3>
+      <section className="card" style={{ marginBottom: '1.5rem', background: 'var(--primary-soft)', border: '1px solid var(--primary-light)' }}>
+        <h3 style={{ fontSize: '0.8rem', color: 'var(--primary)', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '800' }}>Criterios de Búsqueda</h3>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 2fr', gap: '1rem' }}>
           <div>
-            <label style={{ display: 'block', fontSize: '0.8rem', marginBottom: '0.3rem' }}>Curso Académico</label>
+            <label>Curso Académico</label>
             <input 
               value={filterCurso} 
               onChange={e => setFilterCurso(e.target.value)}
               placeholder="Ej. 2025/26"
-              style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
             />
           </div>
           <div>
-            <label style={{ display: 'block', fontSize: '0.8rem', marginBottom: '0.3rem' }}>Grado Asociado</label>
+            <label>Grado Asociado</label>
             <select 
               value={filterGrado} 
               onChange={e => setFilterGrado(Number(e.target.value))}
-              style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
             >
               <option value={0}>Todos los grados</option>
               {(grados || []).map(g => <option key={g.id} value={g.id}>{g.nombre}</option>)}
             </select>
           </div>
           <div>
-            <label style={{ display: 'block', fontSize: '0.8rem', marginBottom: '0.3rem' }}>Búsqueda rápida</label>
+            <label>Búsqueda rápida</label>
             <input 
               value={searchTerm} 
               onChange={e => setSearchTerm(e.target.value)}
               placeholder="Nombre o código..."
-              style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
             />
           </div>
         </div>
       </section>
       
-      <section style={{ marginBottom: '2rem', background: 'white', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', border: editingId ? '2px solid #e67e22' : 'none' }}>
-        <h3>{editingId ? '📝 Editar Asignatura' : '✨ Nueva Asignatura'}</h3>
+      <section className="card" style={{ marginBottom: '1.5rem', border: editingId ? '2px solid var(--primary)' : '1px solid var(--border)' }}>
+        <h2 style={{ marginBottom: '1rem', fontSize: '1.1rem' }}>{editingId ? 'Editar Asignatura' : 'Nueva Asignatura'}</h2>
         <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
           <div>
-            <label style={{ display: 'block', marginBottom: '0.4rem' }}>Nombre</label>
+            <label>Nombre</label>
             <input
               type="text"
               value={form.nombre}
               onChange={(e) => setForm({...form, nombre: e.target.value})}
               placeholder="Ej. Programación I"
-              style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
             />
           </div>
           <div>
-            <label style={{ display: 'block', marginBottom: '0.4rem' }}>Código</label>
+            <label>Código</label>
             <input
               type="text"
               value={form.codigo}
               onChange={(e) => setForm({...form, codigo: e.target.value})}
               placeholder="Ej. PROG1"
-              style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
               disabled={!!editingId}
             />
           </div>
           <div>
-            <label style={{ display: 'block', marginBottom: '0.4rem' }}>Grado</label>
+            <label>Grado</label>
             <select
               value={form.gradoId}
               onChange={(e) => setForm({...form, gradoId: Number(e.target.value)})}
-              style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
             >
               <option value={0}>Selecciona un grado...</option>
               {(grados || []).map(g => (
@@ -159,20 +153,18 @@ const AsignaturasPage: React.FC = () => {
             </select>
           </div>
           <div>
-            <label style={{ display: 'block', marginBottom: '0.4rem' }}>Curso Académico</label>
+            <label>Curso Académico</label>
             <input
               type="text"
               value={form.cursoAcademico}
               onChange={(e) => setForm({...form, cursoAcademico: e.target.value})}
-              style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
             />
           </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: '0.4rem' }}>Profesor</label>
+          <div style={{ gridColumn: 'span 2' }}>
+            <label>Profesor</label>
             <select
               value={form.dniProfesor}
               onChange={(e) => setForm({...form, dniProfesor: e.target.value})}
-              style={{ width: '100%', padding: '0.6rem', borderRadius: '4px', border: '1px solid #ddd' }}
             >
               <option value="">Selecciona un profesor...</option>
               {(profesores || []).map(p => (
@@ -180,12 +172,12 @@ const AsignaturasPage: React.FC = () => {
               ))}
             </select>
           </div>
-          <div style={{ gridColumn: 'span 2', textAlign: 'right', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+          <div style={{ gridColumn: 'span 2', display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '0.5rem' }}>
             {editingId && (
               <button 
                 type="button" 
                 onClick={resetForm}
-                style={{ padding: '0.7rem 2rem', background: '#95a5a6', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                className="btn btn-secondary"
               >
                 Cancelar
               </button>
@@ -193,7 +185,8 @@ const AsignaturasPage: React.FC = () => {
             <button 
               type="submit" 
               disabled={saveMutation.isPending}
-              style={{ padding: '0.7rem 2rem', background: editingId ? '#e67e22' : '#3498db', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+              className="btn btn-primary"
+              style={{ minWidth: '160px' }}
             >
               {saveMutation.isPending ? 'Guardando...' : (editingId ? 'Guardar Cambios' : 'Crear Asignatura')}
             </button>

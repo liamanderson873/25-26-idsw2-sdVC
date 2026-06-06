@@ -79,6 +79,18 @@ public class ControladorExamen {
     }
 
     /**
+     * Endpoint para obtener las marcas registradas de un alumno (Auditoría/Revisión)
+     */
+    @GetMapping("/ejemplar/{ejemplarId}/auditoria")
+    public ResponseEntity<?> obtenerAuditoria(@PathVariable Long ejemplarId) {
+        try {
+            return ResponseEntity.ok(servicioExamen.obtenerAuditoriaAlumno(ejemplarId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al obtener auditoría: " + e.getMessage());
+        }
+    }
+
+    /**
      * Endpoint para procesar la corrección de un examen (CU-01)
      * Recibe los datos leídos por la IA y calcula la calificación final.
      */
