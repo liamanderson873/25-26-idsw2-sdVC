@@ -1,10 +1,10 @@
-@startuml cu14-crearAlumno-analisis-secuencia
+﻿@startuml cu14-crearAlumno-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-14: Crear Alumno
 
 actor "Docente" as Actor
-participant ":StudentCreationView" as Boundary <<boundary>>
-participant ":StudentController" as Control <<control>>
-participant ":Student" as Entity <<entity>>
+participant ":VistaCreacionAlumno" as Boundary <<boundary>>
+participant ":ControladorAlumnos" as Control <<control>>
+participant ":Alumno" as Entity <<entity>>
 
 Actor -> Boundary : introducirDatos(dni, nombre, apellidos, grado)
 activate Boundary

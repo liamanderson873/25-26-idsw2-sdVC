@@ -1,10 +1,10 @@
-@startuml cu22-verGrados-analisis-secuencia
+﻿@startuml cu22-verGrados-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-22: Ver Grados
 
 actor "Docente" as Actor
-participant ":GradeListView" as Boundary <<boundary>>
-participant ":GradeController" as Control <<control>>
-participant ":Grade" as Entity <<entity>>
+participant ":VistaListaGrados" as Boundary <<boundary>>
+participant ":ControladorGrados" as Control <<control>>
+participant ":Grado" as Entity <<entity>>
 
 Actor -> Boundary : solicitarListado()
 activate Boundary

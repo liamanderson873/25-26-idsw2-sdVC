@@ -547,4 +547,50 @@ Fase final de refinamiento extremo para alcanzar la calidad de producto definiti
 5.  **Defensa Técnica**: Documentación de la Jerarquía Arquitectónica de 5 niveles en la trazabilidad.
 
 ---
+
+## Conversación 41: Auditoría de Cumplimiento IDSW2 y Corrección de Diagramas de Análisis
+**Fecha**: 2026-06-07
+**Participantes**: Liam + Claude Sonnet 4.6 (Claude Code CLI)
+
+### Contexto de la Sesión
+Auditoría completa de conformidad del proyecto Jorgestor contra la teoría de IDSW2 (TheoryRepo) y el modelado funcional (ModelingRepo). El objetivo era identificar brechas y corregirlas.
+
+**Prompts clave de Liam**:
+> "vale y sobre si todo esta perfecto basado en la teoria de idsw2? porque necesito que cumpla las cosas que hemos visto en teoria"
+> "pero necesito que compares nuestro proyecto con lo que sale en el Theory Repo"
+> "quiero que me digas si nuestro analisis, diseño y implementacion estan perfectamente siguiendo la teoria de idsw2"
+
+### Hallazgos de la Auditoría
+
+**Lo que estaba bien:**
+- 41 CUs de análisis completos (colaboración + secuencia) ✓
+- 41 CUs de diseño completos (secuencia) ✓
+- Artefactos baseline: modelo de dominio, actores/CU, diagramas de contexto ✓
+- Backend completo con PUT endpoints para todas las entidades ✓
+- Endpoint único de config global (`/api/config/exportar` y `/api/config/importar`) ✓
+- RBAC Docente / AdministradorInstitucional funcional ✓
+- La trazabilidad de IA estaba cubierta por `conversation-log.md` ✓
+
+**Problemas identificados:**
+1. Todos los diagramas de análisis (82 archivos) usaban nombres en **inglés** para los objetos BCE — incorrecto para un dominio en español.
+2. La carpeta de diseño CU-04 estaba nombrada `exportarExamen` en vez de `exportarConfiguracionGlobal`, y su contenido describía exportar un examen individual en vez de la configuración global.
+
+### Desarrollo Principal
+
+1. **Renombrado masivo inglés → español en 82 archivos `.puml`** (41 colaboración + 41 secuencia):
+   - Vistas: `CorrectionView` → `VistaCorreccion`, `StudentImportView` → `VistaImportacionAlumnos`, etc.
+   - Controladores: `CorrectionController` → `ControladorCorreccion`, `ExamGenerationController` → `ControladorGeneracionExamen`, etc.
+   - Entidades: `Exam` → `Examen`, `Student` → `Alumno`, `Subject` → `Asignatura`, `Grade` → `Grado`, `Question` → `Pregunta`, `Answer` → `Respuesta`, `Topic` → `Tema`, `User` → `Usuario`, etc.
+   - Se usó word-boundary regex (`\bExam\b`) para entidades para evitar doble-reemplazo en palabras compuestas ya traducidas.
+
+2. **Corrección del CU-04 de diseño**:
+   - Carpeta renombrada: `CU-04-exportarExamen` → `CU-04-exportarConfiguracionGlobal`
+   - Archivo renombrado: `diseno-secuencia-CU-04-exportarExamen.puml` → `diseno-secuencia-CU-04-exportarConfiguracionGlobal.puml`
+   - Contenido reescrito para reflejar el flujo real: `GET /api/config/exportar` → `ControladorConfiguracion` → 4 servicios (Grado, Asignatura, Alumno, Pregunta) → `DTO_ConfiguracionGlobal` → descarga JSON.
+
+### Validación Empírica
+- Verificación manual de CU-01 y CU-30 post-reemplazo: nombres en español correctos, variables internas en minúscula sin alterar.
+- Verificación del diagrama de diseño CU-04 reescrito: flujo consistente con `ControladorConfiguracion.java`.
+
+---
 *Misión cumplida. Jorgestor está listo para la entrega oficial.*

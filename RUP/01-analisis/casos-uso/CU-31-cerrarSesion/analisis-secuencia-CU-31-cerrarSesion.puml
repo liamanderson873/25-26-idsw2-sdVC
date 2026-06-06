@@ -1,10 +1,10 @@
-@startuml cu31-cerrarSesion-analisis-secuencia
+﻿@startuml cu31-cerrarSesion-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-31: Cerrar Sesión
 
 actor "Usuario" as Actor
-participant ":SessionView" as Boundary <<boundary>>
-participant ":LogoutController" as Control <<control>>
-participant ":UserSession" as Entity <<entity>>
+participant ":VistaSesion" as Boundary <<boundary>>
+participant ":ControladorCierreSesion" as Control <<control>>
+participant ":SesionUsuario" as Entity <<entity>>
 
 Actor -> Boundary : solicitarCerrarSesion()
 activate Boundary

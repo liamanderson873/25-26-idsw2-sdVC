@@ -1,17 +1,17 @@
-@startuml exportarAsignaturas-analisis
+﻿@startuml exportarAsignaturas-analisis
 skinparam linetype polyline
 
 actor Docente
 package exportarAsignaturas as "exportarAsignaturas()" {
-    rectangle #629EF9 SubjectExportView
-    rectangle #b5bd68 SubjectExportController
-    rectangle #F2AC4E Subject
+    rectangle #629EF9 VistaExportacionAsignaturas
+    rectangle #b5bd68 ControladorExportacionAsignaturas
+    rectangle #F2AC4E Asignatura
 }
 
-Docente -r-> SubjectExportView: solicitarExportacion()
-SubjectExportView -d-> SubjectExportController: procesarExportacion()
-SubjectExportController --> Subject: obtenerDatosAsignaturas()
-SubjectExportController --> SubjectExportView: devolverFichero()
-SubjectExportView --> Docente: descargarFichero()
+Docente -r-> VistaExportacionAsignaturas: solicitarExportacion()
+VistaExportacionAsignaturas -d-> ControladorExportacionAsignaturas: procesarExportacion()
+ControladorExportacionAsignaturas --> Asignatura: obtenerDatosAsignaturas()
+ControladorExportacionAsignaturas --> VistaExportacionAsignaturas: devolverFichero()
+VistaExportacionAsignaturas --> Docente: descargarFichero()
 
 @enduml

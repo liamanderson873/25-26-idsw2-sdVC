@@ -1,10 +1,10 @@
-@startuml cu33-verRespuestas-analisis-secuencia
+﻿@startuml cu33-verRespuestas-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-33: Ver Respuestas
 
 actor "Docente" as Actor
-participant ":AnswerListView" as Boundary <<boundary>>
-participant ":AnswerConsultationController" as Control <<control>>
-participant ":Answer" as Entity <<entity>>
+participant ":VistaListaRespuestas" as Boundary <<boundary>>
+participant ":ControladorConsultaRespuestas" as Control <<control>>
+participant ":Respuesta" as Entity <<entity>>
 
 Actor -> Boundary : seleccionarPregunta(preguntaId)
 activate Boundary

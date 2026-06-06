@@ -1,21 +1,21 @@
-@startuml importarAsignaturas-analisis
+﻿@startuml importarAsignaturas-analisis
 skinparam linetype polyline
 
 actor Docente
 package importarAsignaturas as "importarAsignaturas()" {
-    rectangle #629EF9 SubjectImportView
-    rectangle #b5bd68 SubjectImportController
-    rectangle #F2AC4E Subject
+    rectangle #629EF9 VistaImportacionAsignaturas
+    rectangle #b5bd68 ControladorImportacionAsignaturas
+    rectangle #F2AC4E Asignatura
 }
 
-Docente -r-> SubjectImportView: solicitarImportar()
-SubjectImportView --> Docente: pedirArchivo()
-Docente --> SubjectImportView: proporcionarArchivo()
-SubjectImportView --> SubjectImportController: validarDatos()
-SubjectImportController --> Subject: verificarExistencia()
-SubjectImportView --> Docente: mostrarResumen()
-Docente --> SubjectImportView: confirmarImportacion()
-SubjectImportView -d-> SubjectImportController: importar()
-SubjectImportController --> Subject: save()
+Docente -r-> VistaImportacionAsignaturas: solicitarImportar()
+VistaImportacionAsignaturas --> Docente: pedirArchivo()
+Docente --> VistaImportacionAsignaturas: proporcionarArchivo()
+VistaImportacionAsignaturas --> ControladorImportacionAsignaturas: validarDatos()
+ControladorImportacionAsignaturas --> Asignatura: verificarExistencia()
+VistaImportacionAsignaturas --> Docente: mostrarResumen()
+Docente --> VistaImportacionAsignaturas: confirmarImportacion()
+VistaImportacionAsignaturas -d-> ControladorImportacionAsignaturas: importar()
+ControladorImportacionAsignaturas --> Asignatura: save()
 
 @enduml

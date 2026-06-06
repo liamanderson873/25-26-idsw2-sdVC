@@ -1,10 +1,10 @@
-@startuml cu36-eliminarRespuesta-analisis-secuencia
+﻿@startuml cu36-eliminarRespuesta-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-36: Eliminar Respuesta
 
 actor "Docente" as Actor
-participant ":AnswerDeletionView" as Boundary <<boundary>>
-participant ":AnswerDeletionController" as Control <<control>>
-participant ":Answer" as Entity <<entity>>
+participant ":VistaEliminacionRespuesta" as Boundary <<boundary>>
+participant ":ControladorEliminacionRespuestas" as Control <<control>>
+participant ":Respuesta" as Entity <<entity>>
 
 Actor -> Boundary : seleccionarRespuesta(id)
 activate Boundary

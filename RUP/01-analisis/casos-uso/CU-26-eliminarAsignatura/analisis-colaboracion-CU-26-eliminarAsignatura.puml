@@ -1,17 +1,17 @@
-@startuml eliminarAsignatura-analisis
+﻿@startuml eliminarAsignatura-analisis
 skinparam linetype polyline
 
 actor Docente
 package eliminarAsignatura as "eliminarAsignatura()" {
-    rectangle #629EF9 SubjectDeleteView
-    rectangle #b5bd68 SubjectController
-    rectangle #F2AC4E Subject
+    rectangle #629EF9 VistaEliminacionAsignatura
+    rectangle #b5bd68 ControladorAsignaturas
+    rectangle #F2AC4E Asignatura
 }
 
-Docente -r-> SubjectDeleteView: solicitarEliminar()
-SubjectDeleteView --> Subject: getDatos()
-Docente --> SubjectDeleteView: confirmarEliminar()
-SubjectDeleteView -d-> SubjectController: eliminarAsignatura()
-SubjectController --> Subject: delete()
+Docente -r-> VistaEliminacionAsignatura: solicitarEliminar()
+VistaEliminacionAsignatura --> Asignatura: getDatos()
+Docente --> VistaEliminacionAsignatura: confirmarEliminar()
+VistaEliminacionAsignatura -d-> ControladorAsignaturas: eliminarAsignatura()
+ControladorAsignaturas --> Asignatura: delete()
 
 @enduml

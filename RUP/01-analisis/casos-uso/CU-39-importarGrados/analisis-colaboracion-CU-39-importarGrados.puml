@@ -1,21 +1,21 @@
-@startuml importarGrados-analisis
+﻿@startuml importarGrados-analisis
 skinparam linetype polyline
 
 actor Docente
 package importarGrados as "importarGrados()" {
-    rectangle #629EF9 GradeImportView
-    rectangle #b5bd68 GradeImportController
-    rectangle #F2AC4E Grade
+    rectangle #629EF9 VistaImportacionGrados
+    rectangle #b5bd68 ControladorImportacionGrados
+    rectangle #F2AC4E Grado
 }
 
-Docente -r-> GradeImportView: solicitarImportar()
-GradeImportView --> Docente: pedirOrigen()
-Docente --> GradeImportView: proporcionarOrigen()
-GradeImportView --> GradeImportController: validarIntegridad()
-GradeImportController --> Grade: verificarDuplicados()
-GradeImportView --> Docente: pedirConfirmacion()
-Docente --> GradeImportView: confirmar()
-GradeImportView -d-> GradeImportController: ejecutarImportacion()
-GradeImportController --> Grade: createAll()
+Docente -r-> VistaImportacionGrados: solicitarImportar()
+VistaImportacionGrados --> Docente: pedirOrigen()
+Docente --> VistaImportacionGrados: proporcionarOrigen()
+VistaImportacionGrados --> ControladorImportacionGrados: validarIntegridad()
+ControladorImportacionGrados --> Grado: verificarDuplicados()
+VistaImportacionGrados --> Docente: pedirConfirmacion()
+Docente --> VistaImportacionGrados: confirmar()
+VistaImportacionGrados -d-> ControladorImportacionGrados: ejecutarImportacion()
+ControladorImportacionGrados --> Grado: createAll()
 
 @enduml

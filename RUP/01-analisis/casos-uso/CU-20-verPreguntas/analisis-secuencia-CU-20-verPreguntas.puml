@@ -1,10 +1,10 @@
-@startuml cu20-verPreguntas-analisis-secuencia
+﻿@startuml cu20-verPreguntas-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-20: Ver Preguntas
 
 actor "Docente" as Actor
-participant ":QuestionListView" as Boundary <<boundary>>
-participant ":QuestionController" as Control <<control>>
-participant ":Question" as Entity <<entity>>
+participant ":VistaListaPreguntas" as Boundary <<boundary>>
+participant ":ControladorPreguntas" as Control <<control>>
+participant ":Pregunta" as Entity <<entity>>
 
 Actor -> Boundary : solicitarListado()
 activate Boundary

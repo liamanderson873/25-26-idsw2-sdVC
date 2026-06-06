@@ -1,10 +1,10 @@
-@startuml cu19-editarGrado-analisis-secuencia
+﻿@startuml cu19-editarGrado-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-19: Editar Grado
 
 actor "Docente" as Actor
-participant ":GradeEditView" as Boundary <<boundary>>
-participant ":GradeController" as Control <<control>>
-participant ":Grade" as Entity <<entity>>
+participant ":VistaEdicionGrado" as Boundary <<boundary>>
+participant ":ControladorGrados" as Control <<control>>
+participant ":Grado" as Entity <<entity>>
 
 Actor -> Boundary : seleccionarGrado(id)
 activate Boundary

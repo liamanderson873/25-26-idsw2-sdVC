@@ -1,10 +1,10 @@
-@startuml cu06-importarPreguntas-analisis-secuencia
+﻿@startuml cu06-importarPreguntas-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-06: Importar Preguntas
 
 actor "Docente" as Actor
-participant ":QuestionImportView" as Boundary <<boundary>>
-participant ":QuestionImportController" as Control <<control>>
-participant ":Question" as Entity <<entity>>
+participant ":VistaImportacionPreguntas" as Boundary <<boundary>>
+participant ":ControladorImportacionPreguntas" as Control <<control>>
+participant ":Pregunta" as Entity <<entity>>
 
 Actor -> Boundary : subirFichero(ficheroJSON)
 activate Boundary

@@ -1,10 +1,10 @@
-@startuml cu32-completarGestion-analisis-secuencia
+﻿@startuml cu32-completarGestion-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-32: Completar Gestión
 
 actor "Usuario" as Actor
-participant ":ManagementView" as Boundary <<boundary>>
-participant ":ManagementController" as Control <<control>>
-participant ":SystemState" as Entity <<entity>>
+participant ":VistaGestion" as Boundary <<boundary>>
+participant ":ControladorGestion" as Control <<control>>
+participant ":EstadoSistema" as Entity <<entity>>
 
 Actor -> Boundary : accederPanel()
 activate Boundary

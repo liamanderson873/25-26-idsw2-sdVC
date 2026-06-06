@@ -1,10 +1,10 @@
-@startuml cu05-importarAlumnos-analisis-secuencia
+﻿@startuml cu05-importarAlumnos-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-05: Importar Alumnos
 
 actor "Docente" as Actor
-participant ":StudentImportView" as Boundary <<boundary>>
-participant ":StudentImportController" as Control <<control>>
-participant ":Student" as Entity <<entity>>
+participant ":VistaImportacionAlumnos" as Boundary <<boundary>>
+participant ":ControladorImportacionAlumnos" as Control <<control>>
+participant ":Alumno" as Entity <<entity>>
 
 Actor -> Boundary : subirFichero(ficheroJSON)
 activate Boundary

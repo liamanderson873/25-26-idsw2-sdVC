@@ -1,10 +1,10 @@
-@startuml cu18-crearAsignatura-analisis-secuencia
+﻿@startuml cu18-crearAsignatura-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-18: Crear Asignatura
 
 actor "Docente" as Actor
-participant ":SubjectCreationView" as Boundary <<boundary>>
-participant ":SubjectController" as Control <<control>>
-participant ":Subject" as Entity <<entity>>
+participant ":VistaCreacionAsignatura" as Boundary <<boundary>>
+participant ":ControladorAsignaturas" as Control <<control>>
+participant ":Asignatura" as Entity <<entity>>
 
 Actor -> Boundary : introducirDatos(codigo, nombre, docente)
 activate Boundary

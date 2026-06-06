@@ -1,10 +1,10 @@
-@startuml cu01-corregirExamenes-analisis-secuencia
+﻿@startuml cu01-corregirExamenes-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-01: Corregir Exámenes
 
 actor "Docente" as Actor
-participant ":CorrectionView" as Boundary <<boundary>>
-participant ":CorrectionController" as Control <<control>>
-participant ":Exam" as Entity <<entity>>
+participant ":VistaCorreccion" as Boundary <<boundary>>
+participant ":ControladorCorreccion" as Control <<control>>
+participant ":Examen" as Entity <<entity>>
 
 Actor -> Boundary : solicitarCorreccion(datos)
 activate Boundary

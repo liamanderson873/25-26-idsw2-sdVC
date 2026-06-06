@@ -1,9 +1,9 @@
-@startuml cu29-eliminarDocente-analisis-secuencia
+﻿@startuml cu29-eliminarDocente-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-29: Eliminar Docente
 
 actor "AdministradorInstitucional" as Actor
-participant ":DocenteDeleteView" as Boundary <<boundary>>
-participant ":DocenteController" as Control <<control>>
+participant ":VistaEliminacionDocente" as Boundary <<boundary>>
+participant ":ControladorDocentes" as Control <<control>>
 participant ":Docente" as Entity <<entity>>
 
 Actor -> Boundary : seleccionarDocente(id)

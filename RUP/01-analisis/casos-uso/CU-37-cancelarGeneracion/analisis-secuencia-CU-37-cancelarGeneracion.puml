@@ -1,10 +1,10 @@
-@startuml cu37-cancelarGeneracion-analisis-secuencia
+﻿@startuml cu37-cancelarGeneracion-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-37: Cancelar Generación
 
 actor "Docente" as Actor
-participant ":CancelGenerationView" as Boundary <<boundary>>
-participant ":ExamGenerationController" as Control <<control>>
-participant ":Exam" as Entity <<entity>>
+participant ":VistaCancelacionGeneracion" as Boundary <<boundary>>
+participant ":ControladorGeneracionExamen" as Control <<control>>
+participant ":Examen" as Entity <<entity>>
 
 Actor -> Boundary : solicitarCancelacion(examenId)
 activate Boundary

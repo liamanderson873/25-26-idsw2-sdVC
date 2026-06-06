@@ -1,10 +1,10 @@
-@startuml cu34-crearRespuesta-analisis-secuencia
+﻿@startuml cu34-crearRespuesta-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-34: Crear Respuesta
 
 actor "Docente" as Actor
-participant ":AnswerCreationView" as Boundary <<boundary>>
-participant ":AnswerCreationController" as Control <<control>>
-participant ":Answer" as Entity <<entity>>
+participant ":VistaCreacionRespuesta" as Boundary <<boundary>>
+participant ":ControladorCreacionRespuestas" as Control <<control>>
+participant ":Respuesta" as Entity <<entity>>
 
 Actor -> Boundary : introducirDatos(texto, esCorrecta, preguntaId)
 activate Boundary

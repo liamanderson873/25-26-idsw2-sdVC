@@ -1,10 +1,10 @@
-@startuml cu41-exportarGrados-analisis-secuencia
+﻿@startuml cu41-exportarGrados-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-41: Exportar Grados
 
 actor "Docente" as Actor
-participant ":GradeExportView" as Boundary <<boundary>>
-participant ":GradeExportController" as Control <<control>>
-participant ":Grade" as Entity <<entity>>
+participant ":VistaExportacionGrados" as Boundary <<boundary>>
+participant ":ControladorExportacionGrados" as Control <<control>>
+participant ":Grado" as Entity <<entity>>
 
 Actor -> Boundary : solicitarExportacion()
 activate Boundary

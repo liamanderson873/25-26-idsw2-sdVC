@@ -1,10 +1,10 @@
-@startuml cu03-importarConfiguracionGlobal-analisis-secuencia
+﻿@startuml cu03-importarConfiguracionGlobal-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-03: Importar Configuración Global
 
 actor "Docente" as Actor
-participant ":GlobalConfigImportView" as Boundary <<boundary>>
-participant ":ImportController" as Control <<control>>
-participant ":GlobalConfig" as Entity <<entity>>
+participant ":VistaImportConfigGlobal" as Boundary <<boundary>>
+participant ":ControladorImportacion" as Control <<control>>
+participant ":ConfiguracionGlobal" as Entity <<entity>>
 
 Actor -> Boundary : subirFichero(ficheroJSON)
 activate Boundary

@@ -1,9 +1,9 @@
-@startuml cu13-crearDocente-analisis-secuencia
+﻿@startuml cu13-crearDocente-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-13: Crear Docente
 
 actor "AdministradorInstitucional" as Actor
-participant ":DocenteCreationView" as Boundary <<boundary>>
-participant ":DocenteController" as Control <<control>>
+participant ":VistaCreacionDocente" as Boundary <<boundary>>
+participant ":ControladorDocentes" as Control <<control>>
 participant ":Docente" as Entity <<entity>>
 
 Actor -> Boundary : introducirDatos(dni, nombre, apellidos, usuario, email, password)

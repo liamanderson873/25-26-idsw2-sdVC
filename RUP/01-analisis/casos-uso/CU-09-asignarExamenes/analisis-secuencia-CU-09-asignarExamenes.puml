@@ -1,10 +1,10 @@
-@startuml cu09-asignarExamenes-analisis-secuencia
+﻿@startuml cu09-asignarExamenes-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-09: Asignar Exámenes
 
 actor "Docente" as Actor
-participant ":ExamAssignmentView" as Boundary <<boundary>>
-participant ":AssignmentController" as Control <<control>>
-participant ":Exam" as Entity <<entity>>
+participant ":VistaAsignacionExamen" as Boundary <<boundary>>
+participant ":ControladorAsignacion" as Control <<control>>
+participant ":Examen" as Entity <<entity>>
 
 Actor -> Boundary : configurarAsignacion(examen, alumnos)
 activate Boundary

@@ -1,10 +1,10 @@
-@startuml cu16-editarAlumno-analisis-secuencia
+﻿@startuml cu16-editarAlumno-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-16: Editar Alumno
 
 actor "Docente" as Actor
-participant ":StudentEditView" as Boundary <<boundary>>
-participant ":StudentController" as Control <<control>>
-participant ":Student" as Entity <<entity>>
+participant ":VistaEdicionAlumno" as Boundary <<boundary>>
+participant ":ControladorAlumnos" as Control <<control>>
+participant ":Alumno" as Entity <<entity>>
 
 Actor -> Boundary : seleccionarAlumno(id)
 activate Boundary

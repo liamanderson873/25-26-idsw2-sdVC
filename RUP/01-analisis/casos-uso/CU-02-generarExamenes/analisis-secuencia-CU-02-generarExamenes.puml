@@ -1,10 +1,10 @@
-@startuml cu02-generarExamenes-analisis-secuencia
+﻿@startuml cu02-generarExamenes-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-02: Generar Exámenes
 
 actor "Docente" as Actor
-participant ":ExamGenerationView" as Boundary <<boundary>>
-participant ":ExamGenerationController" as Control <<control>>
-participant ":Exam" as Entity <<entity>>
+participant ":VistaGeneracionExamen" as Boundary <<boundary>>
+participant ":ControladorGeneracionExamen" as Control <<control>>
+participant ":Examen" as Entity <<entity>>
 
 Actor -> Boundary : configurarGeneracion(parametros)
 activate Boundary

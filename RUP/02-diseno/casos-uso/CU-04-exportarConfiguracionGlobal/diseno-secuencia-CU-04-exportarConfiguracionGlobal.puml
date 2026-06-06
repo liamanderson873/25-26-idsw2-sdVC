@@ -1,0 +1,55 @@
+@startuml secuencia-cu04-exportarConfiguracionGlobal
+title Diagrama de Secuencia - CU-04: Exportar Configuración Global
+
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorConfiguracion" as Controller
+participant "ServicioGrado" as SvcGrado
+participant "ServicioAsignatura" as SvcAsignatura
+participant "ServicioAlumno" as SvcAlumno
+participant "ServicioPregunta" as SvcPregunta
+database "Base de Datos\n(PostgreSQL)" as DB
+
+Actor -> FE : Pulsa "Exportar Configuración"
+activate FE
+
+FE -> Controller : GET /api/config/exportar
+activate Controller
+
+Controller -> SvcGrado : listarTodos()
+activate SvcGrado
+SvcGrado -> DB : SELECT grados
+DB --> SvcGrado : listaGrados
+SvcGrado --> Controller : listaGrados
+deactivate SvcGrado
+
+Controller -> SvcAsignatura : listarTodos()
+activate SvcAsignatura
+SvcAsignatura -> DB : SELECT asignaturas + relaciones
+DB --> SvcAsignatura : listaAsignaturas
+SvcAsignatura --> Controller : listaAsignaturas
+deactivate SvcAsignatura
+
+Controller -> SvcAlumno : listarTodos()
+activate SvcAlumno
+SvcAlumno -> DB : SELECT alumnos
+DB --> SvcAlumno : listaAlumnos
+SvcAlumno --> Controller : listaAlumnos
+deactivate SvcAlumno
+
+Controller -> SvcPregunta : listarTodas()
+activate SvcPregunta
+SvcPregunta -> DB : SELECT preguntas + respuestas
+DB --> SvcPregunta : listaPreguntas
+SvcPregunta --> Controller : listaPreguntas
+deactivate SvcPregunta
+
+Controller -> Controller : new DTO_ConfiguracionGlobal(\n  Instant.now(),\n  grados, asignaturas,\n  alumnos, preguntas)
+
+Controller --> FE : 200 OK (DTO_ConfiguracionGlobal JSON)
+deactivate Controller
+
+FE --> Actor : Descarga fichero configuracion.json
+deactivate FE
+
+@enduml

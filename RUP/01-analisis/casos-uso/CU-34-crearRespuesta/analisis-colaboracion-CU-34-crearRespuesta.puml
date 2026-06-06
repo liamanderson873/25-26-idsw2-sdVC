@@ -1,19 +1,19 @@
-@startuml crearRespuesta-analisis
+﻿@startuml crearRespuesta-analisis
 skinparam linetype polyline
 
 actor Docente
 package crearRespuesta as "crearRespuesta()" {
-    rectangle #629EF9 AnswerCreationView
-    rectangle #b5bd68 AnswerCreationController
-    rectangle #F2AC4E Answer
-    rectangle #F2AC4E Question
+    rectangle #629EF9 VistaCreacionRespuesta
+    rectangle #b5bd68 ControladorCreacionRespuestas
+    rectangle #F2AC4E Respuesta
+    rectangle #F2AC4E Pregunta
 }
 
-Docente -r-> AnswerCreationView: solicitarCrear()
-AnswerCreationView --> Docente: pedirDatos()
-Docente --> AnswerCreationView: proporcionarDatos()
-AnswerCreationView -d-> AnswerCreationController: crearRespuesta()
-AnswerCreationController --> Answer: new()
-AnswerCreationController --> Question: addAnswer()
+Docente -r-> VistaCreacionRespuesta: solicitarCrear()
+VistaCreacionRespuesta --> Docente: pedirDatos()
+Docente --> VistaCreacionRespuesta: proporcionarDatos()
+VistaCreacionRespuesta -d-> ControladorCreacionRespuestas: crearRespuesta()
+ControladorCreacionRespuestas --> Respuesta: new()
+ControladorCreacionRespuestas --> Pregunta: addAnswer()
 
 @enduml

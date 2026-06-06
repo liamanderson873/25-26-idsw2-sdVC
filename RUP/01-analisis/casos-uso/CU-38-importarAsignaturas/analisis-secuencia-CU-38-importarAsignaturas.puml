@@ -1,10 +1,10 @@
-@startuml cu38-importarAsignaturas-analisis-secuencia
+﻿@startuml cu38-importarAsignaturas-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-38: Importar Asignaturas
 
 actor "Docente" as Actor
-participant ":SubjectImportView" as Boundary <<boundary>>
-participant ":SubjectImportController" as Control <<control>>
-participant ":Subject" as Entity <<entity>>
+participant ":VistaImportacionAsignaturas" as Boundary <<boundary>>
+participant ":ControladorImportacionAsignaturas" as Control <<control>>
+participant ":Asignatura" as Entity <<entity>>
 
 Actor -> Boundary : subirFichero(ficheroJSON)
 activate Boundary
