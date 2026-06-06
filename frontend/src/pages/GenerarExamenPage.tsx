@@ -44,6 +44,7 @@ const StepBadge: React.FC<{ n: string }> = ({ n }) => (
 const GenerarExamenPage: React.FC = () => {
   const queryClient = useQueryClient();
 
+  const [filterGradoId, setFilterGradoId] = useState<number>(0);
   const [asignaturaId, setAsignaturaId] = useState<number>(0);
   const [temaIds, setTemaIds] = useState<number[]>([]);
   const [tipo, setTipo] = useState<TipoEvaluacion>(TipoEvaluacion.PARCIAL_1);
@@ -58,6 +59,14 @@ const GenerarExamenPage: React.FC = () => {
     queryFn: getTemas,
     enabled: asignaturaId > 0,
   });
+
+  const asignaturasFiltradas = useMemo(() =>
+    asignaturas.filter(a =>
+      filterGradoId === 0 ||
+      a.gradoId === filterGradoId ||
+      (a as any).gradoIds?.includes(filterGradoId)
+    ),
+  [asignaturas, filterGradoId]);
 
   const asignaturaSeleccionada = useMemo(
     () => asignaturas.find(a => a.id === asignaturaId),
@@ -91,6 +100,17 @@ const GenerarExamenPage: React.FC = () => {
     }
     return map;
   }, [alumnos, asignaturaId, gradosDeAsignatura]);
+
+  const handleGradoFilterChange = (id: number) => {
+    setFilterGradoId(id);
+    // Si la asignatura actual no pertenece al nuevo grado, resetear
+    if (id !== 0 && asignaturaSeleccionada) {
+      const perteneceAlGrado =
+        asignaturaSeleccionada.gradoId === id ||
+        (asignaturaSeleccionada as any).gradoIds?.includes(id);
+      if (!perteneceAlGrado) handleAsignaturaChange(0);
+    }
+  };
 
   // Inicializar config por grado cuando cambia la asignatura
   const handleAsignaturaChange = (id: number) => {
@@ -207,12 +227,19 @@ const GenerarExamenPage: React.FC = () => {
               </p>
             </div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.25rem' }}>
+            <div>
+              <label>Filtrar por Grado</label>
+              <select value={filterGradoId} onChange={e => handleGradoFilterChange(Number(e.target.value))}>
+                <option value={0}>Todos los grados</option>
+                {grados.map(g => <option key={g.id} value={g.id}>{g.nombre}</option>)}
+              </select>
+            </div>
             <div>
               <label>Asignatura</label>
               <select value={asignaturaId} onChange={e => handleAsignaturaChange(Number(e.target.value))}>
                 <option value={0}>Seleccionar asignatura...</option>
-                {asignaturas.map(a => <option key={a.id} value={a.id}>{a.nombre}</option>)}
+                {asignaturasFiltradas.map(a => <option key={a.id} value={a.id}>{a.nombre}</option>)}
               </select>
             </div>
             <div>
@@ -436,7 +463,7 @@ const GenerarExamenPage: React.FC = () => {
         {asignaturaId > 0 && (
           <div style={{ display: 'flex', gap: '1rem', paddingTop: '0.25rem' }}>
             <button type="button" className="btn btn-secondary"
-              onClick={() => { setAsignaturaId(0); setTemaIds([]); setConfigPorGrado({}); setResultado(null); }}
+              onClick={() => { setFilterGradoId(0); setAsignaturaId(0); setTemaIds([]); setConfigPorGrado({}); setResultado(null); }}
             >
               Reiniciar
             </button>
