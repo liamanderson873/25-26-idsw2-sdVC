@@ -23,7 +23,7 @@ Se ha evolucionado a una arquitectura jerárquica con relaciones N:M, soporte pa
 ### 🔴 Flujo Original
 Un proceso lineal sin validaciones técnicas intermedias.
 
-![Baseline Estados](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramas-arquitectonicos/diagrama-estados-examen.puml)
+![Baseline Estados](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramaEstadosExamen/original.puml)
 
 ### 🟢 Flujo Final
 Incluye fases de auditoría, simulación de entrega y validación por parte del docente.
