@@ -1,5 +1,9 @@
 # 🎓 Jorgestor: Sistema de Gestión de Exámenes Inteligente
 
+[![IDSW2](https://img.shields.io/badge/Asignatura-IDSW2-blue?style=for-the-badge&logo=spring)](../../)
+[![RUP](https://img.shields.io/badge/Metodología-RUP-orange?style=for-the-badge&logo=blueprint)](../../)
+[![Premium UI](https://img.shields.io/badge/Estética-Premium%20Apple-lightgrey?style=for-the-badge&logo=apple)](../../)
+
 Bienvenido al repositorio oficial de **Jorgestor**, una solución integral para la generación, asignación y auditoría de exámenes, desarrollada bajo los estándares de **Ingeniería del Software II (IDSW2)**.
 
 ---
@@ -13,7 +17,7 @@ Haz clic en los badges para explorar las fases del proyecto:
 
 ---
 
-## 📈 Evolución del Modelado (Análisis vs. Realidad)
+## 📈 Evolución del Modelado (Baseline vs. Realidad)
 
 Demostración del proceso de **Diseño Evolutivo (JEDUF)**. Los diagramas se sincronizan con la arquitectura final implementada:
 

@@ -1,95 +1,72 @@
 @startuml
-title Modelo del Dominio - Jorgestor (Implementación Final)
-
-' Restauramos la estética plana/orgánica del original que te gustaba
 
 class Examen{
- -id: Long
- -evaluación: EvaluaciónExamen
- -clave corrección: String
- -fecha: LocalDate
- -esPersonalizado: Boolean
+ - evaluación
+ - clave corrección
+ - fecha
+ - esPersonalizado
 }
-
 class Asignatura{
- -id: Long
- -título: String
- -código: String
- -curso académico: String
- -curso sugerido: Integer
+ - título
+ - código
+ - curso académico
+ - curso sugerido
 }
-
 class Pregunta{
- -id: Long
- -asignatura: Asignatura
- -enunciado: String
- -tema: Tema
- -dificultad: DificultadPregunta
+ - asignatura
+ - enunciado
+ - tema
+ - dificultad
 }
-
 class BateriaDePreguntas{
 }
-
 class Grado{
- -id: Long
- -título: String
- -código: String
+ - título
+ - código
 }
-
 class Profesor{
- -id: Long
- -nombre: String
- -apellidos: String
- -DNI: String
+ - nombre
+ - apellidos
+ - DNI
 }
-
 class Alumno{
- -id: Long
- -nombre: String
- -apellidos: String
- -DNI: String
- -curso: Integer
+ - nombre
+ - apellidos
+ - DNI
+ - curso
 }
-
 enum EvaluaciónExamen{
- -Parcial 1
- -Parcial 2
- -Parcial 3
- -Examen final
- -Examen extraordinario
+ - Parcial 1
+ - Parcial 2
+ - Parcial 3
+ - Examen final
+ - Examen extraordinario
 }
-
 enum DificultadPregunta{
- -facil
- -medio
- -dificil
+ - facil
+ - medio
+ - dificil
 }
 
 class Respuesta{
- -id: Long
- -opción: String
- -esCorrecta: Boolean
- -índice: Integer
+ - opción
+ - esCorrecta
 }
 
 class Tema{
- -id: Long
- -nombre: String
+ - nombre
 }
 
 class ExamenAlumno {
- -id: Long
- -claveCorreccion: String (SHA-256)
- -notaFinal: Double
- -estado: EstadoExamen
+ - claveCorreccion
+ - notaFinal
+ - estado
 }
 
 class ExamenAlumnoMarca {
- -id: Long
- -indiceMarcado: Integer
+ - indiceMarcado
 }
 
-' Relaciones del diagrama original (Baseline) restauradas estéticamente
 Respuesta -u-* Pregunta
 Pregunta ..> DificultadPregunta
 Pregunta -u-o Examen : contiene
@@ -104,7 +81,7 @@ Alumno -u-* Asignatura : se imparte
 Alumno -u-* Grado : se cursa
 Pregunta ..> Tema
 
-' Extensiones integradas orgánicamente
+' Extensiones de la implementación
 Examen "1" -- "*" ExamenAlumno : genera
 Alumno "1" -- "*" ExamenAlumno : posee
 ExamenAlumno "1" *-- "*" ExamenAlumnoMarca : auditoría

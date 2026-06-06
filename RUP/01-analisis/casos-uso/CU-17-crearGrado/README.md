@@ -1,8 +1,5 @@
 ﻿# Jorgestor > CU-17-crearGrado > AnÃ¡lisis
 
-> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-17-crearGrado/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
-> |-|-|-|-|-|-|-|
-
 ## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
@@ -78,6 +75,7 @@ GradeController --> GradeCreationView: notificarExitoYRedirigir()
 
 @enduml
 ```
+
 
 
 

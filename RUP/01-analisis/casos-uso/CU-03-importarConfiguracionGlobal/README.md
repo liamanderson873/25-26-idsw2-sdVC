@@ -1,8 +1,5 @@
 ﻿# Jorgestor > CU-03-importarConfiguracionGlobal > AnÃ¡lisis
 
-> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-03-importarConfiguracionGlobal/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
-> |-|-|-|-|-|-|-|
-
 ## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
@@ -151,6 +148,7 @@ deactivate Controller
 
 @enduml
 ```
+
 
 
 

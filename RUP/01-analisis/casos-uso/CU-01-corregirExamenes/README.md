@@ -1,73 +1,70 @@
-# Jorgestor > CU-01-corregirExamenes > Análisis
+﻿# Jorgestor > CU-01-corregirExamenes > AnÃ¡lisis
 
-> |[🏠️](/Jorgestor/RUP/README.md)|[ 📊](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-01-corregirExamenes/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
-> |-|-|-|-|-|-|-|
-
-## información del artefacto
+## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
+- **Fase RUP**: Elaboration (ElaboraciÃ³n)
+- **Disciplina**: AnÃ¡lisis
+- **VersiÃ³n**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propósito
+## propÃ³sito
 
-Análisis tecnológico agnóstico del caso de uso Corregir Exámenes, siguiendo la metodología RUP. Permite analizar el flujo y la validación de corrección de exámenes de los alumnos.
+AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Corregir ExÃ¡menes, siguiendo la metodologÃ­a RUP. Permite analizar el flujo y la validaciÃ³n de correcciÃ³n de exÃ¡menes de los alumnos.
 
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: corregirExamenes()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-01-corregirExamenes/analisis-colaboracion-CU-01-corregirExamenes.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-01-corregirExamenes.puml](analisis-colaboracion-CU-01-corregirExamenes.puml)|
-
-</div>
-
-## realización de diseño (secuencia)
+## diagrama de colaboraciÃ³n
 
 <div align=center>
 
-|![Realización: CU-01-corregirExamenes](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-01-corregirExamenes/analisis-secuencia-CU-01-corregirExamenes.puml&fmt=svg)|
+|![AnÃ¡lisis: corregirExamenes()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-01-corregirExamenes/analisis-colaboracion-CU-01-corregirExamenes.puml&fmt=svg)|
 |-|
-|Código fuente: [analisis-secuencia-CU-01-corregirExamenes.puml](analisis-secuencia-CU-01-corregirExamenes.puml)|
+|CÃ³digo fuente: [analisis-colaboracion-CU-01-corregirExamenes.puml](analisis-colaboracion-CU-01-corregirExamenes.puml)|
 
 </div>
 
-## clases de análisis identificadas
+## realizaciÃ³n de diseÃ±o (secuencia)
+
+<div align=center>
+
+|![RealizaciÃ³n: CU-01-corregirExamenes](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-01-corregirExamenes/analisis-secuencia-CU-01-corregirExamenes.puml&fmt=svg)|
+|-|
+|CÃ³digo fuente: [analisis-secuencia-CU-01-corregirExamenes.puml](analisis-secuencia-CU-01-corregirExamenes.puml)|
+
+</div>
+
+## clases de anÃ¡lisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
-|**Exam**|Representa el examen en el sistema, conteniendo la Clave de Corrección y el estado (Corregido/Pendiente)|Modelo del dominio|
-|**Student**|Asocia la corrección al alumno correspondiente mediante la clave|Modelo del dominio|
+|**Exam**|Representa el examen en el sistema, conteniendo la Clave de CorrecciÃ³n y el estado (Corregido/Pendiente)|Modelo del dominio|
+|**Student**|Asocia la correcciÃ³n al alumno correspondiente mediante la clave|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
+|Clase|Responsabilidad|DerivaciÃ³n|
 |-|-|-|
-|**CorrectionView**|Interfaz que permite solicitar inicio, introducir exámenes, confirmar, y ver estado|Wireframe|
+|**CorrectionView**|Interfaz que permite solicitar inicio, introducir exÃ¡menes, confirmar, y ver estado|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**CorrectionController**|Gestiona el flujo de la corrección, valida datos y actualiza estados|corregirExamenes()|
+|**CorrectionController**|Gestiona el flujo de la correcciÃ³n, valida datos y actualiza estados|corregirExamenes()|
 
-## mensajes de colaboración
+## mensajes de colaboraciÃ³n
 
-|Origen|Destino|Mensaje|Intención|
+|Origen|Destino|Mensaje|IntenciÃ³n|
 |-|-|-|-|
-|**Docente**|**CorrectionView**|`iniciarCorreccion()`|Solicitar el inicio de la corrección|
-|**CorrectionView**|**CorrectionController**|`corregirExamenes(archivos)`|Delegar la lógica de corrección|
-|**CorrectionController**|**Exam**|`validarClave()`|Validar clave de corrección del examen|
+|**Docente**|**CorrectionView**|`iniciarCorreccion()`|Solicitar el inicio de la correcciÃ³n|
+|**CorrectionView**|**CorrectionController**|`corregirExamenes(archivos)`|Delegar la lÃ³gica de correcciÃ³n|
+|**CorrectionController**|**Exam**|`validarClave()`|Validar clave de correcciÃ³n del examen|
 |**CorrectionController**|**Student**|`asociarAlumno()`|Asociar el examen corregido al alumno|
 |**CorrectionController**|**Exam**|`actualizarEstado(Corregido)`|Actualizar estado del examen a corregido|
 
 ## trazabilidad con artefactos previos
 
-### con especificación detallada
-- **Estados internos** → `RequiringCorrection`, `ProvidingDoneExams`, `ProvidingConfirmation`
+### con especificaciÃ³n detallada
+- **Estados internos** â†’ `RequiringCorrection`, `ProvidingDoneExams`, `ProvidingConfirmation`
 
 
 ```plantuml
@@ -104,7 +101,7 @@ participant "engine:ICorrectionEngine" as Engine <<interface>>
 participant ":ExamRepository" as Repo <<entity>>
 participant "exam:Exam" as Entity <<entity>>
 
-title Diseño Técnico: corregirExamenes() (Delegación IA)
+title DiseÃ±o TÃ©cnico: corregirExamenes() (DelegaciÃ³n IA)
 
 Actor -> Controller : POST /api/exams/correct (batch_data)
 activate Controller
@@ -113,9 +110,9 @@ Controller -> Service : correctBatch(batch_data)
 activate Service
 
 note over Service
-**Simulación de Delegación**
-El servicio depende de una abstracción
-para la detección de imágenes.
+**SimulaciÃ³n de DelegaciÃ³n**
+El servicio depende de una abstracciÃ³n
+para la detecciÃ³n de imÃ¡genes.
 end note
 
 Service -> Engine : processImages(batch_data)
@@ -145,3 +142,4 @@ deactivate Controller
 
 @enduml
 ```
+

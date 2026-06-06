@@ -1,8 +1,5 @@
 ﻿# Jorgestor > CU-21-verAsignaturas > AnÃ¡lisis
 
-> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-21-verAsignaturas/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
-> |-|-|-|-|-|-|-|
-
 ## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
@@ -84,6 +81,7 @@ SubjectController --> Subject: consultar(criterios)
 
 @enduml
 ```
+
 
 
 

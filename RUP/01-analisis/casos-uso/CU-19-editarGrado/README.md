@@ -1,8 +1,5 @@
 ﻿# Jorgestor > CU-19-editarGrado > AnÃ¡lisis
 
-> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-19-editarGrado/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
-> |-|-|-|-|-|-|-|
-
 ## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
@@ -87,6 +84,7 @@ GradeController --> Grade: delete()
 
 @enduml
 ```
+
 
 
 

@@ -1,8 +1,5 @@
 ﻿# Jorgestor > CU-39-importarGrados > AnÃ¡lisis
 
-> |[ðŸ ï¸](/Jorgestor/RUP/README.md)|[ ðŸ“Š](#)|[Detalle](/Jorgestor/RUP/00-casos-uso/02-detalle/CU-39-importarGrados/README.md)|**AnÃ¡lisis**|DiseÃ±o|Desarrollo|Pruebas|
-> |-|-|-|-|-|-|-|
-
 ## informaciÃ³n del artefacto
 
 - **Proyecto**: Jorgestor
@@ -86,6 +83,7 @@ GradeImportController --> Grade: createAll()
 
 @enduml
 ```
+
 
 
 

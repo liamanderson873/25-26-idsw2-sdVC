@@ -1,38 +1,33 @@
-# Análisis - Disciplina de Análisis y Diseño
+# 🔍 Disciplina de Análisis: Requisitos y Robustez
 
-Esta sección contiene el Análisis arquitectónico de los casos de uso especificados para el sistema **Jorgestor**, aplicando el patrón MVC y identificando las clases de Análisis necesarias.
+Esta sección documenta la fase de análisis de **Jorgestor**, donde se definen los requisitos funcionales y la lógica de robustez de los procesos core.
 
-## Contenido de la disciplina
+---
 
-### [Casos de uso - Análisis MVC](casos-uso/README.md)
-Análisis completo de cada caso de uso mediante:
-- **Clases de Análisis**: Boundary, Control, Entity según patrón MVC.
-- **Diagramas de colaboración**: Interacciones entre clases de Análisis.
-- **Responsabilidades definidas**: Separación clara por estereotipo.
+## 🎯 Casos de Uso (Análisis Arquitectónico)
 
-## Metodología de Análisis aplicada
+A continuación se listan las especificaciones detalladas para cada proceso del sistema.
 
-### Patrón MVC sistemático
-- **Model (Entity)**: Entidades del dominio (`Student`, `Exam`, `Question`, etc.).
-- **View (Boundary)**: Clases de interfaz para la interacción con Docentes y Administradores.
-- **Controller (Control)**: Coordinación de la lógica de negocio y flujo de casos de uso.
+### ⚡ Procesos Críticos (Core)
+- **[CU-01] Corregir Examen**: [![Análisis](https://img.shields.io/badge/-Detalle-blue?style=flat-square)](casos-uso/CU-01-corregirExamenes/)
+- **[CU-02] Generar Examen**: [![Análisis](https://img.shields.io/badge/-Detalle-blue?style=flat-square)](casos-uso/CU-02-generarExamenes/)
+- **[CU-09] Asignar Exámenes**: [![Análisis](https://img.shields.io/badge/-Detalle-blue?style=flat-square)](casos-uso/CU-09-asignarExamenes/)
 
-### Estereotipos de Análisis
-- **Boundary (Vista)**: Clases de interfaz usuario-sistema.
-- **Control (Controlador)**: Clases de coordinación y lógica.
-- **Entity (Entidad)**: Clases de dominio y persistencia.
+### 📥 Importación y Configuración
+- **[CU-03/04] Configuración Global**: [Importar](casos-uso/CU-03-importarConfiguracionGlobal/) / [Exportar](casos-uso/CU-04-exportarConfiguracionGlobal/)
+- **[CU-05] Importar Alumnos**: [![Análisis](https://img.shields.io/badge/-Detalle-green?style=flat-square)](casos-uso/CU-05-importarAlumnos/)
+- **[CU-06] Importar Preguntas**: [![Análisis](https://img.shields.io/badge/-Detalle-green?style=flat-square)](casos-uso/CU-06-importarPreguntas/)
 
-## Cobertura de Análisis
+### 🛠️ Gestión de Maestros (CRUDs)
+- **Alumnos**: [Crear](casos-uso/CU-14-crearAlumno/) / [Editar](casos-uso/CU-16-editarAlumno/) / [Ver](casos-uso/CU-23-verAlumnos/) / [Eliminar](casos-uso/CU-28-eliminarAlumno/)
+- **Asignaturas**: [Crear](casos-uso/CU-18-crearAsignatura/) / [Editar](casos-uso/CU-12-editarAsignatura/) / [Ver](casos-uso/CU-21-verAsignaturas/) / [Eliminar](casos-uso/CU-26-eliminarAsignatura/)
+- **Docentes**: [Crear](casos-uso/CU-13-crearDocente/) / [Editar](casos-uso/CU-15-editarDocente/) / [Ver](casos-uso/CU-24-verDocentes/) / [Eliminar](casos-uso/CU-29-eliminarDocente/)
+- **Grados**: [Crear](casos-uso/CU-17-crearGrado/) / [Editar](casos-uso/CU-19-editarGrado/) / [Ver](casos-uso/CU-22-verGrados/) / [Eliminar](casos-uso/CU-27-eliminarGrado/)
 
-Se ha completado el Análisis de los 41 casos de uso priorizados, organizados en bloques de trabajo para asegurar la consistencia arquitectónica.
+---
 
-## Trazabilidad
+## 📊 Diagramas de Robustez
+Cada caso de uso contiene su diagrama de robustez correspondiente, mapeando los objetos de **Frontera**, **Control** y **Entidad** siguiendo el patrón MVC de análisis.
 
-### De especificación a Análisis
-- Cada caso de uso del `ModelingRepo` tiene su correspondiente Análisis MVC.
-- Los estados de los diagramas de contexto se mapean a responsabilidades en las clases de Análisis.
-
-## Referencias
-
-- [Casos de uso especificados](../00-casos-uso/02-detalle/README.md)
-- [Log de conversaciones](../../conversation-log.md)
+---
+[⬅️ Volver al Panel Maestro](../../README.md)
