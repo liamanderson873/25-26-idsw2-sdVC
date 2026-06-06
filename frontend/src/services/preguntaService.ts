@@ -11,6 +11,11 @@ export const createPregunta = async (pregunta: Pregunta): Promise<Pregunta> => {
   return response.data;
 };
 
+export const updatePregunta = async (id: number, pregunta: Pregunta): Promise<Pregunta> => {
+  const response = await api.put<Pregunta>(`/preguntas/${id}`, pregunta);
+  return response.data;
+};
+
 export const deletePregunta = async (id: number): Promise<void> => {
   await api.delete(`/preguntas/${id}`);
 };

@@ -42,6 +42,15 @@ public class ServicioGrado {
     }
 
     @Transactional
+    public void actualizar(Long id, DTO_Grado dto) {
+        Grado grado = repoGrado.findById(id)
+                .orElseThrow(() -> new RuntimeException("Grado no encontrado con ID: " + id));
+        grado.setCodigo(dto.getCodigo());
+        grado.setNombre(dto.getNombre());
+        repoGrado.save(grado);
+    }
+
+    @Transactional
     public void eliminar(Long id) {
         if (!repoGrado.existsById(id)) {
             throw new RuntimeException("Grado no encontrado con ID: " + id);

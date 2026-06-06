@@ -37,6 +37,16 @@ public class ControladorGrado {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<String> actualizar(@PathVariable Long id, @RequestBody DTO_Grado dto) {
+        try {
+            servicioGrado.actualizar(id, dto);
+            return ResponseEntity.ok("Grado actualizado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable Long id) {
         try {

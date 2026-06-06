@@ -12,7 +12,7 @@ export const createAlumno = async (alumno: Alumno): Promise<Alumno> => {
 };
 
 export const updateAlumno = async (id: number, alumno: Alumno): Promise<Alumno> => {
-  const response = await api.post<Alumno>(`/alumnos`, { ...alumno, id });
+  const response = await api.put<Alumno>(`/alumnos/${id}`, alumno);
   return response.data;
 };
 

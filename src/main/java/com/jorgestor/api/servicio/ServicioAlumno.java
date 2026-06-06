@@ -94,6 +94,30 @@ public class ServicioAlumno {
     }
 
     @Transactional
+    public void actualizar(Long id, DTO_Alumno dto) {
+        Grado grado = null;
+        if (dto.getCodigoGrado() != null) {
+            grado = repoGrado.findByCodigo(dto.getCodigoGrado()).orElse(null);
+        }
+        if (grado == null && dto.getGradoId() != null) {
+            grado = repoGrado.findById(dto.getGradoId()).orElse(null);
+        }
+        if (grado == null) throw new RuntimeException("El grado especificado no existe.");
+
+        Alumno alumno = repoAlumno.findById(id)
+                .orElseThrow(() -> new RuntimeException("Alumno no encontrado con ID: " + id));
+        alumno.setDni(dto.getDni());
+        alumno.setNombre(dto.getNombre());
+        alumno.setApellidos(dto.getApellidos());
+        alumno.setCurso(dto.getCurso() != null ? dto.getCurso() : 1);
+        alumno.setGrado(grado);
+        if (dto.getAsignaturaIds() != null) {
+            alumno.setAsignaturas(repoAsignatura.findAllById(dto.getAsignaturaIds()));
+        }
+        repoAlumno.save(alumno);
+    }
+
+    @Transactional
     public void eliminar(Long id) {
         if (!repoAlumno.existsById(id)) {
             throw new RuntimeException("Alumno no encontrado con ID: " + id);

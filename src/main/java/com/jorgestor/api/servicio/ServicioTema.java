@@ -48,6 +48,17 @@ public class ServicioTema {
     }
 
     @Transactional
+    public void actualizar(Long id, DTO_Tema dto) {
+        Asignatura asig = repoAsignatura.findByCodigo(dto.getCodigoAsignatura())
+                .orElseThrow(() -> new RuntimeException("Asignatura no encontrada"));
+        Tema tema = repoTema.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tema no encontrado con ID: " + id));
+        tema.setNombre(dto.getNombre());
+        tema.setAsignatura(asig);
+        repoTema.save(tema);
+    }
+
+    @Transactional
     public void eliminar(Long id) {
         if (!repoTema.existsById(id)) {
             throw new RuntimeException("Tema no encontrado con ID: " + id);

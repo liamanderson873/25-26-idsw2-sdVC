@@ -43,6 +43,16 @@ public class ControladorPregunta {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<String> actualizar(@PathVariable Long id, @RequestBody DTO_Pregunta dto) {
+        try {
+            servicioPregunta.actualizar(id, dto);
+            return ResponseEntity.ok("Pregunta actualizada correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     /** CU-22/editarPregunta: alternar estado habilitada ↔ inhabilitada */
     @PatchMapping("/{id}/toggle-habilitada")
     public ResponseEntity<String> toggleHabilitada(@PathVariable Long id) {

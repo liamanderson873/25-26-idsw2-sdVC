@@ -142,19 +142,8 @@ const ImportarExportarPage: React.FC = () => {
     setIsExporting(true);
     setExportStatus(null);
     try {
-      const [resGrados, resAsignaturas, resAlumnos, resPreguntas] = await Promise.all([
-        api.get('/grados'),
-        api.get('/asignaturas'),
-        api.get('/alumnos'),
-        api.get('/preguntas'),
-      ]);
-      const config = {
-        exportadoEn: new Date().toISOString(),
-        grados: resGrados.data,
-        asignaturas: resAsignaturas.data,
-        alumnos: resAlumnos.data,
-        preguntas: resPreguntas.data,
-      };
+      const response = await api.get('/config/exportar');
+      const config = response.data;
       const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -164,10 +153,10 @@ const ImportarExportarPage: React.FC = () => {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      const total = [resGrados, resAsignaturas, resAlumnos, resPreguntas].reduce((s, r) => s + (r.data?.length || 0), 0);
+      const total = (config.grados?.length || 0) + (config.asignaturas?.length || 0) + (config.alumnos?.length || 0) + (config.preguntas?.length || 0);
       setExportStatus({
         success: true,
-        message: `Descargado con ${total} registros: ${resGrados.data?.length || 0} grados, ${resAsignaturas.data?.length || 0} asignaturas, ${resAlumnos.data?.length || 0} alumnos, ${resPreguntas.data?.length || 0} preguntas.`,
+        message: `Descargado con ${total} registros: ${config.grados?.length || 0} grados, ${config.asignaturas?.length || 0} asignaturas, ${config.alumnos?.length || 0} alumnos, ${config.preguntas?.length || 0} preguntas.`,
       });
     } catch {
       setExportStatus({ success: false, message: 'Error al obtener los datos del servidor.' });
@@ -199,35 +188,39 @@ const ImportarExportarPage: React.FC = () => {
   const handleImportarGlobal = async () => {
     if (!globalFile) return;
     setIsProcessingGlobal(true);
-
-    const secciones: { key: string; entidad: string; fn: (d: any[]) => Promise<string> }[] = [
-      { key: 'grados',      entidad: 'Grados',      fn: importarGrados },
-      { key: 'asignaturas', entidad: 'Asignaturas', fn: importarAsignaturas },
-      { key: 'alumnos',     entidad: 'Alumnos',     fn: importarAlumnos },
-      { key: 'preguntas',   entidad: 'Preguntas',   fn: importarPreguntas },
-    ];
-
-    const results: GlobalResult[] = [];
-
-    for (const sec of secciones) {
-      const datos = globalFile[sec.key];
-      if (!datos || !Array.isArray(datos) || datos.length === 0) {
-        results.push({ entidad: sec.entidad, total: 0, status: 'vacio', mensaje: 'No hay datos en esta sección.' });
-        setGlobalResults([...results]);
-        continue;
-      }
-      try {
-        const msg = await sec.fn(datos);
-        results.push({ entidad: sec.entidad, total: datos.length, status: 'ok', mensaje: msg });
-        queryClient.invalidateQueries({ queryKey: [sec.key] });
-      } catch (err: any) {
-        const msg = err.response?.data || err.message;
-        results.push({ entidad: sec.entidad, total: datos.length, status: 'error', mensaje: msg });
-      }
-      setGlobalResults([...results]);
+    setGlobalResults([]);
+    try {
+      await api.post('/config/importar', globalFile);
+      const secciones = [
+        { key: 'grados', entidad: 'Grados' },
+        { key: 'asignaturas', entidad: 'Asignaturas' },
+        { key: 'alumnos', entidad: 'Alumnos' },
+        { key: 'preguntas', entidad: 'Preguntas' },
+      ];
+      const results: GlobalResult[] = secciones.map(s => {
+        const datos = globalFile[s.key];
+        const total = Array.isArray(datos) ? datos.length : 0;
+        return {
+          entidad: s.entidad,
+          total,
+          status: total > 0 ? 'ok' : 'vacio',
+          mensaje: total > 0 ? `${total} ${s.entidad.toLowerCase()} procesados correctamente.` : 'No hay datos en esta sección.',
+        };
+      });
+      setGlobalResults(results);
+      ['grados', 'asignaturas', 'alumnos', 'preguntas'].forEach(k =>
+        queryClient.invalidateQueries({ queryKey: [k] })
+      );
+    } catch (err: any) {
+      setGlobalResults([{
+        entidad: 'Error',
+        total: 0,
+        status: 'error',
+        mensaje: err.response?.data || err.message || 'Error desconocido.',
+      }]);
+    } finally {
+      setIsProcessingGlobal(false);
     }
-
-    setIsProcessingGlobal(false);
   };
 
   // --- ESTILOS TABS ---

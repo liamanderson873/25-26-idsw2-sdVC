@@ -11,6 +11,11 @@ export const createAsignatura = async (asignatura: Asignatura): Promise<Asignatu
   return response.data;
 };
 
+export const updateAsignatura = async (id: number, asignatura: Asignatura): Promise<Asignatura> => {
+  const response = await api.put<Asignatura>(`/asignaturas/${id}`, asignatura);
+  return response.data;
+};
+
 export const deleteAsignatura = async (id: number): Promise<void> => {
   await api.delete(`/asignaturas/${id}`);
 };

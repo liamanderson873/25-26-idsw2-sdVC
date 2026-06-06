@@ -82,6 +82,32 @@ public class ServicioPregunta {
         }
     }
 
+    @Transactional
+    public void actualizar(Long id, DTO_Pregunta dto) {
+        Tema tema = repoTema.findById(dto.getTemaId())
+                .orElseThrow(() -> new RuntimeException("Tema con ID " + dto.getTemaId() + " no encontrado"));
+        Pregunta pregunta = repoPregunta.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pregunta no encontrada con ID: " + id));
+        repoRespuesta.deleteByPreguntaId(id);
+        repoRespuesta.flush();
+        pregunta.setEnunciado(dto.getEnunciado());
+        pregunta.setDificultad(dto.getDificultad());
+        pregunta.setTema(tema);
+        pregunta.setHabilitada(dto.isHabilitada());
+        final Pregunta guardada = repoPregunta.saveAndFlush(pregunta);
+        if (dto.getRespuestas() != null) {
+            int indice = 0;
+            for (DTO_Respuesta dtoResp : dto.getRespuestas()) {
+                Respuesta r = new Respuesta();
+                r.setContenido(dtoResp.getContenido());
+                r.setEsCorrecta(dtoResp.isEsCorrecta());
+                r.setPregunta(guardada);
+                r.setIndice(dtoResp.getIndice() != null ? dtoResp.getIndice() : indice++);
+                repoRespuesta.save(r);
+            }
+        }
+    }
+
     /** CU-22/editarPregunta: alterna el estado habilitada ↔ inhabilitada */
     @Transactional
     public boolean toggleHabilitada(Long id) {
