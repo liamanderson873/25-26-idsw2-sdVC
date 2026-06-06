@@ -1,0 +1,49 @@
+@startuml
+title Arquitectura Física y Stack Tecnológico - Jorgestor
+
+skinparam componentStyle rectangle
+skinparam linetype ortho
+
+node "Navegador del Usuario" as ClientNode {
+    component "Frontend App\n(React + Vite)" as Frontend <<Web Interface>>
+    note right of Frontend
+        - TypeScript
+        - TanStack Query
+        - Axios
+        - CSS Modules
+    end note
+}
+
+node "Servidor de Aplicaciones (JVM 21)" as ServerNode {
+    
+    package "API REST (Spring Boot 3.2.5)" {
+        component "Controladores" as API <<Controller Layer>>
+        component "Servicios de Negocio" as Services <<Service Layer>>
+        component "Persistencia (JPA/Hibernate)" as DataLayer <<Repository Layer>>
+        
+        note bottom of Services
+            - Algoritmo de Generación
+            - Motor de Calificación
+            - Seguridad RBAC
+            - Hashing SHA-256
+        end note
+    }
+}
+
+node "Servidor de Datos" as DBNode {
+    database "PostgreSQL 17" as DB <<Database>>
+    note bottom of DB
+        - Esquema 3FN
+        - ACID Compliant
+        - Tabla 'Matriculas' (N:M)
+    end note
+}
+
+' Relaciones de Interacción y Protocolos
+Frontend -down-> API : HTTP / JSON (REST)
+API -down-> Services : Inyección de Dependencias
+Services -down-> DataLayer : Mapeo de Objetos
+DataLayer -down-> DB : SQL / JDBC
+
+center footer © 2026 Jorgestor - Ingeniería del Software II (IDSW2)
+@enduml

@@ -17,6 +17,9 @@ Antes de entrar en el detalle de cada caso de uso, se definen los pilares arquit
 ### [Arquitectura de Clases de Diseño (Backend)](diagramas-arquitectonicos/diagrama-clases-diseno.puml)
 ![Diagrama de Clases](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-clases-diseno.puml)
 
+### [Arquitectura Física y Stack Tecnológico](diagramas-arquitectonicos/diagrama-arquitectura-stack.puml)
+![Diagrama de Stack](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-arquitectura-stack.puml)
+
 ---
 
 ## 🎯 Catálogo Visual de Casos de Uso (Secuencias)
