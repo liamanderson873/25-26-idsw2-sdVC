@@ -1,37 +1,43 @@
-@startuml secuencia-cu13-crear-profesor
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+@startuml secuencia-cu13-crear-docente
+title Diagrama de Secuencia - Crear Docente
 
-actor Docente
-participant "ControladorProfesor" as Boundary <<Boundary>>
-participant "ServicioProfesor" as Control <<Control>>
-participant "RepositorioProfesor" as RepoProfesor <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorProfesor" as Controller
+participant "ServicioProfesor" as Service
+participant "RepositorioProfesor" as RepoProfesor
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : POST /api/profesores (DTO_Profesor)
-activate Boundary
+Actor -> FE : Introduce datos del nuevo docente
+activate FE
 
-Boundary -> Control : crearOActualizar(dto)
-activate Control
+FE -> Controller : POST /api/profesores (DTO_Profesor)
+activate Controller
 
-Control -> RepoProfesor : findByDni(dni)
+Controller -> Service : crearOActualizar(dto)
+activate Service
+
+Service -> RepoProfesor : findByDni(dni)
 activate RepoProfesor
 RepoProfesor -> DB : SELECT profesor
 DB --> RepoProfesor : null
-RepoProfesor --> Control : Optional.empty()
+RepoProfesor --> Service : Optional.empty()
 deactivate RepoProfesor
 
-Control -> RepoProfesor : save(nuevoProfesor)
+Service -> RepoProfesor : save(nuevoProfesor)
 activate RepoProfesor
 RepoProfesor -> DB : INSERT profesor
 DB --> RepoProfesor : ok
-RepoProfesor --> Control : profesor
+RepoProfesor --> Service : profesor
 deactivate RepoProfesor
 
-Control --> Boundary : void
-deactivate Control
+Service --> Controller : void
+deactivate Service
 
-Boundary --> Docente : 200 OK
-deactivate Boundary
+Controller --> FE : 200 OK
+deactivate Controller
+
+FE --> Actor : Muestra docente creado en tabla
+deactivate FE
 
 @enduml

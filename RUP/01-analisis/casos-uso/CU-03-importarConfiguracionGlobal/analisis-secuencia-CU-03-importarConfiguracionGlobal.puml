@@ -1,44 +1,46 @@
-@startuml CU-03-importarConfiguracionGlobal-diseno
+@startuml cu03-importarConfiguracionGlobal-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-03: Importar Configuración Global
 
-skinparam linetype polyline
+actor "Docente" as Actor
+participant ":GlobalConfigImportView" as Boundary <<boundary>>
+participant ":ImportController" as Control <<control>>
+participant ":GlobalConfig" as Entity <<entity>>
 
-actor "Administrador" as Actor
-participant ":ConfigController" as Controller <<boundary>>
-participant ":ImportService" as Service <<control>>
-participant "repo:AnyRepository" as Repo <<entity>>
+Actor -> Boundary : subirFichero(ficheroJSON)
+activate Boundary
 
-title Diseño Técnico: importarConfiguracionGlobal() (Estrategia UPSERT)
+Boundary -> Control : importarConfiguracion(datos)
+activate Control
 
-Actor -> Controller : POST /api/config/import (File/JSON)
-activate Controller
+Control -> Entity : validarEstructura(datos)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
 
-Controller -> Service : importGlobalConfig(data)
-activate Service
+Control -> Entity : importarAlumnos(listaAlumnos)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
 
-note right of Service
-**@Transactional**
-Asegura atomicidad (Rollback en caso de fallo)
-end note
+Control -> Entity : importarGrados(listaGrados)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
 
-loop por cada Grado, Asignatura, Alumno, Pregunta
-    Service -> Repo : findByNaturalKey(identifier)
-    activate Repo
-    Repo --> Service : existingEntity?
-    deactivate Repo
-    
-    alt existe
-        Service -> Service : updateExistingData(existing, newData)
-    else no existe
-        Service -> Service : createNewInstance(newData)
-    end
-    
-    Service -> Repo : save(entity)
-end
+Control -> Entity : importarAsignaturas(listaAsignaturas)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
 
-Service --> Controller : ImportSummary
-deactivate Service
+Control -> Entity : importarPreguntas(listaPreguntas)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
 
-Controller --> Actor : 201 Created (Summary)
-deactivate Controller
+Control --> Boundary : confirmacion
+deactivate Control
+
+Boundary --> Actor : mostrarConfirmacion()
+deactivate Boundary
 
 @enduml

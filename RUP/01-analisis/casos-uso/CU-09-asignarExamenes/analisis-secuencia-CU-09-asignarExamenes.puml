@@ -1,42 +1,36 @@
-@startuml CU-09-asignarExamenes-diseno
-
-skinparam linetype polyline
+@startuml cu09-asignarExamenes-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-09: Asignar Exámenes
 
 actor "Docente" as Actor
-participant ":AssignmentController" as Controller <<boundary>>
-participant ":AssignmentService" as Service <<control>>
-participant ":StudentRepository" as SRepo <<entity>>
-participant ":ExamRepository" as ERepo <<entity>>
-participant "exam:Exam" as Entity <<entity>>
+participant ":ExamAssignmentView" as Boundary <<boundary>>
+participant ":AssignmentController" as Control <<control>>
+participant ":Exam" as Entity <<entity>>
 
-title Diseño Técnico: asignarExamenes() (Generación de Hash)
+Actor -> Boundary : configurarAsignacion(examen, alumnos)
+activate Boundary
 
-Actor -> Controller : POST /api/assignments (AssignmentDTO)
-activate Controller
+Boundary -> Control : asignarExamenes(examenId, listaAlumnos)
+activate Control
 
-Controller -> Service : assignExamsToStudents(dto)
-activate Service
+Control -> Entity : obtenerExamen(examenId)
+activate Entity
+Entity --> Control : examen
+deactivate Entity
 
-loop por cada emparejamiento (ExamID, StudentID)
-    Service -> SRepo : findById(studentID)
-    Service -> ERepo : findById(examID)
-    
-    Service -> Service : generateCorrectionHash(examData, studentData)
-    note right
-    **Algoritmo de Hash (MD5/SHA)**
-    Combina: Asignatura + Alumno + Respuestas
-    end note
-    
-    Service -> Entity : assignStudent(student)
-    Service -> Entity : setCorrectionKey(generatedHash)
-    
-    Service -> ERepo : save(exam)
-end
+Control -> Entity : asignarAlumno(alumno)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
 
-Service --> Controller : List<AssignmentSummary>
-deactivate Service
+Control -> Entity : guardar(examen)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
 
-Controller --> Actor : 200 OK
-deactivate Controller
+Control --> Boundary : resumenAsignacion
+deactivate Control
+
+Boundary --> Actor : mostrarResumen(resumen)
+deactivate Boundary
 
 @enduml

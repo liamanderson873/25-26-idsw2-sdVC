@@ -1,0 +1,37 @@
+@startuml secuencia-cu41-exportar-grados
+title Diagrama de Secuencia - Exportar Grados
+
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorGrado" as Controller
+participant "ServicioGrado" as Service
+participant "RepositorioGrado" as RepoGrado
+database "Base de Datos\n(PostgreSQL)" as DB
+
+Actor -> FE : Pulsa "Exportar Grados"
+activate FE
+
+FE -> Controller : GET /api/grados
+activate Controller
+
+Controller -> Service : listarTodos()
+activate Service
+
+Service -> RepoGrado : findAll()
+activate RepoGrado
+RepoGrado -> DB : SELECT * FROM grados
+DB --> RepoGrado : lista_grados
+RepoGrado --> Service : List<Grado>
+deactivate RepoGrado
+
+Service --> Controller : List<DTO_Grado>
+deactivate Service
+
+Controller --> FE : 200 OK (JSON lista)
+deactivate Controller
+
+FE -> FE : Serializa JSON y genera descarga
+FE --> Actor : Descarga fichero JSON de grados
+deactivate FE
+
+@enduml

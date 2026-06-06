@@ -1,0 +1,39 @@
+@startuml cu15-editarDocente-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-15: Editar Docente
+
+actor "AdministradorInstitucional" as Actor
+participant ":DocenteEditView" as Boundary <<boundary>>
+participant ":DocenteController" as Control <<control>>
+participant ":Docente" as Entity <<entity>>
+
+Actor -> Boundary : seleccionarDocente(id)
+activate Boundary
+
+Boundary -> Control : obtenerDocente(id)
+activate Control
+
+Control -> Entity : buscar(id)
+activate Entity
+Entity --> Control : docente
+deactivate Entity
+
+Control --> Boundary : datosDocente
+deactivate Control
+
+Actor -> Boundary : modificarDatos(datos)
+
+Boundary -> Control : actualizarDocente(id, datos)
+activate Control
+
+Control -> Entity : actualizar(datos)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
+
+Control --> Boundary : confirmacion
+deactivate Control
+
+Boundary --> Actor : mostrarConfirmacion()
+deactivate Boundary
+
+@enduml

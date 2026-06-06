@@ -1,0 +1,37 @@
+@startuml secuencia-cu07-exportar-alumnos
+title Diagrama de Secuencia - Exportar Alumnos
+
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorAlumno" as Controller
+participant "ServicioAlumno" as Service
+participant "RepositorioAlumno" as RepoAlumno
+database "Base de Datos\n(PostgreSQL)" as DB
+
+Actor -> FE : Pulsa "Exportar Alumnos"
+activate FE
+
+FE -> Controller : GET /api/alumnos
+activate Controller
+
+Controller -> Service : listarTodos()
+activate Service
+
+Service -> RepoAlumno : findAll()
+activate RepoAlumno
+RepoAlumno -> DB : SELECT * FROM alumnos JOIN grados
+DB --> RepoAlumno : lista_alumnos
+RepoAlumno --> Service : List<Alumno>
+deactivate RepoAlumno
+
+Service --> Controller : List<DTO_Alumno>
+deactivate Service
+
+Controller --> FE : 200 OK (JSON lista)
+deactivate Controller
+
+FE -> FE : Serializa JSON y genera descarga
+FE --> Actor : Descarga fichero JSON de alumnos
+deactivate FE
+
+@enduml

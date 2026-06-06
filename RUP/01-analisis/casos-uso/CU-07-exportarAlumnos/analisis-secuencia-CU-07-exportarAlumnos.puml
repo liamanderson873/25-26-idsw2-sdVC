@@ -1,0 +1,26 @@
+@startuml cu07-exportarAlumnos-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-07: Exportar Alumnos
+
+actor "Docente" as Actor
+participant ":StudentExportView" as Boundary <<boundary>>
+participant ":ExportController" as Control <<control>>
+participant ":Student" as Entity <<entity>>
+
+Actor -> Boundary : solicitarExportacion()
+activate Boundary
+
+Boundary -> Control : exportarAlumnos()
+activate Control
+
+Control -> Entity : obtenerTodos()
+activate Entity
+Entity --> Control : listaAlumnos
+deactivate Entity
+
+Control --> Boundary : ficheroJSON
+deactivate Control
+
+Boundary --> Actor : descargarFichero(ficheroJSON)
+deactivate Boundary
+
+@enduml

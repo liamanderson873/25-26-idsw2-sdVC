@@ -79,6 +79,13 @@ public class ServicioAsignatura {
     }
 
     @Transactional
+    public void importarAsignaturas(List<DTO_Asignatura> lista) {
+        for (DTO_Asignatura dto : lista) {
+            crearOActualizar(dto);
+        }
+    }
+
+    @Transactional
     public void eliminar(Long id) {
         if (!repoAsignatura.existsById(id)) {
             throw new RuntimeException("Asignatura no encontrada con ID: " + id);

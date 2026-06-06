@@ -17,7 +17,7 @@ const AlumnosPage: React.FC = () => {
     gradoId: 0,
     asignaturaIds: []
   });
-  
+
   const queryClient = useQueryClient();
 
   const { data: alumnos = [], isLoading: loadingAlumnos } = useQuery({
@@ -79,10 +79,10 @@ const AlumnosPage: React.FC = () => {
     }
   };
 
-  const filteredAlumnos = (alumnos || []).filter(a => 
-    !searchTerm || 
-    a.nombre.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    a.apellidos.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  const filteredAlumnos = (alumnos || []).filter(a =>
+    !searchTerm ||
+    a.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    a.apellidos.toLowerCase().includes(searchTerm.toLowerCase()) ||
     a.dni.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -90,13 +90,11 @@ const AlumnosPage: React.FC = () => {
 
   return (
     <div className="page-container fade-in">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-        <div>
-          <h1>Gestión de Alumnos</h1>
-          <p className="subtitle">Administración del censo estudiantil y matriculación por curso.</p>
-        </div>
+      <div style={{ marginBottom: '1.5rem' }}>
+        <h1>Gestión de Alumnos</h1>
+        <p className="subtitle">Administración del censo estudiantil y matriculación por curso.</p>
       </div>
-      
+
       <section className="card" style={{ marginBottom: '2rem', border: editingId ? '1px solid var(--primary)' : '1px solid var(--border)' }}>
         <h3 style={{ fontSize: '0.9rem', marginBottom: '1.25rem' }}>{editingId ? 'Modificar Matrícula' : 'Registrar Nuevo Alumno'}</h3>
         <form onSubmit={handleSubmit}>
@@ -160,12 +158,12 @@ const AlumnosPage: React.FC = () => {
                   <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>No hay asignaturas registradas para este grado.</p>
                 ) : (
                   asignaturasDelGrado.map((asig: Asignatura) => (
-                    <div 
-                      key={asig.id} 
+                    <div
+                      key={asig.id}
                       onClick={() => toggleAsignatura(asig.id!)}
-                      style={{ 
-                        padding: '0.75rem', 
-                        borderRadius: '10px', 
+                      style={{
+                        padding: '0.75rem',
+                        borderRadius: '10px',
                         border: `1px solid ${form.asignaturaIds?.includes(asig.id!) ? 'var(--primary)' : 'var(--border)'}`,
                         background: 'white',
                         cursor: 'pointer',
@@ -190,8 +188,8 @@ const AlumnosPage: React.FC = () => {
                 Cancelar
               </button>
             )}
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               disabled={saveMutation.isPending}
               className="btn btn-primary"
               style={{ padding: '0.6rem 2.5rem' }}
@@ -203,9 +201,9 @@ const AlumnosPage: React.FC = () => {
       </section>
 
       <div style={{ marginBottom: '1.5rem', maxWidth: '400px' }}>
-        <input 
-          type="text" 
-          placeholder="Buscar estudiante..." 
+        <input
+          type="text"
+          placeholder="Buscar estudiante..."
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
         />
@@ -218,9 +216,10 @@ const AlumnosPage: React.FC = () => {
           { header: 'DNI', accessor: (al) => <code style={{ fontSize: '0.8rem' }}>{al.dni}</code> },
           { header: 'Apellidos y Nombre', accessor: (al) => <div style={{ fontWeight: '700' }}>{al.apellidos}, {al.nombre}</div> },
           { header: 'Curso', accessor: (al) => <span className="badge" style={{ background: '#f1f5f9', color: '#475569' }}>{al.curso}º Año</span> },
-          { 
-            header: 'Grado', 
+          {
+            header: 'Grado',
             accessor: (alumno) => {
+              if (alumno.codigoGrado) return alumno.codigoGrado;
               const grado = (grados || []).find(g => g.id === alumno.gradoId);
               return grado ? grado.nombre : '...';
             }

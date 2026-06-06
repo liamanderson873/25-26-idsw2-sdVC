@@ -1,59 +1,57 @@
 @startuml secuencia-cu01-corregir-examen
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+title Diagrama de Secuencia - Corregir Exámenes
 
 actor "Docente / IA" as Actor
-participant "ControladorExamen" as Boundary <<Boundary>>
-participant "ServicioExamen" as Control <<Control>>
-participant "RepositorioExamenAlumno" as RepoExAl <<Entity>>
-participant "RepositorioExamenAlumnoMarca" as RepoMarcas <<Entity>>
-database "PostgreSQL" as DB
+participant "Frontend\n(React)" as FE
+participant "ControladorExamen" as Controller
+participant "ServicioExamen" as Service
+participant "RepositorioExamenAlumno" as RepoExAl
+participant "RepositorioExamenAlumnoMarca" as RepoMarcas
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Actor -> Boundary : POST /api/examenes/corregir (DTO_ProcesarCorreccion)
-activate Boundary
-note right: El DTO contiene la clave SHA-256\ny el mapa de marcas (ID Pregunta -> Índice).
+Actor -> FE : Inicia corrección masiva
+activate FE
 
-Boundary -> Control : corregirExamen(dto)
-activate Control
+FE -> Controller : POST /api/examenes/{id}/corregir
+activate Controller
 
-Control -> RepoExAl : findByClaveCorreccion(claveSHA256)
+Controller -> Service : corregirMasivo(examenId)
+activate Service
+
+Service -> RepoExAl : findByExamenId(examenId)
 activate RepoExAl
-RepoExAl -> DB : SELECT ejemplar + examen + preguntas
-DB --> RepoExAl : ejemplar_data
-RepoExAl --> Control : ejemplar
+RepoExAl -> DB : SELECT ejemplares + alumno + examen
+DB --> RepoExAl : lista_ejemplares
+RepoExAl --> Service : List<ExamenAlumno>
 deactivate RepoExAl
 
-Control -> RepoMarcas : deleteByExamenAlumnoId(ejemplarId)
+Service -> RepoMarcas : findAllByExamenAlumnoIdIn(candidatoIds)
 activate RepoMarcas
-RepoMarcas -> DB : DELETE FROM marcas_examen_alumno
-DB --> RepoMarcas : ok
+RepoMarcas -> DB : SELECT marcas + pregunta + respuesta
+DB --> RepoMarcas : lista_marcas
+RepoMarcas --> Service : List<ExamenAlumnoMarca>
 deactivate RepoMarcas
 
-loop por cada marca en el DTO
-    Control -> Control : buscarRespuestaLógica(preguntaId, indiceMarcado)
-    
-    Control -> RepoMarcas : save(examenAlumnoMarca)
-    activate RepoMarcas
-    RepoMarcas -> DB : INSERT en marcas_examen_alumno\n(ID Pregunta, ID Respuesta, Índice)
-    DB --> RepoMarcas : ok
-    RepoMarcas --> Control : ok
-    deactivate RepoMarcas
-    
-    Control -> Control : calcularNota(aciertos, fallos)
-    note right: Fórmula: Aciertos - (Fallos / 3)
-end
+Service -> Service : agruparMarcasPorEjemplar()
+note right: Collectors.groupingBy(ejemplarId)
 
-Control -> RepoExAl : save(ejemplarActualizado)
+Service -> Service : calcularNota(aciertos, fallos)
+note right: Fórmula: Aciertos - (Fallos / 3)
+
+Service -> RepoExAl : saveAll(ejemplaresActualizados)
 activate RepoExAl
 RepoExAl -> DB : UPDATE nota_final, estado='CORREGIDO'
 DB --> RepoExAl : ok
-RepoExAl --> Control : ok
+RepoExAl --> Service : ok
 deactivate RepoExAl
 
-Control --> Boundary : void
-deactivate Control
+Service --> Controller : void
+deactivate Service
 
-Boundary --> Actor : 200 OK (Calificación procesada)
-deactivate Boundary
+Controller --> FE : 200 OK (Corrección procesada)
+deactivate Controller
+
+FE --> Actor : Muestra resultados actualizados
+deactivate FE
 
 @enduml

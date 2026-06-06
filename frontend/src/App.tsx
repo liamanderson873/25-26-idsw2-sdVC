@@ -10,28 +10,34 @@ import GenerarExamenPage from './pages/GenerarExamenPage';
 import AsignarExamenPage from './pages/AsignarExamenPage';
 import CorregirExamenPage from './pages/CorregirExamenPage';
 import AuditoriaExamenesPage from './pages/AuditoriaExamenesPage';
+import ImportarExportarPage from './pages/ImportarExportarPage';
+import DashboardPage from './pages/DashboardPage';
 
 function App() {
-  const user = localStorage.getItem('user');
+  const userStr = localStorage.getItem('user');
+  const user = userStr ? JSON.parse(userStr) : null;
+  const isAdmin = user?.rol === 'ADMINISTRADOR_INSTITUCIONAL';
 
   return (
     <Routes>
-      <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" replace />} />
-      
+      <Route path="/login" element={!user ? <LoginPage /> : <Navigate to={isAdmin ? '/docentes' : '/'} replace />} />
+
       <Route path="/" element={user ? <Layout /> : <Navigate to="/login" replace />}>
-        <Route index element={<Navigate to="/generar-examen" replace />} />
-        
-        {/* Core */}
-        <Route path="generar-examen" element={<GenerarExamenPage />} />
-        <Route path="asignar-examen" element={<AsignarExamenPage />} />
-        <Route path="corregir-examen" element={<CorregirExamenPage />} />
-        <Route path="auditoria-examenes" element={<AuditoriaExamenesPage />} />
-        
-        {/* Administración */}
-        <Route path="grados" element={<GradosPage />} />
-        <Route path="asignaturas" element={<AsignaturasPage />} />
-        <Route path="preguntas" element={<PreguntasPage />} />
-        <Route path="alumnos" element={<AlumnosPage />} />
+        <Route index element={<Navigate to={isAdmin ? '/docentes' : '/dashboard'} replace />} />
+
+        {/* Rutas exclusivas de DOCENTE */}
+        <Route path="dashboard" element={!isAdmin ? <DashboardPage /> : <Navigate to="/docentes" replace />} />
+        <Route path="generar-examen" element={!isAdmin ? <GenerarExamenPage /> : <Navigate to="/docentes" replace />} />
+        <Route path="asignar-examen" element={!isAdmin ? <AsignarExamenPage /> : <Navigate to="/docentes" replace />} />
+        <Route path="corregir-examen" element={!isAdmin ? <CorregirExamenPage /> : <Navigate to="/docentes" replace />} />
+        <Route path="auditoria-examenes" element={!isAdmin ? <AuditoriaExamenesPage /> : <Navigate to="/docentes" replace />} />
+        <Route path="grados" element={!isAdmin ? <GradosPage /> : <Navigate to="/docentes" replace />} />
+        <Route path="asignaturas" element={!isAdmin ? <AsignaturasPage /> : <Navigate to="/docentes" replace />} />
+        <Route path="preguntas" element={!isAdmin ? <PreguntasPage /> : <Navigate to="/docentes" replace />} />
+        <Route path="alumnos" element={!isAdmin ? <AlumnosPage /> : <Navigate to="/docentes" replace />} />
+        <Route path="importar-exportar" element={!isAdmin ? <ImportarExportarPage /> : <Navigate to="/docentes" replace />} />
+
+        {/* Ruta exclusiva de ADMINISTRADOR_INSTITUCIONAL */}
         <Route path="docentes" element={<ProfesoresPage />} />
       </Route>
     </Routes>

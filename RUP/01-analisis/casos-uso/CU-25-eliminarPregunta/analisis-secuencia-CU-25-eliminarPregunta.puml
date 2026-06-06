@@ -1,0 +1,39 @@
+@startuml cu25-eliminarPregunta-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-25: Eliminar Pregunta
+
+actor "Docente" as Actor
+participant ":QuestionDeleteView" as Boundary <<boundary>>
+participant ":QuestionController" as Control <<control>>
+participant ":Question" as Entity <<entity>>
+
+Actor -> Boundary : seleccionarPregunta(id)
+activate Boundary
+
+Boundary -> Control : obtenerPregunta(id)
+activate Control
+
+Control -> Entity : buscar(id)
+activate Entity
+Entity --> Control : pregunta
+deactivate Entity
+
+Control --> Boundary : datosPregunta
+deactivate Control
+
+Actor -> Boundary : confirmarEliminacion()
+
+Boundary -> Control : eliminarPregunta(id)
+activate Control
+
+Control -> Entity : delete(id)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
+
+Control --> Boundary : confirmacion
+deactivate Control
+
+Boundary --> Actor : mostrarConfirmacion()
+deactivate Boundary
+
+@enduml

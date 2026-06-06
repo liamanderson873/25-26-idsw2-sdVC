@@ -1,30 +1,36 @@
 @startuml secuencia-cu25-eliminar-pregunta
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+title Diagrama de Secuencia - Eliminar Pregunta
 
-actor Docente
-participant "ControladorPregunta" as Boundary <<Boundary>>
-participant "ServicioPregunta" as Control <<Control>>
-participant "RepositorioPregunta" as RepoPregunta <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorPregunta" as Controller
+participant "ServicioPregunta" as Service
+participant "RepositorioPregunta" as RepoPreg
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : DELETE /api/preguntas/{id}
-activate Boundary
+Actor -> FE : Pulsa "Eliminar" en la pregunta
+activate FE
 
-Boundary -> Control : eliminar(id)
-activate Control
+FE -> Controller : DELETE /api/preguntas/{id}
+activate Controller
 
-Control -> RepoPregunta : deleteById(id)
-activate RepoPregunta
-RepoPregunta -> DB : DELETE FROM preguntas WHERE id = ?
-DB --> RepoPregunta : ok
-RepoPregunta --> Control : ok
-deactivate RepoPregunta
+Controller -> Service : eliminar(id)
+activate Service
 
-Control --> Boundary : void
-deactivate Control
+Service -> RepoPreg : deleteById(id)
+activate RepoPreg
+RepoPreg -> DB : DELETE FROM preguntas WHERE id = ?
+DB --> RepoPreg : ok
+RepoPreg --> Service : ok
+deactivate RepoPreg
 
-Boundary --> Docente : 200 OK
-deactivate Boundary
+Service --> Controller : void
+deactivate Service
+
+Controller --> FE : 200 OK
+deactivate Controller
+
+FE --> Actor : Elimina la fila de la tabla
+deactivate FE
 
 @enduml

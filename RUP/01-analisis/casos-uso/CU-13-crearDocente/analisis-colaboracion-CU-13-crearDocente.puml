@@ -3,16 +3,16 @@ skinparam linetype polyline
 
 actor AdministradorInstitucional
 package crearDocente as "crearDocente()" {
-    rectangle #629EF9 DocentCreationView
-    rectangle #b5bd68 DocentController
-    rectangle #F2AC4E Docent
+    rectangle #629EF9 DocenteCreationView
+    rectangle #b5bd68 DocenteController
+    rectangle #F2AC4E Docente
 }
 
-AdministradorInstitucional -r-> DocentCreationView: solicitarCreacion()
-AdministradorInstitucional --> DocentCreationView: proporcionarDatos(dni, nombre, apellidos, usuario, email, password)
-DocentCreationView -d-> DocentController: crearDocente(datos)
-DocentController --> Docent: validarNoDuplicado(dni, usuario)
-DocentController --> Docent: inicializar(datos)
-DocentController --> DocentCreationView: notificarExitoYRedirigir()
+AdministradorInstitucional -r-> DocenteCreationView: solicitarCreacion()
+AdministradorInstitucional --> DocenteCreationView: proporcionarDatos(dni, nombre, apellidos, usuario, email, password)
+DocenteCreationView -d-> DocenteController: crearDocente(datos)
+DocenteController --> Docente: validarNoDuplicado(dni, usuario)
+DocenteController --> Docente: inicializar(datos)
+DocenteController --> DocenteCreationView: notificarExitoYRedirigir()
 
 @enduml

@@ -1,0 +1,41 @@
+@startuml cu04-exportarConfiguracionGlobal-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-04: Exportar Configuración Global
+
+actor "Docente" as Actor
+participant ":GlobalConfigExportView" as Boundary <<boundary>>
+participant ":ExportController" as Control <<control>>
+participant ":GlobalConfig" as Entity <<entity>>
+
+Actor -> Boundary : solicitarExportacion()
+activate Boundary
+
+Boundary -> Control : exportarConfiguracion()
+activate Control
+
+Control -> Entity : obtenerAlumnos()
+activate Entity
+Entity --> Control : listaAlumnos
+deactivate Entity
+
+Control -> Entity : obtenerGrados()
+activate Entity
+Entity --> Control : listaGrados
+deactivate Entity
+
+Control -> Entity : obtenerAsignaturas()
+activate Entity
+Entity --> Control : listaAsignaturas
+deactivate Entity
+
+Control -> Entity : obtenerPreguntas()
+activate Entity
+Entity --> Control : listaPreguntas
+deactivate Entity
+
+Control --> Boundary : ficheroJSON
+deactivate Control
+
+Boundary --> Actor : descargarFichero(ficheroJSON)
+deactivate Boundary
+
+@enduml

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "examenes")
@@ -38,5 +39,5 @@ public class Examen {
         joinColumns = @JoinColumn(name = "examen_id"),
         inverseJoinColumns = @JoinColumn(name = "pregunta_id")
     )
-    private List<Pregunta> preguntas;
+    private Set<Pregunta> preguntas;
 }

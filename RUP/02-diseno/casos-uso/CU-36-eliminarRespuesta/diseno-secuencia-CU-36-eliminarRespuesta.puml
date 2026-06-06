@@ -1,0 +1,53 @@
+@startuml secuencia-cu36-eliminar-respuesta
+title Diagrama de Secuencia - Eliminar Respuesta
+
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorPregunta" as Controller
+participant "ServicioPregunta" as Service
+participant "RepositorioPregunta" as RepoPreg
+participant "RepositorioRespuesta" as RepoResp
+database "Base de Datos\n(PostgreSQL)" as DB
+
+Actor -> FE : Elimina una respuesta de la pregunta
+activate FE
+
+FE -> Controller : POST /api/preguntas (DTO_Pregunta sin la respuesta eliminada)
+activate Controller
+
+Controller -> Service : guardarIndividual(dto)
+activate Service
+
+Service -> RepoPreg : findById(preguntaId)
+activate RepoPreg
+RepoPreg -> DB : SELECT pregunta
+DB --> RepoPreg : pregunta
+RepoPreg --> Service : Optional<Pregunta>
+deactivate RepoPreg
+
+Service -> RepoResp : deleteByPregunta(pregunta)
+activate RepoResp
+RepoResp -> DB : DELETE FROM respuestas WHERE pregunta_id = ?
+DB --> RepoResp : ok
+RepoResp --> Service : ok
+deactivate RepoResp
+
+loop por cada respuesta restante
+    Service -> RepoResp : save(respuesta)
+    activate RepoResp
+    RepoResp -> DB : INSERT respuesta
+    DB --> RepoResp : ok
+    RepoResp --> Service : ok
+    deactivate RepoResp
+end
+
+Service --> Controller : void
+deactivate Service
+
+Controller --> FE : 200 OK
+deactivate Controller
+
+FE --> Actor : Muestra pregunta sin la respuesta eliminada
+deactivate FE
+
+@enduml

@@ -1,10 +1,17 @@
-@startuml
+@startuml exportarAsignaturas-analisis
 skinparam linetype polyline
 
-class "SubjectExportView" <<boundary>>
-class "SubjectExportController" <<control>>
-class "Subject" <<entity>>
+actor Docente
+package exportarAsignaturas as "exportarAsignaturas()" {
+    rectangle #629EF9 SubjectExportView
+    rectangle #b5bd68 SubjectExportController
+    rectangle #F2AC4E Subject
+}
 
-SubjectExportView -> SubjectExportController : procesarExportacion()
-SubjectExportController -> Subject : obtenerDatosAsignaturas()
+Docente -r-> SubjectExportView: solicitarExportacion()
+SubjectExportView -d-> SubjectExportController: procesarExportacion()
+SubjectExportController --> Subject: obtenerDatosAsignaturas()
+SubjectExportController --> SubjectExportView: devolverFichero()
+SubjectExportView --> Docente: descargarFichero()
+
 @enduml

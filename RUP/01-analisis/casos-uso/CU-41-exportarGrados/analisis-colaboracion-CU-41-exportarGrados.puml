@@ -1,10 +1,17 @@
-@startuml
+@startuml exportarGrados-analisis
 skinparam linetype polyline
 
-class "GradeExportView" <<boundary>>
-class "GradeExportController" <<control>>
-class "Grade" <<entity>>
+actor Docente
+package exportarGrados as "exportarGrados()" {
+    rectangle #629EF9 GradeExportView
+    rectangle #b5bd68 GradeExportController
+    rectangle #F2AC4E Grade
+}
 
-GradeExportView -> GradeExportController : procesarExportacion()
-GradeExportController -> Grade : obtenerDatosGrados()
+Docente -r-> GradeExportView: solicitarExportacion()
+GradeExportView -d-> GradeExportController: procesarExportacion()
+GradeExportController --> Grade: obtenerDatosGrados()
+GradeExportController --> GradeExportView: devolverFichero()
+GradeExportView --> Docente: descargarFichero()
+
 @enduml

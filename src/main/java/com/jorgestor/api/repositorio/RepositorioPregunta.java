@@ -8,6 +8,8 @@ import java.util.List;
 @Repository
 public interface RepositorioPregunta extends JpaRepository<Pregunta, Long> {
 
-    // Buscar todas las preguntas que pertenezcan a cualquiera de los temas de la lista
     List<Pregunta> findByTemaIdIn(List<Long> temaIds);
+
+    /** Solo preguntas habilitadas — usada por generarExamen para no incluir inhabilitadas */
+    List<Pregunta> findByTemaIdInAndHabilitadaTrue(List<Long> temaIds);
 }

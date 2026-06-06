@@ -70,53 +70,61 @@ public class ServicioExamen {
 
     @Transactional
     public void simularEntregaMasiva(Long examenId) {
-        Examen examen = repoExamen.findById(examenId)
+        // 1 query: examen + preguntas + respuestas (JOIN FETCH)
+        Examen examen = repoExamen.findByIdConPreguntasYRespuestas(examenId)
                 .orElseThrow(() -> new RuntimeException("Examen no encontrado"));
 
+        // 1 query: todos los ejemplares + alumno + examen (JOIN FETCH)
         List<ExamenAlumno> ejemplares = repoExamenAlumno.findByExamenId(examenId);
-        List<Pregunta> preguntas = examen.getPreguntas();
+        List<Pregunta> preguntas = new ArrayList<>(examen.getPreguntas());
 
-        for (ExamenAlumno ej : ejemplares) {
-            if (ej.getEstado() == EstadoExamen.ASIGNADO || ej.getEstado() == EstadoExamen.PENDIENTE) {
-                // Limpiar marcas previas
-                repoMarcas.deleteByExamenAlumnoId(ej.getId());
+        List<ExamenAlumno> candidatos = ejemplares.stream()
+                .filter(ej -> ej.getEstado() == EstadoExamen.ASIGNADO || ej.getEstado() == EstadoExamen.PENDIENTE)
+                .collect(Collectors.toList());
 
-                // Asignamos un "nivel de preparación" aleatorio al alumno para este examen (entre 30% y 95%)
-                // Esto hará que cada alumno tenga una nota media distinta
-                double nivelPreparacion = 0.3 + (Math.random() * 0.65);
+        if (candidatos.isEmpty()) return;
 
-                for (Pregunta p : preguntas) {
-                    // Buscamos la respuesta correcta real
-                    Respuesta correcta = p.getRespuestas().stream()
-                            .filter(Respuesta::isEsCorrecta)
-                            .findFirst()
-                            .orElse(p.getRespuestas().get(0));
+        // 1 DELETE masivo en lugar de N deletes individuales
+        List<Long> candidatoIds = candidatos.stream().map(ExamenAlumno::getId).collect(Collectors.toList());
+        repoMarcas.deleteAllByExamenAlumnoIdIn(candidatoIds);
+        repoMarcas.flush();
 
-                    int indiceElegido;
-                    // El alumno acierta según su nivel de preparación individual
-                    if (Math.random() < nivelPreparacion) {
-                        indiceElegido = correcta.getIndice();
-                    } else {
-                        // Si falla, elige una al azar entre las 4
-                        indiceElegido = (int) (Math.random() * 4);
-                    }
+        List<ExamenAlumno> ejemplaresActualizados = new ArrayList<>();
+        List<ExamenAlumnoMarca> todasLasMarcas    = new ArrayList<>();
 
-                    Respuesta respElegida = p.getRespuestas().stream()
-                            .filter(r -> r.getIndice().equals(indiceElegido))
-                            .findFirst()
-                            .orElse(correcta);
+        for (ExamenAlumno ej : candidatos) {
+            double nivelPreparacion = 0.3 + (Math.random() * 0.65);
 
-                    ExamenAlumnoMarca marca = new ExamenAlumnoMarca();
-                    marca.setExamenAlumno(ej);
-                    marca.setPregunta(p);
-                    marca.setRespuesta(respElegida);
-                    marca.setIndiceMarcado(indiceElegido);
-                    repoMarcas.save(marca);
-                }
-                ej.setEstado(EstadoExamen.PENDIENTE_CALIFICACION);
-                repoExamenAlumno.save(ej);
+            for (Pregunta p : preguntas) {
+                Respuesta correcta = p.getRespuestas().stream()
+                        .filter(Respuesta::isEsCorrecta)
+                        .findFirst()
+                        .orElse(p.getRespuestas().get(0));
+
+                int indiceElegido = (Math.random() < nivelPreparacion)
+                        ? correcta.getIndice()
+                        : (int) (Math.random() * 4);
+
+                Respuesta respElegida = p.getRespuestas().stream()
+                        .filter(r -> r.getIndice().equals(indiceElegido))
+                        .findFirst()
+                        .orElse(correcta);
+
+                ExamenAlumnoMarca marca = new ExamenAlumnoMarca();
+                marca.setExamenAlumno(ej);
+                marca.setPregunta(p);
+                marca.setRespuesta(respElegida);
+                marca.setIndiceMarcado(indiceElegido);
+                todasLasMarcas.add(marca);
             }
+
+            ej.setEstado(EstadoExamen.PENDIENTE_CALIFICACION);
+            ejemplaresActualizados.add(ej);
         }
+
+        // 1 batch INSERT + 1 batch UPDATE
+        repoMarcas.saveAll(todasLasMarcas);
+        repoExamenAlumno.saveAll(ejemplaresActualizados);
     }
 
     /**
@@ -125,38 +133,50 @@ public class ServicioExamen {
      */
     @Transactional
     public void corregirMasivo(Long examenId) {
+        // 1 query JOIN FETCH para todos los ejemplares
         List<ExamenAlumno> ejemplares = repoExamenAlumno.findByExamenId(examenId);
 
-        for (ExamenAlumno ej : ejemplares) {
-            // Solo corregimos los que están entregados pero no corregidos
-            if (ej.getEstado() == EstadoExamen.PENDIENTE_CALIFICACION || ej.getEstado() == EstadoExamen.REALIZADO || ej.getEstado() == EstadoExamen.ENTREGADO) {
-                
-                List<ExamenAlumnoMarca> marcasAlumno = repoMarcas.findByExamenAlumnoId(ej.getId());
+        List<ExamenAlumno> candidatos = ejemplares.stream()
+                .filter(ej -> ej.getEstado() == EstadoExamen.PENDIENTE_CALIFICACION
+                           || ej.getEstado() == EstadoExamen.REALIZADO
+                           || ej.getEstado() == EstadoExamen.ENTREGADO)
+                .collect(Collectors.toList());
 
-                if (marcasAlumno.isEmpty()) continue;
+        if (candidatos.isEmpty()) return;
 
-                double aciertos = 0;
-                double fallos = 0;
+        // 1 query para TODAS las marcas de todos los candidatos a la vez
+        List<Long> candidatoIds = candidatos.stream().map(ExamenAlumno::getId).collect(Collectors.toList());
+        List<ExamenAlumnoMarca> todasLasMarcas = repoMarcas.findAllByExamenAlumnoIdIn(candidatoIds);
 
-                for (ExamenAlumnoMarca marca : marcasAlumno) {
-                    if (marca.getRespuesta() != null && marca.getRespuesta().isEsCorrecta()) {
-                        aciertos++;
-                    } else if (marca.getRespuesta() != null) {
-                        fallos++;
-                    }
-                }
+        // Agrupamos las marcas por ejemplarId en memoria para evitar más queries
+        Map<Long, List<ExamenAlumnoMarca>> marcasPorEjemplar = todasLasMarcas.stream()
+                .collect(Collectors.groupingBy(m -> m.getExamenAlumno().getId()));
 
-                double totalPreguntas = ej.getExamen().getPreguntas().size();
-                if (totalPreguntas == 0) continue;
-                
-                double penalizacion = fallos / 3.0;
-                double notaCalculada = ((aciertos - penalizacion) / totalPreguntas) * 10.0;
-                
-                ej.setNotaFinal(Math.max(0, Math.round(notaCalculada * 100.0) / 100.0));
-                ej.setEstado(EstadoExamen.CORREGIDO);
-                repoExamenAlumno.save(ej);
+        // Carga total de preguntas del examen en 1 query (ya en caché de la sesión)
+        Examen examen = repoExamen.findById(examenId).orElseThrow();
+        double totalPreguntas = examen.getPreguntas().size();
+
+        List<ExamenAlumno> actualizados = new ArrayList<>();
+
+        for (ExamenAlumno ej : candidatos) {
+            List<ExamenAlumnoMarca> marcasAlumno = marcasPorEjemplar.getOrDefault(ej.getId(), Collections.emptyList());
+            if (marcasAlumno.isEmpty()) continue;
+
+            double aciertos = 0, fallos = 0;
+            for (ExamenAlumnoMarca marca : marcasAlumno) {
+                if (marca.getRespuesta() != null && marca.getRespuesta().isEsCorrecta()) aciertos++;
+                else if (marca.getRespuesta() != null) fallos++;
             }
+
+            if (totalPreguntas == 0) continue;
+            double notaCalculada = ((aciertos - (fallos / 3.0)) / totalPreguntas) * 10.0;
+            ej.setNotaFinal(Math.max(0, Math.round(notaCalculada * 100.0) / 100.0));
+            ej.setEstado(EstadoExamen.CORREGIDO);
+            actualizados.add(ej);
         }
+
+        // 1 batch UPDATE en lugar de N saves individuales
+        repoExamenAlumno.saveAll(actualizados);
     }
 
     /**
@@ -269,8 +289,8 @@ public class ServicioExamen {
         Asignatura asignatura = repoAsignatura.findById(dto.getAsignaturaId())
                 .orElseThrow(() -> new RuntimeException("Asignatura no encontrada"));
 
-        // 2. Cargamos batería de preguntas de los temas seleccionados
-        List<Pregunta> poolPreguntas = repoPregunta.findByTemaIdIn(dto.getTemaIds());
+        // 2. Cargamos batería de preguntas habilitadas de los temas seleccionados
+        List<Pregunta> poolPreguntas = repoPregunta.findByTemaIdInAndHabilitadaTrue(dto.getTemaIds());
 
         // 3. Agrupamos por dificultad (Los "Sacos")
         Map<Dificultad, List<Pregunta>> sacos = poolPreguntas.stream()
@@ -301,7 +321,7 @@ public class ServicioExamen {
         examen.setFechaExamen(LocalDate.now());
         examen.setTipoEvaluacion(dto.getTipoEvaluacion());
         examen.setEsPersonalizado(dto.isEsPersonalizado());
-        examen.setPreguntas(seleccionFinal);
+        examen.setPreguntas(new java.util.HashSet<>(seleccionFinal));
 
         return repoExamen.save(examen);
     }
@@ -359,6 +379,21 @@ public class ServicioExamen {
         dto.setMarcas(mapaMarcas);
 
         return dto;
+    }
+
+    /**
+     * CU-33: cancelarGeneracion — elimina un examen sólo si aún no ha sido asignado a ningún alumno.
+     */
+    @Transactional
+    public void cancelarGeneracion(Long examenId) {
+        if (!repoExamen.existsById(examenId)) {
+            throw new RuntimeException("Examen no encontrado con ID: " + examenId);
+        }
+        List<ExamenAlumno> ejemplares = repoExamenAlumno.findByExamenId(examenId);
+        if (!ejemplares.isEmpty()) {
+            throw new RuntimeException("No se puede cancelar: el examen ya ha sido asignado a " + ejemplares.size() + " alumno(s).");
+        }
+        repoExamen.deleteById(examenId);
     }
 
     /**

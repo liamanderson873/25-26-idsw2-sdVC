@@ -3,17 +3,17 @@ skinparam linetype polyline
 
 actor AdministradorInstitucional
 package verDocentes as "verDocentes()" {
-    rectangle #629EF9 TeacherListView
-    rectangle #b5bd68 TeacherController
-    rectangle #F2AC4E Teacher
+    rectangle #629EF9 DocenteListView
+    rectangle #b5bd68 DocenteController
+    rectangle #F2AC4E Docente
 }
 
-AdministradorInstitucional -r-> TeacherListView: solicitarVerDocentes()
-TeacherListView -d-> TeacherController: obtenerDocentes()
-TeacherController --> Teacher: consultarTodos()
+AdministradorInstitucional -r-> DocenteListView: solicitarVerDocentes()
+DocenteListView -d-> DocenteController: obtenerDocentes()
+DocenteController --> Docente: consultarTodos()
 
-AdministradorInstitucional --> TeacherListView: aplicarFiltro(criterios)
-TeacherListView --> TeacherController: filtrar(criterios)
-TeacherController --> Teacher: consultar(criterios)
+AdministradorInstitucional --> DocenteListView: aplicarFiltro(criterios)
+DocenteListView --> DocenteController: filtrar(criterios)
+DocenteController --> Docente: consultar(criterios)
 
 @enduml

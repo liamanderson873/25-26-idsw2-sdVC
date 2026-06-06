@@ -1,41 +1,49 @@
 @startuml secuencia-cu26-eliminar-asignatura
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+title Diagrama de Secuencia - Eliminar Asignatura
 
-actor Docente
-participant "ControladorAsignatura" as Boundary <<Boundary>>
-participant "ServicioAsignatura" as Control <<Control>>
-participant "RepositorioAsignatura" as RepoAsig <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorAsignatura" as Controller
+participant "ServicioAsignatura" as Service
+participant "RepositorioAsignatura" as RepoAsig
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : DELETE /api/asignaturas/{id}
-activate Boundary
+Actor -> FE : Pulsa "Eliminar" en la asignatura
+activate FE
 
-Boundary -> Control : eliminar(id)
-activate Control
+FE -> Controller : DELETE /api/asignaturas/{id}
+activate Controller
 
-Control -> RepoAsig : existsById(id)
+Controller -> Service : eliminar(id)
+activate Service
+
+Service -> RepoAsig : existsById(id)
 activate RepoAsig
 RepoAsig -> DB : SELECT EXISTS
 DB --> RepoAsig : true/false
-RepoAsig --> Control : boolean
+RepoAsig --> Service : boolean
 deactivate RepoAsig
 
 alt Asignatura existe
-    Control -> RepoAsig : deleteById(id)
+    Service -> RepoAsig : deleteById(id)
     activate RepoAsig
     RepoAsig -> DB : DELETE FROM asignaturas
     DB --> RepoAsig : ok
-    RepoAsig --> Control : ok
+    RepoAsig --> Service : ok
     deactivate RepoAsig
-    Control --> Boundary : void
-    Boundary --> Docente : 200 OK
-else Asignatura no existe
-    Control --> Boundary : throw RuntimeException
-    Boundary --> Docente : 400 Bad Request
-end
 
-deactivate Control
-deactivate Boundary
+    Service --> Controller : void
+    deactivate Service
+
+    Controller --> FE : 200 OK
+    deactivate Controller
+
+    FE --> Actor : Elimina la fila de la tabla
+    deactivate FE
+else Asignatura no existe
+    Service --> Controller : throw RuntimeException
+    Controller --> FE : 400 Bad Request
+    FE --> Actor : Muestra error
+end
 
 @enduml

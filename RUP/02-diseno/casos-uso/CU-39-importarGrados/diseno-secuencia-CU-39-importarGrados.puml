@@ -1,0 +1,45 @@
+@startuml secuencia-cu39-importar-grados
+title Diagrama de Secuencia - Importar Grados
+
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorGrado" as Controller
+participant "ServicioGrado" as Service
+participant "RepositorioGrado" as RepoGrado
+database "Base de Datos\n(PostgreSQL)" as DB
+
+Actor -> FE : Sube fichero JSON de grados
+activate FE
+
+FE -> Controller : POST /api/grados/importar (List<DTO_Grado>)
+activate Controller
+
+Controller -> Service : importar(listaDto)
+activate Service
+
+loop por cada DTO_Grado
+    Service -> RepoGrado : findByCodigo(codigo)
+    activate RepoGrado
+    RepoGrado -> DB : SELECT grado
+    DB --> RepoGrado : resultado
+    RepoGrado --> Service : Optional<Grado>
+    deactivate RepoGrado
+
+    Service -> RepoGrado : save(grado)
+    activate RepoGrado
+    RepoGrado -> DB : INSERT/UPDATE grado
+    DB --> RepoGrado : ok
+    RepoGrado --> Service : grado
+    deactivate RepoGrado
+end
+
+Service --> Controller : void
+deactivate Service
+
+Controller --> FE : 200 OK (Procesado correctamente)
+deactivate Controller
+
+FE --> Actor : Muestra confirmación de importación
+deactivate FE
+
+@enduml

@@ -1,52 +1,36 @@
-@startuml CU-01-corregirExamenes-diseno
-
-skinparam linetype polyline
-skinparam backgroundColor white
+@startuml cu01-corregirExamenes-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-01: Corregir Exámenes
 
 actor "Docente" as Actor
-participant ":CorrectionController" as Controller <<boundary>>
-participant ":CorrectionService" as Service <<control>>
-participant "engine:ICorrectionEngine" as Engine <<interface>>
-participant ":ExamRepository" as Repo <<entity>>
-participant "exam:Exam" as Entity <<entity>>
+participant ":CorrectionView" as Boundary <<boundary>>
+participant ":CorrectionController" as Control <<control>>
+participant ":Exam" as Entity <<entity>>
 
-title Diseño Técnico: corregirExamenes() (Delegación IA)
+Actor -> Boundary : solicitarCorreccion(datos)
+activate Boundary
 
-Actor -> Controller : POST /api/exams/correct (batch_data)
-activate Controller
+Boundary -> Control : procesarCorreccion(datos)
+activate Control
 
-Controller -> Service : correctBatch(batch_data)
-activate Service
+Control -> Entity : obtenerExamen(id)
+activate Entity
+Entity --> Control : exam
+deactivate Entity
 
-note over Service
-**Simulación de Delegación**
-El servicio depende de una abstracción
-para la detección de imágenes.
-end note
+Control -> Entity : calcularPuntuacion(respuestas)
+activate Entity
+Entity --> Control : puntuacion
+deactivate Entity
 
-Service -> Engine : processImages(batch_data)
-activate Engine
-return detected_results (List<DetectionDTO>)
+Control -> Entity : actualizarEstado(CORRECTED, puntuacion)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
 
-loop por cada resultado detectado
-    Service -> Repo : findByCorrectionKey(dto.key)
-    activate Repo
-    Repo --> Service : exam
-    deactivate Repo
-    
-    Service -> Entity : compareAndCalculateScore(dto.answers)
-    activate Entity
-    Entity --> Service : final_score
-    deactivate Entity
-    
-    Service -> Entity : updateStatus(CORRECTED, final_score)
-    Service -> Repo : save(exam)
-end
+Control --> Boundary : resumenCorreccion
+deactivate Control
 
-Service --> Controller : List<CorrectionSummary>
-deactivate Service
-
-Controller --> Actor : 200 OK (CorrectionReport)
-deactivate Controller
+Boundary --> Actor : mostrarResultado(resumen)
+deactivate Boundary
 
 @enduml

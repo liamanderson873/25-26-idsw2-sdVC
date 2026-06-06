@@ -1,0 +1,39 @@
+@startuml cu26-eliminarAsignatura-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-26: Eliminar Asignatura
+
+actor "Docente" as Actor
+participant ":SubjectDeleteView" as Boundary <<boundary>>
+participant ":SubjectController" as Control <<control>>
+participant ":Subject" as Entity <<entity>>
+
+Actor -> Boundary : seleccionarAsignatura(id)
+activate Boundary
+
+Boundary -> Control : obtenerAsignatura(id)
+activate Control
+
+Control -> Entity : buscar(id)
+activate Entity
+Entity --> Control : asignatura
+deactivate Entity
+
+Control --> Boundary : datosAsignatura
+deactivate Control
+
+Actor -> Boundary : confirmarEliminacion()
+
+Boundary -> Control : eliminarAsignatura(id)
+activate Control
+
+Control -> Entity : delete(id)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
+
+Control --> Boundary : confirmacion
+deactivate Control
+
+Boundary --> Actor : mostrarConfirmacion()
+deactivate Boundary
+
+@enduml

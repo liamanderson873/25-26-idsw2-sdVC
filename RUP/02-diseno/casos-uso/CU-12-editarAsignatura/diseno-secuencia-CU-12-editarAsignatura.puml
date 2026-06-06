@@ -1,45 +1,51 @@
 @startuml secuencia-cu12-editar-asignatura
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+title Diagrama de Secuencia - Editar Asignatura
 
-actor Docente
-participant "ControladorAsignatura" as Boundary <<Boundary>>
-participant "ServicioAsignatura" as Control <<Control>>
-participant "RepositorioProfesor" as RepoProfesor <<Entity>>
-participant "RepositorioAsignatura" as RepoAsig <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorAsignatura" as Controller
+participant "ServicioAsignatura" as Service
+participant "RepositorioProfesor" as RepoProfesor
+participant "RepositorioAsignatura" as RepoAsig
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : POST /api/asignaturas (DTO_Asignatura con código existente)
-activate Boundary
+Actor -> FE : Modifica datos de la asignatura
+activate FE
 
-Boundary -> Control : crearOActualizar(dto)
-activate Control
+FE -> Controller : POST /api/asignaturas (DTO_Asignatura con código existente)
+activate Controller
 
-Control -> RepoProfesor : findByDni(dniProfesor)
+Controller -> Service : crearOActualizar(dto)
+activate Service
+
+Service -> RepoProfesor : findByDni(dniProfesor)
 activate RepoProfesor
 RepoProfesor -> DB : SELECT profesor
 DB --> RepoProfesor : resultado
-RepoProfesor --> Control : Optional<Profesor>
+RepoProfesor --> Service : Optional<Profesor>
 deactivate RepoProfesor
 
-Control -> RepoAsig : findByCodigo(codigo)
+Service -> RepoAsig : findByCodigo(codigo)
 activate RepoAsig
 RepoAsig -> DB : SELECT asignatura
 DB --> RepoAsig : resultado
-RepoAsig --> Control : Optional<Asignatura>
+RepoAsig --> Service : Optional<Asignatura>
 deactivate RepoAsig
 
-Control -> RepoAsig : save(asignaturaActualizada)
+Service -> RepoAsig : save(asignaturaActualizada)
 activate RepoAsig
 RepoAsig -> DB : UPDATE asignatura
 DB --> RepoAsig : ok
-RepoAsig --> Control : asignatura
+RepoAsig --> Service : asignatura
 deactivate RepoAsig
 
-Control --> Boundary : void
-deactivate Control
+Service --> Controller : void
+deactivate Service
 
-Boundary --> Docente : 200 OK
-deactivate Boundary
+Controller --> FE : 200 OK
+deactivate Controller
+
+FE --> Actor : Muestra asignatura actualizada
+deactivate FE
 
 @enduml

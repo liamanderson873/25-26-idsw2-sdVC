@@ -51,6 +51,17 @@ public class ControladorExamen {
         }
     }
 
+    /** CU-33: cancelarGeneracion — elimina el examen si aún no está asignado */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> cancelarGeneracion(@PathVariable Long id) {
+        try {
+            servicioExamen.cancelarGeneracion(id);
+            return ResponseEntity.ok("Generación cancelada. Examen eliminado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     /**
      * Endpoint para generar un nuevo examen (CU-02)
 

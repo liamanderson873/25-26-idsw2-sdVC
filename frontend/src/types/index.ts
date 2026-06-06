@@ -34,9 +34,9 @@ export interface Alumno {
 }
 
 export enum Dificultad {
-  FACIL = 'FACIL',
-  MEDIO = 'MEDIO',
-  DIFICIL = 'DIFICIL'
+  BAJA = 'BAJA',
+  MEDIA = 'MEDIA',
+  ALTA = 'ALTA'
 }
 
 export interface Pregunta {
@@ -45,6 +45,7 @@ export interface Pregunta {
   dificultad: Dificultad;
   temaId: number;
   asignaturaId?: number;
+  habilitada: boolean;
   respuestas: Respuesta[];
 }
 

@@ -1,0 +1,39 @@
+@startuml cu11-editarPregunta-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-11: Editar Pregunta
+
+actor "Docente" as Actor
+participant ":QuestionEditView" as Boundary <<boundary>>
+participant ":QuestionController" as Control <<control>>
+participant ":Question" as Entity <<entity>>
+
+Actor -> Boundary : seleccionarPregunta(id)
+activate Boundary
+
+Boundary -> Control : obtenerPregunta(id)
+activate Control
+
+Control -> Entity : buscar(id)
+activate Entity
+Entity --> Control : pregunta
+deactivate Entity
+
+Control --> Boundary : datosPregunta
+deactivate Control
+
+Actor -> Boundary : modificarDatos(datos)
+
+Boundary -> Control : actualizarPregunta(id, datos)
+activate Control
+
+Control -> Entity : actualizar(datos)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
+
+Control --> Boundary : confirmacion
+deactivate Control
+
+Boundary --> Actor : mostrarConfirmacion()
+deactivate Boundary
+
+@enduml

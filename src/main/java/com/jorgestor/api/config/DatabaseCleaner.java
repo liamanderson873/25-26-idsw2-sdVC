@@ -25,7 +25,10 @@ public class DatabaseCleaner implements CommandLineRunner {
             System.out.println("⚠️ ALERTA: Iniciando limpieza profunda de la base de datos...");
             
             entityManager.createNativeQuery("TRUNCATE TABLE usuarios, respuestas, examen_preguntas, preguntas, temas, examen_alumnos, marcas_examen_alumno, examenes, alumnos, asignaturas, grados, profesores RESTART IDENTITY CASCADE").executeUpdate();
-            
+
+            // Eliminar check constraint del enum Dificultad si existe con valores antiguos
+            entityManager.createNativeQuery("ALTER TABLE preguntas DROP CONSTRAINT IF EXISTS preguntas_dificultad_check").executeUpdate();
+
             System.out.println("✅ ÉXITO: Base de datos limpia.");
         }
         

@@ -15,4 +15,9 @@ export const deleteAsignatura = async (id: number): Promise<void> => {
   await api.delete(`/asignaturas/${id}`);
 };
 
+export const importarAsignaturas = async (asignaturas: Asignatura[]): Promise<string> => {
+  const response = await api.post<string>('/asignaturas/importar', asignaturas);
+  return response.data;
+};
+
 

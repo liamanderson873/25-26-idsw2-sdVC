@@ -1,0 +1,39 @@
+@startuml cu27-eliminarGrado-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-27: Eliminar Grado
+
+actor "Docente" as Actor
+participant ":GradeDeleteView" as Boundary <<boundary>>
+participant ":GradeController" as Control <<control>>
+participant ":Grade" as Entity <<entity>>
+
+Actor -> Boundary : seleccionarGrado(id)
+activate Boundary
+
+Boundary -> Control : obtenerGrado(id)
+activate Control
+
+Control -> Entity : buscar(id)
+activate Entity
+Entity --> Control : grado
+deactivate Entity
+
+Control --> Boundary : datosGrado
+deactivate Control
+
+Actor -> Boundary : confirmarEliminacion()
+
+Boundary -> Control : eliminarGrado(id)
+activate Control
+
+Control -> Entity : delete(id)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
+
+Control --> Boundary : confirmacion
+deactivate Control
+
+Boundary --> Actor : mostrarConfirmacion()
+deactivate Boundary
+
+@enduml

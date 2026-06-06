@@ -1,0 +1,31 @@
+@startuml cu06-importarPreguntas-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-06: Importar Preguntas
+
+actor "Docente" as Actor
+participant ":QuestionImportView" as Boundary <<boundary>>
+participant ":QuestionImportController" as Control <<control>>
+participant ":Question" as Entity <<entity>>
+
+Actor -> Boundary : subirFichero(ficheroJSON)
+activate Boundary
+
+Boundary -> Control : importarPreguntas(listaPreguntas)
+activate Control
+
+Control -> Entity : validarAsignatura(codigoAsignatura)
+activate Entity
+Entity --> Control : asignatura
+deactivate Entity
+
+Control -> Entity : guardarOActualizar(pregunta)
+activate Entity
+Entity --> Control : pregunta
+deactivate Entity
+
+Control --> Boundary : confirmacion
+deactivate Control
+
+Boundary --> Actor : mostrarConfirmacion()
+deactivate Boundary
+
+@enduml

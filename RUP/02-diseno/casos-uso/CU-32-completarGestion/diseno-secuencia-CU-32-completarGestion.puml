@@ -1,0 +1,48 @@
+@startuml secuencia-cu32-completar-gestion
+title Diagrama de Secuencia - Completar Gestión (Panel de Control)
+
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorSistema" as Controller
+database "Base de Datos\n(PostgreSQL)" as DB
+
+Actor -> FE : Navega a "Panel de Control"
+activate FE
+
+FE -> Controller : GET /api/sistema/resumen
+activate Controller
+
+Controller -> DB : SELECT count(g) FROM Grado
+activate DB
+DB --> Controller : grados
+deactivate DB
+
+Controller -> DB : SELECT count(a) FROM Asignatura
+activate DB
+DB --> Controller : asignaturas
+deactivate DB
+
+Controller -> DB : SELECT count(al) FROM Alumno
+activate DB
+DB --> Controller : alumnos
+deactivate DB
+
+Controller -> DB : SELECT count(p) FROM Pregunta
+activate DB
+DB --> Controller : preguntas
+deactivate DB
+
+Controller -> DB : SELECT count(e) FROM Examen
+activate DB
+DB --> Controller : examenes
+deactivate DB
+
+Controller -> Controller : sistemaDisponible = (todos > 0)
+
+Controller --> FE : 200 OK { grados, asignaturas, alumnos,\npreguntas, examenes, sistemaDisponible }
+deactivate Controller
+
+FE --> Actor : Muestra panel con indicadores\ny estado del sistema
+deactivate FE
+
+@enduml

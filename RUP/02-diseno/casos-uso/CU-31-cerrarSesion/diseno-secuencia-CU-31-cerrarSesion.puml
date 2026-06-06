@@ -1,0 +1,17 @@
+@startuml secuencia-cu31-cerrar-sesion
+title Diagrama de Secuencia - Cerrar Sesión
+
+actor "Usuario" as Actor
+participant "Frontend\n(React)" as FE
+
+Actor -> FE : Pulsa "Cerrar Sesión"
+activate FE
+
+FE -> FE : Elimina credenciales\ndel estado de sesión
+
+FE --> Actor : Redirige a pantalla de Login
+deactivate FE
+
+note over FE : El backend usa Basic Auth:\nno hay token que invalidar.\nLa sesión es puramente local al navegador.
+
+@enduml

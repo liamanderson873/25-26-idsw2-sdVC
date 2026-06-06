@@ -1,30 +1,36 @@
-@startuml secuencia-cu20-ver-pregunta
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+@startuml secuencia-cu20-ver-preguntas
+title Diagrama de Secuencia - Ver Preguntas
 
-actor Docente
-participant "ControladorPregunta" as Boundary <<Boundary>>
-participant "ServicioPregunta" as Control <<Control>>
-participant "RepositorioPregunta" as RepoPregunta <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorPregunta" as Controller
+participant "ServicioPregunta" as Service
+participant "RepositorioPregunta" as RepoPreg
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : GET /api/preguntas
-activate Boundary
+Actor -> FE : Navega a "Batería de Preguntas"
+activate FE
 
-Boundary -> Control : listarTodas()
-activate Control
+FE -> Controller : GET /api/preguntas
+activate Controller
 
-Control -> RepoPregunta : findAll()
-activate RepoPregunta
-RepoPregunta -> DB : SELECT * FROM preguntas
-DB --> RepoPregunta : listaPreguntas
-RepoPregunta --> Control : List<Pregunta>
-deactivate RepoPregunta
+Controller -> Service : listarTodas()
+activate Service
 
-Control --> Boundary : List<DTO_Pregunta>
-deactivate Control
+Service -> RepoPreg : findAll()
+activate RepoPreg
+RepoPreg -> DB : SELECT * FROM preguntas
+DB --> RepoPreg : listaPreguntas
+RepoPreg --> Service : List<Pregunta>
+deactivate RepoPreg
 
-Boundary --> Docente : 200 OK (JSON)
-deactivate Boundary
+Service --> Controller : List<DTO_Pregunta>
+deactivate Service
+
+Controller --> FE : 200 OK (JSON)
+deactivate Controller
+
+FE --> Actor : Muestra tabla de preguntas
+deactivate FE
 
 @enduml

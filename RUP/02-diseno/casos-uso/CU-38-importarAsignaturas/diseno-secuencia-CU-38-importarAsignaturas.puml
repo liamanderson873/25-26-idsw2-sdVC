@@ -1,0 +1,53 @@
+@startuml secuencia-cu38-importar-asignaturas
+title Diagrama de Secuencia - Importar Asignaturas
+
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorAsignatura" as Controller
+participant "ServicioAsignatura" as Service
+participant "RepositorioProfesor" as RepoProfesor
+participant "RepositorioAsignatura" as RepoAsig
+database "Base de Datos\n(PostgreSQL)" as DB
+
+Actor -> FE : Sube fichero JSON de asignaturas
+activate FE
+
+FE -> Controller : POST /api/asignaturas/importar (List<DTO_Asignatura>)
+activate Controller
+
+Controller -> Service : importar(listaDto)
+activate Service
+
+loop por cada DTO_Asignatura
+    Service -> RepoProfesor : findByDni(dniProfesor)
+    activate RepoProfesor
+    RepoProfesor -> DB : SELECT profesor
+    DB --> RepoProfesor : resultado
+    RepoProfesor --> Service : Optional<Profesor>
+    deactivate RepoProfesor
+
+    Service -> RepoAsig : findByCodigo(codigo)
+    activate RepoAsig
+    RepoAsig -> DB : SELECT asignatura
+    DB --> RepoAsig : resultado
+    RepoAsig --> Service : Optional<Asignatura>
+    deactivate RepoAsig
+
+    Service -> RepoAsig : save(asignatura)
+    activate RepoAsig
+    RepoAsig -> DB : INSERT/UPDATE asignatura
+    DB --> RepoAsig : ok
+    RepoAsig --> Service : asignatura
+    deactivate RepoAsig
+end
+
+Service --> Controller : void
+deactivate Service
+
+Controller --> FE : 200 OK (Procesado correctamente)
+deactivate Controller
+
+FE --> Actor : Muestra confirmación de importación
+deactivate FE
+
+@enduml

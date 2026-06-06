@@ -1,41 +1,49 @@
 @startuml secuencia-cu27-eliminar-grado
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+title Diagrama de Secuencia - Eliminar Grado
 
-actor Docente
-participant "ControladorGrado" as Boundary <<Boundary>>
-participant "ServicioGrado" as Control <<Control>>
-participant "RepositorioGrado" as RepoGrado <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorGrado" as Controller
+participant "ServicioGrado" as Service
+participant "RepositorioGrado" as RepoGrado
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : DELETE /api/grados/{id}
-activate Boundary
+Actor -> FE : Pulsa "Eliminar" en el grado
+activate FE
 
-Boundary -> Control : eliminar(id)
-activate Control
+FE -> Controller : DELETE /api/grados/{id}
+activate Controller
 
-Control -> RepoGrado : existsById(id)
+Controller -> Service : eliminar(id)
+activate Service
+
+Service -> RepoGrado : existsById(id)
 activate RepoGrado
 RepoGrado -> DB : SELECT EXISTS
 DB --> RepoGrado : true/false
-RepoGrado --> Control : boolean
+RepoGrado --> Service : boolean
 deactivate RepoGrado
 
 alt Grado existe
-    Control -> RepoGrado : deleteById(id)
+    Service -> RepoGrado : deleteById(id)
     activate RepoGrado
     RepoGrado -> DB : DELETE FROM grados
     DB --> RepoGrado : ok
-    RepoGrado --> Control : ok
+    RepoGrado --> Service : ok
     deactivate RepoGrado
-    Control --> Boundary : void
-    Boundary --> Docente : 200 OK
-else Grado no existe
-    Control --> Boundary : throw RuntimeException
-    Boundary --> Docente : 400 Bad Request
-end
 
-deactivate Control
-deactivate Boundary
+    Service --> Controller : void
+    deactivate Service
+
+    Controller --> FE : 200 OK
+    deactivate Controller
+
+    FE --> Actor : Elimina la fila de la tabla
+    deactivate FE
+else Grado no existe
+    Service --> Controller : throw RuntimeException
+    Controller --> FE : 400 Bad Request
+    FE --> Actor : Muestra error
+end
 
 @enduml

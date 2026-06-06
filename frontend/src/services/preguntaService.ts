@@ -15,4 +15,14 @@ export const deletePregunta = async (id: number): Promise<void> => {
   await api.delete(`/preguntas/${id}`);
 };
 
+export const importarPreguntas = async (preguntas: Pregunta[]): Promise<string> => {
+  const response = await api.post<string>('/preguntas/importar', preguntas);
+  return response.data;
+};
+
+export const toggleHabilitadaPregunta = async (id: number): Promise<string> => {
+  const response = await api.patch<string>(`/preguntas/${id}/toggle-habilitada`);
+  return response.data;
+};
+
 

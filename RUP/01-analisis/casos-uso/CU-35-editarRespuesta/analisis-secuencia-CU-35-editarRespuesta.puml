@@ -1,0 +1,39 @@
+@startuml cu35-editarRespuesta-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-35: Editar Respuesta
+
+actor "Docente" as Actor
+participant ":AnswerEditionView" as Boundary <<boundary>>
+participant ":AnswerEditionController" as Control <<control>>
+participant ":Answer" as Entity <<entity>>
+
+Actor -> Boundary : seleccionarRespuesta(id)
+activate Boundary
+
+Boundary -> Control : obtenerRespuesta(id)
+activate Control
+
+Control -> Entity : buscar(id)
+activate Entity
+Entity --> Control : respuesta
+deactivate Entity
+
+Control --> Boundary : datosRespuesta
+deactivate Control
+
+Actor -> Boundary : modificarDatos(datos)
+
+Boundary -> Control : actualizarRespuesta(id, datos)
+activate Control
+
+Control -> Entity : actualizar(datos)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
+
+Control --> Boundary : confirmacion
+deactivate Control
+
+Boundary --> Actor : mostrarConfirmacion()
+deactivate Boundary
+
+@enduml

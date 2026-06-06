@@ -1,0 +1,31 @@
+@startuml cu37-cancelarGeneracion-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-37: Cancelar Generación
+
+actor "Docente" as Actor
+participant ":CancelGenerationView" as Boundary <<boundary>>
+participant ":ExamGenerationController" as Control <<control>>
+participant ":Exam" as Entity <<entity>>
+
+Actor -> Boundary : solicitarCancelacion(examenId)
+activate Boundary
+
+Boundary -> Control : cancelarGeneracion(examenId)
+activate Control
+
+Control -> Entity : buscar(examenId)
+activate Entity
+Entity --> Control : examen
+deactivate Entity
+
+Control -> Entity : cancelar()
+activate Entity
+Entity --> Control : ok
+deactivate Entity
+
+Control --> Boundary : confirmacion
+deactivate Control
+
+Boundary --> Actor : mostrarConfirmacion()
+deactivate Boundary
+
+@enduml

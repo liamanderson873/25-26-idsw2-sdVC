@@ -1,17 +1,17 @@
 @startuml eliminarDocente-analisis
 skinparam linetype polyline
 
-actor Administrador
+actor AdministradorInstitucional
 package eliminarDocente as "eliminarDocente()" {
-    rectangle #629EF9 TeacherDeleteView
-    rectangle #b5bd68 TeacherController
-    rectangle #F2AC4E Teacher
+    rectangle #629EF9 DocenteDeleteView
+    rectangle #b5bd68 DocenteController
+    rectangle #F2AC4E Docente
 }
 
-Administrador -r-> TeacherDeleteView: solicitarEliminar()
-TeacherDeleteView --> Teacher: getDatos()
-Administrador --> TeacherDeleteView: confirmarEliminar()
-TeacherDeleteView -d-> TeacherController: eliminarDocente()
-TeacherController --> Teacher: delete()
+AdministradorInstitucional -r-> DocenteDeleteView: solicitarEliminar()
+DocenteDeleteView --> Docente: getDatos()
+AdministradorInstitucional --> DocenteDeleteView: confirmarEliminar()
+DocenteDeleteView -d-> DocenteController: eliminarDocente()
+DocenteController --> Docente: delete()
 
 @enduml

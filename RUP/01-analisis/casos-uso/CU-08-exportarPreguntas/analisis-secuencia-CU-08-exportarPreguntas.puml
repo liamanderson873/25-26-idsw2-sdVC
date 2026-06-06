@@ -1,0 +1,26 @@
+@startuml cu08-exportarPreguntas-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-08: Exportar Preguntas
+
+actor "Docente" as Actor
+participant ":QuestionExportView" as Boundary <<boundary>>
+participant ":ExportController" as Control <<control>>
+participant ":Question" as Entity <<entity>>
+
+Actor -> Boundary : solicitarExportacion()
+activate Boundary
+
+Boundary -> Control : exportarPreguntas()
+activate Control
+
+Control -> Entity : obtenerTodasConRespuestas()
+activate Entity
+Entity --> Control : listaPreguntas
+deactivate Entity
+
+Control --> Boundary : ficheroJSON
+deactivate Control
+
+Boundary --> Actor : descargarFichero(ficheroJSON)
+deactivate Boundary
+
+@enduml

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +32,13 @@ public class ServicioGrado {
         grado.setCodigo(dto.getCodigo());
         grado.setNombre(dto.getNombre());
         repoGrado.save(grado);
+    }
+
+    @Transactional
+    public void importarGrados(List<DTO_Grado> lista) {
+        for (DTO_Grado dto : lista) {
+            crearOActualizar(dto);
+        }
     }
 
     @Transactional

@@ -1,0 +1,26 @@
+@startuml cu21-verAsignaturas-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-21: Ver Asignaturas
+
+actor "Docente" as Actor
+participant ":SubjectListView" as Boundary <<boundary>>
+participant ":SubjectController" as Control <<control>>
+participant ":Subject" as Entity <<entity>>
+
+Actor -> Boundary : solicitarListado()
+activate Boundary
+
+Boundary -> Control : obtenerAsignaturas()
+activate Control
+
+Control -> Entity : consultarTodas()
+activate Entity
+Entity --> Control : listaAsignaturas
+deactivate Entity
+
+Control --> Boundary : listaAsignaturas
+deactivate Control
+
+Boundary --> Actor : mostrarListado(asignaturas)
+deactivate Boundary
+
+@enduml

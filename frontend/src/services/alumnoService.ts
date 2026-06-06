@@ -19,3 +19,8 @@ export const updateAlumno = async (id: number, alumno: Alumno): Promise<Alumno> 
 export const deleteAlumno = async (id: number): Promise<void> => {
   await api.delete(`/alumnos/${id}`);
 };
+
+export const importarAlumnos = async (alumnos: Alumno[]): Promise<string> => {
+  const response = await api.post<string>('/alumnos/importar', alumnos);
+  return response.data;
+};
