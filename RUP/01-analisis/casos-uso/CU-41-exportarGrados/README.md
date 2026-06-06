@@ -1,19 +1,19 @@
-﻿# Jorgestor > exportarGrados > AnÃ¡lisis
+﻿# Jorgestor > exportarGrados > Análisis
 
-## PropÃ³sito
-AnÃ¡lisis del caso de uso `exportarGrados()` mediante diagrama de colaboraciÃ³n MVC.
+## Propósito
+Análisis del caso de uso `exportarGrados()` mediante diagrama de colaboración MVC.
 
-## diagrama de colaboraciÃ³n
+## diagrama de colaboración
 
 <div align=center>
 
-|![AnÃ¡lisis: exportarGrados()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-41-exportarGrados/analisis-colaboracion-CU-41-exportarGrados.puml&fmt=svg)|
+|![Análisis: exportarGrados()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-41-exportarGrados/analisis-colaboracion-CU-41-exportarGrados.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-41-exportarGrados.puml](analisis-colaboracion-CU-41-exportarGrados.puml)|
+|Código fuente: [analisis-colaboracion-CU-41-exportarGrados.puml](analisis-colaboracion-CU-41-exportarGrados.puml)|
 
 </div>
 
-## Clases de AnÃ¡lisis Identificadas
+## Clases de Análisis Identificadas
 
 ### Clases Model (Entidad)
 | Clase | Responsabilidad |
@@ -23,19 +23,19 @@ AnÃ¡lisis del caso de uso `exportarGrados()` mediante diagrama de colaboraciÃ
 ### Clases View (Frontera)
 | Clase | Responsabilidad |
 |-------|-----------------|
-| **GradeExportView** | Interfaz para la gestiÃ³n de la exportaciÃ³n de grados. |
+| **GradeExportView** | Interfaz para la gestión de la exportación de grados. |
 
 ### Clases Controller (Control)
 | Clase | Responsabilidad |
 |-------|-----------------|
-| **GradeExportController** | Gestiona la recopilaciÃ³n de datos y preparaciÃ³n del archivo. |
+| **GradeExportController** | Gestiona la recopilación de datos y preparación del archivo. |
 
-## Mensajes de ColaboraciÃ³n
-| Origen | Destino | Mensaje | IntenciÃ³n |
+## Mensajes de Colaboración
+| Origen | Destino | Mensaje | Intención |
 |--------|---------|---------|-----------|
-| **Docente** | **GradeExportView** | `exportarGrados()` | Iniciar proceso de exportaciÃ³n. |
-| **GradeExportView** | **GradeExportController** | `procesarExportacion()` | Delegar la lÃ³gica de exportaciÃ³n. |
-| **GradeExportController** | **Grade** | `obtenerDatosGrados()` | Recopilar informaciÃ³n de las entidades. |
+| **Docente** | **GradeExportView** | `exportarGrados()` | Iniciar proceso de exportación. |
+| **GradeExportView** | **GradeExportController** | `procesarExportacion()` | Delegar la lógica de exportación. |
+| **GradeExportController** | **Grade** | `obtenerDatosGrados()` | Recopilar información de las entidades. |
 
 ```plantuml
 @startuml

@@ -1,39 +1,39 @@
-﻿# Jorgestor > CU-02-generarExamenes > AnÃ¡lisis
+﻿# Jorgestor > CU-02-generarExamenes > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Generar ExÃ¡menes, siguiendo la metodologÃ­a RUP. Permite analizar la lÃ³gica de generaciÃ³n aleatoria/ponderada de exÃ¡menes segÃºn parÃ¡metros.
+Análisis tecnológico agnóstico del caso de uso Generar Exámenes, siguiendo la metodología RUP. Permite analizar la lógica de generación aleatoria/ponderada de exámenes según parámetros.
 
-## diagrama de colaboraciÃ³n
-
-<div align=center>
-
-|![AnÃ¡lisis: generarExamenes()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-02-generarExamenes.puml&fmt=svg)|
-|-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-02-generarExamenes.puml](analisis-colaboracion-CU-02-generarExamenes.puml)|
-
-</div>
-
-## realizaciÃ³n de diseÃ±o (secuencia)
+## diagrama de colaboración
 
 <div align=center>
 
-|![RealizaciÃ³n: CU-02-generarExamenes](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-02-generarExamenes.puml&fmt=svg)|
+|![Análisis: generarExamenes()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-02-generarExamenes.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-secuencia-CU-02-generarExamenes.puml](analisis-secuencia-CU-02-generarExamenes.puml)|
+|Código fuente: [analisis-colaboracion-CU-02-generarExamenes.puml](analisis-colaboracion-CU-02-generarExamenes.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## realización de diseño (secuencia)
+
+<div align=center>
+
+|![Realización: CU-02-generarExamenes](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-02-generarExamenes.puml&fmt=svg)|
+|-|
+|Código fuente: [analisis-secuencia-CU-02-generarExamenes.puml](analisis-secuencia-CU-02-generarExamenes.puml)|
+
+</div>
+
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -44,31 +44,31 @@ AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Generar ExÃ¡menes, sig
 |**Exam**|Entidad resultante que agrupa las preguntas seleccionadas|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
-|**GenerationView**|Interfaz que permite introducir parÃ¡metros, solicitar y confirmar generaciÃ³n|Wireframe|
+|**GenerationView**|Interfaz que permite introducir parámetros, solicitar y confirmar generación|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**GenerationController**|Valida datos, filtra preguntas y ejecuta algoritmo de generaciÃ³n|generarExamenes()|
+|**GenerationController**|Valida datos, filtra preguntas y ejecuta algoritmo de generación|generarExamenes()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
 |**Docente**|**GenerationView**|`seleccionarAsignatura()`|Elegir asignatura base|
 |**GenerationView**|**GenerationController**|`obtenerTemas(asignatura)`|Consultar temas disponibles|
 |**GenerationController**|**Subject**|`getTemas()`|Acceder a los temas de la asignatura|
-|**Docente**|**GenerationView**|`generarExamenes(parametros)`|Solicitar generaciÃ³n|
-|**GenerationView**|**GenerationController**|`generar(parametros)`|Ejecutar la generaciÃ³n de exÃ¡menes|
+|**Docente**|**GenerationView**|`generarExamenes(parametros)`|Solicitar generación|
+|**GenerationView**|**GenerationController**|`generar(parametros)`|Ejecutar la generación de exámenes|
 |**GenerationController**|**Question**|`filtrarPorParametros(parametros)`|Obtener banco de preguntas|
-|**GenerationController**|**Exam**|`crearExamen(preguntas)`|Crear instancias de exÃ¡menes|
+|**GenerationController**|**Exam**|`crearExamen(preguntas)`|Crear instancias de exámenes|
 
 ## trazabilidad con artefactos previos
 
-### con especificaciÃ³n detallada
-- **Estados internos** â†’ `RequiringGeneration`, `ProvidingData`, `ProvidingConfirmation`
+### con especificación detallada
+- **Estados internos** �?' `RequiringGeneration`, `ProvidingData`, `ProvidingConfirmation`
 
 
 ```plantuml
@@ -110,7 +110,7 @@ participant ":QuestionRepository" as QRepo <<entity>>
 participant ":ExamRepository" as ERepo <<entity>>
 participant "exam:Exam" as Entity <<entity>>
 
-title DiseÃ±o TÃ©cnico: generarExamenes() (Algoritmo Aleatorio)
+title Diseño Técnico: generarExamenes() (Algoritmo Aleatorio)
 
 Actor -> Controller : POST /api/exams/generate (GenerateExamDTO)
 activate Controller
@@ -128,7 +128,7 @@ alt isPersonalized == true
         Service -> Entity : new Exam(picked_questions)
         Service -> ERepo : save(exam)
     end
-else isPersonalized == false (Modelo Ãšnico)
+else isPersonalized == false (Modelo �snico)
     Service -> Service : shuffleAndPickQuestions(questions, count)
     loop por cada alumno
         Service -> Entity : new Exam(shared_questions)

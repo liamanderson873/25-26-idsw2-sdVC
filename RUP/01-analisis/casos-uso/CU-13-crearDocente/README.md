@@ -1,29 +1,29 @@
-﻿# Jorgestor > CU-13-crearDocente > AnÃ¡lisis
+﻿# Jorgestor > CU-13-crearDocente > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis del caso de uso Crear Docente. Permite dar de alta a un nuevo profesor.
+Análisis del caso de uso Crear Docente. Permite dar de alta a un nuevo profesor.
 
-## diagrama de colaboraciÃ³n
+## diagrama de colaboración
 
 <div align=center>
 
-|![AnÃ¡lisis: crearDocente()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-13-crearDocente.puml&fmt=svg)|
+|![Análisis: crearDocente()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-13-crearDocente.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-13-crearDocente.puml](analisis-colaboracion-CU-13-crearDocente.puml)|
+|Código fuente: [analisis-colaboracion-CU-13-crearDocente.puml](analisis-colaboracion-CU-13-crearDocente.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -31,29 +31,29 @@ AnÃ¡lisis del caso de uso Crear Docente. Permite dar de alta a un nuevo profes
 |**Docent**|Entidad que representa al nuevo profesor en el sistema|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
-|**DocentCreationView**|Interfaz para introducir datos mÃ­nimos obligatorios|Wireframe|
+|**DocentCreationView**|Interfaz para introducir datos mínimos obligatorios|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**DocentController**|Gestiona creaciÃ³n y valida datos obligatorios/duplicados|crearDocente()|
+|**DocentController**|Gestiona creación y valida datos obligatorios/duplicados|crearDocente()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
 |**AdministradorInstitucional**|**DocentCreationView**|`solicitarCreacion()`|Iniciar proceso|
-|**AdministradorInstitucional**|**DocentCreationView**|`proporcionarDatos(dni, nombre, apellidos, usuario, email, password)`|Enviar informaciÃ³n|
-|**DocentCreationView**|**DocentController**|`crearDocente(datos)`|Delegar la creaciÃ³n|
+|**AdministradorInstitucional**|**DocentCreationView**|`proporcionarDatos(dni, nombre, apellidos, usuario, email, password)`|Enviar información|
+|**DocentCreationView**|**DocentController**|`crearDocente(datos)`|Delegar la creación|
 |**DocentController**|**Docent**|`validarNoDuplicado(dni, usuario)`|Verificar integridad|
 |**DocentController**|**Docent**|`inicializar(datos)`|Crear nueva instancia|
-|**DocentController**|**DocentCreationView**|`notificarExitoYRedirigir()`|Informar y pasar a ediciÃ³n|
+|**DocentController**|**DocentCreationView**|`notificarExitoYRedirigir()`|Informar y pasar a edición|
 
 ## trazabilidad con artefactos previos
 
-- **Flujo**: Redirige a ediciÃ³n para completar perfiles complejos.
+- **Flujo**: Redirige a edición para completar perfiles complejos.
 
 ```plantuml
 @startuml crearDocente-analisis

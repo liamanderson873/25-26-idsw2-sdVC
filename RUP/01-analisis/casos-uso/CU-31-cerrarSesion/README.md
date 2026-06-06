@@ -1,59 +1,59 @@
-﻿# Jorgestor > CU-31-cerrarSesion > AnÃ¡lisis
+﻿# Jorgestor > CU-31-cerrarSesion > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Cerrar SesiÃ³n, siguiendo la metodologÃ­a RUP. Permite analizar el proceso de finalizaciÃ³n de la sesiÃ³n de usuario de forma segura.
+Análisis tecnológico agnóstico del caso de uso Cerrar Sesión, siguiendo la metodología RUP. Permite analizar el proceso de finalización de la sesión de usuario de forma segura.
 
-## diagrama de colaboraciÃ³n
+## diagrama de colaboración
 
 <div align=center>
 
-|![AnÃ¡lisis: cerrarSesion()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-31-cerrarSesion/analisis-colaboracion-CU-31-cerrarSesion.puml&fmt=svg)|
+|![Análisis: cerrarSesion()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-31-cerrarSesion/analisis-colaboracion-CU-31-cerrarSesion.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-31-cerrarSesion.puml](analisis-colaboracion-CU-31-cerrarSesion.puml)|
+|Código fuente: [analisis-colaboracion-CU-31-cerrarSesion.puml](analisis-colaboracion-CU-31-cerrarSesion.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
-|**UserSession**|Mantiene el estado de autenticaciÃ³n del usuario|Modelo del dominio|
+|**UserSession**|Mantiene el estado de autenticación del usuario|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
-|**SessionView**|Interfaz que permite solicitar el cierre y confirmar la acciÃ³n|Wireframe|
+|**SessionView**|Interfaz que permite solicitar el cierre y confirmar la acción|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**LogoutController**|Gestiona la invalidaciÃ³n de la sesiÃ³n y la transiciÃ³n de estado|cerrarSesion()|
+|**LogoutController**|Gestiona la invalidación de la sesión y la transición de estado|cerrarSesion()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
-|**Usuario**|**SessionView**|`solicitarCierre()`|Manifestar la intenciÃ³n de salir|
-|**SessionView**|**Usuario**|`pedirConfirmacion()`|Solicitar validaciÃ³n final|
-|**Usuario**|**SessionView**|`confirmarCierre()`|Aceptar el cierre de sesiÃ³n|
-|**SessionView**|**LogoutController**|`cerrarSesion()`|Delegar la invalidaciÃ³n de la sesiÃ³n|
-|**LogoutController**|**UserSession**|`invalidar()`|Eliminar el estado de autenticaciÃ³n|
+|**Usuario**|**SessionView**|`solicitarCierre()`|Manifestar la intención de salir|
+|**SessionView**|**Usuario**|`pedirConfirmacion()`|Solicitar validación final|
+|**Usuario**|**SessionView**|`confirmarCierre()`|Aceptar el cierre de sesión|
+|**SessionView**|**LogoutController**|`cerrarSesion()`|Delegar la invalidación de la sesión|
+|**LogoutController**|**UserSession**|`invalidar()`|Eliminar el estado de autenticación|
 
 ## trazabilidad con artefactos previos
 
-### con especificaciÃ³n detallada
-- **Estados internos** â†’ `SolicitandoCierre`, `ConfirmandoCierre`
+### con especificación detallada
+- **Estados internos** �?' `SolicitandoCierre`, `ConfirmandoCierre`
 
 
 ```plantuml

@@ -1,60 +1,60 @@
-﻿# Jorgestor > CU-10-crearPregunta > AnÃ¡lisis
+﻿# Jorgestor > CU-10-crearPregunta > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis del caso de uso Crear Pregunta. Permite la inicializaciÃ³n de una nueva pregunta.
+Análisis del caso de uso Crear Pregunta. Permite la inicialización de una nueva pregunta.
 
-## diagrama de colaboraciÃ³n
+## diagrama de colaboración
 
 <div align=center>
 
-|![AnÃ¡lisis: crearPregunta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-10-crearPregunta.puml&fmt=svg)|
+|![Análisis: crearPregunta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-10-crearPregunta.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-10-crearPregunta.puml](analisis-colaboracion-CU-10-crearPregunta.puml)|
+|Código fuente: [analisis-colaboracion-CU-10-crearPregunta.puml](analisis-colaboracion-CU-10-crearPregunta.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
 |**Question**|Nueva entidad de pregunta que se crea|Modelo del dominio|
-|**Subject**|Asignatura a la que se asociarÃ¡ la pregunta|Modelo del dominio|
+|**Subject**|Asignatura a la que se asociará la pregunta|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
 |**QuestionCreationView**|Interfaz para solicitar datos obligatorios iniciales|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**QuestionManagementController**|Gestiona creaciÃ³n de instancia y valida campos|crearPregunta()|
+|**QuestionManagementController**|Gestiona creación de instancia y valida campos|crearPregunta()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
 |**Docente**|**QuestionCreationView**|`solicitarCreacion()`|Iniciar proceso|
-|**Docente**|**QuestionCreationView**|`proporcionarDatos(asignatura, enunciado, tema, dificultad)`|Enviar datos mÃ­nimos|
-|**QuestionCreationView**|**QuestionManagementController**|`crearPregunta(datos)`|Delegar la creaciÃ³n|
+|**Docente**|**QuestionCreationView**|`proporcionarDatos(asignatura, enunciado, tema, dificultad)`|Enviar datos mínimos|
+|**QuestionCreationView**|**QuestionManagementController**|`crearPregunta(datos)`|Delegar la creación|
 |**QuestionManagementController**|**Subject**|`validarExistencia()`|Verificar asignatura|
 |**QuestionManagementController**|**Question**|`inicializar(datos)`|Crear nueva instancia|
-|**QuestionManagementController**|**QuestionCreationView**|`notificarExitoYRedirigir()`|Informar y pasar a ediciÃ³n|
+|**QuestionManagementController**|**QuestionCreationView**|`notificarExitoYRedirigir()`|Informar y pasar a edición|
 
 ## trazabilidad con artefactos previos
 
-- **Encadenamiento**: Redirige automÃ¡ticamente a `editarPregunta` para completar detalles.
+- **Encadenamiento**: Redirige automáticamente a `editarPregunta` para completar detalles.
 
 ```plantuml
 @startuml crearPregunta-analisis

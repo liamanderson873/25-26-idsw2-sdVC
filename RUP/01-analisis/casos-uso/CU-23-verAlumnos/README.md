@@ -1,29 +1,29 @@
-﻿# Jorgestor > CU-23-verAlumnos > AnÃ¡lisis
+﻿# Jorgestor > CU-23-verAlumnos > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis del caso de uso Ver Alumnos. Enfocado en el listado y bÃºsqueda de estudiantes.
+Análisis del caso de uso Ver Alumnos. Enfocado en el listado y búsqueda de estudiantes.
 
-## diagrama de colaboraciÃ³n
+## diagrama de colaboración
 
 <div align=center>
 
-|![AnÃ¡lisis: verAlumnos()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-23-verAlumnos.puml&fmt=svg)|
+|![Análisis: verAlumnos()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-23-verAlumnos.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-23-verAlumnos.puml](analisis-colaboracion-CU-23-verAlumnos.puml)|
+|Código fuente: [analisis-colaboracion-CU-23-verAlumnos.puml](analisis-colaboracion-CU-23-verAlumnos.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -31,21 +31,21 @@ AnÃ¡lisis del caso de uso Ver Alumnos. Enfocado en el listado y bÃºsqueda de
 |**Student**|Representa al alumno con sus datos personales|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
 |**StudentListView**|Interfaz para visualizar lista y solicitar filtrado de alumnos|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**StudentController**|Obtiene colecciÃ³n de alumnos y aplica filtros|verAlumnos()|
+|**StudentController**|Obtiene colección de alumnos y aplica filtros|verAlumnos()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
-|**Docente**|**StudentListView**|`solicitarVerAlumnos()`|Iniciar visualizaciÃ³n|
-|**StudentListView**|**StudentController**|`cargarAlumnos()`|Delegar recuperaciÃ³n|
+|**Docente**|**StudentListView**|`solicitarVerAlumnos()`|Iniciar visualización|
+|**StudentListView**|**StudentController**|`cargarAlumnos()`|Delegar recuperación|
 |**StudentController**|**Student**|`consultarTodos()`|Consultar entidades|
 |**Docente**|**StudentListView**|`aplicarFiltro(criterios)`|Solicitar filtrado|
 |**StudentListView**|**StudentController**|`filtrar(criterios)`|Procesar criterios|

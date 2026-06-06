@@ -1,72 +1,72 @@
-﻿# Jorgestor > CU-09-asignarExamenes > AnÃ¡lisis
+﻿# Jorgestor > CU-09-asignarExamenes > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis del caso de uso Asignar ExÃ¡menes. Vincula exÃ¡menes generados con alumnos.
+Análisis del caso de uso Asignar Exámenes. Vincula exámenes generados con alumnos.
 
-## diagrama de colaboraciÃ³n
-
-<div align=center>
-
-|![AnÃ¡lisis: asignarExamenes()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-09-asignarExamenes.puml&fmt=svg)|
-|-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-09-asignarExamenes.puml](analisis-colaboracion-CU-09-asignarExamenes.puml)|
-
-</div>
-
-## realizaciÃ³n de diseÃ±o (secuencia)
+## diagrama de colaboración
 
 <div align=center>
 
-|![RealizaciÃ³n: CU-09-asignarExamenes](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-09-asignarExamenes.puml&fmt=svg)|
+|![Análisis: asignarExamenes()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-09-asignarExamenes.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-secuencia-CU-09-asignarExamenes.puml](analisis-secuencia-CU-09-asignarExamenes.puml)|
+|Código fuente: [analisis-colaboracion-CU-09-asignarExamenes.puml](analisis-colaboracion-CU-09-asignarExamenes.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## realización de diseño (secuencia)
+
+<div align=center>
+
+|![Realización: CU-09-asignarExamenes](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-09-asignarExamenes.puml&fmt=svg)|
+|-|
+|Código fuente: [analisis-secuencia-CU-09-asignarExamenes.puml](analisis-secuencia-CU-09-asignarExamenes.puml)|
+
+</div>
+
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
-|**Exam**|El examen generado que serÃ¡ asignado|Modelo del dominio|
-|**Student**|El alumno que recibirÃ¡ el examen|Modelo del dominio|
+|**Exam**|El examen generado que será asignado|Modelo del dominio|
+|**Student**|El alumno que recibirá el examen|Modelo del dominio|
 |**Grade**|Utilizado para filtrar o agrupar alumnos|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
 |**ExamAssignmentView**|Interfaz para introducir o confirmar destinatarios|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**AssignmentController**|Gestiona vinculaciÃ³n y valida alumnos/grados|asignarExamenes()|
+|**AssignmentController**|Gestiona vinculación y valida alumnos/grados|asignarExamenes()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
 |**Docente**|**ExamAssignmentView**|`iniciarAsignacion()`|Solicitar inicio|
-|**ExamAssignmentView**|**AssignmentController**|`obtenerExamenesGenerados()`|Consultar exÃ¡menes disponibles|
+|**ExamAssignmentView**|**AssignmentController**|`obtenerExamenesGenerados()`|Consultar exámenes disponibles|
 |**Docente**|**ExamAssignmentView**|`asignarAlumnos(listaAlumnos)`|Proporcionar destinatarios|
-|**ExamAssignmentView**|**AssignmentController**|`validarYRegistrar(listaAlumnos)`|Registrar vinculaciÃ³n|
+|**ExamAssignmentView**|**AssignmentController**|`validarYRegistrar(listaAlumnos)`|Registrar vinculación|
 |**AssignmentController**|**Student**|`validarPerteneceGrado(grado)`|Verificar integridad|
-|**AssignmentController**|**Exam**|`vincularAlumno(student)`|Crear relaciÃ³n|
+|**AssignmentController**|**Exam**|`vincularAlumno(student)`|Crear relación|
 
 ## trazabilidad con artefactos previos
 
-- **ContextualizaciÃ³n**: Transforma exÃ¡menes generados en exÃ¡menes asignados.
-- **ValidaciÃ³n**: Asegura que alumnos correspondan al grado del examen.
+- **Contextualización**: Transforma exámenes generados en exámenes asignados.
+- **Validación**: Asegura que alumnos correspondan al grado del examen.
 
 ```plantuml
 @startuml asignarExamenes-analisis
@@ -105,7 +105,7 @@ participant ":StudentRepository" as SRepo <<entity>>
 participant ":ExamRepository" as ERepo <<entity>>
 participant "exam:Exam" as Entity <<entity>>
 
-title DiseÃ±o TÃ©cnico: asignarExamenes() (GeneraciÃ³n de Hash)
+title Diseño Técnico: asignarExamenes() (Generación de Hash)
 
 Actor -> Controller : POST /api/assignments (AssignmentDTO)
 activate Controller

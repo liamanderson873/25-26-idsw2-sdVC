@@ -1,63 +1,63 @@
-﻿# Jorgestor > CU-38-importarAsignaturas > AnÃ¡lisis
+﻿# Jorgestor > CU-38-importarAsignaturas > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Importar Asignaturas, siguiendo la metodologÃ­a RUP. Permite analizar el flujo de integraciÃ³n masiva de asignaturas desde archivos externos.
+Análisis tecnológico agnóstico del caso de uso Importar Asignaturas, siguiendo la metodología RUP. Permite analizar el flujo de integración masiva de asignaturas desde archivos externos.
 
-## diagrama de colaboraciÃ³n
+## diagrama de colaboración
 
 <div align=center>
 
-|![AnÃ¡lisis: importarAsignaturas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-38-importarAsignaturas/analisis-colaboracion-CU-38-importarAsignaturas.puml&fmt=svg)|
+|![Análisis: importarAsignaturas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-38-importarAsignaturas/analisis-colaboracion-CU-38-importarAsignaturas.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-38-importarAsignaturas.puml](analisis-colaboracion-CU-38-importarAsignaturas.puml)|
+|Código fuente: [analisis-colaboracion-CU-38-importarAsignaturas.puml](analisis-colaboracion-CU-38-importarAsignaturas.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
-|**Subject**|Entidad asignatura que serÃ¡ creada o actualizada|Modelo del dominio|
+|**Subject**|Entidad asignatura que será creada o actualizada|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
-|**SubjectImportView**|Interfaz para selecciÃ³n de archivo, previsualizaciÃ³n y confirmaciÃ³n|Wireframe|
+|**SubjectImportView**|Interfaz para selección de archivo, previsualización y confirmación|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**SubjectImportController**|Gestiona la validaciÃ³n de datos, control de duplicados y persistencia|importarAsignaturas()|
+|**SubjectImportController**|Gestiona la validación de datos, control de duplicados y persistencia|importarAsignaturas()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
-|**Docente**|**SubjectImportView**|`solicitarImportar()`|Iniciar el proceso de importaciÃ³n|
+|**Docente**|**SubjectImportView**|`solicitarImportar()`|Iniciar el proceso de importación|
 |**SubjectImportView**|**Docente**|`pedirArchivo()`|Solicitar el origen de los datos|
 |**Docente**|**SubjectImportView**|`proporcionarArchivo()`|Entregar el archivo para procesar|
-|**SubjectImportView**|**SubjectImportController**|`validarDatos(archivo)`|Delegar la validaciÃ³n y anÃ¡lisis|
+|**SubjectImportView**|**SubjectImportController**|`validarDatos(archivo)`|Delegar la validación y análisis|
 |**SubjectImportController**|**Subject**|`verificarExistencia()`|Comprobar si ya existen las asignaturas|
-|**SubjectImportView**|**Docente**|`mostrarResumen()`|Presentar resultados de la validaciÃ³n|
+|**SubjectImportView**|**Docente**|`mostrarResumen()`|Presentar resultados de la validación|
 |**Docente**|**SubjectImportView**|`confirmarImportacion()`|Validar la carga definitiva|
 |**SubjectImportView**|**SubjectImportController**|`importar()`|Coordinar la persistencia masiva|
 |**SubjectImportController**|**Subject**|`save()`|Persistir las nuevas entidades|
 
 ## trazabilidad con artefactos previos
 
-### con especificaciÃ³n detallada
-- **Decisiones** â†’ Se sigue el patrÃ³n de importaciÃ³n consistente con el resto de entidades.
+### con especificación detallada
+- **Decisiones** �?' Se sigue el patrón de importación consistente con el resto de entidades.
 
 
 ```plantuml
