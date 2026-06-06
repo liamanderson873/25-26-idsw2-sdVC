@@ -13,21 +13,21 @@ Haz clic en los badges para explorar las fases del proyecto:
 
 ---
 
-## 📈 Evolución del Modelado (Baseline vs. Realidad)
+## 📈 Evolución del Modelado (Análisis vs. Realidad)
 
 Demostración del proceso de **Diseño Evolutivo (JEDUF)**. Los diagramas se sincronizan con la arquitectura final implementada:
 
-### 1. Arquitectura de Datos (Entidad-Relación)
+### 1. Modelo del Dominio (Entidad-Relación)
 
 | **Diseño Original (Baseline)** | **Implementación Final (As-Built)** |
 | :---: | :---: |
 | ![Original](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramaEntidad/original.puml) | ![Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-entidad-relacion.puml) |
 
-### 2. Comportamiento (Ciclo de Vida del Examen)
+### 2. Ciclo de Vida (Diagrama de Estados)
 
 | **Flujo Teórico** | **Flujo Real de Auditoría** |
 | :---: | :---: |
-| ![Original](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramaEstadosExamen/original.puml) | ![Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-estados-examen.puml) |
+| ![Original](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramas-arquitectonicos/diagrama-estados-examen.puml) | ![Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-estados-examen.puml) |
 
 ---
 

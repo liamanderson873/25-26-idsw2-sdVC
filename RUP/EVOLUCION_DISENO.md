@@ -4,7 +4,7 @@ Este documento muestra la maduración del sistema **Jorgestor**, comparando el m
 
 ---
 
-## 1. Modelo de Datos (Diagrama Entidad-Relación)
+## 1. Modelo del Dominio (Diagrama Entidad-Relación)
 
 ### 🔴 Diseño Original (Baseline)
 El diseño inicial contemplaba relaciones simples y una estructura de datos reducida.
@@ -12,7 +12,7 @@ El diseño inicial contemplaba relaciones simples y una estructura de datos redu
 ![Baseline ER](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramaEntidad/original.puml)
 
 ### 🟢 Implementación Final (As-Built)
-Se ha evolucionado a una arquitectura jerárquica con relaciones N:M, soporte para auditoría técnica y gestión de cursos.
+Se ha evolucionado a una arquitectura jerárquica con relaciones N:M, soporte para auditoría técnica y gestión de cursos, manteniendo la estética original aprobada.
 
 ![Final ER](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-entidad-relacion.puml)
 
@@ -23,7 +23,7 @@ Se ha evolucionado a una arquitectura jerárquica con relaciones N:M, soporte pa
 ### 🔴 Flujo Original
 Un proceso lineal sin validaciones técnicas intermedias.
 
-![Baseline Estados](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramaEstadosExamen/original.puml)
+![Baseline Estados](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramas-arquitectonicos/diagrama-estados-examen.puml)
 
 ### 🟢 Flujo Final
 Incluye fases de auditoría, simulación de entrega y validación por parte del docente.

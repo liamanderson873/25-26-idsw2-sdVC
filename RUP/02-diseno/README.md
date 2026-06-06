@@ -1,42 +1,38 @@
-# 🏗️ Disciplina de Diseño: Arquitectura y Realizaciones
+# 🏗️ Diseño Arquitectónico y Estructura de Datos
 
-Bienvenido a la capa de diseño de **Jorgestor**. Esta sección documenta la arquitectura técnica final y cómo se han materializado los casos de uso en el software.
+Esta sección documenta la arquitectura técnica final de **Jorgestor**, reflejando las decisiones de diseño evolucionadas (JEDUF) para cumplir con los requisitos académicos de IDSW2.
 
 ---
 
-## 🏛️ Diagramas de Arquitectura (As-Built)
+## 📊 Modelo del Dominio (Entidad-Relación)
 
-Estos diagramas representan la estructura técnica jerárquica y el comportamiento real del sistema.
+Se ha implementado un esquema robusto en **PostgreSQL 17** que soporta:
+- **Transversalidad**: Asignaturas compartidas entre varios grados.
+- **Matriculación Dinámica**: Alumnos vinculados a múltiples materias independientemente de su curso.
+- **Auditoría Técnica**: Registro histórico de cada marca realizada en los exámenes.
 
-### 1. Modelo de Datos (Entidad-Relación)
-Representa la persistencia en PostgreSQL 17, incluyendo las relaciones N:M de transversalidad y matriculación.
+![Modelo del Dominio Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-entidad-relacion.puml)
 
-![Diagrama ER Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-entidad-relacion.puml)
-> [🔗 Ver Código Fuente](diagramas-arquitectonicos/diagrama-entidad-relacion.puml)
+> [!TIP]
+> [Ver código fuente del diagrama (PlantUML)](diagramas-arquitectonicos/diagrama-entidad-relacion.puml)
 
-### 2. Estructura de Clases (Diseño Técnico)
-Detalla la organización interna del Backend en Java/Spring Boot (Controllers, Services, Repositories).
+---
 
-![Diagrama de Clases](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-clases-diseno.puml)
-> [🔗 Ver Código Fuente](diagramas-arquitectonicos/diagrama-clases-diseno.puml)
+## 🔄 Ciclo de Vida del Examen
 
-### 3. Ciclo de Vida del Examen (Estados)
-Define la progresión de estados desde la generación hasta el cierre de acta.
+El ciclo de vida del ejemplar de examen ha sido expandido para incluir la fase de auditoría y validación previa a la calificación.
 
 ![Diagrama de Estados Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-estados-examen.puml)
-> [🔗 Ver Código Fuente](diagramas-arquitectonicos/diagrama-estados-examen.puml)
+
+> [!TIP]
+> [Ver código fuente del diagrama (PlantUML)](diagramas-arquitectonicos/diagrama-estados-examen.puml)
 
 ---
 
-## 🎯 Realizaciones de Diseño (Casos de Uso)
+## 📂 Organización de la Capa de Diseño
 
-Cada caso de uso tiene su propia realización técnica documentada:
-
-| Categoría | Casos de Uso | Acceso Directo |
-| :--- | :--- | :---: |
-| **Evaluación Core** | Corregir, Generar, Exportar y Asignar | [![Link](https://img.shields.io/badge/-Realizaciones-blue?style=for-the-badge)](casos-uso/) |
-| **Importación** | Carga masiva de Alumnos y Preguntas | [![Link](https://img.shields.io/badge/-Realizaciones-green?style=for-the-badge)](casos-uso/) |
-| **Administración** | CRUDs de Alumnos, Asignaturas, Grados, etc. | [![Link](https://img.shields.io/badge/-Realizaciones-lightgrey?style=for-the-badge)](casos-uso/) |
+- **[/casos-uso](casos-uso/)**: Realizaciones de diseño para cada caso de uso.
+- **[diagrama-clases-diseno.puml](diagramas-arquitectonicos/diagrama-clases-diseno.puml)**: Detalle técnico de la implementación en Java.
 
 ---
 [⬅️ Volver al Panel Maestro](../../README.md)

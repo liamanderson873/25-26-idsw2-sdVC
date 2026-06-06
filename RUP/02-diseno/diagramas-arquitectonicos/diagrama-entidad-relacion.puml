@@ -1,106 +1,115 @@
 @startuml
-title Diagrama de Entidad-Relación - Jorgestor (Jerarquía Evolucionada)
+title Modelo del Dominio - Jorgestor (Implementación Final)
 
-' Forzar disposición vertical de arriba a abajo
-top to bottom direction
-skinparam linetype ortho
+' Restauramos la estética plana/orgánica del original que te gustaba
 
-' --- NIVEL 1: CIMIENTOS (LOS MAESTROS) ---
-class Grado {
-  -id: Long
-  -título: String
-  -código: String
+class Examen{
+ -id: Long
+ -evaluación: EvaluaciónExamen
+ -clave corrección: String
+ -fecha: LocalDate
+ -esPersonalizado: Boolean
 }
 
-class Profesor {
-  -id: Long
-  -nombre: String
-  -apellidos: String
-  -DNI: String
-  -email: String
+class Asignatura{
+ -id: Long
+ -título: String
+ -código: String
+ -curso académico: String
+ -curso sugerido: Integer
 }
 
-' --- NIVEL 2: DEFINICIÓN ACADÉMICA ---
-class Asignatura {
-  -id: Long
-  -título: String
-  -código: String
-  -cursoAcademico: String
-  -cursoSugerido: Integer
+class Pregunta{
+ -id: Long
+ -asignatura: Asignatura
+ -enunciado: String
+ -tema: Tema
+ -dificultad: DificultadPregunta
 }
 
-' --- NIVEL 3: RECURSOS (LA BATERÍA) ---
-class Tema {
-  -id: Long
-  -nombre: String
+class BateriaDePreguntas{
 }
 
-class Pregunta {
-  -id: Long
-  -enunciado: String
-  -dificultad: DificultadPregunta
+class Grado{
+ -id: Long
+ -título: String
+ -código: String
 }
 
-class Respuesta {
-  -id: Long
-  -contenido: String
-  -esCorrecta: Boolean
-  -índice: Integer
+class Profesor{
+ -id: Long
+ -nombre: String
+ -apellidos: String
+ -DNI: String
 }
 
-' --- NIVEL 4: OPERACIÓN (EL MODELO) ---
-class Examen {
-  -id: Long
-  -fecha: LocalDate
-  -evaluación: EvaluaciónExamen
-  -esPersonalizado: Boolean
+class Alumno{
+ -id: Long
+ -nombre: String
+ -apellidos: String
+ -DNI: String
+ -curso: Integer
 }
 
-' --- NIVEL 5: EJECUCIÓN (EL EJEMPLAR) ---
-class Alumno {
-  -id: Long
-  -nombre: String
-  -apellidos: String
-  -DNI: String
-  -curso: Integer
+enum EvaluaciónExamen{
+ -Parcial 1
+ -Parcial 2
+ -Parcial 3
+ -Examen final
+ -Examen extraordinario
+}
+
+enum DificultadPregunta{
+ -facil
+ -medio
+ -dificil
+}
+
+class Respuesta{
+ -id: Long
+ -opción: String
+ -esCorrecta: Boolean
+ -índice: Integer
+}
+
+class Tema{
+ -id: Long
+ -nombre: String
 }
 
 class ExamenAlumno {
-  -id: Long
-  -claveCorreccion: String (SHA-256)
-  -notaFinal: Double
-  -estado: EstadoExamen
+ -id: Long
+ -claveCorreccion: String (SHA-256)
+ -notaFinal: Double
+ -estado: EstadoExamen
 }
 
 class ExamenAlumnoMarca {
-  -id: Long
-  -índiceMarcado: Integer
+ -id: Long
+ -indiceMarcado: Integer
 }
 
-' --- RELACIONES JERÁRQUICAS ---
+' Relaciones del diagrama original (Baseline) restauradas estéticamente
+Respuesta -u-* Pregunta
+Pregunta ..> DificultadPregunta
+Pregunta -u-o Examen : contiene
+Pregunta -u-* BateriaDePreguntas : contiene
+Examen ..> EvaluaciónExamen
+BateriaDePreguntas -u-* Asignatura : tiene
+Examen -u-* Asignatura : tiene
+Profesor o-r- Asignatura : tiene
+Asignatura --> Grado : pertenece
+Alumno -u-o Examen : realiza
+Alumno -u-* Asignatura : se imparte
+Alumno -u-* Grado : se cursa
+Pregunta ..> Tema
 
-' Nivel 1 -> Nivel 2
-Profesor "1" -- "*" Asignatura : imparte
-Asignatura "*" -- "*" Grado : se imparte en
-
-' Nivel 2 -> Nivel 3
-Asignatura "1" -- "*" Tema : contiene
-Tema "1" -- "*" Pregunta : tiene
-Pregunta "1" -- "*" Respuesta : contiene
-
-' Nivel 2 -> Nivel 4
-Examen "*" -- "1" Asignatura : basado en
-Examen "1" -- "*" Pregunta : selecciona
-
-' Nivel 4 -> Nivel 5 (Instanciación)
+' Extensiones integradas orgánicamente
 Examen "1" -- "*" ExamenAlumno : genera
 Alumno "1" -- "*" ExamenAlumno : posee
-Alumno "*" -- "*" Asignatura : matriculado
-Alumno "*" -- "1" Grado : pertenece
-
-' Nivel 5 (Auditoría)
-ExamenAlumno "1" *-- "*" ExamenAlumnoMarca : registra
+ExamenAlumno "1" *-- "*" ExamenAlumnoMarca : auditoría
 ExamenAlumnoMarca "*" -- "1" Pregunta : marcada
 ExamenAlumnoMarca "*" -- "1" Respuesta : elegida
+Tema "*" -- "1" Asignatura : pertenece
 
 @enduml
