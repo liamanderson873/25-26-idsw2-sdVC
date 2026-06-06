@@ -1,16 +1,15 @@
-﻿@startuml exportarAlumnos-analisis
+@startuml exportarAlumnos-analisis
 skinparam linetype polyline
 
-actor Docente
+note "<<abstracto>>\nInvocado desde CU-04: exportarConfiguracionGlobal" as N1
 package exportarAlumnos as "exportarAlumnos()" {
     rectangle #629EF9 VistaExportacionAlumnos
     rectangle #b5bd68 ControladorExportacion
     rectangle #F2AC4E Alumno
 }
 
-Docente -r-> VistaExportacionAlumnos: exportarAlumnos()
 VistaExportacionAlumnos -d-> ControladorExportacion: prepararDatos()
 ControladorExportacion --> Alumno: obtenerTodos()
-ControladorExportacion --> VistaExportacionAlumnos: notificarExito()
+ControladorExportacion --> VistaExportacionAlumnos: ficheroJSON
 
 @enduml

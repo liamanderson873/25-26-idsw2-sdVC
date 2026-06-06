@@ -1,12 +1,13 @@
-﻿@startuml cu40-exportarAsignaturas-analisis-secuencia
+@startuml cu40-exportarAsignaturas-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-40: Exportar Asignaturas
 
-actor "Docente" as Actor
 participant ":VistaExportacionAsignaturas" as Boundary <<boundary>>
 participant ":ControladorExportacionAsignaturas" as Control <<control>>
 participant ":Asignatura" as Entity <<entity>>
 
-Actor -> Boundary : solicitarExportacion()
+note over Boundary : <<abstracto>> Invocado desde CU-04: exportarConfiguracionGlobal
+
+[-> Boundary : solicitarExportacion()
 activate Boundary
 
 Boundary -> Control : exportarAsignaturas()
@@ -20,7 +21,7 @@ deactivate Entity
 Control --> Boundary : ficheroJSON
 deactivate Control
 
-Boundary --> Actor : descargarFichero(ficheroJSON)
+[<- Boundary : ficheroJSON
 deactivate Boundary
 
 @enduml

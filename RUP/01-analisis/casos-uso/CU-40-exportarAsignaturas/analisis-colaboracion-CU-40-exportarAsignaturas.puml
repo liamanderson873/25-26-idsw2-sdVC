@@ -1,17 +1,15 @@
-﻿@startuml exportarAsignaturas-analisis
+@startuml exportarAsignaturas-analisis
 skinparam linetype polyline
 
-actor Docente
+note "<<abstracto>>\nInvocado desde CU-04: exportarConfiguracionGlobal" as N1
 package exportarAsignaturas as "exportarAsignaturas()" {
     rectangle #629EF9 VistaExportacionAsignaturas
     rectangle #b5bd68 ControladorExportacionAsignaturas
     rectangle #F2AC4E Asignatura
 }
 
-Docente -r-> VistaExportacionAsignaturas: solicitarExportacion()
 VistaExportacionAsignaturas -d-> ControladorExportacionAsignaturas: procesarExportacion()
 ControladorExportacionAsignaturas --> Asignatura: obtenerDatosAsignaturas()
-ControladorExportacionAsignaturas --> VistaExportacionAsignaturas: devolverFichero()
-VistaExportacionAsignaturas --> Docente: descargarFichero()
+ControladorExportacionAsignaturas --> VistaExportacionAsignaturas: ficheroJSON
 
 @enduml
