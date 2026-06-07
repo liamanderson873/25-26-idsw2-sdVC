@@ -27,4 +27,20 @@ public interface RepositorioExamenAlumno extends JpaRepository<ExamenAlumno, Lon
 
     @Query("SELECT ea.examen.asignatura.id, COUNT(ea) FROM ExamenAlumno ea GROUP BY ea.examen.asignatura.id")
     List<Object[]> countByAsignatura();
+
+    @Query("SELECT ea.examen.asignatura.id, ea.examen.asignatura.nombre, ea.examen.tipoEvaluacion, " +
+           "ea.examen.fechaExamen, ea.estado, COUNT(ea) " +
+           "FROM ExamenAlumno ea " +
+           "GROUP BY ea.examen.asignatura.id, ea.examen.asignatura.nombre, " +
+           "ea.examen.tipoEvaluacion, ea.examen.fechaExamen, ea.estado " +
+           "ORDER BY ea.examen.fechaExamen DESC, ea.examen.asignatura.nombre ASC")
+    List<Object[]> findGruposConConteos();
+
+    @Query("SELECT ea FROM ExamenAlumno ea JOIN FETCH ea.alumno JOIN FETCH ea.examen e " +
+           "WHERE e.asignatura.id = :asignaturaId AND e.tipoEvaluacion = :tipoEvaluacion AND e.fechaExamen = :fechaExamen")
+    List<ExamenAlumno> findByGrupo(
+        @Param("asignaturaId") Long asignaturaId,
+        @Param("tipoEvaluacion") com.jorgestor.api.modelo.TipoEvaluacion tipoEvaluacion,
+        @Param("fechaExamen") java.time.LocalDate fechaExamen
+    );
 }

@@ -1,7 +1,9 @@
 package com.jorgestor.api.servicio;
 
+import com.jorgestor.api.dto.DTO_AccionGrupo;
 import com.jorgestor.api.dto.DTO_AuditoriaAlumno;
 import com.jorgestor.api.dto.DTO_EjemplarResumen;
+import com.jorgestor.api.dto.DTO_GrupoExamen;
 import com.jorgestor.api.dto.DTO_RevisionEjemplar;
 import com.jorgestor.api.dto.DTO_ExportarExamen;
 import com.jorgestor.api.dto.DTO_GenerarExamen;
@@ -21,10 +23,12 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HexFormat;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -88,6 +92,118 @@ public class ServicioExamen {
             result.put((Long) row[0], (Long) row[1]);
         }
         return result;
+    }
+
+    @Transactional(readOnly = true)
+    public List<DTO_GrupoExamen> listarGrupos() {
+        List<Object[]> rows = repoExamenAlumno.findGruposConConteos();
+        Map<String, DTO_GrupoExamen> grupos = new LinkedHashMap<>();
+        for (Object[] row : rows) {
+            Long asignaturaId        = (Long) row[0];
+            String asignaturaNombre  = (String) row[1];
+            TipoEvaluacion tipo      = (TipoEvaluacion) row[2];
+            LocalDate fecha          = (LocalDate) row[3];
+            EstadoExamen estado      = (EstadoExamen) row[4];
+            long count               = (Long) row[5];
+            String key = asignaturaId + "|" + tipo + "|" + fecha;
+            DTO_GrupoExamen g = grupos.computeIfAbsent(key, k -> {
+                DTO_GrupoExamen dto = new DTO_GrupoExamen();
+                dto.setAsignaturaId(asignaturaId);
+                dto.setAsignaturaNombre(asignaturaNombre);
+                dto.setTipoEvaluacion(tipo.toString());
+                dto.setFechaExamen(fecha.toString());
+                return dto;
+            });
+            g.setTotalAlumnos(g.getTotalAlumnos() + count);
+            if (estado == EstadoExamen.ASIGNADO || estado == EstadoExamen.PENDIENTE) {
+                g.setPendientes(g.getPendientes() + count);
+            } else if (estado == EstadoExamen.ENTREGADO || estado == EstadoExamen.PENDIENTE_CALIFICACION || estado == EstadoExamen.REALIZADO) {
+                g.setEntregados(g.getEntregados() + count);
+            } else if (estado == EstadoExamen.CORREGIDO) {
+                g.setCorregidos(g.getCorregidos() + count);
+            }
+        }
+        return new ArrayList<>(grupos.values());
+    }
+
+    @Transactional(readOnly = true)
+    public List<DTO_EjemplarResumen> listarEjemplaresDeGrupo(DTO_AccionGrupo dto) {
+        TipoEvaluacion tipo = TipoEvaluacion.valueOf(dto.getTipoEvaluacion());
+        LocalDate fecha = LocalDate.parse(dto.getFechaExamen());
+        return repoExamenAlumno.findByGrupo(dto.getAsignaturaId(), tipo, fecha)
+                .stream().map(this::toResumen).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void simularEntregaGrupo(DTO_AccionGrupo dto) {
+        TipoEvaluacion tipo = TipoEvaluacion.valueOf(dto.getTipoEvaluacion());
+        LocalDate fecha = LocalDate.parse(dto.getFechaExamen());
+        List<ExamenAlumno> ejemplares = repoExamenAlumno.findByGrupo(dto.getAsignaturaId(), tipo, fecha);
+        List<ExamenAlumno> candidatos = ejemplares.stream()
+                .filter(ej -> ej.getEstado() == EstadoExamen.ASIGNADO || ej.getEstado() == EstadoExamen.PENDIENTE)
+                .collect(Collectors.toList());
+        if (candidatos.isEmpty()) return;
+        List<Long> ids = candidatos.stream().map(ExamenAlumno::getId).collect(Collectors.toList());
+        repoMarcas.deleteAllByExamenAlumnoIdIn(ids);
+        repoMarcas.flush();
+        List<ExamenAlumno> actualizados = new ArrayList<>();
+        List<ExamenAlumnoMarca> todasLasMarcas = new ArrayList<>();
+        for (ExamenAlumno ej : candidatos) {
+            Examen examen = repoExamen.findByIdConPreguntasYRespuestas(ej.getExamen().getId())
+                    .orElseThrow(() -> new RuntimeException("Examen no encontrado"));
+            List<Pregunta> preguntas = new ArrayList<>(examen.getPreguntas());
+            double nivel = 0.3 + (Math.random() * 0.65);
+            for (Pregunta p : preguntas) {
+                Respuesta correcta = p.getRespuestas().stream()
+                        .filter(Respuesta::isEsCorrecta).findFirst().orElse(p.getRespuestas().get(0));
+                int indiceElegido = Math.random() < nivel ? correcta.getIndice() : (int) (Math.random() * 4);
+                Respuesta respElegida = p.getRespuestas().stream()
+                        .filter(r -> r.getIndice().equals(indiceElegido)).findFirst().orElse(correcta);
+                ExamenAlumnoMarca marca = new ExamenAlumnoMarca();
+                marca.setExamenAlumno(ej);
+                marca.setPregunta(p);
+                marca.setRespuesta(respElegida);
+                marca.setIndiceMarcado(indiceElegido);
+                todasLasMarcas.add(marca);
+            }
+            ej.setEstado(EstadoExamen.PENDIENTE_CALIFICACION);
+            actualizados.add(ej);
+        }
+        repoMarcas.saveAll(todasLasMarcas);
+        repoExamenAlumno.saveAll(actualizados);
+    }
+
+    @Transactional
+    public void corregirGrupo(DTO_AccionGrupo dto) {
+        TipoEvaluacion tipo = TipoEvaluacion.valueOf(dto.getTipoEvaluacion());
+        LocalDate fecha = LocalDate.parse(dto.getFechaExamen());
+        List<ExamenAlumno> ejemplares = repoExamenAlumno.findByGrupo(dto.getAsignaturaId(), tipo, fecha);
+        List<ExamenAlumno> candidatos = ejemplares.stream()
+                .filter(ej -> ej.getEstado() == EstadoExamen.PENDIENTE_CALIFICACION
+                           || ej.getEstado() == EstadoExamen.ENTREGADO
+                           || ej.getEstado() == EstadoExamen.REALIZADO)
+                .collect(Collectors.toList());
+        if (candidatos.isEmpty()) return;
+        List<Long> ids = candidatos.stream().map(ExamenAlumno::getId).collect(Collectors.toList());
+        List<ExamenAlumnoMarca> todasLasMarcas = repoMarcas.findAllByExamenAlumnoIdIn(ids);
+        Map<Long, List<ExamenAlumnoMarca>> marcasPorEjemplar = todasLasMarcas.stream()
+                .collect(Collectors.groupingBy(m -> m.getExamenAlumno().getId()));
+        List<ExamenAlumno> actualizados = new ArrayList<>();
+        for (ExamenAlumno ej : candidatos) {
+            List<ExamenAlumnoMarca> marcasAlumno = marcasPorEjemplar.getOrDefault(ej.getId(), Collections.emptyList());
+            if (marcasAlumno.isEmpty()) continue;
+            double totalPreguntas = marcasAlumno.size();
+            double aciertos = 0, fallos = 0;
+            for (ExamenAlumnoMarca marca : marcasAlumno) {
+                if (marca.getRespuesta() != null && marca.getRespuesta().isEsCorrecta()) aciertos++;
+                else if (marca.getRespuesta() != null) fallos++;
+            }
+            double nota = ((aciertos - (fallos / 3.0)) / totalPreguntas) * 10.0;
+            ej.setNotaFinal(Math.max(0, Math.round(nota * 100.0) / 100.0));
+            ej.setEstado(EstadoExamen.CORREGIDO);
+            actualizados.add(ej);
+        }
+        repoExamenAlumno.saveAll(actualizados);
     }
 
     @Transactional(readOnly = true)

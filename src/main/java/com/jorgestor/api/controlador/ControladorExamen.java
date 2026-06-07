@@ -1,5 +1,6 @@
 package com.jorgestor.api.controlador;
 
+import com.jorgestor.api.dto.DTO_AccionGrupo;
 import com.jorgestor.api.dto.DTO_AsignarExamen;
 import com.jorgestor.api.dto.DTO_GenerarExamen;
 import com.jorgestor.api.dto.DTO_GenerarYAsignar;
@@ -25,6 +26,40 @@ public class ControladorExamen {
     @GetMapping
     public ResponseEntity<?> listar() {
         return ResponseEntity.ok(servicioExamen.listarTodos());
+    }
+
+    @GetMapping("/grupos")
+    public ResponseEntity<?> listarGrupos() {
+        return ResponseEntity.ok(servicioExamen.listarGrupos());
+    }
+
+    @PostMapping("/grupos/alumnos")
+    public ResponseEntity<?> alumnosDeGrupo(@RequestBody DTO_AccionGrupo dto) {
+        try {
+            return ResponseEntity.ok(servicioExamen.listarEjemplaresDeGrupo(dto));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/grupos/entregar")
+    public ResponseEntity<?> entregarGrupo(@RequestBody DTO_AccionGrupo dto) {
+        try {
+            servicioExamen.simularEntregaGrupo(dto);
+            return ResponseEntity.ok("Entrega simulada correctamente para todos los alumnos pendientes del grupo.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/grupos/corregir")
+    public ResponseEntity<?> corregirGrupo(@RequestBody DTO_AccionGrupo dto) {
+        try {
+            servicioExamen.corregirGrupo(dto);
+            return ResponseEntity.ok("Corrección completada para todos los alumnos entregados del grupo.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/conteos/alumnos")

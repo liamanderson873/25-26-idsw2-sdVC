@@ -56,6 +56,26 @@ export const getRevisionEjemplar = async (ejemplarId: number): Promise<any> => {
   return response.data;
 };
 
+export const getGruposExamen = async (): Promise<any[]> => {
+  const response = await api.get('/examenes/grupos');
+  return Array.isArray(response.data) ? response.data : [];
+};
+
+export const getEjemplaresDeGrupo = async (dto: { asignaturaId: number; tipoEvaluacion: string; fechaExamen: string }): Promise<any[]> => {
+  const response = await api.post('/examenes/grupos/alumnos', dto);
+  return Array.isArray(response.data) ? response.data : [];
+};
+
+export const entregarGrupo = async (dto: { asignaturaId: number; tipoEvaluacion: string; fechaExamen: string }): Promise<string> => {
+  const response = await api.post('/examenes/grupos/entregar', dto);
+  return response.data;
+};
+
+export const corregirGrupoIA = async (dto: { asignaturaId: number; tipoEvaluacion: string; fechaExamen: string }): Promise<string> => {
+  const response = await api.post('/examenes/grupos/corregir', dto);
+  return response.data;
+};
+
 export const getConteosPorAlumno = async (): Promise<Record<number, number>> => {
   const response = await api.get('/examenes/conteos/alumnos');
   return response.data;
