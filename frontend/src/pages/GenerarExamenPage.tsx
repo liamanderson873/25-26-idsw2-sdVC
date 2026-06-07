@@ -508,7 +508,7 @@ const GenerarExamenPage: React.FC = () => {
             <div style={{ fontSize: '0.82rem', color: '#047857' }}>{resultado}</div>
           </div>
           <button type="button" className="btn btn-primary"
-            onClick={() => window.location.href = '/corregir-examen'}
+            onClick={() => window.location.href = '/asignar-examen'}
             style={{ flexShrink: 0 }}
           >
             Ir a Asignación
