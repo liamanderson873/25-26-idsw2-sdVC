@@ -27,6 +27,20 @@ const ACCIONES = [
     ),
   },
   {
+    ruta: '/asignar-examen',
+    titulo: 'Asignar Examen',
+    desc: 'Genera las claves SHA-256 y asigna formalmente los exámenes pendientes a los alumnos.',
+    color: '#7c3aed',
+    bg: '#ede9fe',
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="7.5" cy="15.5" r="4.5"/>
+        <path d="M21 2l-9.6 9.6"/>
+        <path d="M15.5 7.5l3 3L22 7l-3-3"/>
+      </svg>
+    ),
+  },
+  {
     ruta: '/corregir-examen',
     titulo: 'Corregir Exámenes',
     desc: 'Gestiona las correcciones por grupo: simulación, IA y corrección manual.',
