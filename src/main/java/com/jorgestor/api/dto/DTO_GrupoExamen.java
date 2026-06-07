@@ -12,6 +12,7 @@ public class DTO_GrupoExamen {
     private String fechaExamen;
     private long totalAlumnos;
     private long pendientes;
+    private long asignados;
     private long entregados;
     private long corregidos;
 }

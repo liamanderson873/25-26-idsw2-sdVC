@@ -115,8 +115,10 @@ public class ServicioExamen {
                 return dto;
             });
             g.setTotalAlumnos(g.getTotalAlumnos() + count);
-            if (estado == EstadoExamen.ASIGNADO || estado == EstadoExamen.PENDIENTE) {
+            if (estado == EstadoExamen.PENDIENTE) {
                 g.setPendientes(g.getPendientes() + count);
+            } else if (estado == EstadoExamen.ASIGNADO) {
+                g.setAsignados(g.getAsignados() + count);
             } else if (estado == EstadoExamen.ENTREGADO || estado == EstadoExamen.PENDIENTE_CALIFICACION || estado == EstadoExamen.REALIZADO) {
                 g.setEntregados(g.getEntregados() + count);
             } else if (estado == EstadoExamen.CORREGIDO) {
@@ -140,7 +142,7 @@ public class ServicioExamen {
         LocalDate fecha = LocalDate.parse(dto.getFechaExamen());
         List<ExamenAlumno> ejemplares = repoExamenAlumno.findByGrupo(dto.getAsignaturaId(), tipo, fecha);
         List<ExamenAlumno> candidatos = ejemplares.stream()
-                .filter(ej -> ej.getEstado() == EstadoExamen.ASIGNADO || ej.getEstado() == EstadoExamen.PENDIENTE)
+                .filter(ej -> ej.getEstado() == EstadoExamen.ASIGNADO)
                 .collect(Collectors.toList());
         if (candidatos.isEmpty()) return;
         List<Long> ids = candidatos.stream().map(ExamenAlumno::getId).collect(Collectors.toList());
@@ -244,7 +246,7 @@ public class ServicioExamen {
         List<Pregunta> preguntas = new ArrayList<>(examen.getPreguntas());
 
         List<ExamenAlumno> candidatos = ejemplares.stream()
-                .filter(ej -> ej.getEstado() == EstadoExamen.ASIGNADO || ej.getEstado() == EstadoExamen.PENDIENTE)
+                .filter(ej -> ej.getEstado() == EstadoExamen.ASIGNADO)
                 .collect(Collectors.toList());
 
         if (candidatos.isEmpty()) return;
@@ -429,9 +431,9 @@ public class ServicioExamen {
         }
         dto.setPreguntas(preguntasExport);
 
-        // 2. Mapeamos los alumnos y sus claves SHA-256 (Filtrado directo por examen)
+        // 2. Mapeamos los alumnos y sus claves SHA-256 (solo los formalmente asignados)
         List<ExamenAlumno> ejemplares = repoExamenAlumno.findAll().stream()
-                .filter(e -> e.getExamen().getId().equals(examenId))
+                .filter(e -> e.getExamen().getId().equals(examenId) && e.getClaveCorreccion() != null)
                 .collect(Collectors.toList());
 
         List<DTO_ExportarExamen.AlumnoClaveExport> alumnosExport = ejemplares.stream()
@@ -540,8 +542,7 @@ public class ServicioExamen {
                 ExamenAlumno ejemplar = new ExamenAlumno();
                 ejemplar.setExamen(examen);
                 ejemplar.setAlumno(alumno);
-                ejemplar.setEstado(EstadoExamen.ASIGNADO);
-                ejemplar.setClaveCorreccion(generarClaveCorreccion(alumno, examen));
+                ejemplar.setEstado(EstadoExamen.PENDIENTE);
                 repoExamenAlumno.save(ejemplar);
 
                 totalGenerados++;
@@ -673,7 +674,27 @@ public class ServicioExamen {
     }
 
     /**
-     * CU-33: cancelarGeneracion — elimina un examen sólo si aún no ha sido asignado a ningún alumno.
+     * CU-09: Asignación formal de un grupo generado.
+     * Genera las claves SHA-256 y pasa los ejemplares de PENDIENTE a ASIGNADO.
+     */
+    @Transactional
+    public void asignarGrupo(DTO_AccionGrupo dto) {
+        TipoEvaluacion tipo = TipoEvaluacion.valueOf(dto.getTipoEvaluacion());
+        LocalDate fecha = LocalDate.parse(dto.getFechaExamen());
+        List<ExamenAlumno> ejemplares = repoExamenAlumno.findByGrupo(dto.getAsignaturaId(), tipo, fecha);
+        List<ExamenAlumno> candidatos = ejemplares.stream()
+                .filter(ej -> ej.getEstado() == EstadoExamen.PENDIENTE)
+                .collect(Collectors.toList());
+        if (candidatos.isEmpty()) return;
+        for (ExamenAlumno ej : candidatos) {
+            ej.setClaveCorreccion(generarClaveCorreccion(ej.getAlumno(), ej.getExamen()));
+            ej.setEstado(EstadoExamen.ASIGNADO);
+        }
+        repoExamenAlumno.saveAll(candidatos);
+    }
+
+    /**
+     * CU-37: cancelarGeneracion — elimina un examen sólo si no ha sido asignado formalmente (PENDIENTE).
      */
     @Transactional
     public void cancelarGeneracion(Long examenId) {
@@ -681,8 +702,13 @@ public class ServicioExamen {
             throw new RuntimeException("Examen no encontrado con ID: " + examenId);
         }
         List<ExamenAlumno> ejemplares = repoExamenAlumno.findByExamenId(examenId);
+        boolean tieneAsignados = ejemplares.stream()
+                .anyMatch(ej -> ej.getEstado() != EstadoExamen.PENDIENTE);
+        if (tieneAsignados) {
+            throw new RuntimeException("No se puede cancelar: el examen ya ha sido asignado formalmente.");
+        }
         if (!ejemplares.isEmpty()) {
-            throw new RuntimeException("No se puede cancelar: el examen ya ha sido asignado a " + ejemplares.size() + " alumno(s).");
+            repoExamenAlumno.deleteAll(ejemplares);
         }
         repoExamen.deleteById(examenId);
     }

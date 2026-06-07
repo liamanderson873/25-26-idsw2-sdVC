@@ -479,7 +479,7 @@ const GenerarExamenPage: React.FC = () => {
                     ? 'Las proporciones de dificultad deben sumar 100%'
                     : totalAlumnosSeleccionados === 0
                       ? 'Seleccione al menos un alumno'
-                      : `Generar ${totalAlumnosSeleccionados} examen${totalAlumnosSeleccionados !== 1 ? 'es' : ''} personalizados`}
+                      : `Generar ${totalAlumnosSeleccionados} examen${totalAlumnosSeleccionados !== 1 ? 'es' : ''} (pendientes de asignación)`}
             </button>
           </div>
         )}
@@ -503,15 +503,15 @@ const GenerarExamenPage: React.FC = () => {
           </div>
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: '0.875rem', fontWeight: '800', color: '#065f46', marginBottom: '0.25rem' }}>
-              Exámenes generados y asignados correctamente
+              Exámenes generados correctamente — pendientes de asignación formal
             </div>
             <div style={{ fontSize: '0.82rem', color: '#047857' }}>{resultado}</div>
           </div>
           <button type="button" className="btn btn-primary"
-            onClick={() => window.location.href = '/auditoria-examenes'}
+            onClick={() => window.location.href = '/corregir-examen'}
             style={{ flexShrink: 0 }}
           >
-            Ver Exámenes
+            Ir a Asignación
           </button>
         </div>
       )}

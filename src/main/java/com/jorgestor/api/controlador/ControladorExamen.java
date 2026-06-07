@@ -42,6 +42,16 @@ public class ControladorExamen {
         }
     }
 
+    @PostMapping("/grupos/asignar")
+    public ResponseEntity<?> asignarGrupo(@RequestBody DTO_AccionGrupo dto) {
+        try {
+            servicioExamen.asignarGrupo(dto);
+            return ResponseEntity.ok("Exámenes asignados correctamente. Claves SHA-256 generadas para todos los alumnos.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PostMapping("/grupos/entregar")
     public ResponseEntity<?> entregarGrupo(@RequestBody DTO_AccionGrupo dto) {
         try {
