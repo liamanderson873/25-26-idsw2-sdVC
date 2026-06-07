@@ -11,8 +11,7 @@ import type { Alumno, Asignatura } from '../types';
 const ESTADO_STYLE: Record<string, { bg: string; color: string; label: string }> = {
   ASIGNADO:             { bg: '#eff6ff', color: '#2563eb', label: 'Asignado' },
   PENDIENTE:            { bg: '#fefce8', color: '#ca8a04', label: 'Pendiente' },
-  ENTREGADO:            { bg: '#fff7ed', color: '#ea580c', label: 'Entregado' },
-  PENDIENTE_CALIFICACION: { bg: '#faf5ff', color: '#9333ea', label: 'Pendiente Cal.' },
+  PENDIENTE_CALIFICACION: { bg: '#fff7ed', color: '#ea580c', label: 'Entregado' },
   CORREGIDO:            { bg: '#f0fdf4', color: '#16a34a', label: 'Corregido' },
 };
 

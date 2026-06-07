@@ -10,9 +10,7 @@ type Vista = 'grupos' | 'detalle' | 'ia_upload' | 'ia_procesando' | 'manual' | '
 const ESTADO_BADGE: Record<string, { label: string; color: string; bg: string }> = {
   PENDIENTE:              { label: 'Sin asignar',  color: '#7c3aed', bg: '#ede9fe' },
   ASIGNADO:               { label: 'Sin entregar', color: '#64748b', bg: '#f1f5f9' },
-  ENTREGADO:              { label: 'Entregado',    color: '#d97706', bg: '#fffbeb' },
   PENDIENTE_CALIFICACION: { label: 'Entregado',    color: '#d97706', bg: '#fffbeb' },
-  REALIZADO:              { label: 'Entregado',    color: '#d97706', bg: '#fffbeb' },
   CORREGIDO:              { label: 'Corregido',    color: '#059669', bg: '#ecfdf5' },
 };
 
@@ -56,7 +54,7 @@ const CorregirExamenPage: React.FC = () => {
   /* ── Derivados ───────────────────────────────────────── */
   const esSinAsignar = (e: any) => e?.estado === 'PENDIENTE';
   const esAsignado   = (e: any) => e?.estado === 'ASIGNADO';
-  const esEntregado  = (e: any) => e?.estado === 'ENTREGADO' || e?.estado === 'PENDIENTE_CALIFICACION' || e?.estado === 'REALIZADO';
+  const esEntregado  = (e: any) => e?.estado === 'PENDIENTE_CALIFICACION';
   const esCorregido  = (e: any) => e?.estado === 'CORREGIDO';
   const tieneClave   = (e: any) => e?.claveCorreccion != null;
 

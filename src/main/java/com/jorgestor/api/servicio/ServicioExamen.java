@@ -119,7 +119,7 @@ public class ServicioExamen {
                 g.setPendientes(g.getPendientes() + count);
             } else if (estado == EstadoExamen.ASIGNADO) {
                 g.setAsignados(g.getAsignados() + count);
-            } else if (estado == EstadoExamen.ENTREGADO || estado == EstadoExamen.PENDIENTE_CALIFICACION || estado == EstadoExamen.REALIZADO) {
+            } else if (estado == EstadoExamen.PENDIENTE_CALIFICACION) {
                 g.setEntregados(g.getEntregados() + count);
             } else if (estado == EstadoExamen.CORREGIDO) {
                 g.setCorregidos(g.getCorregidos() + count);
@@ -181,9 +181,7 @@ public class ServicioExamen {
         LocalDate fecha = LocalDate.parse(dto.getFechaExamen());
         List<ExamenAlumno> ejemplares = repoExamenAlumno.findByGrupo(dto.getAsignaturaId(), tipo, fecha);
         List<ExamenAlumno> candidatos = ejemplares.stream()
-                .filter(ej -> ej.getEstado() == EstadoExamen.PENDIENTE_CALIFICACION
-                           || ej.getEstado() == EstadoExamen.ENTREGADO
-                           || ej.getEstado() == EstadoExamen.REALIZADO)
+                .filter(ej -> ej.getEstado() == EstadoExamen.PENDIENTE_CALIFICACION)
                 .collect(Collectors.toList());
         if (candidatos.isEmpty()) return;
         List<Long> ids = candidatos.stream().map(ExamenAlumno::getId).collect(Collectors.toList());
@@ -304,9 +302,7 @@ public class ServicioExamen {
         List<ExamenAlumno> ejemplares = repoExamenAlumno.findByExamenId(examenId);
 
         List<ExamenAlumno> candidatos = ejemplares.stream()
-                .filter(ej -> ej.getEstado() == EstadoExamen.PENDIENTE_CALIFICACION
-                           || ej.getEstado() == EstadoExamen.REALIZADO
-                           || ej.getEstado() == EstadoExamen.ENTREGADO)
+                .filter(ej -> ej.getEstado() == EstadoExamen.PENDIENTE_CALIFICACION)
                 .collect(Collectors.toList());
 
         if (candidatos.isEmpty()) return;

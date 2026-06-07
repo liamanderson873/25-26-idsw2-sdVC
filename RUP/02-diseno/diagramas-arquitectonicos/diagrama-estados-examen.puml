@@ -10,35 +10,19 @@ skinparam state {
 
 [*] --> PENDIENTE : generarExamen() — CU-02\nejemplar creado, sin clave SHA-256
 
-state PENDIENTE : Examen generado (CU-02).\nSin clave de corrección aún.\nPendiente de asignación formal.
+state PENDIENTE : Examen generado (CU-02).\nSin clave de corrección.\nPendiente de asignación formal.
 
 state ASIGNADO : Asignado formalmente (CU-09).\nClave SHA-256 generada.\nPendiente de realización.
 
-state PENDIENTE_CALIFICACION : Examen entregado mediante simulación.\nMarcas de auditoría registradas.\nPendiente de calificación.
-
-state REALIZADO : Examen marcado como realizado\nde forma autónoma. Equivalente a\nPENDIENTE_CALIFICACION en corrección.
-
-state ENTREGADO : Examen entregado manualmente\n(escaneo / entrega física). Equivalente a\nPENDIENTE_CALIFICACION en corrección.
+state PENDIENTE_CALIFICACION : Entrega simulada por el docente.\nMarcas de auditoría registradas.\nPendiente de calificación.
 
 state CORREGIDO : Nota final registrada.\nAuditoría completa disponible.
 
-' ─── Flujo principal ──────────────────────────────────────────────
-
-PENDIENTE --> ASIGNADO : asignarGrupo()\n[clave SHA-256 generada]
+PENDIENTE --> ASIGNADO : asignarGrupo() — CU-09\n[clave SHA-256 generada]
 
 ASIGNADO --> PENDIENTE_CALIFICACION : simularEntrega()\n[marcas de auditoría creadas]
 
-ASIGNADO --> REALIZADO : entregaAutonoma()\n[alumno finaliza por su cuenta]
-
-ASIGNADO --> ENTREGADO : entregaManual()\n[hoja física / escaneada]
-
-' ─── Corrección (los tres estados son equivalentes) ──────────────
-
 PENDIENTE_CALIFICACION --> CORREGIDO : corregirIA() / correccionManual()\n[nota = (aciertos - fallos/3) / total × 10]
-
-REALIZADO --> CORREGIDO : corregirIA() / correccionManual()\n[misma fórmula]
-
-ENTREGADO --> CORREGIDO : corregirIA() / correccionManual()\n[misma fórmula]
 
 CORREGIDO --> [*] : acta cerrada
 
