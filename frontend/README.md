@@ -1,73 +1,45 @@
-# React + TypeScript + Vite
+<div align=right>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md)|
+|-:|
 
-Currently, two official plugins are available:
+</div>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+# Frontend — React + Vite
 
-## React Compiler
+Interfaz web del sistema Jorgestor. Consume la API REST del backend Spring Boot.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Stack
 
-## Expanding the ESLint configuration
+|||
+|-|-|
+React 18|Componentes por vista (Boundary en BCE)
+Vite|Bundler y servidor de desarrollo con HMR
+TanStack Query|Gestión de estado del servidor, caché y estados de carga/error
+React Router DOM|Enrutamiento SPA con `useNavigate` y `useSearchParams`
+Axios|Cliente HTTP para las llamadas a la API
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Estructura
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── pages/        # Una página por caso de uso (Boundary)
+├── components/   # Componentes reutilizables
+├── hooks/        # Custom hooks (TanStack Query)
+├── api/          # Funciones de llamada a la API (axios)
+└── main.tsx      # Punto de entrada + router
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Inicio
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```powershell
+.\start-all.ps1
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+O manualmente:
+
+```powershell
+cd frontend
+npm install
+npm run dev
 ```

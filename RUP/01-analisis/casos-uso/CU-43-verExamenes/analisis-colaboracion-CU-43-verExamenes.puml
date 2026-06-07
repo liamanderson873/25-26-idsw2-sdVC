@@ -1,0 +1,16 @@
+@startuml verExamenes-analisis
+skinparam linetype polyline
+
+actor Docente
+package verExamenes as "verExamenes()" {
+    rectangle #629EF9 VistaListaExamenes
+    rectangle #b5bd68 ControladorExamen
+    rectangle #F2AC4E ExamenAlumno
+}
+
+Docente -r-> VistaListaExamenes: verExamenes()
+VistaListaExamenes -d-> ControladorExamen: obtenerGrupos()
+ControladorExamen --> ExamenAlumno: listarGrupos()
+ControladorExamen --> VistaListaExamenes: listaExamenes
+
+@enduml

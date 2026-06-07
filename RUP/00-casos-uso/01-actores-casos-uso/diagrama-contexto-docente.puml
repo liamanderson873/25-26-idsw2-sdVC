@@ -20,9 +20,12 @@ state "PREGUNTAS_ABIERTO" as ListPreguntas
 state "PREGUNTA_ABIERTO" as EditPregunta
 
 state "EXAMENES_GENERADOS" as ExamenesGenerados
+state "EXAMEN_GENERADO" as ExamenGenerado
 state "EXAMENES_ASIGNADOS" as ExamenesAsignados
 
 state "EXAMENES_CORREGIDOS" as ExamenesCorregidos
+state "EXAMEN_CORREGIDO" as ExamenCorregido
+state "EXAMEN_CORREGIDO_CONTEXTUAL" as ExamenCorregidoContextual
 
 state "RESPUESTAS_ABIERTO" as ListRespuestas
 state "RESPUESTA_ABIERTO" as EditRespuesta
@@ -34,6 +37,7 @@ state "RESPUESTAS_CONTEXTUALES_ABIERTO" as ListRespuestasContextuales
 state "RESPUESTA_CONTEXTUAL_ABIERTO" as EditRespuestaContextual
 
 state "EXAMENES_GENERADOS_CONTEXTUALES" as ExamenesGeneradosContextuales
+state "EXAMEN_GENERADO_CONTEXTUAL" as ExamenGeneradoContextual
 state "EXAMENES_ASIGNADOS_CONTEXTUALES" as ExamenesAsignadosContextuales
 
 
@@ -133,18 +137,28 @@ Menu --> ExamenesGenerados: generarExamenes()
 ExamenesGenerados --> ExamenesAsignados: asignarExamenes()
 ExamenesAsignados --> Menu: completarGestion()
 ExamenesGenerados --> Menu: cancelarGeneracion()
+ExamenesGenerados --> ExamenGenerado: verExamen()
+ExamenGenerado --> ExamenesGenerados: verExamenes()
 
 'Modulo examenes contextuales'
 EditAsignatura --> ExamenesGeneradosContextuales: generarExamenes()
 ExamenesGeneradosContextuales --> ExamenesAsignadosContextuales: asignarExamenes()
 ExamenesGeneradosContextuales --> EditAsignatura: cancelarGeneracion()
-ExamenesAsignadosContextuales --> EditAsignatura: editarAsignatura() 
+ExamenesAsignadosContextuales --> EditAsignatura: editarAsignatura()
+ExamenesGeneradosContextuales --> ExamenGeneradoContextual: verExamen()
+ExamenGeneradoContextual --> ExamenesGeneradosContextuales: verExamenes()
 
 
 'Módulo correccion'
 
 Menu --> ExamenesCorregidos: corregirExamenes()
+EditAsignatura --> ExamenesCorregidos: corregirExamenes()
 ExamenesCorregidos --> Menu: completarGestion()
+ExamenesCorregidos --> EditAsignatura: editarAsignatura()
+ExamenesCorregidos --> ExamenCorregido: verExamen()
+ExamenCorregido --> ExamenesCorregidos: verExamenes()
+EditAsignatura --> ExamenCorregidoContextual: verExamen()
+ExamenCorregidoContextual --> EditAsignatura: editarAsignatura()
 
 @enduml
 

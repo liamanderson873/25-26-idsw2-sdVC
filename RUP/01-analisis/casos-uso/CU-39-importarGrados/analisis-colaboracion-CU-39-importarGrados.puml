@@ -1,21 +1,15 @@
 ﻿@startuml importarGrados-analisis
 skinparam linetype polyline
 
-actor Docente
+note "<<abstracto>>\nInvocado desde CU-03: importarConfiguracionGlobal" as N1
 package importarGrados as "importarGrados()" {
     rectangle #629EF9 VistaImportacionGrados
     rectangle #b5bd68 ControladorImportacionGrados
     rectangle #F2AC4E Grado
 }
 
-Docente -r-> VistaImportacionGrados: solicitarImportar()
-VistaImportacionGrados --> Docente: pedirOrigen()
-Docente --> VistaImportacionGrados: proporcionarOrigen()
-VistaImportacionGrados --> ControladorImportacionGrados: validarIntegridad()
-ControladorImportacionGrados --> Grado: verificarDuplicados()
-VistaImportacionGrados --> Docente: pedirConfirmacion()
-Docente --> VistaImportacionGrados: confirmar()
-VistaImportacionGrados -d-> ControladorImportacionGrados: ejecutarImportacion()
-ControladorImportacionGrados --> Grado: createAll()
+VistaImportacionGrados -d-> ControladorImportacionGrados: importarGrados(listaGrados)
+ControladorImportacionGrados --> Grado: guardarOActualizar(grado)
+ControladorImportacionGrados --> VistaImportacionGrados: confirmacion
 
 @enduml

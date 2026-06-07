@@ -869,3 +869,141 @@ Vista `grupos` dividida en dos secciones:
 | `46542c6` | feat(ui): separar grupos en progreso y completados en Correcciones |
 | `cab5bda` | feat(dashboard): añadir tarjeta Asignar Examen al panel de control |
 - Dashboard: acceso rápido y estado del sistema operativos.
+
+---
+
+## Conversación 45: Ver Examen Generado y Corregir desde Asignatura
+**Fecha**: 2026-06-07
+**Participantes**: Liam (Usuario) + Claude Sonnet 4.6
+
+### Contexto de la Sesión
+Sesión de continuación desde contexto compactado. Objetivo: implementar los flujos de navegación que faltaban según el nuevo diagrama de contexto del grupo de modelado, en particular: (1) acceso a CorregirExamenPage filtrado desde AsignaturasPage, y (2) posibilidad de ver el contenido de un examen recién generado antes de asignarlo.
+
+**Prompts clave de Liam**:
+> "1.vamos a hacer que se pueda corregir desde los dos lados... 2 tecnicamente pone que es con el caso edit alumno pero yo lo dejaria como lo tenemos... 3 si se necesita el acceso desde asignatura para poder corregir. y faltaria que despues de generar un examen se pueda ver el examen generado"
+
+### Desarrollo Principal
+
+**1. Actualización del diagrama de contexto** (`4dc39b4`)
+
+`diagrama-contexto-docente.puml` ampliado con cuatro nuevos estados y sus transiciones:
+
+| Estado nuevo | Descripción |
+|---|---|
+| `EXAMEN_GENERADO` | Vista solo lectura de un ejemplar recién generado |
+| `EXAMEN_GENERADO_CONTEXTUAL` | Ídem desde el flujo contextual de asignatura |
+| `EXAMEN_CORREGIDO` | Vista/edición de un ejemplar corregido en CorregirExamenPage |
+| `EXAMEN_CORREGIDO_CONTEXTUAL` | RevisionModal en el panel lateral de AsignaturasPage |
+
+Transiciones añadidas:
+- `EditAsignatura --> ExamenesCorregidos: corregirExamenes()` (junto al ya existente desde `Menu`)
+- `EditAsignatura --> ExamenCorregidoContextual: revisarExamen()` (el botón "Revisar" ya existía)
+- `ExamenesGenerados --> ExamenGenerado: verExamen()` + vuelta
+- `ExamenesGeneradosContextuales --> ExamenGeneradoContextual: verExamen()` + vuelta
+- `ExamenesCorregidos --> ExamenCorregido: verDetalle()` + vuelta
+
+**2. Botón "Corregir" en AsignaturasPage** (`4dc39b4`)
+
+Panel lateral de la asignatura seleccionada: añadido botón "Corregir" en la cabecera que navega a `/corregir-examen?asignaturaId={id}`. Usa `useNavigate` de react-router-dom.
+
+**3. Filtrado por asignatura en CorregirExamenPage** (`4dc39b4`)
+
+- `useSearchParams` lee el param `asignaturaId` de la URL.
+- La lista de grupos se filtra por `asignaturaId` cuando el param está presente.
+- El subtítulo indica si la vista está filtrada.
+- El mensaje de estado vacío distingue el caso filtrado del general.
+
+**4. Botón "Ver examen" para ejemplares no entregados** (`4dc39b4`)
+
+En la tabla de ejemplares del grupo, los estados PENDIENTE y ASIGNADO (antes mostraban el botón desactivado) ahora muestran un botón "Ver examen" que abre la vista de corrección en modo lectura:
+- Las respuestas se muestran pero no son clicables.
+- Badge "Solo lectura" visible junto al nombre del alumno.
+- Botones "Guardar corrección" ocultos; solo aparece "Volver".
+
+**5. "Ver exámenes generados" en GenerarExamenPage** (`4dc39b4`)
+
+Tras la generación exitosa, el banner ahora ofrece dos acciones:
+- **"Ver exámenes generados"** → navega a `/corregir-examen?asignaturaId=X` (nueva acción principal).
+- **"Ir a Asignación"** → navega a `/asignar-examen` (acción secundaria, antes única).
+
+### Flujo de "ver examen generado"
+
+```
+GenerarExamenPage → [Generar] → banner éxito
+  → [Ver exámenes generados] → CorregirExamenPage (filtrado)
+      → seleccionar grupo → lista de alumnos
+          → [Ver examen] → vista solo lectura del examen del alumno
+```
+
+### Decisiones de Diseño
+
+- **modoLectura como estado local**: en lugar de crear una nueva vista, se reutiliza la vista `manual` con un flag `modoLectura` que deshabilita clics e oculta el botón de guardar. Reutilización máxima sin complejidad adicional.
+- **Filtrado client-side**: los grupos se filtran en el frontend (el endpoint `GET /examenes/grupos` ya devuelve todos); no se añade un nuevo endpoint. Adecuado dado el volumen típico de grupos.
+- **Acceso desde ambos lados**: el diagrama original solo mostraba acceso a corrección desde el módulo contextual de asignatura, pero el usuario prefirió mantener también el acceso global desde el sidebar. Ambas transiciones coexisten en el diagrama.
+
+### Commits de esta sesión
+
+| Hash | Descripción |
+|------|-------------|
+| `4dc39b4` | feat: ver examen generado y corregir desde asignatura |
+| `7e00032` | feat(rup): alinear con rama fix-revision-final del ModelingRepo |
+| `c328ff2` | feat(diseno): añadir diagramas de diseño CU-42 y CU-43 |
+| `1930e35` | fix(rup): añadir actor AdministradorInstitucional y corregir diagramas |
+
+---
+
+## Conversación 46: Push a develop y PR a main — Cierre de Sprint
+
+**Fecha:** 2026-06-07
+
+### Resumen
+
+Verificación final del estado del repositorio tras la sesión 45. El árbol de trabajo estaba limpio. Se añaden las entradas pendientes al log y se sube a `develop`. Desde `develop` el usuario abre un PR a `main` desde la interfaz de GitHub.
+
+### Estado final de develop
+
+Los 4 commits de la sesión 45 ya estaban en `develop` local:
+
+| Hash | Descripción |
+|------|-------------|
+| `1930e35` | fix(rup): añadir actor AdministradorInstitucional y corregir diagramas |
+| `c328ff2` | feat(diseno): añadir diagramas de diseño CU-42 y CU-43 |
+| `7e00032` | feat(rup): alinear con rama fix-revision-final del ModelingRepo |
+| `2cbdedc` | docs: añadir conversación 45 al log |
+| `4dc39b4` | feat: ver examen generado y corregir desde asignatura |
+
+---
+
+## Conversación 47: README institucional y documentación de análisis BCE
+
+**Fecha:** 2026-06-07
+
+### Resumen
+
+Reescritura completa del README principal al estilo pySigHor y de todos los READMEs del repositorio. Añadidas tablas BCE a los 43 READMEs de análisis.
+
+### Cambios
+
+**1. README principal** (`b58e2bb`, `0a6dd57`, `8e13e9d`)
+
+- Versión inicial con estructura clara y diagramas embebidos.
+- Reescritura al estilo pySigHor: badges de navegación `<div align=right>`, tabla de proyecto 2 columnas, diagrama de contexto embebido, tabla de Hitos, bloque de estructura del repositorio.
+- Añadida columna "Razón" a la tabla del stack tecnológico con justificación BCE, relaciones N:M (ExamenAlumno/Marca), HMR, server state y RBAC.
+
+**2. Todos los READMEs del proyecto** (`a34f1d5`)
+
+Reescritura homogénea de 43 READMEs de análisis, 43 de diseño, 7 secciones de RUP, frontend y backend. Estilo pySigHor: badges de navegación, tablas limpias, diagramas embebidos via proxy PlantUML.
+
+**3. Tablas BCE en READMEs de análisis** (`c808b16`)
+
+Añadida tabla `## Objetos BCE` a los 43 READMEs de análisis mostrando los estereotipos `<<boundary>>`, `<<control>>` y `<<entity>>` de cada CU con sus clases reales.
+
+### Commits de esta sesión
+
+| Hash | Descripción |
+|------|-------------|
+| `b58e2bb` | docs: reescribir README principal con estructura clara y diagramas embebidos |
+| `0a6dd57` | docs: reescribir README al estilo pySigHor con badges, tablas y diagramas embebidos |
+| `8e13e9d` | docs: añadir razones de elección del stack al README |
+| `a34f1d5` | docs: reescribir todos los READMEs al estilo pySigHor |
+| `c808b16` | docs: añadir tabla BCE a los 43 READMEs de analisis |

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useSearchParams } from 'react-router-dom';
 import {
   corregirExamen, getRevisionEjemplar,
   getGruposExamen, getEjemplaresDeGrupo, entregarGrupo, corregirGrupoIA, asignarGrupo,
@@ -25,6 +26,8 @@ const IconCheck = () => (
 const CorregirExamenPage: React.FC = () => {
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [searchParams] = useSearchParams();
+  const filtroAsignaturaId = searchParams.get('asignaturaId') ? Number(searchParams.get('asignaturaId')) : null;
 
   const [vista, setVista] = useState<Vista>('grupos');
   const [selGrupo, setSelGrupo] = useState<any>(null);
@@ -34,6 +37,7 @@ const CorregirExamenPage: React.FC = () => {
   const [archivoNombre, setArchivoNombre] = useState('');
   const [dragOver, setDragOver] = useState(false);
   const [descargando, setDescargando] = useState(false);
+  const [modoLectura, setModoLectura] = useState(false);
 
   /* ── Queries ─────────────────────────────────────────── */
   const { data: grupos = [], isLoading: loadingGrupos } = useQuery({
@@ -124,8 +128,9 @@ const CorregirExamenPage: React.FC = () => {
     setVista('detalle');
   };
 
-  const handleSelectAlumno = async (ej: any) => {
+  const handleSelectAlumno = async (ej: any, soloVer = false) => {
     setSelEjemplar(ej);
+    setModoLectura(soloVer);
     try {
       const data = await getRevisionEjemplar(ej.id);
       setRevisionData(data);
@@ -150,6 +155,7 @@ const CorregirExamenPage: React.FC = () => {
     setRevisionData(null);
     setMarcas({});
     setArchivoNombre('');
+    setModoLectura(false);
   };
 
   const volverAGrupos = () => {
@@ -259,10 +265,13 @@ const CorregirExamenPage: React.FC = () => {
   /* ── VISTA: LISTA DE GRUPOS ────────────────────────────── */
   /* ═══════════════════════════════════════════════════════════ */
   if (vista === 'grupos') {
-    const gruposEnProgreso = grupos.filter((g: any) =>
+    const gruposFiltrados = filtroAsignaturaId
+      ? grupos.filter((g: any) => g.asignaturaId === filtroAsignaturaId)
+      : grupos;
+    const gruposEnProgreso = gruposFiltrados.filter((g: any) =>
       g.totalAlumnos === 0 || g.corregidos < g.totalAlumnos
     );
-    const gruposCompletados = grupos.filter((g: any) =>
+    const gruposCompletados = gruposFiltrados.filter((g: any) =>
       g.totalAlumnos > 0 && g.corregidos === g.totalAlumnos
     );
 
@@ -291,14 +300,31 @@ const CorregirExamenPage: React.FC = () => {
 
     return (
       <div className="page-container fade-in">
-        <h1>Gestión de Correcciones</h1>
-        <p className="subtitle">Seleccione un grupo de exámenes para gestionar su corrección.</p>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
+          <h1>Gestión de Correcciones</h1>
+          {filtroAsignaturaId && (
+            <button
+              onClick={() => window.history.back()}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.8rem', fontWeight: '600', padding: 0 }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              Volver a la asignatura
+            </button>
+          )}
+        </div>
+        <p className="subtitle">
+          {filtroAsignaturaId
+            ? 'Exámenes de la asignatura seleccionada.'
+            : 'Seleccione un grupo de exámenes para gestionar su corrección.'}
+        </p>
 
         {loadingGrupos ? (
           <div className="card" style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>Cargando...</div>
-        ) : grupos.length === 0 ? (
+        ) : gruposFiltrados.length === 0 ? (
           <div className="card" style={{ padding: '4rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.875rem' }}>
-            No hay exámenes asignados todavía. Genera y asigna exámenes primero.
+            {filtroAsignaturaId
+              ? 'Esta asignatura no tiene exámenes todavía. Genera y asigna exámenes primero.'
+              : 'No hay exámenes asignados todavía. Genera y asigna exámenes primero.'}
           </div>
         ) : (
           <>
@@ -479,6 +505,7 @@ const CorregirExamenPage: React.FC = () => {
                   {ejemplares.map((ej: any) => {
                     const badge = ESTADO_BADGE[ej.estado] ?? ESTADO_BADGE['ASIGNADO'];
                     const puedeManual = esEntregado(ej) || esCorregido(ej);
+                    const puedeVer = esSinAsignar(ej) || esAsignado(ej);
                     return (
                       <tr key={ej.id} style={{ borderBottom: '1px solid var(--surface-3)', transition: 'background 0.12s' }}
                         onMouseEnter={e => (e.currentTarget.style.background = 'var(--surface-2)')}
@@ -503,14 +530,24 @@ const CorregirExamenPage: React.FC = () => {
                           ) : <span style={{ color: 'var(--text-placeholder)', fontSize: '0.85rem' }}>—</span>}
                         </td>
                         <td style={{ padding: '0.875rem 1.25rem', textAlign: 'center' }}>
-                          <button
-                            onClick={() => handleSelectAlumno(ej)}
-                            disabled={!puedeManual}
-                            className="btn btn-secondary"
-                            style={{ fontSize: '0.72rem', padding: '0.3rem 0.75rem', opacity: puedeManual ? 1 : 0.35 }}
-                          >
-                            {esCorregido(ej) ? 'Ver / Editar' : 'Manual'}
-                          </button>
+                          {puedeManual && (
+                            <button
+                              onClick={() => handleSelectAlumno(ej, false)}
+                              className="btn btn-secondary"
+                              style={{ fontSize: '0.72rem', padding: '0.3rem 0.75rem' }}
+                            >
+                              {esCorregido(ej) ? 'Ver / Editar' : 'Manual'}
+                            </button>
+                          )}
+                          {puedeVer && (
+                            <button
+                              onClick={() => handleSelectAlumno(ej, true)}
+                              className="btn btn-secondary"
+                              style={{ fontSize: '0.72rem', padding: '0.3rem 0.75rem' }}
+                            >
+                              Ver examen
+                            </button>
+                          )}
                         </td>
                       </tr>
                     );
@@ -609,12 +646,15 @@ const CorregirExamenPage: React.FC = () => {
             <h1 style={{ fontSize: '1.2rem' }}>{selEjemplar?.alumnoApellidos}, {selEjemplar?.alumnoNombre}</h1>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.78rem', marginTop: '0.15rem' }}>
               {revisionData?.asignaturaNombre} · Clave: <code style={{ fontSize: '0.72rem' }}>{selEjemplar?.claveCorreccion}</code>
+              {modoLectura && <span style={{ marginLeft: '0.75rem', fontSize: '0.65rem', fontWeight: '700', background: 'var(--primary-light)', color: 'var(--primary)', padding: '0.15rem 0.5rem', borderRadius: '999px' }}>Solo lectura</span>}
             </p>
           </div>
         </div>
-        <button onClick={() => corregirManualMutation.mutate()} disabled={corregirManualMutation.isPending} className="btn btn-primary">
-          {corregirManualMutation.isPending ? 'Guardando...' : 'Guardar corrección'}
-        </button>
+        {!modoLectura && (
+          <button onClick={() => corregirManualMutation.mutate()} disabled={corregirManualMutation.isPending} className="btn btn-primary">
+            {corregirManualMutation.isPending ? 'Guardando...' : 'Guardar corrección'}
+          </button>
+        )}
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
@@ -641,9 +681,10 @@ const CorregirExamenPage: React.FC = () => {
                   if (sel) { bg = esCorr ? 'var(--success)' : 'var(--danger)'; color = 'white'; border = bg; }
                   else if (!sel && esCorr && marcada !== -1 && marcada !== undefined) { bg = 'var(--success-light)'; color = 'var(--success)'; border = 'var(--success)'; }
                   return (
-                    <button key={resp.indice} onClick={() => handleToggleMarca(key, resp.indice)}
+                    <button key={resp.indice}
+                      onClick={() => !modoLectura && handleToggleMarca(key, resp.indice)}
                       title={resp.contenido}
-                      style={{ flex: 1, height: '36px', borderRadius: '8px', border: `1.5px solid ${border}`, background: bg, color, fontWeight: '800', fontSize: '0.8rem', cursor: 'pointer', transition: 'all 0.15s ease' }}>
+                      style={{ flex: 1, height: '36px', borderRadius: '8px', border: `1.5px solid ${border}`, background: bg, color, fontWeight: '800', fontSize: '0.8rem', cursor: modoLectura ? 'default' : 'pointer', transition: 'all 0.15s ease' }}>
                       {LETRAS[resp.indice] ?? resp.indice}
                     </button>
                   );
@@ -655,10 +696,14 @@ const CorregirExamenPage: React.FC = () => {
       </div>
 
       <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-        <button onClick={volverAlDetalle} className="btn btn-secondary">Cancelar</button>
-        <button onClick={() => corregirManualMutation.mutate()} disabled={corregirManualMutation.isPending} className="btn btn-primary">
-          {corregirManualMutation.isPending ? 'Guardando...' : 'Guardar corrección'}
+        <button onClick={volverAlDetalle} className="btn btn-secondary">
+          {modoLectura ? 'Volver' : 'Cancelar'}
         </button>
+        {!modoLectura && (
+          <button onClick={() => corregirManualMutation.mutate()} disabled={corregirManualMutation.isPending} className="btn btn-primary">
+            {corregirManualMutation.isPending ? 'Guardando...' : 'Guardar corrección'}
+          </button>
+        )}
       </div>
     </div>
   );

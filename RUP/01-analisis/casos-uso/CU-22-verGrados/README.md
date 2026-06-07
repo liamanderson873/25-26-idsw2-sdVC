@@ -1,128 +1,29 @@
-﻿# Jorgestor > CU-22-verGrados > Análisis
+﻿<div align=right>
 
-## información del artefacto
-
-- **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
-- **Fecha**: 2026-05-24
-- **Autor**: Equipo de desarrollo
-
-## propósito
-
-Análisis del caso de uso Ver Grados. Permite listar y filtrar los grados académicos.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: verGrados()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-22-verGrados.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-22-verGrados.puml](analisis-colaboracion-CU-22-verGrados.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## clases de análisis identificadas
+# CU-22 -- Ver Grados
 
-### clases model (naranja #F2AC4E)
-|Clase|Responsabilidad|Trazabilidad|
-|-|-|-|
-|**Grade**|Representa el grado académico en el sistema|Modelo del dominio|
-|**Student**|Entidad relacionada para mostrar alumnos por grado|Modelo del dominio|
+*El docente consulta la lista de grados academicos del sistema.*
 
-### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
-|-|-|-|
-|**GradeListView**|Interfaz para visualizar lista y solicitar filtrado de grados|Wireframe|
+## Objetos BCE
 
-### clases controller (verde #b5bd68)
-|Clase|Responsabilidad|Caso de uso|
-|-|-|-|
-|**GradeController**|Recupera grados existentes y gestiona criterios de filtrado|verGrados()|
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaListaGrados |
+| `<<control>>` | ControladorGrados |
+| `<<entity>>` | Grado |
 
-## mensajes de colaboración
+## Diagramas de analisis
 
-|Origen|Destino|Mensaje|Intención|
-|-|-|-|-|
-|**Docente**|**GradeListView**|`solicitarVerGrados()`|Iniciar visualización|
-|**GradeListView**|**GradeController**|`obtenerGrados()`|Delegar recuperación|
-|**GradeController**|**Grade**|`consultarTodos()`|Consultar entidades|
-|**Docente**|**GradeListView**|`aplicarFiltro(criterios)`|Solicitar filtrado|
-|**GradeListView**|**GradeController**|`filtrar(criterios)`|Procesar criterios|
+<div align=center>
 
-## trazabilidad con artefactos previos
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-22-verGrados/analisis-colaboracion-CU-22-verGrados.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-22-verGrados/analisis-secuencia-CU-22-verGrados.puml)|
+|[analisis-colaboracion-CU-22-verGrados.puml](analisis-colaboracion-CU-22-verGrados.puml)|[analisis-secuencia-CU-22-verGrados.puml](analisis-secuencia-CU-22-verGrados.puml)|
 
-- **Estados**: `ShowingGrades`, `FilteringGrades`.
-
-```plantuml
-@startuml verGrados-analisis
-skinparam linetype polyline
-
-actor Docente
-package verGrados as "verGrados()" {
-    rectangle #629EF9 GradeListView
-    rectangle #b5bd68 GradeController
-    rectangle #F2AC4E Grade
-    rectangle #F2AC4E Student
-}
-
-Docente -r-> GradeListView: solicitarVerGrados()
-GradeListView -d-> GradeController: obtenerGrados()
-GradeController --> Grade: consultarTodos()
-Grade --> Student
-
-Docente --> GradeListView: aplicarFiltro(criterios)
-GradeListView --> GradeController: filtrar(criterios)
-GradeController --> Grade: consultar(criterios)
-
-@enduml
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>

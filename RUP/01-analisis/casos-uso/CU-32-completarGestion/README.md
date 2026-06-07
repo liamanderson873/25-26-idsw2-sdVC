@@ -1,121 +1,29 @@
-﻿# Jorgestor > CU-32-completarGestion > Análisis
+﻿<div align=right>
 
-## información del artefacto
-
-- **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
-- **Fecha**: 2026-05-24
-- **Autor**: Equipo de desarrollo
-
-## propósito
-
-Análisis tecnológico agnóstico del caso de uso Completar Gestión, siguiendo la metodología RUP. Permite analizar la transición desde estados de gestión hacia la disponibilidad general del sistema.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: completarGestion()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-32-completarGestion/analisis-colaboracion-CU-32-completarGestion.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-32-completarGestion.puml](analisis-colaboracion-CU-32-completarGestion.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## clases de análisis identificadas
+# CU-32 -- Completar Gestion
 
-### clases model (naranja #F2AC4E)
-|Clase|Responsabilidad|Trazabilidad|
-|-|-|-|
-|**SystemState**|Representa el estado global y la navegación del sistema|Modelo del dominio|
+*El docente marca la gestion actual como completada.*
 
-### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
-|-|-|-|
-|**ManagementView**|Interfaz común para áreas de gestión que permite finalizar la operación|Wireframe|
+## Objetos BCE
 
-### clases controller (verde #b5bd68)
-|Clase|Responsabilidad|Caso de uso|
-|-|-|-|
-|**ManagementController**|Gestiona la transición de estado y asegura el procesado de cambios|completarGestion()|
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaGestion |
+| `<<control>>` | ControladorGestion |
+| `<<entity>>` | EstadoSistema |
 
-## mensajes de colaboración
+## Diagramas de analisis
 
-|Origen|Destino|Mensaje|Intención|
-|-|-|-|-|
-|**Usuario**|**ManagementView**|`completarGestion()`|Solicitar la finalización de la gestión actual|
-|**ManagementView**|**ManagementController**|`finalizar()`|Coordinar el retorno al estado de disponibilidad|
-|**ManagementController**|**SystemState**|`setDisponible()`|Actualizar el estado global del sistema|
+<div align=center>
 
-## trazabilidad con artefactos previos
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-32-completarGestion/analisis-colaboracion-CU-32-completarGestion.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-32-completarGestion/analisis-secuencia-CU-32-completarGestion.puml)|
+|[analisis-colaboracion-CU-32-completarGestion.puml](analisis-colaboracion-CU-32-completarGestion.puml)|[analisis-secuencia-CU-32-completarGestion.puml](analisis-secuencia-CU-32-completarGestion.puml)|
 
-### con especificación detallada
-- **Estados internos** �?' `PresentandoOpciones`
-
-
-```plantuml
-@startuml completarGestion-analisis
-skinparam linetype polyline
-
-actor Usuario
-package completarGestion as "completarGestion()" {
-    rectangle #629EF9 ManagementView
-    rectangle #b5bd68 ManagementController
-    rectangle #F2AC4E SystemState
-}
-
-Usuario -r-> ManagementView: completarGestion()
-ManagementView --> ManagementController: finalizar()
-ManagementController --> SystemState: setDisponible()
-
-@enduml
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>

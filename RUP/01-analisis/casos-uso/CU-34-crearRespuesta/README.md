@@ -1,129 +1,30 @@
-﻿# Jorgestor > CU-34-crearRespuesta > Análisis
+﻿<div align=right>
 
-## información del artefacto
-
-- **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
-- **Fecha**: 2026-05-24
-- **Autor**: Equipo de desarrollo
-
-## propósito
-
-Análisis tecnológico agnóstico del caso de uso Crear Respuesta, siguiendo la metodología RUP. Permite analizar el proceso de alta de una nueva respuesta vinculada a una pregunta.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: crearRespuesta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-34-crearRespuesta/analisis-colaboracion-CU-34-crearRespuesta.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-34-crearRespuesta.puml](analisis-colaboracion-CU-34-crearRespuesta.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## clases de análisis identificadas
+# CU-34 -- Crear Respuesta
 
-### clases model (naranja #F2AC4E)
-|Clase|Responsabilidad|Trazabilidad|
-|-|-|-|
-|**Answer**|Entidad que almacena el contenido y validez de la respuesta|Modelo del dominio|
-|**Question**|Entidad a la que se asocia la nueva respuesta|Modelo del dominio|
+*El docente anade una nueva opcion de respuesta a una pregunta existente.*
 
-### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
-|-|-|-|
-|**AnswerCreationView**|Interfaz para introducir datos mínimos y confirmar la creación|Wireframe|
+## Objetos BCE
 
-### clases controller (verde #b5bd68)
-|Clase|Responsabilidad|Caso de uso|
-|-|-|-|
-|**AnswerCreationController**|Valida datos y coordina la creación de la entidad|crearRespuesta()|
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaCreacionRespuesta |
+| `<<control>>` | ControladorCreacionRespuestas |
+| `<<entity>>` | Respuesta |
+| `<<entity>>` | Pregunta |
 
-## mensajes de colaboración
+## Diagramas de analisis
 
-|Origen|Destino|Mensaje|Intención|
-|-|-|-|-|
-|**Docente**|**AnswerCreationView**|`solicitarCrear()`|Manifestar intención de crear respuesta|
-|**AnswerCreationView**|**Docente**|`pedirDatos()`|Solicitar contenido y veracidad|
-|**Docente**|**AnswerCreationView**|`proporcionarDatos()`|Introducir la información requerida|
-|**AnswerCreationView**|**AnswerCreationController**|`crearRespuesta(datos)`|Delegar la lógica de creación|
-|**AnswerCreationController**|**Answer**|`new()`|Instanciar la nueva entidad|
-|**AnswerCreationController**|**Question**|`addAnswer(answer)`|Vincular la respuesta a la pregunta|
+<div align=center>
 
-## trazabilidad con artefactos previos
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-34-crearRespuesta/analisis-colaboracion-CU-34-crearRespuesta.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-34-crearRespuesta/analisis-secuencia-CU-34-crearRespuesta.puml)|
+|[analisis-colaboracion-CU-34-crearRespuesta.puml](analisis-colaboracion-CU-34-crearRespuesta.puml)|[analisis-secuencia-CU-34-crearRespuesta.puml](analisis-secuencia-CU-34-crearRespuesta.puml)|
 
-### con especificación detallada
-- **Estados internos** �?' `SolicitandoDatosRespuesta`, `ProcesandoCreacion`
-
-
-```plantuml
-@startuml crearRespuesta-analisis
-skinparam linetype polyline
-
-actor Docente
-package crearRespuesta as "crearRespuesta()" {
-    rectangle #629EF9 AnswerCreationView
-    rectangle #b5bd68 AnswerCreationController
-    rectangle #F2AC4E Answer
-    rectangle #F2AC4E Question
-}
-
-Docente -r-> AnswerCreationView: solicitarCrear()
-AnswerCreationView --> Docente: pedirDatos()
-Docente --> AnswerCreationView: proporcionarDatos()
-AnswerCreationView -d-> AnswerCreationController: crearRespuesta()
-AnswerCreationController --> Answer: new()
-AnswerCreationController --> Question: addAnswer()
-
-@enduml
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>

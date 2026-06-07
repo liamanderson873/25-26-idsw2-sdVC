@@ -1,13 +1,18 @@
-# Detallado de Diseño: CU-04 Exportar Configuración Global
+﻿<div align=right>
 
-Este documento detalla la extracción de la configuración completa del sistema en un fichero JSON descargable.
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Diseno-FFF?style=flat&logo=postgresql&logoColor=black)](/RUP/02-diseno/README.md)|
+|-:|
 
-## Diagrama de Secuencia
+</div>
 
-![CU-04](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/casos-uso/CU-04-exportarConfiguracionGlobal/diseno-secuencia-CU-04-exportarConfiguracionGlobal.puml)
+# CU-04 — Exportar Configuracion Global — Diseno
 
-## Lógica Técnica
-1. El Docente solicita la exportación desde la vista de Importar/Exportar.
-2. `ControladorConfiguracion` delega en `ServicioGrado`, `ServicioAsignatura`, `ServicioAlumno` y `ServicioPregunta`.
-3. Se construye el `DTO_ConfiguracionGlobal` con los cuatro conjuntos de datos.
-4. Se devuelve el JSON para descarga directa por el navegador.
+*El docente exporta toda la configuracion del sistema a un fichero JSON descargable, incluyendo los cuatro subartefactos abstractos.*
+
+<div align=center>
+
+![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/CU-04-exportarConfiguracionGlobal/diseno-secuencia-CU-04-exportarConfiguracionGlobal.puml)
+
+[diseno-secuencia-CU-04-exportarConfiguracionGlobal.puml](diseno-secuencia-CU-04-exportarConfiguracionGlobal.puml)
+
+</div>

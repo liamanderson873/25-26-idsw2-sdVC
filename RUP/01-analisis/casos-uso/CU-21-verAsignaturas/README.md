@@ -1,131 +1,29 @@
-﻿# Jorgestor > CU-21-verAsignaturas > Análisis
+﻿<div align=right>
 
-## información del artefacto
-
-- **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
-- **Fecha**: 2026-05-24
-- **Autor**: Equipo de desarrollo
-
-## propósito
-
-Análisis del caso de uso Ver Asignaturas. Enfocado en la visualización y filtrado de las materias.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: verAsignaturas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-21-verAsignaturas.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-21-verAsignaturas.puml](analisis-colaboracion-CU-21-verAsignaturas.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## clases de análisis identificadas
+# CU-21 -- Ver Asignaturas
 
-### clases model (naranja #F2AC4E)
-|Clase|Responsabilidad|Trazabilidad|
-|-|-|-|
-|**Subject**|Representa la asignatura con su información básica y relaciones|Modelo del dominio|
-|**Student**|Necesario para contabilizar o listar los alumnos matriculados|Modelo del dominio|
-|**Grade**|Necesario para mostrar los grados asociados|Modelo del dominio|
+*El docente consulta la lista de asignaturas registradas en el sistema.*
 
-### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
-|-|-|-|
-|**SubjectListView**|Interfaz para visualizar lista y solicitar filtrado|Wireframe|
+## Objetos BCE
 
-### clases controller (verde #b5bd68)
-|Clase|Responsabilidad|Caso de uso|
-|-|-|-|
-|**SubjectController**|Recupera lista completa y procesa solicitudes de filtrado|verAsignaturas()|
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaListaAsignaturas |
+| `<<control>>` | ControladorAsignaturas |
+| `<<entity>>` | Asignatura |
 
-## mensajes de colaboración
+## Diagramas de analisis
 
-|Origen|Destino|Mensaje|Intención|
-|-|-|-|-|
-|**Docente**|**SubjectListView**|`solicitarVerAsignaturas()`|Iniciar visualización|
-|**SubjectListView**|**SubjectController**|`obtenerLista()`|Delegar recuperación|
-|**SubjectController**|**Subject**|`consultarTodos()`|Consultar entidades|
-|**Docente**|**SubjectListView**|`aplicarFiltro(criterios)`|Solicitar filtrado|
-|**SubjectListView**|**SubjectController**|`filtrar(criterios)`|Procesar criterios|
+<div align=center>
 
-## trazabilidad con artefactos previos
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-21-verAsignaturas/analisis-colaboracion-CU-21-verAsignaturas.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-21-verAsignaturas/analisis-secuencia-CU-21-verAsignaturas.puml)|
+|[analisis-colaboracion-CU-21-verAsignaturas.puml](analisis-colaboracion-CU-21-verAsignaturas.puml)|[analisis-secuencia-CU-21-verAsignaturas.puml](analisis-secuencia-CU-21-verAsignaturas.puml)|
 
-- **Estados**: `ShowingSubjects`, `FilteringSubjects`.
-
-```plantuml
-@startuml verAsignaturas-analisis
-skinparam linetype polyline
-
-actor Docente
-package verAsignaturas as "verAsignaturas()" {
-    rectangle #629EF9 SubjectListView
-    rectangle #b5bd68 SubjectController
-    rectangle #F2AC4E Subject
-    rectangle #F2AC4E Student
-    rectangle #F2AC4E Grade
-}
-
-Docente -r-> SubjectListView: solicitarVerAsignaturas()
-SubjectListView -d-> SubjectController: obtenerLista()
-SubjectController --> Subject: consultarTodos()
-Subject --> Student
-Subject --> Grade
-
-Docente --> SubjectListView: aplicarFiltro(criterios)
-SubjectListView --> SubjectController: filtrar(criterios)
-SubjectController --> Subject: consultar(criterios)
-
-@enduml
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>

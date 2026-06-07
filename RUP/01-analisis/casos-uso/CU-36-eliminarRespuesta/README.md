@@ -1,125 +1,29 @@
-﻿# Jorgestor > CU-36-eliminarRespuesta > Análisis
+﻿<div align=right>
 
-## información del artefacto
-
-- **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
-- **Fecha**: 2026-05-24
-- **Autor**: Equipo de desarrollo
-
-## propósito
-
-Análisis tecnológico agnóstico del caso de uso Eliminar Respuesta, siguiendo la metodología RUP. Permite analizar el flujo de confirmación y baja definitiva de una respuesta del sistema.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: eliminarRespuesta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-36-eliminarRespuesta/analisis-colaboracion-CU-36-eliminarRespuesta.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-36-eliminarRespuesta.puml](analisis-colaboracion-CU-36-eliminarRespuesta.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## clases de análisis identificadas
+# CU-36 -- Eliminar Respuesta
 
-### clases model (naranja #F2AC4E)
-|Clase|Responsabilidad|Trazabilidad|
-|-|-|-|
-|**Answer**|Entidad que será eliminada del sistema|Modelo del dominio|
+*El docente elimina una opcion de respuesta del banco de preguntas.*
 
-### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
-|-|-|-|
-|**AnswerDeletionView**|Interfaz que muestra información de la respuesta y solicita confirmación|Wireframe|
+## Objetos BCE
 
-### clases controller (verde #b5bd68)
-|Clase|Responsabilidad|Caso de uso|
-|-|-|-|
-|**AnswerDeletionController**|Valida la posibilidad de borrado y coordina la eliminación|eliminarRespuesta()|
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaEliminacionRespuesta |
+| `<<control>>` | ControladorEliminacionRespuestas |
+| `<<entity>>` | Respuesta |
 
-## mensajes de colaboración
+## Diagramas de analisis
 
-|Origen|Destino|Mensaje|Intención|
-|-|-|-|-|
-|**Docente**|**AnswerDeletionView**|`solicitarEliminar()`|Iniciar el flujo de borrado|
-|**AnswerDeletionView**|**Answer**|`getDatos()`|Obtener detalles para mostrar advertencia|
-|**Docente**|**AnswerDeletionView**|`confirmarEliminar()`|Validar la acción definitiva|
-|**AnswerDeletionView**|**AnswerDeletionController**|`eliminarRespuesta(answer)`|Delegar la ejecución de la baja|
-|**AnswerDeletionController**|**Answer**|`delete()`|Eliminar físicamente la entidad|
+<div align=center>
 
-## trazabilidad con artefactos previos
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-36-eliminarRespuesta/analisis-colaboracion-CU-36-eliminarRespuesta.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-36-eliminarRespuesta/analisis-secuencia-CU-36-eliminarRespuesta.puml)|
+|[analisis-colaboracion-CU-36-eliminarRespuesta.puml](analisis-colaboracion-CU-36-eliminarRespuesta.puml)|[analisis-secuencia-CU-36-eliminarRespuesta.puml](analisis-secuencia-CU-36-eliminarRespuesta.puml)|
 
-### con especificación detallada
-- **Estados internos** �?' `ConfirmandoEliminacion`, `EliminandoRespuesta`
-
-
-```plantuml
-@startuml eliminarRespuesta-analisis
-skinparam linetype polyline
-
-actor Docente
-package eliminarRespuesta as "eliminarRespuesta()" {
-    rectangle #629EF9 AnswerDeletionView
-    rectangle #b5bd68 AnswerDeletionController
-    rectangle #F2AC4E Answer
-}
-
-Docente -r-> AnswerDeletionView: solicitarEliminar()
-AnswerDeletionView --> Answer: getDatos()
-Docente --> AnswerDeletionView: confirmarEliminar()
-AnswerDeletionView -d-> AnswerDeletionController: eliminarRespuesta()
-AnswerDeletionController --> Answer: delete()
-
-@enduml
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>

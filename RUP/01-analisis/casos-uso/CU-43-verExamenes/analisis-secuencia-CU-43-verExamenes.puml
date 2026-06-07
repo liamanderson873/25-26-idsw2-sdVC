@@ -1,0 +1,26 @@
+@startuml cu43-verExamenes-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-43: Ver Exámenes
+
+actor "Docente" as Actor
+participant ":VistaListaExamenes" as Boundary <<boundary>>
+participant ":ControladorExamen" as Control <<control>>
+participant ":ExamenAlumno" as Entity <<entity>>
+
+Actor -> Boundary : verExamenes()
+activate Boundary
+
+Boundary -> Control : obtenerGrupos()
+activate Control
+
+Control -> Entity : listarGrupos()
+activate Entity
+Entity --> Control : listaGrupos
+deactivate Entity
+
+Control --> Boundary : listaExamenes
+deactivate Control
+
+Boundary --> Actor : presentarListaExamenes(lista)
+deactivate Boundary
+
+@enduml

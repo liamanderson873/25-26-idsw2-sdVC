@@ -1,6 +1,10 @@
-Carpeta para incluir las imágenes que considere oportunas.
+<div align=right>
 
-# FORMATO
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md)|
+|-:|
 
-- .svg para diagramas
-- .png para imágenes
+</div>
+
+# Imágenes
+
+Recursos gráficos del proyecto. Formatos aceptados: `.svg` para diagramas, `.png` para capturas.

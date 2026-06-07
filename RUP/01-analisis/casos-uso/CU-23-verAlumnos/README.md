@@ -1,125 +1,29 @@
-﻿# Jorgestor > CU-23-verAlumnos > Análisis
+﻿<div align=right>
 
-## información del artefacto
-
-- **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
-- **Fecha**: 2026-05-24
-- **Autor**: Equipo de desarrollo
-
-## propósito
-
-Análisis del caso de uso Ver Alumnos. Enfocado en el listado y búsqueda de estudiantes.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: verAlumnos()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-23-verAlumnos.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-23-verAlumnos.puml](analisis-colaboracion-CU-23-verAlumnos.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## clases de análisis identificadas
+# CU-23 -- Ver Alumnos
 
-### clases model (naranja #F2AC4E)
-|Clase|Responsabilidad|Trazabilidad|
-|-|-|-|
-|**Student**|Representa al alumno con sus datos personales|Modelo del dominio|
+*El docente consulta la lista de alumnos registrados en el sistema.*
 
-### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
-|-|-|-|
-|**StudentListView**|Interfaz para visualizar lista y solicitar filtrado de alumnos|Wireframe|
+## Objetos BCE
 
-### clases controller (verde #b5bd68)
-|Clase|Responsabilidad|Caso de uso|
-|-|-|-|
-|**StudentController**|Obtiene colección de alumnos y aplica filtros|verAlumnos()|
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaListaAlumnos |
+| `<<control>>` | ControladorAlumnos |
+| `<<entity>>` | Alumno |
 
-## mensajes de colaboración
+## Diagramas de analisis
 
-|Origen|Destino|Mensaje|Intención|
-|-|-|-|-|
-|**Docente**|**StudentListView**|`solicitarVerAlumnos()`|Iniciar visualización|
-|**StudentListView**|**StudentController**|`cargarAlumnos()`|Delegar recuperación|
-|**StudentController**|**Student**|`consultarTodos()`|Consultar entidades|
-|**Docente**|**StudentListView**|`aplicarFiltro(criterios)`|Solicitar filtrado|
-|**StudentListView**|**StudentController**|`filtrar(criterios)`|Procesar criterios|
+<div align=center>
 
-## trazabilidad con artefactos previos
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-23-verAlumnos/analisis-colaboracion-CU-23-verAlumnos.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-23-verAlumnos/analisis-secuencia-CU-23-verAlumnos.puml)|
+|[analisis-colaboracion-CU-23-verAlumnos.puml](analisis-colaboracion-CU-23-verAlumnos.puml)|[analisis-secuencia-CU-23-verAlumnos.puml](analisis-secuencia-CU-23-verAlumnos.puml)|
 
-- **Estados**: `ShowingStudents`, `FilteringStudents`.
-
-```plantuml
-@startuml verAlumnos-analisis
-skinparam linetype polyline
-
-actor Docente
-package verAlumnos as "verAlumnos()" {
-    rectangle #629EF9 StudentListView
-    rectangle #b5bd68 StudentController
-    rectangle #F2AC4E Student
-}
-
-Docente -r-> StudentListView: solicitarVerAlumnos()
-StudentListView -d-> StudentController: cargarAlumnos()
-StudentController --> Student: consultarTodos()
-
-Docente --> StudentListView: aplicarFiltro(criterios)
-StudentListView --> StudentController: filtrar(criterios)
-StudentController --> Student: consultar(criterios)
-
-@enduml
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>

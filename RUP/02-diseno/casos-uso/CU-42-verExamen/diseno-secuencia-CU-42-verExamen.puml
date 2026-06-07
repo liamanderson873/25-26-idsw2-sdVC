@@ -1,0 +1,55 @@
+@startuml secuencia-cu42-ver-examen
+title Diagrama de Secuencia - Ver Examen
+
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorExamen" as Controller
+participant "ServicioExamen" as Service
+participant "RepositorioExamenAlumno" as RepoEA
+participant "RepositorioExamen" as RepoEx
+participant "RepositorioExamenAlumnoMarca" as RepoMarcas
+database "Base de Datos\n(PostgreSQL)" as DB
+
+Actor -> FE : Selecciona alumno para ver examen
+activate FE
+
+FE -> Controller : GET /api/examenes/ejemplar/{ejemplarId}/revision
+activate Controller
+
+Controller -> Service : obtenerRevisionEjemplar(ejemplarId)
+activate Service
+
+Service -> RepoEA : findById(ejemplarId)
+activate RepoEA
+RepoEA -> DB : SELECT examen_alumnos WHERE id = ?
+DB --> RepoEA : ejemplar
+RepoEA --> Service : ExamenAlumno
+deactivate RepoEA
+
+Service -> RepoEx : findByIdConPreguntasYRespuestas(examenId)
+activate RepoEx
+RepoEx -> DB : SELECT examen JOIN preguntas JOIN respuestas
+DB --> RepoEx : examen con preguntas y respuestas
+RepoEx --> Service : Examen
+deactivate RepoEx
+
+Service -> RepoMarcas : findByExamenAlumnoId(ejemplarId)
+activate RepoMarcas
+RepoMarcas -> DB : SELECT marcas WHERE ejemplar_id = ?
+DB --> RepoMarcas : lista_marcas
+RepoMarcas --> Service : List<ExamenAlumnoMarca>
+deactivate RepoMarcas
+
+Service -> Service : construirDTO(examen, marcas)
+note right: Construye DTO_RevisionEjemplar\ncon preguntas, respuestas\ne índice marcado por el alumno
+
+Service --> Controller : DTO_RevisionEjemplar
+deactivate Service
+
+Controller --> FE : 200 OK (datosRevision)
+deactivate Controller
+
+FE --> Actor : Muestra preguntas y respuestas del examen
+deactivate FE
+
+@enduml

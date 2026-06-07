@@ -1,145 +1,30 @@
-﻿# Jorgestor > CU-01-corregirExamenes > Análisis
+﻿<div align=right>
 
-## información del artefacto
-
-- **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
-- **Fecha**: 2026-05-24
-- **Autor**: Equipo de desarrollo
-
-## propósito
-
-Análisis tecnológico agnóstico del caso de uso Corregir Exámenes, siguiendo la metodología RUP. Permite analizar el flujo y la validación de corrección de exámenes de los alumnos.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: corregirExamenes()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-01-corregirExamenes/analisis-colaboracion-CU-01-corregirExamenes.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-01-corregirExamenes.puml](analisis-colaboracion-CU-01-corregirExamenes.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## realización de diseño (secuencia)
+# CU-01 -- Corregir Examenes
+
+*El docente corrige masivamente las respuestas de un grupo de alumnos y el sistema persiste la nota actualizando el estado a CORREGIDO.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaCorreccion |
+| `<<control>>` | ControladorCorreccion |
+| `<<entity>>` | Examen |
+| `<<entity>>` | Alumno |
+
+## Diagramas de analisis
 
 <div align=center>
 
-|![Realización: CU-01-corregirExamenes](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-01-corregirExamenes/analisis-secuencia-CU-01-corregirExamenes.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-secuencia-CU-01-corregirExamenes.puml](analisis-secuencia-CU-01-corregirExamenes.puml)|
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-01-corregirExamenes/analisis-colaboracion-CU-01-corregirExamenes.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-01-corregirExamenes/analisis-secuencia-CU-01-corregirExamenes.puml)|
+|[analisis-colaboracion-CU-01-corregirExamenes.puml](analisis-colaboracion-CU-01-corregirExamenes.puml)|[analisis-secuencia-CU-01-corregirExamenes.puml](analisis-secuencia-CU-01-corregirExamenes.puml)|
 
 </div>
-
-## clases de análisis identificadas
-
-### clases model (naranja #F2AC4E)
-|Clase|Responsabilidad|Trazabilidad|
-|-|-|-|
-|**Exam**|Representa el examen en el sistema, conteniendo la Clave de Corrección y el estado (Corregido/Pendiente)|Modelo del dominio|
-|**Student**|Asocia la corrección al alumno correspondiente mediante la clave|Modelo del dominio|
-
-### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
-|-|-|-|
-|**CorrectionView**|Interfaz que permite solicitar inicio, introducir exámenes, confirmar, y ver estado|Wireframe|
-
-### clases controller (verde #b5bd68)
-|Clase|Responsabilidad|Caso de uso|
-|-|-|-|
-|**CorrectionController**|Gestiona el flujo de la corrección, valida datos y actualiza estados|corregirExamenes()|
-
-## mensajes de colaboración
-
-|Origen|Destino|Mensaje|Intención|
-|-|-|-|-|
-|**Docente**|**CorrectionView**|`iniciarCorreccion()`|Solicitar el inicio de la corrección|
-|**CorrectionView**|**CorrectionController**|`corregirExamenes(archivos)`|Delegar la lógica de corrección|
-|**CorrectionController**|**Exam**|`validarClave()`|Validar clave de corrección del examen|
-|**CorrectionController**|**Student**|`asociarAlumno()`|Asociar el examen corregido al alumno|
-|**CorrectionController**|**Exam**|`actualizarEstado(Corregido)`|Actualizar estado del examen a corregido|
-
-## trazabilidad con artefactos previos
-
-### con especificación detallada
-- **Estados internos** �?' `RequiringCorrection`, `ProvidingDoneExams`, `ProvidingConfirmation`
-
-
-```plantuml
-@startuml corregirExamenes-analisis
-skinparam linetype polyline
-
-actor Docente
-package corregirExamenes as "corregirExamenes()" {
-    rectangle #629EF9 CorrectionView
-    rectangle #b5bd68 CorrectionController
-    rectangle #F2AC4E Exam
-    rectangle #F2AC4E Student
-}
-
-Docente -r-> CorrectionView: iniciarCorreccion()
-CorrectionView -d-> CorrectionController: corregirExamenes(archivos)
-CorrectionController --> Exam: validarClave()
-CorrectionController --> Student: asociarAlumno()
-CorrectionController --> Exam: actualizarEstado(Corregido)
-
-@enduml
-```
-
-```plantuml
-@startuml CU-01-corregirExamenes-diseno
-
-skinparam linetype polyline
-skinparam backgroundColor white
-
-actor "Docente" as Actor
-participant ":CorrectionController" as Controller <<boundary>>
-participant ":CorrectionService" as Service <<control>>
-participant "engine:ICorrectionEngine" as Engine <<interface>>
-participant ":ExamRepository" as Repo <<entity>>
-participant "exam:Exam" as Entity <<entity>>
-
-title Diseño Técnico: corregirExamenes() (Delegación IA)
-
-Actor -> Controller : POST /api/exams/correct (batch_data)
-activate Controller
-
-Controller -> Service : correctBatch(batch_data)
-activate Service
-
-note over Service
-**Simulación de Delegación**
-El servicio depende de una abstracción
-para la detección de imágenes.
-end note
-
-Service -> Engine : processImages(batch_data)
-activate Engine
-return detected_results (List<DetectionDTO>)
-
-loop por cada resultado detectado
-    Service -> Repo : findByCorrectionKey(dto.key)
-    activate Repo
-    Repo --> Service : exam
-    deactivate Repo
-    
-    Service -> Entity : compareAndCalculateScore(dto.answers)
-    activate Entity
-    Entity --> Service : final_score
-    deactivate Entity
-    
-    Service -> Entity : updateStatus(CORRECTED, final_score)
-    Service -> Repo : save(exam)
-end
-
-Service --> Controller : List<CorrectionSummary>
-deactivate Service
-
-Controller --> Actor : 200 OK (CorrectionReport)
-deactivate Controller
-
-@enduml
-```
-

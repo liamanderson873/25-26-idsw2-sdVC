@@ -1,99 +1,31 @@
-﻿# Jorgestor > exportarGrados > Análisis
+﻿<div align=right>
 
-## Propósito
-Análisis del caso de uso `exportarGrados()` mediante diagrama de colaboración MVC.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: exportarGrados()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-41-exportarGrados/analisis-colaboracion-CU-41-exportarGrados.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-41-exportarGrados.puml](analisis-colaboracion-CU-41-exportarGrados.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## Clases de Análisis Identificadas
+# CU-41 -- Exportar Grados
 
-### Clases Model (Entidad)
-| Clase | Responsabilidad |
-|-------|-----------------|
-| **Grade** | Entidad que representa el grado a exportar. |
+*Subartefacto invocado desde CU-04 mediante include que extrae los grados para incluirlos en la exportacion global.*
 
-### Clases View (Frontera)
-| Clase | Responsabilidad |
-|-------|-----------------|
-| **GradeExportView** | Interfaz para la gestión de la exportación de grados. |
+> **CU abstracto** - no tiene actor iniciador propio. Es invocado mediante `<<include>>` desde otro caso de uso.
 
-### Clases Controller (Control)
-| Clase | Responsabilidad |
-|-------|-----------------|
-| **GradeExportController** | Gestiona la recopilación de datos y preparación del archivo. |
+## Objetos BCE
 
-## Mensajes de Colaboración
-| Origen | Destino | Mensaje | Intención |
-|--------|---------|---------|-----------|
-| **Docente** | **GradeExportView** | `exportarGrados()` | Iniciar proceso de exportación. |
-| **GradeExportView** | **GradeExportController** | `procesarExportacion()` | Delegar la lógica de exportación. |
-| **GradeExportController** | **Grade** | `obtenerDatosGrados()` | Recopilar información de las entidades. |
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaExportacionGrados |
+| `<<control>>` | ControladorExportacionGrados |
+| `<<entity>>` | Grado |
 
-```plantuml
-@startuml
-skinparam linetype polyline
+## Diagramas de analisis
 
-class "GradeExportView" <<boundary>>
-class "GradeExportController" <<control>>
-class "Grade" <<entity>>
+<div align=center>
 
-GradeExportView -> GradeExportController : procesarExportacion()
-GradeExportController -> Grade : obtenerDatosGrados()
-@enduml
-```
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-41-exportarGrados/analisis-colaboracion-CU-41-exportarGrados.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-41-exportarGrados/analisis-secuencia-CU-41-exportarGrados.puml)|
+|[analisis-colaboracion-CU-41-exportarGrados.puml](analisis-colaboracion-CU-41-exportarGrados.puml)|[analisis-secuencia-CU-41-exportarGrados.puml](analisis-secuencia-CU-41-exportarGrados.puml)|
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>

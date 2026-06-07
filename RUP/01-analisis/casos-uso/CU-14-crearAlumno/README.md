@@ -1,123 +1,29 @@
-﻿# Jorgestor > CU-14-crearAlumno > Análisis
+﻿<div align=right>
 
-## información del artefacto
-
-- **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
-- **Fecha**: 2026-05-24
-- **Autor**: Equipo de desarrollo
-
-## propósito
-
-Análisis del caso de uso Crear Alumno. Permite registrar un nuevo estudiante.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: crearAlumno()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-14-crearAlumno.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-14-crearAlumno.puml](analisis-colaboracion-CU-14-crearAlumno.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## clases de análisis identificadas
+# CU-14 -- Crear Alumno
 
-### clases model (naranja #F2AC4E)
-|Clase|Responsabilidad|Trazabilidad|
-|-|-|-|
-|**Student**|Entidad que representa al alumno|Modelo del dominio|
+*El docente registra un nuevo alumno en el sistema con sus datos identificativos.*
 
-### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
-|-|-|-|
-|**StudentCreationView**|Interfaz que solicita los datos mínimos necesarios|Wireframe|
+## Objetos BCE
 
-### clases controller (verde #b5bd68)
-|Clase|Responsabilidad|Caso de uso|
-|-|-|-|
-|**StudentController**|Gestiona creación de instancia y valida integridad|crearAlumno()|
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaCreacionAlumno |
+| `<<control>>` | ControladorAlumnos |
+| `<<entity>>` | Alumno |
 
-## mensajes de colaboración
+## Diagramas de analisis
 
-|Origen|Destino|Mensaje|Intención|
-|-|-|-|-|
-|**Docente**|**StudentCreationView**|`solicitarCreacion()`|Iniciar proceso|
-|**Docente**|**StudentCreationView**|`introducirDatos(nombre, apellidos, dni)`|Enviar información obligatoria|
-|**StudentCreationView**|**StudentController**|`crearAlumno(datos)`|Delegar la creación|
-|**StudentController**|**Student**|`inicializar(datos)`|Crear nueva entidad|
-|**StudentController**|**StudentCreationView**|`notificarExitoYRedirigir()`|Informar y pasar a edición|
+<div align=center>
 
-## trazabilidad con artefactos previos
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-14-crearAlumno/analisis-colaboracion-CU-14-crearAlumno.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-14-crearAlumno/analisis-secuencia-CU-14-crearAlumno.puml)|
+|[analisis-colaboracion-CU-14-crearAlumno.puml](analisis-colaboracion-CU-14-crearAlumno.puml)|[analisis-secuencia-CU-14-crearAlumno.puml](analisis-secuencia-CU-14-crearAlumno.puml)|
 
-- **Estrategia**: Garantiza existencia del objeto, delegando detalles a edición.
-
-```plantuml
-@startuml crearAlumno-analisis
-skinparam linetype polyline
-
-actor Docente
-package crearAlumno as "crearAlumno()" {
-    rectangle #629EF9 StudentCreationView
-    rectangle #b5bd68 StudentController
-    rectangle #F2AC4E Student
-}
-
-Docente -r-> StudentCreationView: solicitarCreacion()
-Docente --> StudentCreationView: introducirDatos(nombre, apellidos, dni)
-StudentCreationView -d-> StudentController: crearAlumno(datos)
-StudentController --> Student: inicializar(datos)
-StudentController --> StudentCreationView: notificarExitoYRedirigir()
-
-@enduml
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>

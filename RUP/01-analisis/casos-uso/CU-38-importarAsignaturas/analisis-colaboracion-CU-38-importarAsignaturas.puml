@@ -1,21 +1,15 @@
 ﻿@startuml importarAsignaturas-analisis
 skinparam linetype polyline
 
-actor Docente
+note "<<abstracto>>\nInvocado desde CU-03: importarConfiguracionGlobal" as N1
 package importarAsignaturas as "importarAsignaturas()" {
     rectangle #629EF9 VistaImportacionAsignaturas
     rectangle #b5bd68 ControladorImportacionAsignaturas
     rectangle #F2AC4E Asignatura
 }
 
-Docente -r-> VistaImportacionAsignaturas: solicitarImportar()
-VistaImportacionAsignaturas --> Docente: pedirArchivo()
-Docente --> VistaImportacionAsignaturas: proporcionarArchivo()
-VistaImportacionAsignaturas --> ControladorImportacionAsignaturas: validarDatos()
-ControladorImportacionAsignaturas --> Asignatura: verificarExistencia()
-VistaImportacionAsignaturas --> Docente: mostrarResumen()
-Docente --> VistaImportacionAsignaturas: confirmarImportacion()
-VistaImportacionAsignaturas -d-> ControladorImportacionAsignaturas: importar()
-ControladorImportacionAsignaturas --> Asignatura: save()
+VistaImportacionAsignaturas -d-> ControladorImportacionAsignaturas: importarAsignaturas(listaAsignaturas)
+ControladorImportacionAsignaturas --> Asignatura: guardarOActualizar(asignatura)
+ControladorImportacionAsignaturas --> VistaImportacionAsignaturas: confirmacion
 
 @enduml

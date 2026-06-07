@@ -1,7 +1,7 @@
 @startuml secuencia-cu29-eliminar-docente
 title Diagrama de Secuencia - Eliminar Docente
 
-actor "Docente" as Actor
+actor "Administrador Institucional" as Actor
 participant "Frontend\n(React)" as FE
 participant "ControladorProfesor" as Controller
 participant "ServicioProfesor" as Service

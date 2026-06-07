@@ -1,0 +1,31 @@
+@startuml actoresYCasosDeUso-administradorInstitucional
+
+left to right direction
+
+actor "Administrador Institucional" as admin
+
+package "Módulo Docentes" {
+  usecase "crearDocente()" as CU13
+  usecase "verDocentes()" as CU24
+  usecase "editarDocente()" as CU15
+  usecase "eliminarDocente()" as CU29
+}
+
+package "Módulo Sesión" {
+  usecase "iniciarSesion()" as CU30
+  usecase "cerrarSesion()" as CU31
+}
+
+package "Módulo Gestión" {
+  usecase "completarGestion()" as CU32
+}
+
+admin --> CU13
+admin --> CU24
+admin --> CU15
+admin --> CU29
+admin --> CU30
+admin --> CU31
+admin --> CU32
+
+@enduml

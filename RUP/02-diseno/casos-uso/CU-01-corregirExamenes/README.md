@@ -1,13 +1,18 @@
-﻿# Detallado de Diseño: CU-01 Corregir Examen
+﻿<div align=right>
 
-Este documento detalla el flujo de corrección automatizada basado en el input de la IA.
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Diseno-FFF?style=flat&logo=postgresql&logoColor=black)](/RUP/02-diseno/README.md)|
+|-:|
 
-## Diagrama de Secuencia
+</div>
 
-![CU-01](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/casos-uso/CU-01-corregirExamenes/diseno-secuencia-CU-01-corregirExamenes.puml)
+# CU-01 — Corregir Examenes — Diseno
 
-## Lógica Técnica
-1. Recepción del JSON escaneado (Clave SHA-256 + Respuestas).
-2. Localización del ejemplar único en la base de datos.
-3. Comparación lógica entre respuestas del alumno y respuestas correctas.
-4. Persistencia de la **Nota Final** y actualización del estado a `CORREGIDO`.
+*El docente corrige masivamente las respuestas de un grupo de alumnos y el sistema persiste la nota actualizando el estado a CORREGIDO.*
+
+<div align=center>
+
+![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/CU-01-corregirExamenes/diseno-secuencia-CU-01-corregirExamenes.puml)
+
+[diseno-secuencia-CU-01-corregirExamenes.puml](diseno-secuencia-CU-01-corregirExamenes.puml)
+
+</div>
