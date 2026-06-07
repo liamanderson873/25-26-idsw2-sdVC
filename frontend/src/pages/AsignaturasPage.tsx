@@ -5,6 +5,7 @@ import { getProfesores } from '../services/profesorService';
 import { getGrados } from '../services/gradoService';
 import { getExamenesPorAsignatura } from '../services/examenService';
 import DataTable from '../components/DataTable';
+import RevisionModal from '../components/RevisionModal';
 import type { Asignatura } from '../types';
 
 const ESTADO_STYLE: Record<string, { bg: string; color: string; label: string }> = {
@@ -21,6 +22,7 @@ const AsignaturasPage: React.FC = () => {
   const [filterGrado, setFilterGrado] = useState<number>(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedAsignatura, setSelectedAsignatura] = useState<Asignatura | null>(null);
+  const [revisionEjemplarId, setRevisionEjemplarId] = useState<number | null>(null);
 
   const [form, setForm] = useState<Asignatura>({
     nombre: '',
@@ -279,18 +281,27 @@ const AsignaturasPage: React.FC = () => {
                         </span>
                       </div>
                       <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '0.2rem' }}>{ex.alumnoDni}</div>
-                      <div style={{ display: 'flex', gap: '0.75rem', fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                        <span>{ex.tipoEvaluacion?.replace(/_/g, ' ')}</span>
-                        <span>·</span>
-                        <span>{ex.fechaExamen}</span>
-                        {ex.notaFinal != null && (
-                          <>
-                            <span>·</span>
-                            <span style={{ fontWeight: '800', color: ex.notaFinal >= 5 ? 'var(--success)' : 'var(--danger)' }}>
-                              {ex.notaFinal.toFixed(2)}
-                            </span>
-                          </>
-                        )}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', gap: '0.75rem', fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                          <span>{ex.tipoEvaluacion?.replace(/_/g, ' ')}</span>
+                          <span>·</span>
+                          <span>{ex.fechaExamen}</span>
+                          {ex.notaFinal != null && (
+                            <>
+                              <span>·</span>
+                              <span style={{ fontWeight: '800', color: ex.notaFinal >= 5 ? 'var(--success)' : 'var(--danger)' }}>
+                                {ex.notaFinal.toFixed(2)}
+                              </span>
+                            </>
+                          )}
+                        </div>
+                        <button
+                          className="btn btn-secondary"
+                          style={{ fontSize: '0.65rem', padding: '0.15rem 0.55rem' }}
+                          onClick={() => setRevisionEjemplarId(ex.id)}
+                        >
+                          Revisar
+                        </button>
                       </div>
                     </div>
                   );
@@ -300,6 +311,10 @@ const AsignaturasPage: React.FC = () => {
           </div>
         )}
       </div>
+
+      {revisionEjemplarId && (
+        <RevisionModal ejemplarId={revisionEjemplarId} onClose={() => setRevisionEjemplarId(null)} />
+      )}
     </div>
   );
 };

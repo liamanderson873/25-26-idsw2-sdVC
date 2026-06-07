@@ -51,6 +51,11 @@ export const getAuditoriaAlumno = async (ejemplarId: number): Promise<any> => {
   return response.data;
 };
 
+export const getRevisionEjemplar = async (ejemplarId: number): Promise<any> => {
+  const response = await api.get(`/examenes/ejemplar/${ejemplarId}/revision`);
+  return response.data;
+};
+
 /** CU-33: cancelarGeneracion — solo funciona si el examen no tiene alumnos asignados */
 export const cancelarGeneracion = async (examenId: number): Promise<string> => {
   const response = await api.delete(`/examenes/${examenId}`);

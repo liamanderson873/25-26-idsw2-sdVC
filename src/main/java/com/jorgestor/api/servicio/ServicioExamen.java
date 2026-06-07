@@ -2,6 +2,7 @@ package com.jorgestor.api.servicio;
 
 import com.jorgestor.api.dto.DTO_AuditoriaAlumno;
 import com.jorgestor.api.dto.DTO_EjemplarResumen;
+import com.jorgestor.api.dto.DTO_RevisionEjemplar;
 import com.jorgestor.api.dto.DTO_ExportarExamen;
 import com.jorgestor.api.dto.DTO_GenerarExamen;
 import com.jorgestor.api.dto.DTO_GenerarYAsignar;
@@ -468,6 +469,66 @@ public class ServicioExamen {
         dto.setEstado(ej.getEstado().toString());
         dto.setMarcas(mapaMarcas);
 
+        return dto;
+    }
+
+    /**
+     * Devuelve las preguntas del ejemplar con las respuestas del alumno y si son correctas o no.
+     */
+    @Transactional(readOnly = true)
+    public DTO_RevisionEjemplar obtenerRevisionEjemplar(Long ejemplarId) {
+        ExamenAlumno ea = repoExamenAlumno.findById(ejemplarId)
+                .orElseThrow(() -> new RuntimeException("Ejemplar no encontrado"));
+
+        List<ExamenAlumnoMarca> marcas = repoMarcas.findByExamenAlumnoId(ejemplarId);
+        Map<Long, Integer> mapaMarcas = new HashMap<>();
+        for (ExamenAlumnoMarca m : marcas) {
+            if (m.getPregunta() != null && m.getPregunta().getId() != null) {
+                mapaMarcas.put(m.getPregunta().getId(), m.getIndiceMarcado());
+            }
+        }
+
+        DTO_RevisionEjemplar dto = new DTO_RevisionEjemplar();
+        dto.setAlumnoNombre(ea.getAlumno().getNombre());
+        dto.setAlumnoApellidos(ea.getAlumno().getApellidos());
+        dto.setAlumnoDni(ea.getAlumno().getDni());
+        dto.setAsignaturaNombre(ea.getExamen().getAsignatura().getNombre());
+        dto.setTipoEvaluacion(ea.getExamen().getTipoEvaluacion().toString());
+        dto.setFechaExamen(ea.getExamen().getFechaExamen() != null ? ea.getExamen().getFechaExamen().toString() : null);
+        dto.setEstado(ea.getEstado().toString());
+        dto.setNotaFinal(ea.getNotaFinal());
+
+        List<DTO_RevisionEjemplar.ItemRevision> items = new ArrayList<>();
+        for (Pregunta p : ea.getExamen().getPreguntas()) {
+            DTO_RevisionEjemplar.ItemRevision item = new DTO_RevisionEjemplar.ItemRevision();
+            item.setPreguntaId(p.getId());
+            item.setEnunciado(p.getEnunciado());
+            item.setDificultad(p.getDificultad().toString());
+
+            List<DTO_RevisionEjemplar.OpcionRespuesta> opciones = new ArrayList<>();
+            for (Respuesta r : p.getRespuestas()) {
+                DTO_RevisionEjemplar.OpcionRespuesta op = new DTO_RevisionEjemplar.OpcionRespuesta();
+                op.setIndice(r.getIndice());
+                op.setContenido(r.getContenido());
+                op.setEsCorrecta(r.isEsCorrecta());
+                opciones.add(op);
+            }
+            opciones.sort(java.util.Comparator.comparingInt(DTO_RevisionEjemplar.OpcionRespuesta::getIndice));
+            item.setRespuestas(opciones);
+
+            Integer marcado = mapaMarcas.get(p.getId());
+            item.setIndiceMarcado(marcado);
+            if (marcado != null) {
+                boolean correcto = opciones.stream()
+                        .filter(op -> op.getIndice() == marcado)
+                        .findFirst()
+                        .map(DTO_RevisionEjemplar.OpcionRespuesta::isEsCorrecta)
+                        .orElse(false);
+                item.setRespondidoCorrectamente(correcto);
+            }
+            items.add(item);
+        }
+        dto.setPreguntas(items);
         return dto;
     }
 

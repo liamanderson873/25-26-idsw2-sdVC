@@ -127,6 +127,18 @@ public class ControladorExamen {
     }
 
     /**
+     * Devuelve las preguntas del ejemplar con las respuestas marcadas por el alumno y si son correctas.
+     */
+    @GetMapping("/ejemplar/{ejemplarId}/revision")
+    public ResponseEntity<?> obtenerRevision(@PathVariable Long ejemplarId) {
+        try {
+            return ResponseEntity.ok(servicioExamen.obtenerRevisionEjemplar(ejemplarId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al obtener revisión: " + e.getMessage());
+        }
+    }
+
+    /**
      * Endpoint para procesar la corrección de un examen (CU-01)
      * Recibe los datos leídos por la IA y calcula la calificación final.
      */

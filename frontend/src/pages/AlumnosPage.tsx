@@ -5,6 +5,7 @@ import { getGrados } from '../services/gradoService';
 import { getAsignaturas } from '../services/asignaturaService';
 import { getExamenesPorAlumno } from '../services/examenService';
 import DataTable from '../components/DataTable';
+import RevisionModal from '../components/RevisionModal';
 import type { Alumno, Asignatura } from '../types';
 
 const ESTADO_STYLE: Record<string, { bg: string; color: string; label: string }> = {
@@ -19,6 +20,7 @@ const AlumnosPage: React.FC = () => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [selectedAlumno, setSelectedAlumno] = useState<Alumno | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [revisionEjemplarId, setRevisionEjemplarId] = useState<number | null>(null);
   const [form, setForm] = useState<Alumno>({
     dni: '', nombre: '', apellidos: '', curso: 1, gradoId: 0, asignaturaIds: []
   });
@@ -228,18 +230,27 @@ const AlumnosPage: React.FC = () => {
                           {est.label}
                         </span>
                       </div>
-                      <div style={{ display: 'flex', gap: '0.75rem', fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                        <span>{ex.tipoEvaluacion?.replace(/_/g, ' ')}</span>
-                        <span>·</span>
-                        <span>{ex.fechaExamen}</span>
-                        {ex.notaFinal != null && (
-                          <>
-                            <span>·</span>
-                            <span style={{ fontWeight: '800', color: ex.notaFinal >= 5 ? 'var(--success)' : 'var(--danger)' }}>
-                              {ex.notaFinal.toFixed(2)}
-                            </span>
-                          </>
-                        )}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', gap: '0.75rem', fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                          <span>{ex.tipoEvaluacion?.replace(/_/g, ' ')}</span>
+                          <span>·</span>
+                          <span>{ex.fechaExamen}</span>
+                          {ex.notaFinal != null && (
+                            <>
+                              <span>·</span>
+                              <span style={{ fontWeight: '800', color: ex.notaFinal >= 5 ? 'var(--success)' : 'var(--danger)' }}>
+                                {ex.notaFinal.toFixed(2)}
+                              </span>
+                            </>
+                          )}
+                        </div>
+                        <button
+                          className="btn btn-secondary"
+                          style={{ fontSize: '0.65rem', padding: '0.15rem 0.55rem' }}
+                          onClick={() => setRevisionEjemplarId(ex.id)}
+                        >
+                          Revisar
+                        </button>
                       </div>
                     </div>
                   );
@@ -249,6 +260,10 @@ const AlumnosPage: React.FC = () => {
           </div>
         )}
       </div>
+
+      {revisionEjemplarId && (
+        <RevisionModal ejemplarId={revisionEjemplarId} onClose={() => setRevisionEjemplarId(null)} />
+      )}
     </div>
   );
 };
