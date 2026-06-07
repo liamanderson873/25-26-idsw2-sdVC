@@ -9,34 +9,102 @@ package "com.jorgestor.api" {
             + login(dto: DTO_Login): ResponseEntity
         }
         class ControladorExamen {
-            + generar(dto: DTO_GenerarExamen): ResponseEntity
-            + asignar(dto: DTO_AsignarExamen): ResponseEntity
+            + listar(): ResponseEntity
+            + listarGrupos(): ResponseEntity
+            + alumnosDeGrupo(dto: DTO_AccionGrupo): ResponseEntity
+            + entregarGrupo(dto: DTO_AccionGrupo): ResponseEntity
+            + corregirGrupo(dto: DTO_AccionGrupo): ResponseEntity
+            + conteosPorAlumno(): ResponseEntity
+            + conteosPorAsignatura(): ResponseEntity
+            + generarYAsignar(dto: DTO_GenerarYAsignar): ResponseEntity
+            + generarExamen(dto: DTO_GenerarExamen): ResponseEntity
+            + asignarExamen(dto: DTO_AsignarExamen): ResponseEntity
+            + exportarExamen(id: Long): ResponseEntity
             + corregirMasivo(id: Long): ResponseEntity
+            + corregirExamen(dto: DTO_ProcesarCorreccion): ResponseEntity
+            + obtenerRevision(ejemplarId: Long): ResponseEntity
+            + cancelarGeneracion(id: Long): ResponseEntity
         }
         class ControladorAlumno {
-            + listarTodos(): List<DTO_Alumno>
+            + listarTodos(): ResponseEntity
             + guardar(dto: DTO_Alumno): ResponseEntity
+            + actualizar(id: Long, dto: DTO_Alumno): ResponseEntity
+            + eliminar(id: Long): ResponseEntity
+            + importar(file: MultipartFile): ResponseEntity
         }
         class ControladorAsignatura {
-            + listarTodas(): List<DTO_Asignatura>
+            + listarTodas(): ResponseEntity
+            + guardar(dto: DTO_Asignatura): ResponseEntity
+            + actualizar(id: Long, dto: DTO_Asignatura): ResponseEntity
+            + eliminar(id: Long): ResponseEntity
+        }
+        class ControladorGrado {
+            + listarTodos(): ResponseEntity
+            + guardar(dto: DTO_Grado): ResponseEntity
+            + actualizar(id: Long, dto: DTO_Grado): ResponseEntity
+            + eliminar(id: Long): ResponseEntity
+        }
+        class ControladorPregunta {
+            + listarTodas(): ResponseEntity
+            + guardar(dto: DTO_Pregunta): ResponseEntity
+            + actualizar(id: Long, dto: DTO_Pregunta): ResponseEntity
+            + eliminar(id: Long): ResponseEntity
+            + toggleHabilitada(id: Long): ResponseEntity
+            + importar(file: MultipartFile): ResponseEntity
+        }
+        class ControladorConfiguracion {
+            + exportar(): ResponseEntity
+            + importar(dto: DTO_ConfiguracionGlobal): ResponseEntity
+            + getResumen(): ResponseEntity
         }
     }
 
     package "servicio" {
         class ServicioExamen {
+            + generarYAsignar(dto: DTO_GenerarYAsignar): int
             + generarExamen(dto: DTO_GenerarExamen): Examen
             + asignarExamenAAlumnos(id: Long, alumnos: List<Long>): void
             + corregirMasivo(id: Long): void
+            + corregirGrupo(dto: DTO_AccionGrupo): void
             + simularEntregaMasiva(id: Long): void
+            + simularEntregaGrupo(dto: DTO_AccionGrupo): void
+            + listarGrupos(): List<DTO_GrupoExamen>
+            + listarEjemplaresDeGrupo(dto: DTO_AccionGrupo): List<DTO_EjemplarResumen>
+            + obtenerRevisionEjemplar(id: Long): DTO_RevisionEjemplar
+            + contarExamenesPorAlumno(): Map<Long, Long>
+            + contarExamenesPorAsignatura(): Map<Long, Long>
         }
-        
         class ServicioAlumno {
             + listarTodos(): List<DTO_Alumno>
             + guardarIndividual(dto: DTO_Alumno): void
+            + actualizarAlumno(id: Long, dto: DTO_Alumno): void
+            + eliminarAlumno(id: Long): void
+            + importarDesdeCSV(file: MultipartFile): int
         }
-
         class ServicioAsignatura {
-            + listarTodos(): List<DTO_Asignatura>
+            + listarTodas(): List<DTO_Asignatura>
+            + guardar(dto: DTO_Asignatura): void
+            + actualizar(id: Long, dto: DTO_Asignatura): void
+            + eliminar(id: Long): void
+        }
+        class ServicioGrado {
+            + listarTodos(): List<DTO_Grado>
+            + guardar(dto: DTO_Grado): void
+            + actualizar(id: Long, dto: DTO_Grado): void
+            + eliminar(id: Long): void
+        }
+        class ServicioPregunta {
+            + listarTodas(): List<DTO_Pregunta>
+            + guardar(dto: DTO_Pregunta): void
+            + actualizar(id: Long, dto: DTO_Pregunta): void
+            + eliminar(id: Long): void
+            + toggleHabilitada(id: Long): void
+            + importarDesdeCSV(file: MultipartFile): int
+        }
+        class ServicioConfiguracion {
+            + exportar(): DTO_ConfiguracionGlobal
+            + importar(dto: DTO_ConfiguracionGlobal): void
+            + getResumen(): DTO_ResumenSistema
         }
     }
 
@@ -44,18 +112,24 @@ package "com.jorgestor.api" {
         interface RepositorioAlumno <<Repository>>
         interface RepositorioExamen <<Repository>>
         interface RepositorioExamenAlumno <<Repository>>
-        interface RepositorioAsignatura <<Repository>>
         interface RepositorioExamenAlumnoMarca <<Repository>>
+        interface RepositorioAsignatura <<Repository>>
+        interface RepositorioGrado <<Repository>>
+        interface RepositorioPregunta <<Repository>>
+        interface RepositorioRespuesta <<Repository>>
+        interface RepositorioTema <<Repository>>
     }
 
     package "modelo" {
         class Alumno <<Entity>>
         class Examen <<Entity>>
-        class Asignatura <<Entity>>
         class ExamenAlumno <<Entity>>
         class ExamenAlumnoMarca <<Entity>>
+        class Asignatura <<Entity>>
+        class Grado <<Entity>>
         class Pregunta <<Entity>>
         class Respuesta <<Entity>>
+        class Tema <<Entity>>
     }
 }
 
@@ -64,7 +138,13 @@ controlador ..> servicio : utiliza
 servicio ..> repositorio : utiliza
 repositorio ..> modelo : gestiona
 
-' Relaciones de colaboración
-ServicioExamen ..> RepositorioExamenAlumnoMarca : audita
+' Relaciones de servicio destacadas
+ServicioExamen ..> RepositorioExamenAlumnoMarca : auditoría
+ServicioExamen ..> RepositorioExamen : persiste
+ServicioExamen ..> RepositorioExamenAlumno : gestiona
 ServicioAlumno ..> RepositorioAsignatura : matricula
+ServicioConfiguracion ..> ServicioGrado : agrega
+ServicioConfiguracion ..> ServicioAsignatura : agrega
+ServicioConfiguracion ..> ServicioAlumno : agrega
+ServicioConfiguracion ..> ServicioPregunta : agrega
 @enduml
