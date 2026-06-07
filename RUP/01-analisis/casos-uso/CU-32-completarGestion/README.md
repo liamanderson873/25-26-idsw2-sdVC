@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-32 — Completar Gestion
+# CU-32 -- Completar Gestion
 
 *El docente marca la gestion actual como completada.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaGestion |
+| `<<control>>` | ControladorGestion |
+| `<<entity>>` | EstadoSistema |
+
+## Diagramas de analisis
 
 <div align=center>
 

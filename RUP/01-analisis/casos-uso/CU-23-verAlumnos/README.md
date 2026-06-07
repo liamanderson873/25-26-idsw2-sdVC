@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-23 — Ver Alumnos
+# CU-23 -- Ver Alumnos
 
 *El docente consulta la lista de alumnos registrados en el sistema.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaListaAlumnos |
+| `<<control>>` | ControladorAlumnos |
+| `<<entity>>` | Alumno |
+
+## Diagramas de analisis
 
 <div align=center>
 

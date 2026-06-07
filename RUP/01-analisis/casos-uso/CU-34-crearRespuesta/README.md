@@ -5,9 +5,20 @@
 
 </div>
 
-# CU-34 — Crear Respuesta
+# CU-34 -- Crear Respuesta
 
 *El docente anade una nueva opcion de respuesta a una pregunta existente.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaCreacionRespuesta |
+| `<<control>>` | ControladorCreacionRespuestas |
+| `<<entity>>` | Respuesta |
+| `<<entity>>` | Pregunta |
+
+## Diagramas de analisis
 
 <div align=center>
 

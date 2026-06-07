@@ -5,9 +5,20 @@
 
 </div>
 
-# CU-42 — Ver Examen
+# CU-42 -- Ver Examen
 
 *El docente consulta el contenido completo de un ejemplar de examen en modo lectura, con las respuestas del alumno y su calificacion.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaVerExamen |
+| `<<control>>` | ControladorExamen |
+| `<<entity>>` | ExamenAlumno |
+| `<<entity>>` | Pregunta |
+
+## Diagramas de analisis
 
 <div align=center>
 

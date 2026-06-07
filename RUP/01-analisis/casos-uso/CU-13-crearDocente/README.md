@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-13 — Crear Docente
+# CU-13 -- Crear Docente
 
 *El administrador institucional registra un nuevo docente en el sistema.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaCreacionDocente |
+| `<<control>>` | ControladorDocentes |
+| `<<entity>>` | Docente |
+
+## Diagramas de analisis
 
 <div align=center>
 

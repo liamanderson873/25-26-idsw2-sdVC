@@ -5,9 +5,20 @@
 
 </div>
 
-# CU-11 — Editar Pregunta
+# CU-11 -- Editar Pregunta
 
 *El docente modifica el enunciado u opciones de una pregunta existente en el banco.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaEdicionPregunta |
+| `<<control>>` | ControladorPreguntas |
+| `<<entity>>` | Pregunta |
+| `<<entity>>` | Respuesta |
+
+## Diagramas de analisis
 
 <div align=center>
 

@@ -5,9 +5,20 @@
 
 </div>
 
-# CU-12 — Editar Asignatura
+# CU-12 -- Editar Asignatura
 
 *El docente modifica el nombre u otros datos de una asignatura ya registrada.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaEdicionAsignatura |
+| `<<control>>` | ControladorAsignaturas |
+| `<<entity>>` | Asignatura |
+| `<<entity>>` | Grado |
+
+## Diagramas de analisis
 
 <div align=center>
 

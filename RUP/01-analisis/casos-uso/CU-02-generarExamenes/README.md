@@ -5,9 +5,21 @@
 
 </div>
 
-# CU-02 — Generar Examenes
+# CU-02 -- Generar Examenes
 
 *El docente genera examenes individualizados por alumno seleccionando asignatura, grado y numero de preguntas del banco.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaGeneracion |
+| `<<control>>` | ControladorGeneracion |
+| `<<entity>>` | Asignatura |
+| `<<entity>>` | Pregunta |
+| `<<entity>>` | Examen |
+
+## Diagramas de analisis
 
 <div align=center>
 

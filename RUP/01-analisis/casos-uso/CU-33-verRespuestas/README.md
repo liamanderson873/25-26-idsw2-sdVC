@@ -5,9 +5,20 @@
 
 </div>
 
-# CU-33 — Ver Respuestas
+# CU-33 -- Ver Respuestas
 
 *El docente consulta las opciones de respuesta asociadas a una pregunta del banco.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaListaRespuestas |
+| `<<control>>` | ControladorConsultaRespuestas |
+| `<<entity>>` | Respuesta |
+| `<<entity>>` | Pregunta |
+
+## Diagramas de analisis
 
 <div align=center>
 

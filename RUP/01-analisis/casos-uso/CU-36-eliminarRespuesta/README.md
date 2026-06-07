@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-36 — Eliminar Respuesta
+# CU-36 -- Eliminar Respuesta
 
 *El docente elimina una opcion de respuesta del banco de preguntas.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaEliminacionRespuesta |
+| `<<control>>` | ControladorEliminacionRespuestas |
+| `<<entity>>` | Respuesta |
+
+## Diagramas de analisis
 
 <div align=center>
 

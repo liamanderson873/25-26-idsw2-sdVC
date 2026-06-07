@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-16 — Editar Alumno
+# CU-16 -- Editar Alumno
 
 *El docente modifica los datos de un alumno ya registrado en el sistema.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaEdicionAlumno |
+| `<<control>>` | ControladorAlumnos |
+| `<<entity>>` | Alumno |
+
+## Diagramas de analisis
 
 <div align=center>
 

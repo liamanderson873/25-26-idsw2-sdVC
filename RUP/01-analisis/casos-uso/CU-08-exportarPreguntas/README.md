@@ -5,11 +5,22 @@
 
 </div>
 
-# CU-08 — Exportar Preguntas
+# CU-08 -- Exportar Preguntas
 
 *Subartefacto invocado desde CU-04 mediante include que extrae el banco de preguntas para incluirlo en la exportacion global.*
 
 > **CU abstracto** - no tiene actor iniciador propio. Es invocado mediante `<<include>>` desde otro caso de uso.
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaExportacionPreguntas |
+| `<<control>>` | ControladorExportacion |
+| `<<entity>>` | Pregunta |
+| `<<entity>>` | Respuesta |
+
+## Diagramas de analisis
 
 <div align=center>
 

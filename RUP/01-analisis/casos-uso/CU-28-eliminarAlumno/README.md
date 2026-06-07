@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-28 — Eliminar Alumno
+# CU-28 -- Eliminar Alumno
 
 *El docente elimina un alumno del sistema.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaEliminacionAlumno |
+| `<<control>>` | ControladorAlumnos |
+| `<<entity>>` | Alumno |
+
+## Diagramas de analisis
 
 <div align=center>
 

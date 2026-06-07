@@ -5,9 +5,20 @@
 
 </div>
 
-# CU-18 — Crear Asignatura
+# CU-18 -- Crear Asignatura
 
 *El docente crea una nueva asignatura y la asocia a un grado academico.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaCreacionAsignatura |
+| `<<control>>` | ControladorAsignaturas |
+| `<<entity>>` | Asignatura |
+| `<<entity>>` | Grado |
+
+## Diagramas de analisis
 
 <div align=center>
 

@@ -5,11 +5,21 @@
 
 </div>
 
-# CU-40 — Exportar Asignaturas
+# CU-40 -- Exportar Asignaturas
 
 *Subartefacto invocado desde CU-04 mediante include que extrae las asignaturas para incluirlas en la exportacion global.*
 
 > **CU abstracto** - no tiene actor iniciador propio. Es invocado mediante `<<include>>` desde otro caso de uso.
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaExportacionAsignaturas |
+| `<<control>>` | ControladorExportacionAsignaturas |
+| `<<entity>>` | Asignatura |
+
+## Diagramas de analisis
 
 <div align=center>
 

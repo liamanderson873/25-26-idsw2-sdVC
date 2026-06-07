@@ -5,9 +5,21 @@
 
 </div>
 
-# CU-09 — Asignar Examenes
+# CU-09 -- Asignar Examenes
 
 *El docente asigna los examenes generados a los alumnos de un grado, actualizando su estado a ASIGNADO.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaAsignacionExamen |
+| `<<control>>` | ControladorAsignacion |
+| `<<entity>>` | Examen |
+| `<<entity>>` | Alumno |
+| `<<entity>>` | Grado |
+
+## Diagramas de analisis
 
 <div align=center>
 

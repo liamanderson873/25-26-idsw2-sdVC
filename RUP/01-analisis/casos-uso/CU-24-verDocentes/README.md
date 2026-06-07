@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-24 — Ver Docentes
+# CU-24 -- Ver Docentes
 
 *El administrador institucional consulta la lista de docentes registrados en el sistema.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaListaDocentes |
+| `<<control>>` | ControladorDocentes |
+| `<<entity>>` | Docente |
+
+## Diagramas de analisis
 
 <div align=center>
 

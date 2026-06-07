@@ -5,11 +5,21 @@
 
 </div>
 
-# CU-39 — Importar Grados
+# CU-39 -- Importar Grados
 
 *Subartefacto invocado desde CU-03 mediante include que importa los grados del fichero JSON global.*
 
 > **CU abstracto** - no tiene actor iniciador propio. Es invocado mediante `<<include>>` desde otro caso de uso.
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaImportacionGrados |
+| `<<control>>` | ControladorImportacionGrados |
+| `<<entity>>` | Grado |
+
+## Diagramas de analisis
 
 <div align=center>
 

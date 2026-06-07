@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-26 — Eliminar Asignatura
+# CU-26 -- Eliminar Asignatura
 
 *El docente elimina una asignatura del sistema.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaEliminacionAsignatura |
+| `<<control>>` | ControladorAsignaturas |
+| `<<entity>>` | Asignatura |
+
+## Diagramas de analisis
 
 <div align=center>
 

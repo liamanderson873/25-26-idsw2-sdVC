@@ -5,9 +5,22 @@
 
 </div>
 
-# CU-03 — Importar Configuracion Global
+# CU-03 -- Importar Configuracion Global
 
 *El docente restaura la configuracion completa del sistema (grados, asignaturas, alumnos y preguntas) desde un fichero JSON.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaImportConfigGlobal |
+| `<<control>>` | ControladorImportacion |
+| `<<entity>>` | Alumno |
+| `<<entity>>` | Grado |
+| `<<entity>>` | Asignatura |
+| `<<entity>>` | Pregunta |
+
+## Diagramas de analisis
 
 <div align=center>
 

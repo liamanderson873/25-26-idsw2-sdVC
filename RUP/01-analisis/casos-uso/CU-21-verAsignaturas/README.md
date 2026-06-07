@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-21 — Ver Asignaturas
+# CU-21 -- Ver Asignaturas
 
 *El docente consulta la lista de asignaturas registradas en el sistema.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaListaAsignaturas |
+| `<<control>>` | ControladorAsignaturas |
+| `<<entity>>` | Asignatura |
+
+## Diagramas de analisis
 
 <div align=center>
 

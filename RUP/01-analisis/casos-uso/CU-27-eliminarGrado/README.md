@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-27 — Eliminar Grado
+# CU-27 -- Eliminar Grado
 
 *El docente elimina un grado academico del sistema.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaEliminacionGrado |
+| `<<control>>` | ControladorGrados |
+| `<<entity>>` | Grado |
+
+## Diagramas de analisis
 
 <div align=center>
 

@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-19 — Editar Grado
+# CU-19 -- Editar Grado
 
 *El docente modifica el nombre u otros datos de un grado academico existente.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaEdicionGrado |
+| `<<control>>` | ControladorGrados |
+| `<<entity>>` | Grado |
+
+## Diagramas de analisis
 
 <div align=center>
 

@@ -5,9 +5,20 @@
 
 </div>
 
-# CU-01 — Corregir Examenes
+# CU-01 -- Corregir Examenes
 
 *El docente corrige masivamente las respuestas de un grupo de alumnos y el sistema persiste la nota actualizando el estado a CORREGIDO.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaCorreccion |
+| `<<control>>` | ControladorCorreccion |
+| `<<entity>>` | Examen |
+| `<<entity>>` | Alumno |
+
+## Diagramas de analisis
 
 <div align=center>
 

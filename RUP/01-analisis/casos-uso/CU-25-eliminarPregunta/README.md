@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-25 — Eliminar Pregunta
+# CU-25 -- Eliminar Pregunta
 
 *El docente elimina una pregunta del banco de preguntas de una asignatura.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaEliminacionPregunta |
+| `<<control>>` | ControladorPreguntas |
+| `<<entity>>` | Pregunta |
+
+## Diagramas de analisis
 
 <div align=center>
 

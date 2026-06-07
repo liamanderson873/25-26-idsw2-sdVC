@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-43 — Ver Examenes
+# CU-43 -- Ver Examenes
 
 *El docente consulta la lista de grupos de examenes generados, agrupados por asignatura y tipo.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaListaExamenes |
+| `<<control>>` | ControladorExamen |
+| `<<entity>>` | ExamenAlumno |
+
+## Diagramas de analisis
 
 <div align=center>
 

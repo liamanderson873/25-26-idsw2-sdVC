@@ -5,9 +5,22 @@
 
 </div>
 
-# CU-04 — Exportar Configuracion Global
+# CU-04 -- Exportar Configuracion Global
 
 *El docente exporta toda la configuracion del sistema a un fichero JSON descargable, incluyendo los cuatro subartefactos abstractos.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaExportConfigGlobal |
+| `<<control>>` | ControladorExportacion |
+| `<<entity>>` | Alumno |
+| `<<entity>>` | Grado |
+| `<<entity>>` | Asignatura |
+| `<<entity>>` | Pregunta |
+
+## Diagramas de analisis
 
 <div align=center>
 

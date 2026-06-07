@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-15 — Editar Docente
+# CU-15 -- Editar Docente
 
 *El administrador institucional modifica los datos de un docente existente en el sistema.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaEdicionDocente |
+| `<<control>>` | ControladorDocentes |
+| `<<entity>>` | Docente |
+
+## Diagramas de analisis
 
 <div align=center>
 

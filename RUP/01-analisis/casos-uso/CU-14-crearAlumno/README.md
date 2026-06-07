@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-14 — Crear Alumno
+# CU-14 -- Crear Alumno
 
 *El docente registra un nuevo alumno en el sistema con sus datos identificativos.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaCreacionAlumno |
+| `<<control>>` | ControladorAlumnos |
+| `<<entity>>` | Alumno |
+
+## Diagramas de analisis
 
 <div align=center>
 

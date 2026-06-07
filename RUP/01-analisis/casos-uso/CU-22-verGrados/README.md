@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-22 — Ver Grados
+# CU-22 -- Ver Grados
 
 *El docente consulta la lista de grados academicos del sistema.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaListaGrados |
+| `<<control>>` | ControladorGrados |
+| `<<entity>>` | Grado |
+
+## Diagramas de analisis
 
 <div align=center>
 

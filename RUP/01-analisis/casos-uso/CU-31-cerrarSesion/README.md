@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-31 — Cerrar Sesion
+# CU-31 -- Cerrar Sesion
 
 *El usuario cierra su sesion activa en el sistema.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaSesion |
+| `<<control>>` | ControladorCierreSesion |
+| `<<entity>>` | SesionUsuario |
+
+## Diagramas de analisis
 
 <div align=center>
 

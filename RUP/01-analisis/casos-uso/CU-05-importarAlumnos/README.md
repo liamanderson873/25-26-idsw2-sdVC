@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-05 — Importar Alumnos
+# CU-05 -- Importar Alumnos
 
 *El docente importa el listado de alumnos desde el subartefacto correspondiente del fichero JSON global.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaImportacionAlumnos |
+| `<<control>>` | ControladorImportacionAlumnos |
+| `<<entity>>` | Alumno |
+
+## Diagramas de analisis
 
 <div align=center>
 

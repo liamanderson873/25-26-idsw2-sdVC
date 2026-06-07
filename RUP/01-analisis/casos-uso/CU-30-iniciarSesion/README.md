@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-30 — Iniciar Sesion
+# CU-30 -- Iniciar Sesion
 
 *El usuario (docente o administrador) inicia sesion en el sistema con sus credenciales.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaInicioSesion |
+| `<<control>>` | ControladorInicioSesion |
+| `<<entity>>` | Usuario |
+
+## Diagramas de analisis
 
 <div align=center>
 

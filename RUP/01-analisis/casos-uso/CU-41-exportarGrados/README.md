@@ -5,11 +5,21 @@
 
 </div>
 
-# CU-41 — Exportar Grados
+# CU-41 -- Exportar Grados
 
 *Subartefacto invocado desde CU-04 mediante include que extrae los grados para incluirlos en la exportacion global.*
 
 > **CU abstracto** - no tiene actor iniciador propio. Es invocado mediante `<<include>>` desde otro caso de uso.
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaExportacionGrados |
+| `<<control>>` | ControladorExportacionGrados |
+| `<<entity>>` | Grado |
+
+## Diagramas de analisis
 
 <div align=center>
 

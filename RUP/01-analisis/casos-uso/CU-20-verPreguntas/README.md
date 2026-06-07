@@ -5,9 +5,20 @@
 
 </div>
 
-# CU-20 — Ver Preguntas
+# CU-20 -- Ver Preguntas
 
 *El docente consulta el banco de preguntas disponibles, filtrado por asignatura.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaListaPreguntas |
+| `<<control>>` | ControladorPreguntas |
+| `<<entity>>` | Pregunta |
+| `<<entity>>` | Asignatura |
+
+## Diagramas de analisis
 
 <div align=center>
 

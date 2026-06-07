@@ -5,9 +5,20 @@
 
 </div>
 
-# CU-10 — Crear Pregunta
+# CU-10 -- Crear Pregunta
 
 *El docente anade una nueva pregunta al banco de preguntas de una asignatura.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaCreacionPregunta |
+| `<<control>>` | ControladorGestionPreguntas |
+| `<<entity>>` | Pregunta |
+| `<<entity>>` | Asignatura |
+
+## Diagramas de analisis
 
 <div align=center>
 

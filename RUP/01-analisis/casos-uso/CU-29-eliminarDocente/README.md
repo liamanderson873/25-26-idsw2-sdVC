@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-29 — Eliminar Docente
+# CU-29 -- Eliminar Docente
 
 *El administrador institucional elimina un docente del sistema.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaEliminacionDocente |
+| `<<control>>` | ControladorDocentes |
+| `<<entity>>` | Docente |
+
+## Diagramas de analisis
 
 <div align=center>
 

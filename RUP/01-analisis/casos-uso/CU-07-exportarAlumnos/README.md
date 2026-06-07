@@ -5,11 +5,21 @@
 
 </div>
 
-# CU-07 — Exportar Alumnos
+# CU-07 -- Exportar Alumnos
 
 *Subartefacto invocado desde CU-04 mediante include que extrae los datos de alumnos para incluirlos en la exportacion global.*
 
 > **CU abstracto** - no tiene actor iniciador propio. Es invocado mediante `<<include>>` desde otro caso de uso.
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaExportacionAlumnos |
+| `<<control>>` | ControladorExportacion |
+| `<<entity>>` | Alumno |
+
+## Diagramas de analisis
 
 <div align=center>
 

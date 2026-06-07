@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-17 — Crear Grado
+# CU-17 -- Crear Grado
 
 *El docente crea un nuevo grado academico en el sistema.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaCreacionGrado |
+| `<<control>>` | ControladorGrados |
+| `<<entity>>` | Grado |
+
+## Diagramas de analisis
 
 <div align=center>
 

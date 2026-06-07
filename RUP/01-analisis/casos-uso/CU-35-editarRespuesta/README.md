@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-35 — Editar Respuesta
+# CU-35 -- Editar Respuesta
 
 *El docente modifica el texto o la correccion de una respuesta existente.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaEdicionRespuesta |
+| `<<control>>` | ControladorEdicionRespuestas |
+| `<<entity>>` | Respuesta |
+
+## Diagramas de analisis
 
 <div align=center>
 

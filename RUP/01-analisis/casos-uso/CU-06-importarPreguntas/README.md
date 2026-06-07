@@ -5,9 +5,20 @@
 
 </div>
 
-# CU-06 — Importar Preguntas
+# CU-06 -- Importar Preguntas
 
 *El docente importa el banco de preguntas y respuestas desde el subartefacto correspondiente del fichero JSON global.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaImportacionPreguntas |
+| `<<control>>` | ControladorImportacionPreguntas |
+| `<<entity>>` | Pregunta |
+| `<<entity>>` | Asignatura |
+
+## Diagramas de analisis
 
 <div align=center>
 

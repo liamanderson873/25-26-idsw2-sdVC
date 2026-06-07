@@ -5,9 +5,19 @@
 
 </div>
 
-# CU-37 — Cancelar Generacion
+# CU-37 -- Cancelar Generacion
 
 *El docente cancela una generacion de examenes antes de confirmarla definitivamente.*
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaCancelacionGeneracion |
+| `<<control>>` | ControladorGeneracionExamen |
+| `<<entity>>` | Examen |
+
+## Diagramas de analisis
 
 <div align=center>
 

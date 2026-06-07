@@ -5,11 +5,21 @@
 
 </div>
 
-# CU-38 — Importar Asignaturas
+# CU-38 -- Importar Asignaturas
 
 *Subartefacto invocado desde CU-03 mediante include que importa las asignaturas del fichero JSON global.*
 
 > **CU abstracto** - no tiene actor iniciador propio. Es invocado mediante `<<include>>` desde otro caso de uso.
+
+## Objetos BCE
+
+| Estereotipo | Clase |
+|---|---|
+| `<<boundary>>` | VistaImportacionAsignaturas |
+| `<<control>>` | ControladorImportacionAsignaturas |
+| `<<entity>>` | Asignatura |
+
+## Diagramas de analisis
 
 <div align=center>
 
