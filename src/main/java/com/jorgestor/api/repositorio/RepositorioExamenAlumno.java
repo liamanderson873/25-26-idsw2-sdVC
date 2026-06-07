@@ -21,4 +21,10 @@ public interface RepositorioExamenAlumno extends JpaRepository<ExamenAlumno, Lon
 
     @Query("SELECT ea FROM ExamenAlumno ea JOIN FETCH ea.alumno JOIN FETCH ea.examen WHERE ea.examen.asignatura.id = :asignaturaId")
     List<ExamenAlumno> findByAsignaturaId(@Param("asignaturaId") Long asignaturaId);
+
+    @Query("SELECT ea.alumno.id, COUNT(ea) FROM ExamenAlumno ea GROUP BY ea.alumno.id")
+    List<Object[]> countByAlumno();
+
+    @Query("SELECT ea.examen.asignatura.id, COUNT(ea) FROM ExamenAlumno ea GROUP BY ea.examen.asignatura.id")
+    List<Object[]> countByAsignatura();
 }

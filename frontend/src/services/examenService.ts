@@ -56,6 +56,16 @@ export const getRevisionEjemplar = async (ejemplarId: number): Promise<any> => {
   return response.data;
 };
 
+export const getConteosPorAlumno = async (): Promise<Record<number, number>> => {
+  const response = await api.get('/examenes/conteos/alumnos');
+  return response.data;
+};
+
+export const getConteosPorAsignatura = async (): Promise<Record<number, number>> => {
+  const response = await api.get('/examenes/conteos/asignaturas');
+  return response.data;
+};
+
 /** CU-33: cancelarGeneracion — solo funciona si el examen no tiene alumnos asignados */
 export const cancelarGeneracion = async (examenId: number): Promise<string> => {
   const response = await api.delete(`/examenes/${examenId}`);

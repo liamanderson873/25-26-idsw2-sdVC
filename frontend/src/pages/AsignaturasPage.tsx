@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getAsignaturas, createAsignatura, deleteAsignatura } from '../services/asignaturaService';
 import { getProfesores } from '../services/profesorService';
 import { getGrados } from '../services/gradoService';
-import { getExamenesPorAsignatura } from '../services/examenService';
+import { getExamenesPorAsignatura, getConteosPorAsignatura } from '../services/examenService';
 import DataTable from '../components/DataTable';
 import RevisionModal from '../components/RevisionModal';
 import type { Asignatura } from '../types';
@@ -48,6 +48,8 @@ const AsignaturasPage: React.FC = () => {
     queryKey: ['grados'],
     queryFn: getGrados,
   });
+
+  const { data: conteosAsignatura = {} } = useQuery({ queryKey: ['conteos-asignaturas'], queryFn: getConteosPorAsignatura });
 
   const { data: examenesAsignatura = [], isLoading: loadingExamenes } = useQuery({
     queryKey: ['examenes-asignatura', selectedAsignatura?.id],
@@ -236,13 +238,19 @@ const AsignaturasPage: React.FC = () => {
               const prof = (profesores || []).find(p => p.dni === asig.dniProfesor);
               return prof ? `${prof.apellidos}, ${prof.nombre}` : asig.dniProfesor;
             }},
-            { header: 'Exámenes', accessor: (asig) => (
-              <button className="btn btn-secondary"
-                style={{ fontSize: '0.7rem', padding: '0.2rem 0.65rem', background: selectedAsignatura?.id === asig.id ? 'var(--primary-light)' : undefined, color: selectedAsignatura?.id === asig.id ? 'var(--primary)' : undefined }}
-                onClick={() => handleRowClick(asig)}>
-                {selectedAsignatura?.id === asig.id ? 'Cerrar' : 'Ver'}
-              </button>
-            )},
+            { header: 'Exámenes', accessor: (asig) => {
+              const total = asig.id ? (conteosAsignatura[asig.id] ?? 0) : 0;
+              return (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span style={{ fontWeight: '800', color: total > 0 ? 'var(--primary)' : 'var(--text-muted)', minWidth: '1.2rem', textAlign: 'center' }}>{total}</span>
+                  <button className="btn btn-secondary"
+                    style={{ fontSize: '0.7rem', padding: '0.2rem 0.65rem', background: selectedAsignatura?.id === asig.id ? 'var(--primary-light)' : undefined, color: selectedAsignatura?.id === asig.id ? 'var(--primary)' : undefined }}
+                    onClick={() => handleRowClick(asig)}>
+                    {selectedAsignatura?.id === asig.id ? 'Cerrar' : 'Ver'}
+                  </button>
+                </div>
+              );
+            }},
           ]}
           onEdit={handleEdit}
           onDelete={(asig) => asig.id && deleteMutation.mutate(asig.id)}

@@ -73,6 +73,24 @@ public class ServicioExamen {
     }
 
     @Transactional(readOnly = true)
+    public Map<Long, Long> contarExamenesPorAlumno() {
+        Map<Long, Long> result = new HashMap<>();
+        for (Object[] row : repoExamenAlumno.countByAlumno()) {
+            result.put((Long) row[0], (Long) row[1]);
+        }
+        return result;
+    }
+
+    @Transactional(readOnly = true)
+    public Map<Long, Long> contarExamenesPorAsignatura() {
+        Map<Long, Long> result = new HashMap<>();
+        for (Object[] row : repoExamenAlumno.countByAsignatura()) {
+            result.put((Long) row[0], (Long) row[1]);
+        }
+        return result;
+    }
+
+    @Transactional(readOnly = true)
     public List<DTO_EjemplarResumen> listarEjemplaresPorAlumno(Long alumnoId) {
         return repoExamenAlumno.findByAlumnoId(alumnoId)
                 .stream().map(this::toResumen).collect(Collectors.toList());

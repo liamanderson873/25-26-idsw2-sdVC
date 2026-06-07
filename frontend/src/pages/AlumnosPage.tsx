@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getAlumnos, createAlumno, deleteAlumno } from '../services/alumnoService';
 import { getGrados } from '../services/gradoService';
 import { getAsignaturas } from '../services/asignaturaService';
-import { getExamenesPorAlumno } from '../services/examenService';
+import { getExamenesPorAlumno, getConteosPorAlumno } from '../services/examenService';
 import DataTable from '../components/DataTable';
 import RevisionModal from '../components/RevisionModal';
 import type { Alumno, Asignatura } from '../types';
@@ -30,6 +30,8 @@ const AlumnosPage: React.FC = () => {
   const { data: alumnos = [], isLoading: loadingAlumnos } = useQuery({ queryKey: ['alumnos'], queryFn: getAlumnos });
   const { data: grados = [] }      = useQuery({ queryKey: ['grados'],      queryFn: getGrados });
   const { data: asignaturas = [] } = useQuery({ queryKey: ['asignaturas'], queryFn: getAsignaturas });
+
+  const { data: conteosAlumno = {} } = useQuery({ queryKey: ['conteos-alumnos'], queryFn: getConteosPorAlumno });
 
   const { data: examenesAlumno = [], isLoading: loadingExamenes } = useQuery({
     queryKey: ['examenes-alumno', selectedAlumno?.id],
@@ -185,13 +187,19 @@ const AlumnosPage: React.FC = () => {
               return grados.find(g => g.id === al.gradoId)?.nombre || '...';
             }},
             { header: 'Asigs.', accessor: (al) => <span style={{ fontWeight: '800', color: 'var(--primary)' }}>{al.asignaturaIds?.length || 0}</span> },
-            { header: 'Exámenes', accessor: (al) => (
-              <button className="btn btn-secondary"
-                style={{ fontSize: '0.7rem', padding: '0.2rem 0.65rem', background: selectedAlumno?.id === al.id ? 'var(--primary-light)' : undefined, color: selectedAlumno?.id === al.id ? 'var(--primary)' : undefined }}
-                onClick={() => handleRowClick(al)}>
-                {selectedAlumno?.id === al.id ? 'Cerrar' : 'Ver'}
-              </button>
-            )},
+            { header: 'Exámenes', accessor: (al) => {
+              const total = al.id ? (conteosAlumno[al.id] ?? 0) : 0;
+              return (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span style={{ fontWeight: '800', color: total > 0 ? 'var(--primary)' : 'var(--text-muted)', minWidth: '1.2rem', textAlign: 'center' }}>{total}</span>
+                  <button className="btn btn-secondary"
+                    style={{ fontSize: '0.7rem', padding: '0.2rem 0.65rem', background: selectedAlumno?.id === al.id ? 'var(--primary-light)' : undefined, color: selectedAlumno?.id === al.id ? 'var(--primary)' : undefined }}
+                    onClick={() => handleRowClick(al)}>
+                    {selectedAlumno?.id === al.id ? 'Cerrar' : 'Ver'}
+                  </button>
+                </div>
+              );
+            }},
           ]}
           onEdit={handleEdit}
           onDelete={(al) => al.id && deleteMutation.mutate(al.id)}
