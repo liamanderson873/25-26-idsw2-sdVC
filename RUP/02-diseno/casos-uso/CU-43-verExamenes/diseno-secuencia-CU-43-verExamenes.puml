@@ -1,0 +1,39 @@
+@startuml secuencia-cu43-ver-examenes
+title Diagrama de Secuencia - Ver Exámenes (lista de grupos)
+
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorExamen" as Controller
+participant "ServicioExamen" as Service
+participant "RepositorioExamenAlumno" as RepoEA
+database "Base de Datos\n(PostgreSQL)" as DB
+
+Actor -> FE : Accede a la lista de exámenes
+activate FE
+
+FE -> Controller : GET /api/examenes/grupos
+activate Controller
+
+Controller -> Service : listarGrupos()
+activate Service
+
+Service -> RepoEA : findGruposConConteos()
+activate RepoEA
+RepoEA -> DB : SELECT asignatura_id, nombre, tipo_evaluacion,\n       fecha_examen, estado, COUNT(*)\n       GROUP BY asignatura_id, tipo_evaluacion, fecha_examen, estado
+DB --> RepoEA : List<Object[]>
+RepoEA --> Service : filasPorEstado
+deactivate RepoEA
+
+Service -> Service : agruparEnDTO(filasPorEstado)
+note right: LinkedHashMap por clave\n"asignaturaId|tipo|fecha"\nAgrega contadores por estado:\nPENDIENTE, ASIGNADO,\nPENDIENTE_CALIFICACION, CORREGIDO
+
+Service --> Controller : List<DTO_GrupoExamen>
+deactivate Service
+
+Controller --> FE : 200 OK (listaGrupos)
+deactivate Controller
+
+FE --> Actor : Presenta grupos de exámenes con contadores por estado
+deactivate FE
+
+@enduml
