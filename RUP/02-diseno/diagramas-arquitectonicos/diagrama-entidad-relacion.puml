@@ -15,7 +15,8 @@ skinparam enum {
 }
 hide empty members
 
-' ── 1. Entidad central ───────────────────────────
+' ══ ENTIDADES (declaradas en orden de importancia) ══
+
 class Asignatura <<Entity>> {
   + id : Long
   + nombre : String
@@ -24,15 +25,7 @@ class Asignatura <<Entity>> {
   + cursoSugerido : Integer
 }
 
-' ── 2. Examen y Alumno ───────────────────────────
 together {
-  enum TipoEvaluacion {
-    PARCIAL_1
-    PARCIAL_2
-    PARCIAL_3
-    FINAL
-    EXTRAORDINARIO
-  }
   class Examen <<Entity>> {
     + id : Long
     + tipoEvaluacion : TipoEvaluacion
@@ -48,7 +41,6 @@ together {
   }
 }
 
-' ── 3. Profesor y ExamenAlumno ───────────────────
 together {
   class Profesor <<Entity>> {
     + id : Long
@@ -56,12 +48,6 @@ together {
     + nombre : String
     + apellidos : String
     + email : String
-  }
-  enum EstadoExamen {
-    PENDIENTE
-    ASIGNADO
-    PENDIENTE_CALIFICACION
-    CORREGIDO
   }
   class ExamenAlumno <<Entity>> {
     + id : Long
@@ -72,13 +58,7 @@ together {
   }
 }
 
-' ── 4. Pregunta y Grado ──────────────────────────
 together {
-  enum Dificultad {
-    BAJA
-    MEDIA
-    ALTA
-  }
   class Pregunta <<Entity>> {
     + id : Long
     + enunciado : String
@@ -92,7 +72,6 @@ together {
   }
 }
 
-' ── 5. Tema y Respuesta ──────────────────────────
 together {
   class Tema <<Entity>> {
     + id : Long
@@ -106,13 +85,11 @@ together {
   }
 }
 
-' ── 6. Auditoría ─────────────────────────────────
 class ExamenAlumnoMarca <<Entity>> {
   + id : Long
   + indiceMarcado : Integer
 }
 
-' ── Auth (independiente) ─────────────────────────
 together {
   class Usuario <<Entity>> {
     + id : Long
@@ -127,22 +104,48 @@ together {
   }
 }
 
-' ══════════════════════════════════════════════
-' RELACIONES
-' ══════════════════════════════════════════════
+enum TipoEvaluacion {
+  PARCIAL_1
+  PARCIAL_2
+  PARCIAL_3
+  FINAL
+  EXTRAORDINARIO
+}
+
+enum EstadoExamen {
+  PENDIENTE
+  ASIGNADO
+  PENDIENTE_CALIFICACION
+  CORREGIDO
+}
+
+enum Dificultad {
+  BAJA
+  MEDIA
+  ALTA
+}
+
+' ══ FLECHAS OCULTAS — fuerzan el orden vertical ══
+Asignatura    -[hidden]->  Examen
+Examen        -[hidden]->  Profesor
+Profesor      -[hidden]->  Pregunta
+Pregunta      -[hidden]->  Tema
+Tema          -[hidden]->  ExamenAlumnoMarca
+
+' ══ RELACIONES ══
 
 ' Auth
 Usuario       ..>  Rol
 
 ' Asignatura como eje
-Examen        "*"  -->  "1"  Asignatura    : de
-Alumno        "*"  --  "*"  Asignatura     : matriculas\n<<tabla intermedia>>
-Profesor      "1"  --  "*"  Asignatura     : imparte
-Asignatura    "1"  --  "*"  Tema           : tiene
-Asignatura    "*"  --  "*"  Grado          : asignatura_grados\n<<tabla intermedia>>
+Examen        "*"  -->  "1"  Asignatura     : de
+Alumno        "*"  --   "*"  Asignatura     : matriculas\n<<tabla intermedia>>
+Profesor      "1"  --   "*"  Asignatura     : imparte
+Asignatura    "1"  --   "*"  Tema           : tiene
+Asignatura    "*"  --   "*"  Grado          : asignatura_grados\n<<tabla intermedia>>
 
 ' Alumno → Grado
-Alumno        "*"  -->  "1"  Grado         : cursa en
+Alumno        "*"  -->  "1"  Grado          : cursa en
 
 ' Contenido
 Pregunta      "*"  -->  "1"  Tema           : sobre
@@ -151,7 +154,7 @@ Respuesta     "*"  -->  "1"  Pregunta       : opción de
 
 ' Examen
 Examen        ..>  TipoEvaluacion
-Examen        "*"  --  "*"  Pregunta        : examen_preguntas\n<<tabla intermedia>>
+Examen        "*"  --   "*"  Pregunta       : examen_preguntas\n<<tabla intermedia>>
 
 ' Ejemplar
 ExamenAlumno  ..>  EstadoExamen
