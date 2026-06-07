@@ -260,73 +260,128 @@ const CorregirExamenPage: React.FC = () => {
   /* ═══════════════════════════════════════════════════════════ */
   /* ── VISTA: LISTA DE GRUPOS ────────────────────────────── */
   /* ═══════════════════════════════════════════════════════════ */
-  if (vista === 'grupos') return (
-    <div className="page-container fade-in">
-      <h1>Gestión de Correcciones</h1>
-      <p className="subtitle">Seleccione un grupo de exámenes para gestionar su corrección.</p>
+  if (vista === 'grupos') {
+    const gruposEnProgreso = grupos.filter((g: any) =>
+      g.totalAlumnos === 0 || g.corregidos < g.totalAlumnos
+    );
+    const gruposCompletados = grupos.filter((g: any) =>
+      g.totalAlumnos > 0 && g.corregidos === g.totalAlumnos
+    );
 
-      <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-        <div style={{ padding: '1rem 1.5rem', background: 'var(--surface-2)', borderBottom: '1px solid var(--border)' }}>
-          <h3>Grupos de Exámenes</h3>
-        </div>
+    const colHeaders = ['Asignatura', 'Tipo', 'Fecha', 'Alumnos', 'Sin asignar', 'Asignados', 'Entregados', 'Corregidos', ''];
+
+    const GrupoFila = ({ g }: { g: any }) => (
+      <tr
+        style={{ borderBottom: '1px solid var(--surface-3)', cursor: 'pointer', transition: 'background 0.12s' }}
+        onClick={() => handleSelectGrupo(g)}
+        onMouseEnter={e => (e.currentTarget.style.background = 'var(--surface-2)')}
+        onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+      >
+        <td style={{ padding: '0.875rem 1.25rem', fontWeight: '700', fontSize: '0.875rem', color: 'var(--text-main)' }}>{g.asignaturaNombre}</td>
+        <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>{g.tipoEvaluacion?.replace(/_/g, ' ')}</td>
+        <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>{g.fechaExamen}</td>
+        <td style={{ padding: '0.875rem 1.25rem', textAlign: 'center', fontWeight: '700' }}>{g.totalAlumnos}</td>
+        <td style={{ padding: '0.875rem 1.25rem', textAlign: 'center', fontWeight: '700', color: g.pendientes > 0 ? '#7c3aed' : 'var(--text-placeholder)' }}>{g.pendientes}</td>
+        <td style={{ padding: '0.875rem 1.25rem', textAlign: 'center', fontWeight: '700', color: g.asignados > 0 ? '#64748b' : 'var(--text-placeholder)' }}>{g.asignados}</td>
+        <td style={{ padding: '0.875rem 1.25rem', textAlign: 'center', fontWeight: '700', color: g.entregados > 0 ? '#d97706' : 'var(--text-placeholder)' }}>{g.entregados}</td>
+        <td style={{ padding: '0.875rem 1.25rem', textAlign: 'center', fontWeight: '700', color: g.corregidos > 0 ? '#059669' : 'var(--text-placeholder)' }}>{g.corregidos}</td>
+        <td style={{ padding: '0.875rem 1.25rem', textAlign: 'center' }}>
+          <span style={{ fontSize: '0.72rem', color: 'var(--primary)', fontWeight: '700' }}>Ver →</span>
+        </td>
+      </tr>
+    );
+
+    return (
+      <div className="page-container fade-in">
+        <h1>Gestión de Correcciones</h1>
+        <p className="subtitle">Seleccione un grupo de exámenes para gestionar su corrección.</p>
 
         {loadingGrupos ? (
-          <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>Cargando...</div>
+          <div className="card" style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>Cargando...</div>
         ) : grupos.length === 0 ? (
-          <div style={{ padding: '4rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.875rem' }}>
-            No hay exámenes generados todavía. Genera exámenes desde "Generar Examen".
+          <div className="card" style={{ padding: '4rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.875rem' }}>
+            No hay exámenes asignados todavía. Genera y asigna exámenes primero.
           </div>
         ) : (
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr style={{ background: 'var(--surface-2)' }}>
-                {['Asignatura', 'Tipo', 'Fecha', 'Alumnos', 'Sin asignar', 'Asignados', 'Entregados', 'Corregidos', ''].map((h, i) => (
-                  <th key={h + i} style={{ padding: '0.75rem 1.25rem', fontSize: '0.62rem', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', textAlign: i >= 3 ? 'center' : 'left', borderBottom: '1px solid var(--border)' }}>
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {grupos.map((g: any, idx: number) => {
-                const todosCorr = g.totalAlumnos > 0 && g.corregidos === g.totalAlumnos;
-                return (
-                  <tr key={idx}
-                    style={{ borderBottom: '1px solid var(--surface-3)', cursor: 'pointer', transition: 'background 0.12s' }}
-                    onClick={() => handleSelectGrupo(g)}
-                    onMouseEnter={e => (e.currentTarget.style.background = 'var(--surface-2)')}
-                    onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-                  >
-                    <td style={{ padding: '0.875rem 1.25rem', fontWeight: '700', fontSize: '0.875rem', color: 'var(--text-main)' }}>
-                      {g.asignaturaNombre}
-                    </td>
-                    <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-                      {g.tipoEvaluacion?.replace(/_/g, ' ')}
-                    </td>
-                    <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-                      {g.fechaExamen}
-                    </td>
-                    <td style={{ padding: '0.875rem 1.25rem', textAlign: 'center', fontWeight: '700' }}>{g.totalAlumnos}</td>
-                    <td style={{ padding: '0.875rem 1.25rem', textAlign: 'center', fontWeight: '700', color: g.pendientes > 0 ? '#7c3aed' : 'var(--text-placeholder)' }}>{g.pendientes}</td>
-                    <td style={{ padding: '0.875rem 1.25rem', textAlign: 'center', fontWeight: '700', color: g.asignados > 0 ? '#64748b' : 'var(--text-placeholder)' }}>{g.asignados}</td>
-                    <td style={{ padding: '0.875rem 1.25rem', textAlign: 'center', fontWeight: '700', color: g.entregados > 0 ? '#d97706' : 'var(--text-placeholder)' }}>{g.entregados}</td>
-                    <td style={{ padding: '0.875rem 1.25rem', textAlign: 'center', fontWeight: '700', color: g.corregidos > 0 ? '#059669' : 'var(--text-placeholder)' }}>{g.corregidos}</td>
-                    <td style={{ padding: '0.875rem 1.25rem', textAlign: 'center' }}>
-                      {todosCorr ? (
-                        <span style={{ fontSize: '0.65rem', fontWeight: '800', color: '#059669', background: '#ecfdf5', padding: '0.2rem 0.6rem', borderRadius: '999px' }}>Completado</span>
-                      ) : (
-                        <span style={{ fontSize: '0.72rem', color: 'var(--primary)', fontWeight: '700' }}>Gestionar →</span>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <>
+            {/* ── Grupos en progreso ── */}
+            <div className="card" style={{ padding: 0, overflow: 'hidden', marginBottom: '1.25rem' }}>
+              <div style={{ padding: '1rem 1.5rem', background: 'var(--surface-2)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <h3>En progreso</h3>
+                {gruposEnProgreso.length > 0 && (
+                  <span style={{ fontSize: '0.65rem', fontWeight: '800', background: 'var(--primary-light)', color: 'var(--primary)', padding: '0.2rem 0.6rem', borderRadius: '999px' }}>
+                    {gruposEnProgreso.length}
+                  </span>
+                )}
+              </div>
+              {gruposEnProgreso.length === 0 ? (
+                <div style={{ padding: '2.5rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                  Todos los grupos están completamente corregidos.
+                </div>
+              ) : (
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: 'var(--surface-2)' }}>
+                      {colHeaders.map((h, i) => (
+                        <th key={h + i} style={{ padding: '0.75rem 1.25rem', fontSize: '0.62rem', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', textAlign: i >= 3 ? 'center' : 'left', borderBottom: '1px solid var(--border)' }}>
+                          {h}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {gruposEnProgreso.map((g: any, idx: number) => <GrupoFila key={idx} g={g} />)}
+                  </tbody>
+                </table>
+              )}
+            </div>
+
+            {/* ── Grupos completados ── */}
+            {gruposCompletados.length > 0 && (
+              <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+                <div style={{ padding: '1rem 1.5rem', background: 'var(--surface-2)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <h3 style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Completados</h3>
+                  <span style={{ fontSize: '0.65rem', fontWeight: '800', background: '#ecfdf5', color: '#059669', padding: '0.2rem 0.6rem', borderRadius: '999px' }}>
+                    {gruposCompletados.length}
+                  </span>
+                </div>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: 'var(--surface-2)' }}>
+                      {['Asignatura', 'Tipo', 'Fecha', 'Alumnos', 'Corregidos', ''].map((h, i) => (
+                        <th key={h + i} style={{ padding: '0.75rem 1.25rem', fontSize: '0.62rem', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', textAlign: i >= 3 ? 'center' : 'left', borderBottom: '1px solid var(--border)' }}>
+                          {h}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {gruposCompletados.map((g: any, idx: number) => (
+                      <tr key={idx}
+                        style={{ borderBottom: '1px solid var(--surface-3)', cursor: 'pointer', transition: 'background 0.12s' }}
+                        onClick={() => handleSelectGrupo(g)}
+                        onMouseEnter={e => (e.currentTarget.style.background = 'var(--surface-2)')}
+                        onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                      >
+                        <td style={{ padding: '0.875rem 1.25rem', fontWeight: '700', fontSize: '0.875rem', color: 'var(--text-main)' }}>{g.asignaturaNombre}</td>
+                        <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>{g.tipoEvaluacion?.replace(/_/g, ' ')}</td>
+                        <td style={{ padding: '0.875rem 1.25rem', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>{g.fechaExamen}</td>
+                        <td style={{ padding: '0.875rem 1.25rem', textAlign: 'center', fontWeight: '700' }}>{g.totalAlumnos}</td>
+                        <td style={{ padding: '0.875rem 1.25rem', textAlign: 'center', fontWeight: '700', color: '#059669' }}>{g.corregidos}</td>
+                        <td style={{ padding: '0.875rem 1.25rem', textAlign: 'center' }}>
+                          <span style={{ fontSize: '0.65rem', fontWeight: '800', color: '#059669', background: '#ecfdf5', padding: '0.2rem 0.6rem', borderRadius: '999px' }}>Completado ✓</span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </>
         )}
       </div>
-    </div>
-  );
+    );
+  }
 
   /* ═══════════════════════════════════════════════════════════ */
   /* ── VISTA: DETALLE DE GRUPO ────────────────────────────── */
