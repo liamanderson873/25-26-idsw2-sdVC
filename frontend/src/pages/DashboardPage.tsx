@@ -3,168 +3,207 @@ import { useQuery } from '@tanstack/react-query';
 import { getResumenSistema } from '../services/examenService';
 import { useNavigate } from 'react-router-dom';
 
-interface Indicador {
-  key: string;
-  label: string;
-  descripcion: string;
-  ruta?: string;
-  valor: number;
-  umbral?: number;
-}
+const greeting = () => {
+  const h = new Date().getHours();
+  if (h < 13) return 'Buenos días';
+  if (h < 21) return 'Buenas tardes';
+  return 'Buenas noches';
+};
+
+const fecha = new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+const ACCIONES = [
+  {
+    ruta: '/generar-examen',
+    titulo: 'Generar Examen',
+    desc: 'Crea exámenes personalizados y asígnalos a los alumnos de una asignatura.',
+    color: '#3b82f6',
+    bg: '#eff6ff',
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+        <line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/>
+      </svg>
+    ),
+  },
+  {
+    ruta: '/corregir-examen',
+    titulo: 'Corregir Exámenes',
+    desc: 'Gestiona las correcciones por grupo: simulación, IA y corrección manual.',
+    color: '#10b981',
+    bg: '#ecfdf5',
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+      </svg>
+    ),
+  },
+  {
+    ruta: '/alumnos',
+    titulo: 'Listado de Alumnos',
+    desc: 'Consulta matrículas, historial de exámenes y expediente académico.',
+    color: '#8b5cf6',
+    bg: '#f5f3ff',
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+    ),
+  },
+  {
+    ruta: '/preguntas',
+    titulo: 'Batería de Preguntas',
+    desc: 'Añade, edita y habilita preguntas para la generación aleatoria de exámenes.',
+    color: '#f59e0b',
+    bg: '#fffbeb',
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+    ),
+  },
+  {
+    ruta: '/asignaturas',
+    titulo: 'Asignaturas',
+    desc: 'Configura las asignaturas, grados y el profesorado asociado.',
+    color: '#64748b',
+    bg: '#f8fafc',
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </svg>
+    ),
+  },
+  {
+    ruta: '/importar-exportar',
+    titulo: 'Importar / Exportar',
+    desc: 'Importa datos desde CSV o exporta la configuración global del sistema.',
+    color: '#0ea5e9',
+    bg: '#f0f9ff',
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/>
+        <path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/>
+      </svg>
+    ),
+  },
+];
 
 const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
+  const userStr = localStorage.getItem('user');
+  const user = userStr ? JSON.parse(userStr) : null;
+
   const { data: resumen, isLoading } = useQuery({
     queryKey: ['resumen-sistema'],
     queryFn: getResumenSistema,
-    refetchInterval: 15000,
+    refetchInterval: 30000,
   });
 
-  const indicadores: Indicador[] = resumen ? [
-    { key: 'docentes',    label: 'Docentes',         descripcion: 'Docentes registrados en el sistema',          ruta: '/docentes',          valor: resumen.docentes,    umbral: 1 },
-    { key: 'grados',      label: 'Grados',            descripcion: 'Grados académicos configurados',              ruta: '/grados',            valor: resumen.grados,      umbral: 1 },
-    { key: 'asignaturas', label: 'Asignaturas',       descripcion: 'Asignaturas con batería de preguntas',        ruta: '/asignaturas',       valor: resumen.asignaturas, umbral: 1 },
-    { key: 'alumnos',     label: 'Alumnos',           descripcion: 'Alumnos matriculados en el sistema',          ruta: '/alumnos',           valor: resumen.alumnos,     umbral: 1 },
-    { key: 'preguntas',   label: 'Preguntas',         descripcion: 'Preguntas en la batería (habilitadas/total)', ruta: '/preguntas',         valor: resumen.preguntas,   umbral: 1 },
-    { key: 'examenes',    label: 'Exámenes Generados',descripcion: 'Modelos de examen creados',                   ruta: '/generar-examen',    valor: resumen.examenes,    umbral: 1 },
-    { key: 'asignados',   label: 'Asignados',         descripcion: 'Ejemplares asignados a alumnos',              ruta: '/asignar-examen',    valor: resumen.asignados,   umbral: 1 },
-    { key: 'corregidos',  label: 'Corregidos',        descripcion: 'Ejemplares calificados por la IA',            ruta: '/corregir-examen',   valor: resumen.corregidos,  umbral: 1 },
-  ] : [];
-
-  const completos = indicadores.filter(i => i.valor >= (i.umbral ?? 1)).length;
-  const pct = indicadores.length > 0 ? Math.round((completos / indicadores.length) * 100) : 0;
-  const sistemaListo = resumen?.sistemaDisponible ?? false;
+  const sistemaOk = resumen?.sistemaDisponible ?? false;
 
   return (
     <div className="page-container fade-in">
-      <div style={{ marginBottom: '2rem' }}>
-        <h1>Panel de Control — completarGestion</h1>
-        <p className="subtitle">Estado global del sistema. Todos los indicadores deben estar activos para que el ciclo docente esté completo (CU-41).</p>
+
+      {/* ── Bienvenida ── */}
+      <div style={{ marginBottom: '2.5rem' }}>
+        <div style={{ fontSize: '0.72rem', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', marginBottom: '0.3rem' }}>
+          {greeting()}
+        </div>
+        <h1 style={{ fontSize: '2rem', fontWeight: '900', letterSpacing: '-0.03em', marginBottom: '0.3rem', color: 'var(--text-main)' }}>
+          {user?.nombre ?? 'Docente'}
+        </h1>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', textTransform: 'capitalize' }}>
+          {fecha}
+        </p>
       </div>
 
-      {/* Barra de progreso global */}
-      <div className="card" style={{ marginBottom: '2rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <div>
-            <div style={{ fontSize: '0.75rem', fontWeight: '800', textTransform: 'uppercase', color: 'var(--text-muted)', letterSpacing: '0.06em' }}>
-              Progreso del ciclo
-            </div>
-            <div style={{ fontSize: '2rem', fontWeight: '900', lineHeight: 1.1, color: sistemaListo ? 'var(--success)' : 'var(--primary)', letterSpacing: '-0.04em' }}>
-              {isLoading ? '...' : `${completos} / ${indicadores.length}`}
-            </div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>indicadores completados</div>
-          </div>
-          <div style={{
-            padding: '0.75rem 1.5rem',
-            borderRadius: '999px',
-            background: sistemaListo ? 'var(--success-light)' : 'var(--surface-3)',
-            border: `2px solid ${sistemaListo ? 'var(--success)' : 'var(--border)'}`,
-            color: sistemaListo ? 'var(--success)' : 'var(--text-muted)',
-            fontWeight: '800',
-            fontSize: '0.85rem',
-          }}>
-            {sistemaListo ? 'SISTEMA_DISPONIBLE' : 'EN CONFIGURACIÓN'}
-          </div>
-        </div>
+      {/* ── Layout: acciones + estado ── */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 260px', gap: '1.75rem', alignItems: 'start' }}>
 
-        <div style={{ height: '10px', borderRadius: '999px', background: 'var(--surface-3)', overflow: 'hidden' }}>
-          <div style={{
-            height: '100%',
-            width: `${pct}%`,
-            background: sistemaListo ? 'var(--success)' : 'var(--primary)',
-            borderRadius: '999px',
-            transition: 'width 0.5s ease',
-          }} />
-        </div>
-        <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '0.5rem', textAlign: 'right' }}>{pct}%</div>
-      </div>
-
-      {/* Grid de indicadores */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1rem' }}>
-        {isLoading ? (
-          Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="card" style={{ height: '110px', background: 'var(--surface-2)', animation: 'pulse 1.5s ease-in-out infinite' }} />
-          ))
-        ) : (
-          indicadores.map(ind => {
-            const ok = ind.valor >= (ind.umbral ?? 1);
-            return (
+        {/* Acciones rápidas */}
+        <div>
+          <div style={{ fontSize: '0.65rem', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+            Acceso rápido
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.875rem' }}>
+            {ACCIONES.map(a => (
               <div
-                key={ind.key}
+                key={a.ruta}
+                onClick={() => navigate(a.ruta)}
                 className="card"
-                onClick={() => ind.ruta && navigate(ind.ruta)}
-                style={{
-                  cursor: ind.ruta ? 'pointer' : 'default',
-                  border: `1.5px solid ${ok ? 'var(--success)' : 'var(--border)'}`,
-                  background: ok ? 'var(--success-light)' : 'var(--surface-1)',
-                  transition: 'all 0.2s ease',
-                  position: 'relative',
-                  overflow: 'hidden',
+                style={{ cursor: 'pointer', padding: '1.25rem', transition: 'all 0.18s ease', border: '1.5px solid var(--border)' }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLElement).style.borderColor = a.color;
+                  (e.currentTarget as HTMLElement).style.background = a.bg;
+                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                  (e.currentTarget as HTMLElement).style.boxShadow = `0 8px 24px ${a.color}22`;
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)';
+                  (e.currentTarget as HTMLElement).style.background = 'white';
+                  (e.currentTarget as HTMLElement).style.transform = 'none';
+                  (e.currentTarget as HTMLElement).style.boxShadow = 'none';
                 }}
               >
-                {/* Indicador de estado */}
-                <div style={{
-                  position: 'absolute', top: '1rem', right: '1rem',
-                  width: '28px', height: '28px', borderRadius: '50%',
-                  background: ok ? 'var(--success)' : 'var(--surface-3)',
-                  display: 'grid', placeItems: 'center',
-                  boxShadow: ok ? '0 2px 8px rgba(16,185,129,0.3)' : 'none',
-                }}>
-                  {ok ? (
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                  ) : (
-                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--border-strong)' }} />
-                  )}
-                </div>
-
-                <div style={{ fontSize: '0.65rem', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.07em', color: ok ? '#065f46' : 'var(--text-muted)', marginBottom: '0.4rem' }}>
-                  {ind.label}
-                </div>
-                <div style={{ fontSize: '2rem', fontWeight: '900', lineHeight: 1, color: ok ? 'var(--success)' : 'var(--text-main)', letterSpacing: '-0.04em', marginBottom: '0.4rem' }}>
-                  {ind.valor.toLocaleString()}
-                </div>
-                <div style={{ fontSize: '0.75rem', color: ok ? '#047857' : 'var(--text-muted)' }}>
-                  {ind.descripcion}
-                </div>
+                <div style={{ color: a.color, marginBottom: '0.875rem' }}>{a.icon}</div>
+                <div style={{ fontWeight: '800', fontSize: '0.875rem', color: 'var(--text-main)', marginBottom: '0.4rem' }}>{a.titulo}</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>{a.desc}</div>
               </div>
-            );
-          })
-        )}
-      </div>
-
-      {sistemaListo && (
-        <div style={{
-          marginTop: '2rem',
-          padding: '1.5rem 2rem',
-          borderRadius: 'var(--radius)',
-          background: 'var(--success-light)',
-          border: '1.5px solid var(--success)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '1.5rem',
-        }}>
-          <div style={{
-            width: '48px', height: '48px',
-            background: 'var(--success)',
-            borderRadius: '50%',
-            display: 'grid', placeItems: 'center',
-            flexShrink: 0,
-            boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)',
-          }}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-          </div>
-          <div>
-            <div style={{ fontWeight: '800', color: '#065f46', fontSize: '0.95rem' }}>SISTEMA_DISPONIBLE — Ciclo completo</div>
-            <div style={{ color: '#047857', fontSize: '0.8rem', marginTop: '0.2rem' }}>
-              Todos los indicadores del CU-41 están satisfechos. El sistema está operativo para un nuevo ciclo académico.
-            </div>
+            ))}
           </div>
         </div>
-      )}
+
+        {/* Estado del sistema */}
+        <div>
+          <div style={{ fontSize: '0.65rem', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+            Estado del sistema
+          </div>
+          <div className="card" style={{ padding: '1.25rem' }}>
+
+            {/* Indicador global */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', marginBottom: '1.25rem', paddingBottom: '1.25rem', borderBottom: '1px solid var(--border)' }}>
+              <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: sistemaOk ? '#10b981' : '#f59e0b', flexShrink: 0, boxShadow: sistemaOk ? '0 0 0 3px #d1fae5' : '0 0 0 3px #fef3c7' }} />
+              <div>
+                <div style={{ fontSize: '0.78rem', fontWeight: '800', color: 'var(--text-main)' }}>
+                  {isLoading ? '...' : sistemaOk ? 'Sistema operativo' : 'En configuración'}
+                </div>
+                <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: '0.1rem' }}>
+                  {sistemaOk ? 'Ciclo académico disponible' : 'Completa la configuración'}
+                </div>
+              </div>
+            </div>
+
+            {/* Métricas */}
+            {isLoading ? (
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.82rem', textAlign: 'center', padding: '1rem 0' }}>Cargando...</div>
+            ) : resumen && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                {[
+                  { label: 'Grados',      val: resumen.grados,      ok: resumen.grados > 0 },
+                  { label: 'Asignaturas', val: resumen.asignaturas, ok: resumen.asignaturas > 0 },
+                  { label: 'Alumnos',     val: resumen.alumnos,     ok: resumen.alumnos > 0 },
+                  { label: 'Preguntas',   val: resumen.preguntas,   ok: resumen.preguntas > 0 },
+                  { label: 'Exámenes',    val: resumen.examenes,    ok: resumen.examenes >= 0 },
+                  { label: 'Corregidos',  val: resumen.corregidos,  ok: resumen.corregidos >= 0 },
+                ].map(({ label, val, ok }) => (
+                  <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: ok ? '#10b981' : '#e2e8f0', flexShrink: 0 }} />
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{label}</span>
+                    </div>
+                    <span style={{ fontSize: '0.875rem', fontWeight: '800', color: ok ? 'var(--text-main)' : 'var(--text-placeholder)' }}>
+                      {val.toLocaleString()}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+      </div>
     </div>
   );
 };
