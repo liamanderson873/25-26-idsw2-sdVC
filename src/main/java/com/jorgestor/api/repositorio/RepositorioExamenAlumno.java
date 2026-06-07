@@ -18,4 +18,7 @@ public interface RepositorioExamenAlumno extends JpaRepository<ExamenAlumno, Lon
     List<ExamenAlumno> findByExamenId(@Param("examenId") Long examenId);
 
     List<ExamenAlumno> findByAlumnoId(Long alumnoId);
+
+    @Query("SELECT ea FROM ExamenAlumno ea JOIN FETCH ea.alumno JOIN FETCH ea.examen WHERE ea.examen.asignatura.id = :asignaturaId")
+    List<ExamenAlumno> findByAsignaturaId(@Param("asignaturaId") Long asignaturaId);
 }

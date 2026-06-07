@@ -41,14 +41,8 @@ const Sidebar: React.FC = () => {
               <NavLink to="/generar-examen" className={({ isActive }) => isActive ? styles.active : ''}>
                  <div className={styles.dot}></div> Generar Examen
               </NavLink>
-              <NavLink to="/asignar-examen" className={({ isActive }) => isActive ? styles.active : ''}>
-                 <div className={styles.dot}></div> Asignar Alumnos
-              </NavLink>
               <NavLink to="/corregir-examen" className={({ isActive }) => isActive ? styles.active : ''}>
                  <div className={styles.dot}></div> Corregir Exámenes
-              </NavLink>
-              <NavLink to="/auditoria-examenes" className={({ isActive }) => isActive ? styles.active : ''}>
-                 <div className={styles.dot}></div> Auditoría de Exámenes
               </NavLink>
             </div>
 

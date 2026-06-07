@@ -57,6 +57,16 @@ export const cancelarGeneracion = async (examenId: number): Promise<string> => {
   return response.data;
 };
 
+export const getExamenesPorAlumno = async (alumnoId: number): Promise<any[]> => {
+  const response = await api.get<any[]>(`/examenes/alumno/${alumnoId}`);
+  return response.data;
+};
+
+export const getExamenesPorAsignatura = async (asignaturaId: number): Promise<any[]> => {
+  const response = await api.get<any[]>(`/examenes/asignatura/${asignaturaId}`);
+  return response.data;
+};
+
 export const getResumenSistema = async (): Promise<any> => {
   const response = await api.get('/sistema/resumen');
   return response.data;

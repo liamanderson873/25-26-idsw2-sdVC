@@ -27,6 +27,16 @@ public class ControladorExamen {
         return ResponseEntity.ok(servicioExamen.listarTodos());
     }
 
+    @GetMapping("/alumno/{alumnoId}")
+    public ResponseEntity<?> listarPorAlumno(@PathVariable Long alumnoId) {
+        return ResponseEntity.ok(servicioExamen.listarEjemplaresPorAlumno(alumnoId));
+    }
+
+    @GetMapping("/asignatura/{asignaturaId}")
+    public ResponseEntity<?> listarPorAsignatura(@PathVariable Long asignaturaId) {
+        return ResponseEntity.ok(servicioExamen.listarEjemplaresPorAsignatura(asignaturaId));
+    }
+
     @GetMapping("/{id}/ejemplares")
     public ResponseEntity<?> listarEjemplares(@PathVariable Long id) {
         return ResponseEntity.ok(servicioExamen.listarEjemplaresPorExamen(id));

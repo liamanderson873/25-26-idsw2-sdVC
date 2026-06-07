@@ -1,6 +1,7 @@
 package com.jorgestor.api.servicio;
 
 import com.jorgestor.api.dto.DTO_AuditoriaAlumno;
+import com.jorgestor.api.dto.DTO_EjemplarResumen;
 import com.jorgestor.api.dto.DTO_ExportarExamen;
 import com.jorgestor.api.dto.DTO_GenerarExamen;
 import com.jorgestor.api.dto.DTO_GenerarYAsignar;
@@ -52,6 +53,34 @@ public class ServicioExamen {
         this.repoAsignatura = repoAsignatura;
         this.repoPregunta = repoPregunta;
         this.repoMarcas = repoMarcas;
+    }
+
+    private DTO_EjemplarResumen toResumen(ExamenAlumno ea) {
+        return new DTO_EjemplarResumen(
+            ea.getId(),
+            ea.getExamen().getId(),
+            ea.getExamen().getAsignatura().getNombre(),
+            ea.getExamen().getTipoEvaluacion().toString(),
+            ea.getExamen().getFechaExamen().toString(),
+            ea.getEstado().toString(),
+            ea.getNotaFinal(),
+            ea.getClaveCorreccion(),
+            ea.getAlumno().getNombre(),
+            ea.getAlumno().getApellidos(),
+            ea.getAlumno().getDni()
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public List<DTO_EjemplarResumen> listarEjemplaresPorAlumno(Long alumnoId) {
+        return repoExamenAlumno.findByAlumnoId(alumnoId)
+                .stream().map(this::toResumen).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<DTO_EjemplarResumen> listarEjemplaresPorAsignatura(Long asignaturaId) {
+        return repoExamenAlumno.findByAsignaturaId(asignaturaId)
+                .stream().map(this::toResumen).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
