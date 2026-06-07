@@ -15,12 +15,28 @@ skinparam enum {
 }
 hide empty members
 
-' ── Nivel 1: Maestros ────────────────────────────────────────
+' ── Nivel 1: Entidad central ─────────────────────
+class Asignatura <<Entity>> {
+  + id : Long
+  + nombre : String
+  + codigo : String
+  + cursoAcademico : String
+  + cursoSugerido : Integer
+}
+
+' ── Nivel 2: Entidades vinculadas directamente ───
 together {
   class Grado <<Entity>> {
     + id : Long
     + codigo : String
     + nombre : String
+  }
+  class Alumno <<Entity>> {
+    + id : Long
+    + dni : String
+    + nombre : String
+    + apellidos : String
+    + curso : Integer
   }
   class Profesor <<Entity>> {
     + id : Long
@@ -29,6 +45,71 @@ together {
     + apellidos : String
     + email : String
   }
+  class Tema <<Entity>> {
+    + id : Long
+    + nombre : String
+  }
+}
+
+' ── Nivel 3: Contenido y generación ─────────────
+together {
+  class Pregunta <<Entity>> {
+    + id : Long
+    + enunciado : String
+    + dificultad : Dificultad
+    + habilitada : Boolean
+  }
+  enum Dificultad {
+    BAJA
+    MEDIA
+    ALTA
+  }
+  class Examen <<Entity>> {
+    + id : Long
+    + tipoEvaluacion : TipoEvaluacion
+    + fechaExamen : LocalDate
+    + esPersonalizado : Boolean
+  }
+  enum TipoEvaluacion {
+    PARCIAL_1
+    PARCIAL_2
+    PARCIAL_3
+    FINAL
+    EXTRAORDINARIO
+  }
+}
+
+' ── Nivel 4: Ejemplar y respuestas ──────────────
+together {
+  class Respuesta <<Entity>> {
+    + id : Long
+    + contenido : String
+    + indice : Integer
+    + esCorrecta : Boolean
+  }
+  class ExamenAlumno <<Entity>> {
+    + id : Long
+    + claveCorreccion : String
+    + notaSugerida : Double
+    + notaFinal : Double
+    + estado : EstadoExamen
+  }
+  enum EstadoExamen {
+    PENDIENTE
+    ASIGNADO
+    PENDIENTE_CALIFICACION
+    CORREGIDO
+  }
+}
+
+' ── Nivel 5: Auditoría ───────────────────────────
+class ExamenAlumnoMarca <<Entity>> {
+  + id : Long
+  + indiceMarcado : Integer
+}
+
+' ── Auth (independiente) ─────────────────────────
+together {
   class Usuario <<Entity>> {
     + id : Long
     + username : String
@@ -42,89 +123,6 @@ together {
   }
 }
 
-' ── Nivel 2: Académico ───────────────────────────────────────
-together {
-  class Alumno <<Entity>> {
-    + id : Long
-    + dni : String
-    + nombre : String
-    + apellidos : String
-    + curso : Integer
-  }
-  class Asignatura <<Entity>> {
-    + id : Long
-    + nombre : String
-    + codigo : String
-    + cursoAcademico : String
-    + cursoSugerido : Integer
-  }
-}
-
-' ── Nivel 3: Contenido ───────────────────────────────────────
-together {
-  class Tema <<Entity>> {
-    + id : Long
-    + nombre : String
-  }
-  enum Dificultad {
-    BAJA
-    MEDIA
-    ALTA
-  }
-  class Pregunta <<Entity>> {
-    + id : Long
-    + enunciado : String
-    + dificultad : Dificultad
-    + habilitada : Boolean
-  }
-  class Respuesta <<Entity>> {
-    + id : Long
-    + contenido : String
-    + indice : Integer
-    + esCorrecta : Boolean
-  }
-}
-
-' ── Nivel 4: Examen ──────────────────────────────────────────
-together {
-  enum TipoEvaluacion {
-    PARCIAL_1
-    PARCIAL_2
-    PARCIAL_3
-    FINAL
-    EXTRAORDINARIO
-  }
-  class Examen <<Entity>> {
-    + id : Long
-    + tipoEvaluacion : TipoEvaluacion
-    + fechaExamen : LocalDate
-    + esPersonalizado : Boolean
-  }
-}
-
-' ── Nivel 5: Ejemplar ────────────────────────────────────────
-together {
-  enum EstadoExamen {
-    PENDIENTE
-    ASIGNADO
-    PENDIENTE_CALIFICACION
-    CORREGIDO
-  }
-  class ExamenAlumno <<Entity>> {
-    + id : Long
-    + claveCorreccion : String
-    + notaSugerida : Double
-    + notaFinal : Double
-    + estado : EstadoExamen
-  }
-}
-
-' ── Nivel 6: Auditoría ───────────────────────────────────────
-class ExamenAlumnoMarca <<Entity>> {
-  + id : Long
-  + indiceMarcado : Integer
-}
-
 ' ══════════════════════════════════════════════
 ' RELACIONES
 ' ══════════════════════════════════════════════
@@ -132,14 +130,16 @@ class ExamenAlumnoMarca <<Entity>> {
 ' Auth
 Usuario       ..>  Rol
 
-' Estructura académica
+' Asignatura como eje
 Profesor      "1"  --  "*"  Asignatura    : imparte
-Alumno        "*"  -->  "1"  Grado        : cursa en
 Asignatura    "*"  --  "*"  Grado         : asignatura_grados\n<<tabla intermedia>>
 Alumno        "*"  --  "*"  Asignatura    : matriculas\n<<tabla intermedia>>
+Asignatura    "1"  --  "*"  Tema          : tiene
+
+' Alumno → Grado
+Alumno        "*"  -->  "1"  Grado        : cursa en
 
 ' Contenido
-Asignatura    "1"  --  "*"  Tema          : tiene
 Pregunta      "*"  -->  "1"  Tema          : sobre
 Pregunta      ..>  Dificultad
 Respuesta     "*"  -->  "1"  Pregunta      : opción de
