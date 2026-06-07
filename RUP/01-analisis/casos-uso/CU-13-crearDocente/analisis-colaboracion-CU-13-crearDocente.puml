@@ -1,18 +1,18 @@
-@startuml crearDocente-analisis
+﻿@startuml crearDocente-analisis
 skinparam linetype polyline
 
 actor AdministradorInstitucional
 package crearDocente as "crearDocente()" {
-    rectangle #629EF9 DocentCreationView
-    rectangle #b5bd68 DocentController
-    rectangle #F2AC4E Docent
+    rectangle #629EF9 VistaCreacionDocente
+    rectangle #b5bd68 ControladorDocentes
+    rectangle #F2AC4E Docente
 }
 
-AdministradorInstitucional -r-> DocentCreationView: solicitarCreacion()
-AdministradorInstitucional --> DocentCreationView: proporcionarDatos(dni, nombre, apellidos, usuario, email, password)
-DocentCreationView -d-> DocentController: crearDocente(datos)
-DocentController --> Docent: validarNoDuplicado(dni, usuario)
-DocentController --> Docent: inicializar(datos)
-DocentController --> DocentCreationView: notificarExitoYRedirigir()
+AdministradorInstitucional -r-> VistaCreacionDocente: solicitarCreacion()
+AdministradorInstitucional --> VistaCreacionDocente: proporcionarDatos(dni, nombre, apellidos, usuario, email, password)
+VistaCreacionDocente -d-> ControladorDocentes: crearDocente(datos)
+ControladorDocentes --> Docente: validarNoDuplicado(dni, usuario)
+ControladorDocentes --> Docente: inicializar(datos)
+ControladorDocentes --> VistaCreacionDocente: notificarExitoYRedirigir()
 
 @enduml

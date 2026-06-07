@@ -1,0 +1,26 @@
+﻿@startuml cu24-verDocentes-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-24: Ver Docentes
+
+actor "AdministradorInstitucional" as Actor
+participant ":VistaListaDocentes" as Boundary <<boundary>>
+participant ":ControladorDocentes" as Control <<control>>
+participant ":Docente" as Entity <<entity>>
+
+Actor -> Boundary : solicitarListado()
+activate Boundary
+
+Boundary -> Control : obtenerDocentes()
+activate Control
+
+Control -> Entity : consultarTodos()
+activate Entity
+Entity --> Control : listaDocentes
+deactivate Entity
+
+Control --> Boundary : listaDocentes
+deactivate Control
+
+Boundary --> Actor : mostrarListado(docentes)
+deactivate Boundary
+
+@enduml

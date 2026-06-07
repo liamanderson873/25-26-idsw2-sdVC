@@ -5,6 +5,8 @@ import com.jorgestor.api.servicio.ServicioGrado;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/grados")
 public class ControladorGrado {
@@ -23,6 +25,26 @@ public class ControladorGrado {
     public ResponseEntity<String> guardar(@RequestBody DTO_Grado dto) {
         servicioGrado.crearOActualizar(dto);
         return ResponseEntity.ok("Grado guardado correctamente.");
+    }
+
+    @PostMapping("/importar")
+    public ResponseEntity<String> importar(@RequestBody List<DTO_Grado> lista) {
+        try {
+            servicioGrado.importarGrados(lista);
+            return ResponseEntity.ok("Importados " + lista.size() + " grados correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al importar grados: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> actualizar(@PathVariable Long id, @RequestBody DTO_Grado dto) {
+        try {
+            servicioGrado.actualizar(id, dto);
+            return ResponseEntity.ok("Grado actualizado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")

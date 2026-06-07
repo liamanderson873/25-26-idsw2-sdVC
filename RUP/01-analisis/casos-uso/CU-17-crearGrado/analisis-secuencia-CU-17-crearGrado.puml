@@ -1,0 +1,36 @@
+﻿@startuml cu17-crearGrado-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-17: Crear Grado
+
+actor "Docente" as Actor
+participant ":VistaCreacionGrado" as Boundary <<boundary>>
+participant ":ControladorGrados" as Control <<control>>
+participant ":Grado" as Entity <<entity>>
+
+Actor -> Boundary : introducirDatos(codigo, nombre)
+activate Boundary
+
+Boundary -> Control : crearGrado(datos)
+activate Control
+
+Control -> Entity : validarNoDuplicado(codigo)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
+
+Control -> Entity : inicializar(datos)
+activate Entity
+Entity --> Control : grado
+deactivate Entity
+
+Control -> Entity : guardar(grado)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
+
+Control --> Boundary : confirmacion
+deactivate Control
+
+Boundary --> Actor : mostrarConfirmacion()
+deactivate Boundary
+
+@enduml

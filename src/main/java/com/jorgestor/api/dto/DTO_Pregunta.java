@@ -14,5 +14,6 @@ public class DTO_Pregunta {
     private String enunciado;
     private Dificultad dificultad;
     private Long temaId;
+    private boolean habilitada;
     private List<DTO_Respuesta> respuestas;
 }

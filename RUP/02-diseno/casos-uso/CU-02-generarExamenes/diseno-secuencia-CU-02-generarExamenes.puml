@@ -1,54 +1,61 @@
 @startuml secuencia-cu02-generar-examen
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+title Diagrama de Secuencia - Generar Exámenes
 
-actor Docente
-participant "ControladorExamen" as Boundary <<Boundary>>
-participant "ServicioExamen" as Control <<Control>>
-participant "RepositorioAsignatura" as RepoAsig <<Entity>>
-participant "RepositorioPregunta" as RepoPreg <<Entity>>
-participant "RepositorioExamen" as RepoExamen <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorExamen" as Controller
+participant "ServicioExamen" as Service
+participant "RepositorioAsignatura" as RepoAsig
+participant "RepositorioPregunta" as RepoPreg
+participant "RepositorioExamen" as RepoExamen
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : POST /api/examenes/generar (DTO_GenerarExamen)
-activate Boundary
+Actor -> FE : Configura parámetros del examen
+activate FE
 
-Boundary -> Control : generarExamen(dto)
-activate Control
+FE -> Controller : POST /api/examenes/generar (DTO_GenerarExamen)
+activate Controller
 
-Control -> RepoAsig : findById(asignaturaId)
+Controller -> Service : generarExamen(dto)
+activate Service
+
+Service -> RepoAsig : findById(asignaturaId)
 activate RepoAsig
 RepoAsig -> DB : SELECT asignatura
 DB --> RepoAsig : resultado
-RepoAsig --> Control : asignatura
+RepoAsig --> Service : asignatura
 deactivate RepoAsig
 
-Control -> RepoPreg : findByTemaIdIn(temaIds)
+Service -> RepoPreg : findByTemaIdInAndHabilitadaTrue(temaIds)
 activate RepoPreg
-RepoPreg -> DB : SELECT preguntas
+RepoPreg -> DB : SELECT preguntas habilitadas
 DB --> RepoPreg : lista_preguntas
-RepoPreg --> Control : poolPreguntas
+RepoPreg --> Service : poolPreguntas
 deactivate RepoPreg
 
-Control -> Control : algoritmoSacosDificultad(poolPreguntas, proporciones)
-note right: Se agrupa por Dificultad,\nse hace shuffle y se selecciona\nsegún porcentajes.
+Service -> Service : algoritmoSacosDificultad(poolPreguntas, proporciones)
+note right: Se agrupa por Dificultad (BAJA/MEDIA/ALTA),\nse hace shuffle y se selecciona\nsegún porcentajes.
 
 alt Preguntas insuficientes
-    Control --> Boundary : throw RuntimeException("Preguntas insuficientes...")
-    Boundary --> Docente : 400 Bad Request
+    Service --> Controller : throw RuntimeException("Preguntas insuficientes...")
+    Controller --> FE : 400 Bad Request
+    FE --> Actor : Muestra error de preguntas insuficientes
 else Selección completada
-    Control -> RepoExamen : save(examen)
+    Service -> RepoExamen : save(examen)
     activate RepoExamen
     RepoExamen -> DB : INSERT examen + vinculación preguntas
     DB --> RepoExamen : ok
-    RepoExamen --> Control : examenGuardado
+    RepoExamen --> Service : examenGuardado
     deactivate RepoExamen
 
-    Control --> Boundary : examenGuardado
-    deactivate Control
+    Service --> Controller : examenGuardado
+    deactivate Service
 
-    Boundary --> Docente : 200 OK (Examen generado con ID: X)
-    deactivate Boundary
+    Controller --> FE : 200 OK (Examen generado con ID)
+    deactivate Controller
+
+    FE --> Actor : Muestra examen generado
+    deactivate FE
 end
 
 @enduml

@@ -1,41 +1,49 @@
-@startuml secuencia-cu29-eliminar-profesor
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+@startuml secuencia-cu29-eliminar-docente
+title Diagrama de Secuencia - Eliminar Docente
 
-actor Docente
-participant "ControladorProfesor" as Boundary <<Boundary>>
-participant "ServicioProfesor" as Control <<Control>>
-participant "RepositorioProfesor" as RepoProfesor <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorProfesor" as Controller
+participant "ServicioProfesor" as Service
+participant "RepositorioProfesor" as RepoProfesor
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : DELETE /api/profesores/{id}
-activate Boundary
+Actor -> FE : Pulsa "Eliminar" en el docente
+activate FE
 
-Boundary -> Control : eliminar(id)
-activate Control
+FE -> Controller : DELETE /api/profesores/{id}
+activate Controller
 
-Control -> RepoProfesor : existsById(id)
+Controller -> Service : eliminar(id)
+activate Service
+
+Service -> RepoProfesor : existsById(id)
 activate RepoProfesor
 RepoProfesor -> DB : SELECT EXISTS
 DB --> RepoProfesor : true/false
-RepoProfesor --> Control : boolean
+RepoProfesor --> Service : boolean
 deactivate RepoProfesor
 
 alt Profesor existe
-    Control -> RepoProfesor : deleteById(id)
+    Service -> RepoProfesor : deleteById(id)
     activate RepoProfesor
     RepoProfesor -> DB : DELETE FROM profesores
     DB --> RepoProfesor : ok
-    RepoProfesor --> Control : ok
+    RepoProfesor --> Service : ok
     deactivate RepoProfesor
-    Control --> Boundary : void
-    Boundary --> Docente : 200 OK
-else Profesor no existe
-    Control --> Boundary : throw RuntimeException
-    Boundary --> Docente : 400 Bad Request
-end
 
-deactivate Control
-deactivate Boundary
+    Service --> Controller : void
+    deactivate Service
+
+    Controller --> FE : 200 OK
+    deactivate Controller
+
+    FE --> Actor : Elimina la fila de la tabla
+    deactivate FE
+else Profesor no existe
+    Service --> Controller : throw RuntimeException
+    Controller --> FE : 400 Bad Request
+    FE --> Actor : Muestra error
+end
 
 @enduml

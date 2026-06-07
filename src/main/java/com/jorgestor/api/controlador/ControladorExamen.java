@@ -1,7 +1,9 @@
 package com.jorgestor.api.controlador;
 
+import com.jorgestor.api.dto.DTO_AccionGrupo;
 import com.jorgestor.api.dto.DTO_AsignarExamen;
 import com.jorgestor.api.dto.DTO_GenerarExamen;
+import com.jorgestor.api.dto.DTO_GenerarYAsignar;
 import com.jorgestor.api.dto.DTO_ProcesarCorreccion;
 import com.jorgestor.api.modelo.Examen;
 import com.jorgestor.api.servicio.ServicioExamen;
@@ -26,6 +28,60 @@ public class ControladorExamen {
         return ResponseEntity.ok(servicioExamen.listarTodos());
     }
 
+    @GetMapping("/grupos")
+    public ResponseEntity<?> listarGrupos() {
+        return ResponseEntity.ok(servicioExamen.listarGrupos());
+    }
+
+    @PostMapping("/grupos/alumnos")
+    public ResponseEntity<?> alumnosDeGrupo(@RequestBody DTO_AccionGrupo dto) {
+        try {
+            return ResponseEntity.ok(servicioExamen.listarEjemplaresDeGrupo(dto));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/grupos/entregar")
+    public ResponseEntity<?> entregarGrupo(@RequestBody DTO_AccionGrupo dto) {
+        try {
+            servicioExamen.simularEntregaGrupo(dto);
+            return ResponseEntity.ok("Entrega simulada correctamente para todos los alumnos pendientes del grupo.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/grupos/corregir")
+    public ResponseEntity<?> corregirGrupo(@RequestBody DTO_AccionGrupo dto) {
+        try {
+            servicioExamen.corregirGrupo(dto);
+            return ResponseEntity.ok("Corrección completada para todos los alumnos entregados del grupo.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/conteos/alumnos")
+    public ResponseEntity<?> conteosPorAlumno() {
+        return ResponseEntity.ok(servicioExamen.contarExamenesPorAlumno());
+    }
+
+    @GetMapping("/conteos/asignaturas")
+    public ResponseEntity<?> conteosPorAsignatura() {
+        return ResponseEntity.ok(servicioExamen.contarExamenesPorAsignatura());
+    }
+
+    @GetMapping("/alumno/{alumnoId}")
+    public ResponseEntity<?> listarPorAlumno(@PathVariable Long alumnoId) {
+        return ResponseEntity.ok(servicioExamen.listarEjemplaresPorAlumno(alumnoId));
+    }
+
+    @GetMapping("/asignatura/{asignaturaId}")
+    public ResponseEntity<?> listarPorAsignatura(@PathVariable Long asignaturaId) {
+        return ResponseEntity.ok(servicioExamen.listarEjemplaresPorAsignatura(asignaturaId));
+    }
+
     @GetMapping("/{id}/ejemplares")
     public ResponseEntity<?> listarEjemplares(@PathVariable Long id) {
         return ResponseEntity.ok(servicioExamen.listarEjemplaresPorExamen(id));
@@ -48,6 +104,31 @@ public class ControladorExamen {
             return ResponseEntity.ok("Corrección masiva completada por la IA para todos los alumnos entregados.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    /** CU-33: cancelarGeneracion — elimina el examen si aún no está asignado */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> cancelarGeneracion(@PathVariable Long id) {
+        try {
+            servicioExamen.cancelarGeneracion(id);
+            return ResponseEntity.ok("Generación cancelada. Examen eliminado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    /**
+     * CU-02 + CU-09 combinados: genera un Examen personalizado por alumno y lo asigna.
+     * Cada alumno recibe preguntas seleccionadas de forma independiente y aleatoria.
+     */
+    @PostMapping("/generar-y-asignar")
+    public ResponseEntity<?> generarYAsignar(@RequestBody DTO_GenerarYAsignar dto) {
+        try {
+            int total = servicioExamen.generarYAsignar(dto);
+            return ResponseEntity.ok("Generados y asignados " + total + " exámenes personalizados correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error en la generación: " + e.getMessage());
         }
     }
 
@@ -87,6 +168,18 @@ public class ControladorExamen {
             return ResponseEntity.ok(servicioExamen.obtenerAuditoriaAlumno(ejemplarId));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error al obtener auditoría: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Devuelve las preguntas del ejemplar con las respuestas marcadas por el alumno y si son correctas.
+     */
+    @GetMapping("/ejemplar/{ejemplarId}/revision")
+    public ResponseEntity<?> obtenerRevision(@PathVariable Long ejemplarId) {
+        try {
+            return ResponseEntity.ok(servicioExamen.obtenerRevisionEjemplar(ejemplarId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al obtener revisión: " + e.getMessage());
         }
     }
 

@@ -19,3 +19,8 @@ export const updateGrado = async (id: number, grado: Grado): Promise<Grado> => {
 export const deleteGrado = async (id: number): Promise<void> => {
   await api.delete(`/grados/${id}`);
 };
+
+export const importarGrados = async (grados: Grado[]): Promise<string> => {
+  const response = await api.post<string>('/grados/importar', grados);
+  return response.data;
+};

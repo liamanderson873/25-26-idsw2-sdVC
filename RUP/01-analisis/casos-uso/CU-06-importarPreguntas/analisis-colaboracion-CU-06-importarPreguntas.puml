@@ -1,22 +1,22 @@
-@startuml importarPreguntas-analisis
+﻿@startuml importarPreguntas-analisis
 skinparam linetype polyline
 
 actor Docente
 package importarPreguntas as "importarPreguntas()" {
-    rectangle #629EF9 QuestionImportView
-    rectangle #b5bd68 QuestionImportController
-    rectangle #F2AC4E Question
-    rectangle #F2AC4E Subject
-    rectangle #F2AC4E Topic
+    rectangle #629EF9 VistaImportacionPreguntas
+    rectangle #b5bd68 ControladorImportacionPreguntas
+    rectangle #F2AC4E Pregunta
+    rectangle #F2AC4E Asignatura
+    rectangle #F2AC4E Tema
 }
 
-Docente -r-> QuestionImportView: seleccionarOrigen(archivo)
-QuestionImportView -d-> QuestionImportController: analizarArchivo(archivo)
-QuestionImportController --> Question: crearInstancia()
-QuestionImportController --> QuestionImportView: mostrarResumen()
+Docente -r-> VistaImportacionPreguntas: seleccionarOrigen(archivo)
+VistaImportacionPreguntas -d-> ControladorImportacionPreguntas: analizarArchivo(archivo)
+ControladorImportacionPreguntas --> Pregunta: crearInstancia()
+ControladorImportacionPreguntas --> VistaImportacionPreguntas: mostrarResumen()
 
-Docente --> QuestionImportView: confirmarImportacion()
-QuestionImportView --> QuestionImportController: persistirPreguntas()
-QuestionImportController --> Question: guardar()
+Docente --> VistaImportacionPreguntas: confirmarImportacion()
+VistaImportacionPreguntas --> ControladorImportacionPreguntas: persistirPreguntas()
+ControladorImportacionPreguntas --> Pregunta: guardar()
 
 @enduml

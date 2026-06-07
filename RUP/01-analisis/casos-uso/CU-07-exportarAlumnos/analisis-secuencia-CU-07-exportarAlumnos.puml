@@ -1,0 +1,27 @@
+@startuml cu07-exportarAlumnos-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-07: Exportar Alumnos
+
+participant ":VistaExportacionAlumnos" as Boundary <<boundary>>
+participant ":ControladorExportacion" as Control <<control>>
+participant ":Alumno" as Entity <<entity>>
+
+note over Boundary : <<abstracto>> Invocado desde CU-04: exportarConfiguracionGlobal
+
+[-> Boundary : solicitarExportacion()
+activate Boundary
+
+Boundary -> Control : exportarAlumnos()
+activate Control
+
+Control -> Entity : obtenerTodos()
+activate Entity
+Entity --> Control : listaAlumnos
+deactivate Entity
+
+Control --> Boundary : ficheroJSON
+deactivate Control
+
+[<- Boundary : ficheroJSON
+deactivate Boundary
+
+@enduml

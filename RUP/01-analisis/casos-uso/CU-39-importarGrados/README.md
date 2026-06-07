@@ -1,63 +1,63 @@
-﻿# Jorgestor > CU-39-importarGrados > AnÃ¡lisis
+﻿# Jorgestor > CU-39-importarGrados > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Importar Grados, siguiendo la metodologÃ­a RUP. Permite analizar el flujo de carga masiva de grados acadÃ©micos desde fuentes externas.
+Análisis tecnológico agnóstico del caso de uso Importar Grados, siguiendo la metodología RUP. Permite analizar el flujo de carga masiva de grados académicos desde fuentes externas.
 
-## diagrama de colaboraciÃ³n
+## diagrama de colaboración
 
 <div align=center>
 
-|![AnÃ¡lisis: importarGrados()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-39-importarGrados/analisis-colaboracion-CU-39-importarGrados.puml&fmt=svg)|
+|![Análisis: importarGrados()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-39-importarGrados/analisis-colaboracion-CU-39-importarGrados.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-39-importarGrados.puml](analisis-colaboracion-CU-39-importarGrados.puml)|
+|Código fuente: [analisis-colaboracion-CU-39-importarGrados.puml](analisis-colaboracion-CU-39-importarGrados.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
-|**Grade**|Entidad grado que serÃ¡ creada en el sistema|Modelo del dominio|
+|**Grade**|Entidad grado que será creada en el sistema|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
-|**GradeImportView**|Interfaz para gestiÃ³n de carga de archivo y confirmaciÃ³n de la operaciÃ³n|Wireframe|
+|**GradeImportView**|Interfaz para gestión de carga de archivo y confirmación de la operación|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
 |**GradeImportController**|Valida la integridad de los datos y gestiona el alta masiva|importarGrados()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
-|**Docente**|**GradeImportView**|`solicitarImportar()`|Iniciar el proceso de importaciÃ³n de grados|
+|**Docente**|**GradeImportView**|`solicitarImportar()`|Iniciar el proceso de importación de grados|
 |**GradeImportView**|**Docente**|`pedirOrigen()`|Solicitar la fuente de datos|
-|**Docente**|**GradeImportView**|`proporcionarOrigen()`|Entregar la informaciÃ³n para procesar|
-|**GradeImportView**|**GradeImportController**|`validarIntegridad(datos)`|Delegar la validaciÃ³n tÃ©cnica|
+|**Docente**|**GradeImportView**|`proporcionarOrigen()`|Entregar la información para procesar|
+|**GradeImportView**|**GradeImportController**|`validarIntegridad(datos)`|Delegar la validación técnica|
 |**GradeImportController**|**Grade**|`verificarDuplicados()`|Asegurar la consistencia de los datos|
-|**GradeImportView**|**Docente**|`pedirConfirmacion()`|Solicitar validaciÃ³n final del usuario|
+|**GradeImportView**|**Docente**|`pedirConfirmacion()`|Solicitar validación final del usuario|
 |**Docente**|**GradeImportView**|`confirmar()`|Aceptar la carga masiva|
 |**GradeImportView**|**GradeImportController**|`ejecutarImportacion()`|Coordinar el guardado de entidades|
 |**GradeImportController**|**Grade**|`createAll()`|Persistir todos los nuevos grados|
 
 ## trazabilidad con artefactos previos
 
-### con especificaciÃ³n detallada
-- **Decisiones** â†’ Mantiene coherencia con el flujo de importaciÃ³n global centrado en `Grade`.
+### con especificación detallada
+- **Decisiones** �?' Mantiene coherencia con el flujo de importación global centrado en `Grade`.
 
 
 ```plantuml

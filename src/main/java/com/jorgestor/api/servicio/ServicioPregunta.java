@@ -35,14 +35,11 @@ public class ServicioPregunta {
                     List<DTO_Respuesta> respuestasDto = p.getRespuestas().stream()
                             .map(r -> new DTO_Respuesta(r.getId(), r.getContenido(), r.isEsCorrecta(), r.getIndice()))
                             .collect(Collectors.toList());
-                    return new DTO_Pregunta(p.getId(), p.getEnunciado(), p.getDificultad(), p.getTema().getId(), respuestasDto);
+                    return new DTO_Pregunta(p.getId(), p.getEnunciado(), p.getDificultad(), p.getTema().getId(), p.isHabilitada(), respuestasDto);
                 })
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Lógica de Importación de Preguntas (CU-06)
-     */
     @Transactional
     public void importarPreguntas(List<DTO_Pregunta> listaDto) {
         for (DTO_Pregunta dto : listaDto) {
@@ -52,20 +49,15 @@ public class ServicioPregunta {
 
     @Transactional
     public void guardarIndividual(DTO_Pregunta dto) {
-        // 1. Validación: El tema debe existir
         Tema tema = repoTema.findById(dto.getTemaId())
                 .orElseThrow(() -> new RuntimeException("Tema con ID " + dto.getTemaId() + " no encontrado"));
 
-        // 2. Creación o Actualización de la Pregunta
         Pregunta pregunta;
         if (dto.getId() != null) {
             pregunta = repoPregunta.findById(dto.getId())
                     .orElseThrow(() -> new RuntimeException("Pregunta no encontrada con ID: " + dto.getId()));
-            
-            // IMPORTANTE: Primero borramos las respuestas antiguas
             repoRespuesta.deleteByPreguntaId(pregunta.getId());
-            // Forzamos que el borrado se ejecute en la BD antes de seguir
-            repoRespuesta.flush(); 
+            repoRespuesta.flush();
         } else {
             pregunta = new Pregunta();
         }
@@ -73,11 +65,10 @@ public class ServicioPregunta {
         pregunta.setEnunciado(dto.getEnunciado());
         pregunta.setDificultad(dto.getDificultad());
         pregunta.setTema(tema);
-        
-        // Guardamos y forzamos el ID
+        pregunta.setHabilitada(dto.isHabilitada());
+
         final Pregunta preguntaGuardada = repoPregunta.saveAndFlush(pregunta);
 
-        // 3. Creación y guardado de Respuestas
         if (dto.getRespuestas() != null) {
             int indice = 0;
             for (DTO_Respuesta dtoResp : dto.getRespuestas()) {
@@ -89,6 +80,42 @@ public class ServicioPregunta {
                 repoRespuesta.save(respuesta);
             }
         }
+    }
+
+    @Transactional
+    public void actualizar(Long id, DTO_Pregunta dto) {
+        Tema tema = repoTema.findById(dto.getTemaId())
+                .orElseThrow(() -> new RuntimeException("Tema con ID " + dto.getTemaId() + " no encontrado"));
+        Pregunta pregunta = repoPregunta.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pregunta no encontrada con ID: " + id));
+        repoRespuesta.deleteByPreguntaId(id);
+        repoRespuesta.flush();
+        pregunta.setEnunciado(dto.getEnunciado());
+        pregunta.setDificultad(dto.getDificultad());
+        pregunta.setTema(tema);
+        pregunta.setHabilitada(dto.isHabilitada());
+        final Pregunta guardada = repoPregunta.saveAndFlush(pregunta);
+        if (dto.getRespuestas() != null) {
+            int indice = 0;
+            for (DTO_Respuesta dtoResp : dto.getRespuestas()) {
+                Respuesta r = new Respuesta();
+                r.setContenido(dtoResp.getContenido());
+                r.setEsCorrecta(dtoResp.isEsCorrecta());
+                r.setPregunta(guardada);
+                r.setIndice(dtoResp.getIndice() != null ? dtoResp.getIndice() : indice++);
+                repoRespuesta.save(r);
+            }
+        }
+    }
+
+    /** CU-22/editarPregunta: alterna el estado habilitada ↔ inhabilitada */
+    @Transactional
+    public boolean toggleHabilitada(Long id) {
+        Pregunta pregunta = repoPregunta.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pregunta no encontrada con ID: " + id));
+        pregunta.setHabilitada(!pregunta.isHabilitada());
+        repoPregunta.save(pregunta);
+        return pregunta.isHabilitada();
     }
 
     @Transactional

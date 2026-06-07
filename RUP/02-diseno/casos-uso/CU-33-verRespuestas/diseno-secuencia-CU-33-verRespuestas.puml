@@ -1,0 +1,36 @@
+@startuml secuencia-cu33-ver-respuestas
+title Diagrama de Secuencia - Ver Respuestas
+
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorPregunta" as Controller
+participant "ServicioPregunta" as Service
+participant "RepositorioPregunta" as RepoPreg
+database "Base de Datos\n(PostgreSQL)" as DB
+
+Actor -> FE : Abre detalle de una pregunta
+activate FE
+
+FE -> Controller : GET /api/preguntas
+activate Controller
+
+Controller -> Service : listarTodas()
+activate Service
+
+Service -> RepoPreg : findAll()
+activate RepoPreg
+RepoPreg -> DB : SELECT preguntas + respuestas (JOIN)
+DB --> RepoPreg : lista_preguntas_con_respuestas
+RepoPreg --> Service : List<Pregunta>
+deactivate RepoPreg
+
+Service --> Controller : List<DTO_Pregunta>
+deactivate Service
+
+Controller --> FE : 200 OK (JSON con respuestas incluidas)
+deactivate Controller
+
+FE --> Actor : Muestra respuestas de la pregunta seleccionada
+deactivate FE
+
+@enduml

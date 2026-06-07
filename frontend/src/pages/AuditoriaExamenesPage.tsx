@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getExamenes, getEjemplares, entregarExamenMasivo, corregirExamenMasivo, exportarExamen, getAuditoriaAlumno } from '../services/examenService';
+import { getExamenes, getEjemplares, entregarExamenMasivo, corregirExamenMasivo, exportarExamen, getAuditoriaAlumno, cancelarGeneracion } from '../services/examenService';
 import { getGrados } from '../services/gradoService';
 import { getAsignaturas } from '../services/asignaturaService';
 import DataTable from '../components/DataTable';
@@ -80,7 +80,37 @@ const AuditoriaExamenesPage: React.FC = () => {
     }
   };
 
-  const hayPendientes = useMemo(() => 
+  const handleExport = async () => {
+    if (!selectedExamenId) return;
+    try {
+      const data = await exportarExamen(selectedExamenId);
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `examen-${selectedExamenId}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch {
+      alert('Error al exportar el examen.');
+    }
+  };
+
+  const mutacionCancelar = useMutation({
+    mutationFn: () => cancelarGeneracion(selectedExamenId!),
+    onSuccess: (msg) => {
+      alert(msg);
+      setSelectedExamenId(null);
+      queryClient.invalidateQueries({ queryKey: ['examenes'] });
+    },
+    onError: (error: any) => {
+      alert('Error: ' + (error.response?.data || error.message));
+    }
+  });
+
+  const hayPendientes = useMemo(() =>
     (ejemplares || []).some(ej => ej && (ej.estado === 'ASIGNADO' || ej.estado === 'PENDIENTE')),
   [ejemplares]);
 
@@ -222,12 +252,31 @@ const AuditoriaExamenesPage: React.FC = () => {
                         {mutationCorregir.isPending ? 'CORRIGIENDO...' : 'CORREGIR IA'}
                       </button>
                     )}
-                    <button 
-                      onClick={() => window.location.href=`/corregir-examen`} 
+                    <button
+                      onClick={() => window.location.href=`/corregir-examen`}
                       className="btn btn-secondary"
                     >
                       MANUAL
                     </button>
+                    <button
+                      onClick={handleExport}
+                      className="btn btn-secondary"
+                    >
+                      EXPORTAR JSON
+                    </button>
+                    {ejemplares.length === 0 && (
+                      <button
+                        onClick={() => {
+                          if (window.confirm('¿Cancelar la generación de este examen? Se eliminará permanentemente.')) {
+                            mutacionCancelar.mutate();
+                          }
+                        }}
+                        className="btn btn-danger"
+                        style={{ fontSize: '0.75rem' }}
+                      >
+                        CANCELAR GENERACIÓN
+                      </button>
+                    )}
                   </div>
                </div>
 

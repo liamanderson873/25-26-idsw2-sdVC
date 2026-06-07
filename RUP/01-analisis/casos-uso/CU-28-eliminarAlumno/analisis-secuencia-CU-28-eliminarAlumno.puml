@@ -1,0 +1,39 @@
+﻿@startuml cu28-eliminarAlumno-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-28: Eliminar Alumno
+
+actor "Docente" as Actor
+participant ":VistaEliminacionAlumno" as Boundary <<boundary>>
+participant ":ControladorAlumnos" as Control <<control>>
+participant ":Alumno" as Entity <<entity>>
+
+Actor -> Boundary : seleccionarAlumno(id)
+activate Boundary
+
+Boundary -> Control : obtenerAlumno(id)
+activate Control
+
+Control -> Entity : buscar(id)
+activate Entity
+Entity --> Control : alumno
+deactivate Entity
+
+Control --> Boundary : datosAlumno
+deactivate Control
+
+Actor -> Boundary : confirmarEliminacion()
+
+Boundary -> Control : eliminarAlumno(id)
+activate Control
+
+Control -> Entity : delete(id)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
+
+Control --> Boundary : confirmacion
+deactivate Control
+
+Boundary --> Actor : mostrarConfirmacion()
+deactivate Boundary
+
+@enduml

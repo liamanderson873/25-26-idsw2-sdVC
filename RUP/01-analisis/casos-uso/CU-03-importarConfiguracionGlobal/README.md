@@ -1,67 +1,67 @@
-﻿# Jorgestor > CU-03-importarConfiguracionGlobal > AnÃ¡lisis
+﻿# Jorgestor > CU-03-importarConfiguracionGlobal > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis del caso de uso Importar ConfiguraciÃ³n Global. Describe el proceso masivo de carga y validaciÃ³n de entidades principales.
+Análisis del caso de uso Importar Configuración Global. Describe el proceso masivo de carga y validación de entidades principales.
 
-## diagrama de colaboraciÃ³n
-
-<div align=center>
-
-|![AnÃ¡lisis: importarConfiguracionGlobal()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-03-importarConfiguracionGlobal/analisis-colaboracion-CU-03-importarConfiguracionGlobal.puml&fmt=svg)|
-|-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-03-importarConfiguracionGlobal.puml](analisis-colaboracion-CU-03-importarConfiguracionGlobal.puml)|
-
-</div>
-
-## realizaciÃ³n de diseÃ±o (secuencia)
+## diagrama de colaboración
 
 <div align=center>
 
-|![RealizaciÃ³n: CU-03-importarConfiguracionGlobal](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-03-importarConfiguracionGlobal/analisis-secuencia-CU-03-importarConfiguracionGlobal.puml&fmt=svg)|
+|![Análisis: importarConfiguracionGlobal()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-03-importarConfiguracionGlobal/analisis-colaboracion-CU-03-importarConfiguracionGlobal.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-secuencia-CU-03-importarConfiguracionGlobal.puml](analisis-secuencia-CU-03-importarConfiguracionGlobal.puml)|
+|Código fuente: [analisis-colaboracion-CU-03-importarConfiguracionGlobal.puml](analisis-colaboracion-CU-03-importarConfiguracionGlobal.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## realización de diseño (secuencia)
+
+<div align=center>
+
+|![Realización: CU-03-importarConfiguracionGlobal](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-03-importarConfiguracionGlobal/analisis-secuencia-CU-03-importarConfiguracionGlobal.puml&fmt=svg)|
+|-|
+|Código fuente: [analisis-secuencia-CU-03-importarConfiguracionGlobal.puml](analisis-secuencia-CU-03-importarConfiguracionGlobal.puml)|
+
+</div>
+
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
 |**Student**|Entidad que representa a los alumnos a importar|Modelo del dominio|
-|**Grade**|Entidad que representa los grados acadÃ©micos|Modelo del dominio|
+|**Grade**|Entidad que representa los grados académicos|Modelo del dominio|
 |**Subject**|Entidad que representa las asignaturas|Modelo del dominio|
 |**Question**|Entidad que representa las preguntas|Modelo del dominio|
-|**GlobalConfig**|Contenedor temporal de todos los datos extraÃ­dos antes de persistir|AnÃ¡lisis|
+|**GlobalConfig**|Contenedor temporal de todos los datos extraídos antes de persistir|Análisis|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
-|**GlobalConfigImportView**|Interfaz para seleccionar archivo, opciones y confirmaciÃ³n|Wireframe|
+|**GlobalConfigImportView**|Interfaz para seleccionar archivo, opciones y confirmación|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**ImportController**|Orquesta el flujo de importaciÃ³n, validaciÃ³n y persistencia|importarConfiguracionGlobal()|
+|**ImportController**|Orquesta el flujo de importación, validación y persistencia|importarConfiguracionGlobal()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
-|**Docente**|**GlobalConfigImportView**|`importarConfiguracion(archivo, opciones)`|Solicitar importaciÃ³n|
+|**Docente**|**GlobalConfigImportView**|`importarConfiguracion(archivo, opciones)`|Solicitar importación|
 |**GlobalConfigImportView**|**ImportController**|`procesarImportacion(archivo, opciones)`|Validar y procesar datos|
 |**ImportController**|**GlobalConfig**|`extraerDatos()`|Generar contenedor temporal|
-|**ImportController**|**GlobalConfigImportView**|`mostrarValidacion()`|Solicitar confirmaciÃ³n de cambios|
+|**ImportController**|**GlobalConfigImportView**|`mostrarValidacion()`|Solicitar confirmación de cambios|
 |**Docente**|**GlobalConfigImportView**|`confirmarImportacion()`|Confirmar cambios|
 |**GlobalConfigImportView**|**ImportController**|`persistirCambios()`|Ejecutar persistencia masiva|
 |**ImportController**|**Student**|`guardar()`|Persistir entidad|
@@ -69,7 +69,7 @@ AnÃ¡lisis del caso de uso Importar ConfiguraciÃ³n Global. Describe el proces
 
 ## trazabilidad con artefactos previos
 
-- **Atomicidad**: OperaciÃ³n que mantiene la consistencia del sistema o falla de forma controlada.
+- **Atomicidad**: Operación que mantiene la consistencia del sistema o falla de forma controlada.
 
 ```plantuml
 @startuml importarConfiguracionGlobal-analisis
@@ -112,7 +112,7 @@ participant ":ConfigController" as Controller <<boundary>>
 participant ":ImportService" as Service <<control>>
 participant "repo:AnyRepository" as Repo <<entity>>
 
-title DiseÃ±o TÃ©cnico: importarConfiguracionGlobal() (Estrategia UPSERT)
+title Diseño Técnico: importarConfiguracionGlobal() (Estrategia UPSERT)
 
 Actor -> Controller : POST /api/config/import (File/JSON)
 activate Controller

@@ -1,30 +1,36 @@
-@startuml secuencia-cu23-ver-alumno
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+@startuml secuencia-cu23-ver-alumnos
+title Diagrama de Secuencia - Ver Alumnos
 
-actor Docente
-participant "ControladorAlumno" as Boundary <<Boundary>>
-participant "ServicioAlumno" as Control <<Control>>
-participant "RepositorioAlumno" as RepoAlumno <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorAlumno" as Controller
+participant "ServicioAlumno" as Service
+participant "RepositorioAlumno" as RepoAlumno
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : GET /api/alumnos
-activate Boundary
+Actor -> FE : Navega a "Alumnos"
+activate FE
 
-Boundary -> Control : listarTodos()
-activate Control
+FE -> Controller : GET /api/alumnos
+activate Controller
 
-Control -> RepoAlumno : findAll()
+Controller -> Service : listarTodos()
+activate Service
+
+Service -> RepoAlumno : findAll()
 activate RepoAlumno
 RepoAlumno -> DB : SELECT * FROM alumnos
 DB --> RepoAlumno : lista de alumnos
-RepoAlumno --> Control : List<Alumno>
+RepoAlumno --> Service : List<Alumno>
 deactivate RepoAlumno
 
-Control --> Boundary : List<DTO_Alumno>
-deactivate Control
+Service --> Controller : List<DTO_Alumno>
+deactivate Service
 
-Boundary --> Docente : 200 OK (JSON lista)
-deactivate Boundary
+Controller --> FE : 200 OK (JSON lista)
+deactivate Controller
+
+FE --> Actor : Muestra tabla de alumnos
+deactivate FE
 
 @enduml

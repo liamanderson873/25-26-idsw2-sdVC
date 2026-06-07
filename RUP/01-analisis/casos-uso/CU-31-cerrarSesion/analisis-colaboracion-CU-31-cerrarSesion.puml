@@ -1,17 +1,17 @@
-@startuml cerrarSesion-analisis
+﻿@startuml cerrarSesion-analisis
 skinparam linetype polyline
 
 actor Usuario
 package cerrarSesion as "cerrarSesion()" {
-    rectangle #629EF9 SessionView
-    rectangle #b5bd68 LogoutController
-    rectangle #F2AC4E UserSession
+    rectangle #629EF9 VistaSesion
+    rectangle #b5bd68 ControladorCierreSesion
+    rectangle #F2AC4E SesionUsuario
 }
 
-Usuario -r-> SessionView: solicitarCierre()
-SessionView --> Usuario: pedirConfirmacion()
-Usuario --> SessionView: confirmarCierre()
-SessionView -d-> LogoutController: cerrarSesion()
-LogoutController --> UserSession: invalidar()
+Usuario -r-> VistaSesion: solicitarCierre()
+VistaSesion --> Usuario: pedirConfirmacion()
+Usuario --> VistaSesion: confirmarCierre()
+VistaSesion -d-> ControladorCierreSesion: cerrarSesion()
+ControladorCierreSesion --> SesionUsuario: invalidar()
 
 @enduml

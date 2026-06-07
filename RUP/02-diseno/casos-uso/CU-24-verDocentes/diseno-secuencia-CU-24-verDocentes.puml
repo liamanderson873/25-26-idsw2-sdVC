@@ -1,30 +1,36 @@
-@startuml secuencia-cu24-ver-profesor
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+@startuml secuencia-cu24-ver-docentes
+title Diagrama de Secuencia - Ver Docentes
 
-actor Docente
-participant "ControladorProfesor" as Boundary <<Boundary>>
-participant "ServicioProfesor" as Control <<Control>>
-participant "RepositorioProfesor" as RepoProfesor <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorProfesor" as Controller
+participant "ServicioProfesor" as Service
+participant "RepositorioProfesor" as RepoProfesor
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : GET /api/profesores
-activate Boundary
+Actor -> FE : Navega a "Docentes"
+activate FE
 
-Boundary -> Control : listarTodos()
-activate Control
+FE -> Controller : GET /api/profesores
+activate Controller
 
-Control -> RepoProfesor : findAll()
+Controller -> Service : listarTodos()
+activate Service
+
+Service -> RepoProfesor : findAll()
 activate RepoProfesor
 RepoProfesor -> DB : SELECT * FROM profesores
 DB --> RepoProfesor : lista de profesores
-RepoProfesor --> Control : List<Profesor>
+RepoProfesor --> Service : List<Profesor>
 deactivate RepoProfesor
 
-Control --> Boundary : List<DTO_Profesor>
-deactivate Control
+Service --> Controller : List<DTO_Profesor>
+deactivate Service
 
-Boundary --> Docente : 200 OK (JSON lista)
-deactivate Boundary
+Controller --> FE : 200 OK (JSON lista)
+deactivate Controller
+
+FE --> Actor : Muestra tabla de docentes
+deactivate FE
 
 @enduml

@@ -22,41 +22,54 @@ const Sidebar: React.FC = () => {
       </div>
 
       <nav className={styles.nav}>
-        <div className={styles.sectionTitle}>Gestión Core</div>
-        <NavLink to="/generar-examen" className={({ isActive }) => isActive ? styles.active : ''}>
-           <div className={styles.dot}></div> Generar Examen
-        </NavLink>
-        <NavLink to="/asignar-examen" className={({ isActive }) => isActive ? styles.active : ''}>
-           <div className={styles.dot}></div> Asignar Alumnos
-        </NavLink>
-        <NavLink to="/corregir-examen" className={({ isActive }) => isActive ? styles.active : ''}>
-           <div className={styles.dot}></div> Corregir Exámenes
-        </NavLink>
-        <NavLink to="/auditoria-examenes" className={({ isActive }) => isActive ? styles.active : ''}>
-           <div className={styles.dot}></div> Auditoría de Exámenes
-        </NavLink>
-
-        <div style={{ marginTop: '2rem' }}>
-          <div className={styles.sectionTitle}>Sistemas</div>
-          <NavLink to="/grados" className={({ isActive }) => isActive ? styles.active : ''}>
-             <div className={styles.dot}></div> Grados
-          </NavLink>
-          <NavLink to="/asignaturas" className={({ isActive }) => isActive ? styles.active : ''}>
-             <div className={styles.dot}></div> Asignaturas
-          </NavLink>
-          <NavLink to="/preguntas" className={({ isActive }) => isActive ? styles.active : ''}>
-             <div className={styles.dot}></div> Batería de Preguntas
-          </NavLink>
-          <NavLink to="/alumnos" className={({ isActive }) => isActive ? styles.active : ''}>
-             <div className={styles.dot}></div> Listado de Alumnos
-          </NavLink>
-          
-          {isAdmin && (
+        {isAdmin ? (
+          <div>
+            <div className={styles.sectionTitle}>Administración</div>
             <NavLink to="/docentes" className={({ isActive }) => isActive ? styles.active : ''}>
                <div className={styles.dot}></div> Docentes
             </NavLink>
-          )}
-        </div>
+          </div>
+        ) : (
+          <>
+            <div className={styles.sectionTitle}>Sistema</div>
+            <NavLink to="/dashboard" className={({ isActive }) => isActive ? styles.active : ''}>
+               <div className={styles.dot}></div> Panel de Control
+            </NavLink>
+
+            <div style={{ marginTop: '1.5rem' }}>
+              <div className={styles.sectionTitle}>Gestión Core</div>
+              <NavLink to="/generar-examen" className={({ isActive }) => isActive ? styles.active : ''}>
+                 <div className={styles.dot}></div> Generar Examen
+              </NavLink>
+              <NavLink to="/corregir-examen" className={({ isActive }) => isActive ? styles.active : ''}>
+                 <div className={styles.dot}></div> Corregir Exámenes
+              </NavLink>
+            </div>
+
+            <div style={{ marginTop: '2rem' }}>
+              <div className={styles.sectionTitle}>Configuración</div>
+              <NavLink to="/grados" className={({ isActive }) => isActive ? styles.active : ''}>
+                 <div className={styles.dot}></div> Grados
+              </NavLink>
+              <NavLink to="/asignaturas" className={({ isActive }) => isActive ? styles.active : ''}>
+                 <div className={styles.dot}></div> Asignaturas
+              </NavLink>
+              <NavLink to="/preguntas" className={({ isActive }) => isActive ? styles.active : ''}>
+                 <div className={styles.dot}></div> Batería de Preguntas
+              </NavLink>
+              <NavLink to="/alumnos" className={({ isActive }) => isActive ? styles.active : ''}>
+                 <div className={styles.dot}></div> Listado de Alumnos
+              </NavLink>
+            </div>
+
+            <div style={{ marginTop: '2rem' }}>
+              <div className={styles.sectionTitle}>Datos</div>
+              <NavLink to="/importar-exportar" className={({ isActive }) => isActive ? styles.active : ''}>
+                 <div className={styles.dot}></div> Importar / Exportar
+              </NavLink>
+            </div>
+          </>
+        )}
       </nav>
 
       <div className={styles.userSection}>
@@ -64,7 +77,7 @@ const Sidebar: React.FC = () => {
           <div style={{ fontSize: '0.9rem', fontWeight: '800', color: 'white' }}>{user?.nombre}</div>
           <div style={{ fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '700' }}>{user?.rol?.replace('_', ' ')}</div>
         </div>
-        <button 
+        <button
           onClick={handleLogout}
           className={styles.logoutBtn}
         >

@@ -1,23 +1,23 @@
-@startuml editarPregunta-analisis
+﻿@startuml editarPregunta-analisis
 skinparam linetype polyline
 
 actor Docente
 package editarPregunta as "editarPregunta()" {
-    rectangle #629EF9 QuestionEditView
-    rectangle #b5bd68 QuestionController
-    rectangle #F2AC4E Question
-    rectangle #F2AC4E Subject
-    rectangle #F2AC4E Topic
-    rectangle #F2AC4E Answer
+    rectangle #629EF9 VistaEdicionPregunta
+    rectangle #b5bd68 ControladorPreguntas
+    rectangle #F2AC4E Pregunta
+    rectangle #F2AC4E Asignatura
+    rectangle #F2AC4E Tema
+    rectangle #F2AC4E Respuesta
 }
 
-Docente -r-> QuestionEditView: modificarCampos(datos)
-QuestionEditView -d-> QuestionController: guardarCambios(datos)
-QuestionController --> Question: actualizar(datos)
-QuestionController --> Answer: actualizarRespuestas(respuestas)
+Docente -r-> VistaEdicionPregunta: modificarCampos(datos)
+VistaEdicionPregunta -d-> ControladorPreguntas: guardarCambios(datos)
+ControladorPreguntas --> Pregunta: actualizar(datos)
+ControladorPreguntas --> Respuesta: actualizarRespuestas(respuestas)
 
-Docente --> QuestionEditView: eliminarPregunta()
-QuestionEditView --> QuestionController: eliminar()
-QuestionController --> Question: delete()
+Docente --> VistaEdicionPregunta: eliminarPregunta()
+VistaEdicionPregunta --> ControladorPreguntas: eliminar()
+ControladorPreguntas --> Pregunta: delete()
 
 @enduml

@@ -1,0 +1,39 @@
+﻿@startuml cu19-editarGrado-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-19: Editar Grado
+
+actor "Docente" as Actor
+participant ":VistaEdicionGrado" as Boundary <<boundary>>
+participant ":ControladorGrados" as Control <<control>>
+participant ":Grado" as Entity <<entity>>
+
+Actor -> Boundary : seleccionarGrado(id)
+activate Boundary
+
+Boundary -> Control : obtenerGrado(id)
+activate Control
+
+Control -> Entity : buscar(id)
+activate Entity
+Entity --> Control : grado
+deactivate Entity
+
+Control --> Boundary : datosGrado
+deactivate Control
+
+Actor -> Boundary : modificarDatos(datos)
+
+Boundary -> Control : actualizarGrado(id, datos)
+activate Control
+
+Control -> Entity : actualizar(datos)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
+
+Control --> Boundary : confirmacion
+deactivate Control
+
+Boundary --> Actor : mostrarConfirmacion()
+deactivate Boundary
+
+@enduml

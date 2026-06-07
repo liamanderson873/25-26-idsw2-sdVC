@@ -1,10 +1,15 @@
-@startuml
+@startuml exportarAsignaturas-analisis
 skinparam linetype polyline
 
-class "SubjectExportView" <<boundary>>
-class "SubjectExportController" <<control>>
-class "Subject" <<entity>>
+note "<<abstracto>>\nInvocado desde CU-04: exportarConfiguracionGlobal" as N1
+package exportarAsignaturas as "exportarAsignaturas()" {
+    rectangle #629EF9 VistaExportacionAsignaturas
+    rectangle #b5bd68 ControladorExportacionAsignaturas
+    rectangle #F2AC4E Asignatura
+}
 
-SubjectExportView -> SubjectExportController : procesarExportacion()
-SubjectExportController -> Subject : obtenerDatosAsignaturas()
+VistaExportacionAsignaturas -d-> ControladorExportacionAsignaturas: procesarExportacion()
+ControladorExportacionAsignaturas --> Asignatura: obtenerDatosAsignaturas()
+ControladorExportacionAsignaturas --> VistaExportacionAsignaturas: ficheroJSON
+
 @enduml

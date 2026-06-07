@@ -1,29 +1,29 @@
-﻿# Jorgestor > CU-24-verDocentes > AnÃ¡lisis
+﻿# Jorgestor > CU-24-verDocentes > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis del caso de uso Ver Docentes.
+Análisis del caso de uso Ver Docentes.
 
-## diagrama de colaboraciÃ³n
+## diagrama de colaboración
 
 <div align=center>
 
-|![AnÃ¡lisis: verDocentes()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-24-verDocentes.puml&fmt=svg)|
+|![Análisis: verDocentes()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-24-verDocentes.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-24-verDocentes.puml](analisis-colaboracion-CU-24-verDocentes.puml)|
+|Código fuente: [analisis-colaboracion-CU-24-verDocentes.puml](analisis-colaboracion-CU-24-verDocentes.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -31,7 +31,7 @@ AnÃ¡lisis del caso de uso Ver Docentes.
 |**Teacher**|Representa al docente con sus credenciales y datos personales|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
 |**TeacherListView**|Interfaz para visualizar lista y solicitar filtrado de docentes|Wireframe|
 
@@ -40,12 +40,12 @@ AnÃ¡lisis del caso de uso Ver Docentes.
 |-|-|-|
 |**TeacherController**|Recupera lista de docentes autorizados y aplica filtros|verDocentes()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
-|**AdministradorInstitucional**|**TeacherListView**|`solicitarVerDocentes()`|Iniciar visualizaciÃ³n|
-|**TeacherListView**|**TeacherController**|`obtenerDocentes()`|Delegar recuperaciÃ³n|
+|**AdministradorInstitucional**|**TeacherListView**|`solicitarVerDocentes()`|Iniciar visualización|
+|**TeacherListView**|**TeacherController**|`obtenerDocentes()`|Delegar recuperación|
 |**TeacherController**|**Teacher**|`consultarTodos()`|Consultar entidades|
 |**AdministradorInstitucional**|**TeacherListView**|`aplicarFiltro(criterios)`|Solicitar filtrado|
 |**TeacherListView**|**TeacherController**|`filtrar(criterios)`|Procesar criterios|

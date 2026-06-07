@@ -1,0 +1,31 @@
+﻿@startuml cu38-importarAsignaturas-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-38: Importar Asignaturas
+
+actor "Docente" as Actor
+participant ":VistaImportacionAsignaturas" as Boundary <<boundary>>
+participant ":ControladorImportacionAsignaturas" as Control <<control>>
+participant ":Asignatura" as Entity <<entity>>
+
+Actor -> Boundary : subirFichero(ficheroJSON)
+activate Boundary
+
+Boundary -> Control : importarAsignaturas(listaAsignaturas)
+activate Control
+
+Control -> Entity : validarDocente(dniDocente)
+activate Entity
+Entity --> Control : docente
+deactivate Entity
+
+Control -> Entity : guardarOActualizar(asignatura)
+activate Entity
+Entity --> Control : asignatura
+deactivate Entity
+
+Control --> Boundary : confirmacion
+deactivate Control
+
+Boundary --> Actor : mostrarConfirmacion()
+deactivate Boundary
+
+@enduml

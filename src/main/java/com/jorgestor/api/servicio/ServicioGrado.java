@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +29,22 @@ public class ServicioGrado {
     public void crearOActualizar(DTO_Grado dto) {
         Grado grado = repoGrado.findByCodigo(dto.getCodigo())
                 .orElse(new Grado());
+        grado.setCodigo(dto.getCodigo());
+        grado.setNombre(dto.getNombre());
+        repoGrado.save(grado);
+    }
+
+    @Transactional
+    public void importarGrados(List<DTO_Grado> lista) {
+        for (DTO_Grado dto : lista) {
+            crearOActualizar(dto);
+        }
+    }
+
+    @Transactional
+    public void actualizar(Long id, DTO_Grado dto) {
+        Grado grado = repoGrado.findById(id)
+                .orElseThrow(() -> new RuntimeException("Grado no encontrado con ID: " + id));
         grado.setCodigo(dto.getCodigo());
         grado.setNombre(dto.getNombre());
         repoGrado.save(grado);

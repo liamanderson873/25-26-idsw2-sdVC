@@ -1,29 +1,29 @@
-﻿# Jorgestor > CU-33-verRespuestas > AnÃ¡lisis
+﻿# Jorgestor > CU-33-verRespuestas > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Ver Respuestas, siguiendo la metodologÃ­a RUP. Permite analizar la lÃ³gica de visualizaciÃ³n y filtrado de las respuestas asociadas a una pregunta.
+Análisis tecnológico agnóstico del caso de uso Ver Respuestas, siguiendo la metodología RUP. Permite analizar la lógica de visualización y filtrado de las respuestas asociadas a una pregunta.
 
-## diagrama de colaboraciÃ³n
+## diagrama de colaboración
 
 <div align=center>
 
-|![AnÃ¡lisis: verRespuestas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-33-verRespuestas/analisis-colaboracion-CU-33-verRespuestas.puml&fmt=svg)|
+|![Análisis: verRespuestas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-33-verRespuestas/analisis-colaboracion-CU-33-verRespuestas.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-33-verRespuestas.puml](analisis-colaboracion-CU-33-verRespuestas.puml)|
+|Código fuente: [analisis-colaboracion-CU-33-verRespuestas.puml](analisis-colaboracion-CU-33-verRespuestas.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -32,18 +32,18 @@ AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Ver Respuestas, siguiend
 |**Question**|Representa la pregunta a la que pertenecen las respuestas|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
 |**AnswerListView**|Interfaz que muestra la lista de respuestas y permite filtrar|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**AnswerConsultationController**|Gestiona la recuperaciÃ³n y el filtrado de respuestas|verRespuestas()|
+|**AnswerConsultationController**|Gestiona la recuperación y el filtrado de respuestas|verRespuestas()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
 |**Docente**|**AnswerListView**|`solicitarVerRespuestas()`|Solicitar la lista de respuestas|
 |**AnswerListView**|**AnswerConsultationController**|`getRespuestas(question)`|Recuperar respuestas de la entidad|
@@ -54,8 +54,8 @@ AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Ver Respuestas, siguiend
 
 ## trazabilidad con artefactos previos
 
-### con especificaciÃ³n detallada
-- **Estados internos** â†’ `MostrandoRespuestas`, `FiltrandoRespuestas`
+### con especificación detallada
+- **Estados internos** �?' `MostrandoRespuestas`, `FiltrandoRespuestas`
 
 
 ```plantuml

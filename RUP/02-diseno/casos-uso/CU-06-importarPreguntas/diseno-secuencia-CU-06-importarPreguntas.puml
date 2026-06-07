@@ -1,55 +1,62 @@
 @startuml secuencia-cu06-importar-preguntas
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+title Diagrama de Secuencia - Importar Preguntas
 
-actor Docente
-participant "ControladorPregunta" as Boundary <<Boundary>>
-participant "ServicioPregunta" as Control <<Control>>
-participant "RepositorioTema" as RepoTema <<Entity>>
-participant "RepositorioPregunta" as RepoPreg <<Entity>>
-participant "RepositorioRespuesta" as RepoResp <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorPregunta" as Controller
+participant "ServicioPregunta" as Service
+participant "RepositorioTema" as RepoTema
+participant "RepositorioPregunta" as RepoPreg
+participant "RepositorioRespuesta" as RepoResp
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : POST /api/preguntas/importar (List<DTO_Pregunta>)
-activate Boundary
+Actor -> FE : Sube fichero JSON de preguntas
+activate FE
 
-Boundary -> Control : importarPreguntas(listaDto)
-activate Control
+FE -> Controller : POST /api/preguntas/importar (List<DTO_Pregunta>)
+activate Controller
+
+Controller -> Service : importarPreguntas(listaDto)
+activate Service
 
 loop por cada DTO_Pregunta
-    Control -> RepoTema : findById(temaId)
+    Service -> RepoTema : findById(temaId)
     activate RepoTema
     RepoTema -> DB : SELECT tema
     DB --> RepoTema : resultado
-    RepoTema --> Control : Optional<Tema>
+    RepoTema --> Service : Optional<Tema>
     deactivate RepoTema
 
     alt Tema no existe
-        Control --> Boundary : throw RuntimeException("Tema no encontrado")
-        Boundary --> Docente : 400 Bad Request
+        Service --> Controller : throw RuntimeException("Tema no encontrado")
+        Controller --> FE : 400 Bad Request
+        FE --> Actor : Muestra error de tema no encontrado
     else Tema existe
-        Control -> RepoPreg : saveAndFlush(pregunta)
+        Service -> RepoPreg : saveAndFlush(pregunta)
         activate RepoPreg
         RepoPreg -> DB : INSERT pregunta
         DB --> RepoPreg : ok (ID asignado)
-        RepoPreg --> Control : preguntaGuardada
+        RepoPreg --> Service : preguntaGuardada
         deactivate RepoPreg
 
         loop por cada DTO_Respuesta
-            Control -> RepoResp : save(respuesta)
+            Service -> RepoResp : save(respuesta)
             activate RepoResp
             RepoResp -> DB : INSERT respuesta (vinculada a ID pregunta)
             DB --> RepoResp : ok
-            RepoResp --> Control : ok
+            RepoResp --> Service : ok
             deactivate RepoResp
         end
     end
 end
 
-Control --> Boundary : void
-deactivate Control
+Service --> Controller : void
+deactivate Service
 
-Boundary --> Docente : 200 OK (Procesado correctamente)
-deactivate Boundary
+Controller --> FE : 200 OK (Procesado correctamente)
+deactivate Controller
+
+FE --> Actor : Muestra confirmación de importación
+deactivate FE
 
 @enduml

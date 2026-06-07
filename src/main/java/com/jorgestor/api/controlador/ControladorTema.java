@@ -29,6 +29,16 @@ public class ControladorTema {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<String> actualizar(@PathVariable Long id, @RequestBody DTO_Tema dto) {
+        try {
+            servicioTema.actualizar(id, dto);
+            return ResponseEntity.ok("Tema actualizado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable Long id) {
         try {

@@ -1,50 +1,57 @@
 @startuml secuencia-cu14-crear-alumno
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+title Diagrama de Secuencia - Crear Alumno
 
-actor Docente
-participant "ControladorAlumno" as Boundary <<Boundary>>
-participant "ServicioAlumno" as Control <<Control>>
-participant "RepositorioGrado" as RepoGrado <<Entity>>
-participant "RepositorioAlumno" as RepoAlumno <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorAlumno" as Controller
+participant "ServicioAlumno" as Service
+participant "RepositorioGrado" as RepoGrado
+participant "RepositorioAlumno" as RepoAlumno
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : POST /api/alumnos (DTO_Alumno)
-activate Boundary
+Actor -> FE : Introduce datos del nuevo alumno
+activate FE
 
-Boundary -> Control : guardarIndividual(dto)
-activate Control
+FE -> Controller : POST /api/alumnos (DTO_Alumno)
+activate Controller
 
-Control -> RepoGrado : findByCodigo(codigoGrado)
+Controller -> Service : guardarIndividual(dto)
+activate Service
+
+Service -> RepoGrado : findByCodigo(codigoGrado)
 activate RepoGrado
 RepoGrado -> DB : SELECT grado
 DB --> RepoGrado : resultado
-RepoGrado --> Control : Optional<Grado>
+RepoGrado --> Service : Optional<Grado>
 deactivate RepoGrado
 
 alt Grado no existe
-    Control --> Boundary : throw RuntimeException
-    Boundary --> Docente : 400 Bad Request
+    Service --> Controller : throw RuntimeException
+    Controller --> FE : 400 Bad Request
+    FE --> Actor : Muestra error de grado no encontrado
 else Grado existe
-    Control -> RepoAlumno : findByDni(dni)
+    Service -> RepoAlumno : findByDni(dni)
     activate RepoAlumno
     RepoAlumno -> DB : SELECT alumno
     DB --> RepoAlumno : null
-    RepoAlumno --> Control : Optional.empty()
+    RepoAlumno --> Service : Optional.empty()
     deactivate RepoAlumno
 
-    Control -> RepoAlumno : save(nuevoAlumno)
+    Service -> RepoAlumno : save(nuevoAlumno)
     activate RepoAlumno
     RepoAlumno -> DB : INSERT alumno
     DB --> RepoAlumno : ok
-    RepoAlumno --> Control : alumno
+    RepoAlumno --> Service : alumno
     deactivate RepoAlumno
 
-    Control --> Boundary : void
-    deactivate Control
+    Service --> Controller : void
+    deactivate Service
 
-    Boundary --> Docente : 200 OK
+    Controller --> FE : 200 OK
+    deactivate Controller
+
+    FE --> Actor : Muestra alumno creado en tabla
+    deactivate FE
 end
-deactivate Boundary
 
 @enduml

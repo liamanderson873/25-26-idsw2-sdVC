@@ -1,30 +1,36 @@
-@startuml secuencia-cu22-ver-grado
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+@startuml secuencia-cu22-ver-grados
+title Diagrama de Secuencia - Ver Grados
 
-actor Docente
-participant "ControladorGrado" as Boundary <<Boundary>>
-participant "ServicioGrado" as Control <<Control>>
-participant "RepositorioGrado" as RepoGrado <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorGrado" as Controller
+participant "ServicioGrado" as Service
+participant "RepositorioGrado" as RepoGrado
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : GET /api/grados
-activate Boundary
+Actor -> FE : Navega a "Grados"
+activate FE
 
-Boundary -> Control : listarTodos()
-activate Control
+FE -> Controller : GET /api/grados
+activate Controller
 
-Control -> RepoGrado : findAll()
+Controller -> Service : listarTodos()
+activate Service
+
+Service -> RepoGrado : findAll()
 activate RepoGrado
 RepoGrado -> DB : SELECT * FROM grados
 DB --> RepoGrado : lista de grados
-RepoGrado --> Control : List<Grado>
+RepoGrado --> Service : List<Grado>
 deactivate RepoGrado
 
-Control --> Boundary : List<DTO_Grado>
-deactivate Control
+Service --> Controller : List<DTO_Grado>
+deactivate Service
 
-Boundary --> Docente : 200 OK (JSON lista)
-deactivate Boundary
+Controller --> FE : 200 OK (JSON lista)
+deactivate Controller
+
+FE --> Actor : Muestra tabla de grados
+deactivate FE
 
 @enduml

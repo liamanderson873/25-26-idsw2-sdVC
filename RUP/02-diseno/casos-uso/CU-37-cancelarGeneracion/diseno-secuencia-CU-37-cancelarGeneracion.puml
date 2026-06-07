@@ -1,0 +1,50 @@
+@startuml secuencia-cu37-cancelar-generacion
+title Diagrama de Secuencia - Cancelar Generación de Examen
+
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorExamen" as Controller
+participant "ServicioExamen" as Service
+participant "RepositorioExamenAlumno" as RepoExAl
+participant "RepositorioExamen" as RepoExamen
+database "Base de Datos\n(PostgreSQL)" as DB
+
+Actor -> FE : Pulsa "Cancelar Generación" en el examen
+activate FE
+
+FE -> Controller : DELETE /api/examenes/{id}
+activate Controller
+
+Controller -> Service : cancelarGeneracion(examenId)
+activate Service
+
+Service -> RepoExAl : findByExamenId(examenId)
+activate RepoExAl
+RepoExAl -> DB : SELECT examen_alumnos WHERE examen_id = ?
+DB --> RepoExAl : lista_ejemplares
+RepoExAl --> Service : List<ExamenAlumno>
+deactivate RepoExAl
+
+alt Examen tiene ejemplares asignados
+    Service --> Controller : throw RuntimeException("No se puede cancelar")
+    Controller --> FE : 400 Bad Request
+    FE --> Actor : Muestra error: examen ya asignado
+else Sin ejemplares (aún no asignado)
+    Service -> RepoExamen : deleteById(examenId)
+    activate RepoExamen
+    RepoExamen -> DB : DELETE FROM examenes WHERE id = ?
+    DB --> RepoExamen : ok
+    RepoExamen --> Service : ok
+    deactivate RepoExamen
+
+    Service --> Controller : void
+    deactivate Service
+
+    Controller --> FE : 200 OK
+    deactivate Controller
+
+    FE --> Actor : Elimina el examen de la lista
+    deactivate FE
+end
+
+@enduml

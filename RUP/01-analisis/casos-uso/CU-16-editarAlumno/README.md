@@ -1,59 +1,59 @@
-﻿# Jorgestor > CU-16-editarAlumno > AnÃ¡lisis
+﻿# Jorgestor > CU-16-editarAlumno > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis del caso de uso Editar Alumno. Permite modificar informaciÃ³n personal o eliminar el registro.
+Análisis del caso de uso Editar Alumno. Permite modificar información personal o eliminar el registro.
 
-## diagrama de colaboraciÃ³n
+## diagrama de colaboración
 
 <div align=center>
 
-|![AnÃ¡lisis: editarAlumno()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-16-editarAlumno.puml&fmt=svg)|
+|![Análisis: editarAlumno()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-16-editarAlumno.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-16-editarAlumno.puml](analisis-colaboracion-CU-16-editarAlumno.puml)|
+|Código fuente: [analisis-colaboracion-CU-16-editarAlumno.puml](analisis-colaboracion-CU-16-editarAlumno.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
-|**Student**|La entidad alumno que se estÃ¡ editando|Modelo del dominio|
+|**Student**|La entidad alumno que se está editando|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
-|**StudentEditView**|Interfaz para visualizaciÃ³n y ediciÃ³n de datos (DNI, Nombre, Apellidos)|Wireframe|
+|**StudentEditView**|Interfaz para visualización y edición de datos (DNI, Nombre, Apellidos)|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**StudentController**|Coordina actualizaciÃ³n de datos y gestiona eliminaciÃ³n|editarAlumno()|
+|**StudentController**|Coordina actualización de datos y gestiona eliminación|editarAlumno()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
 |**Docente**|**StudentEditView**|`modificarDatos(datos)`|Introducir cambios|
-|**StudentEditView**|**StudentController**|`guardar(datos)`|Solicitar actualizaciÃ³n|
+|**StudentEditView**|**StudentController**|`guardar(datos)`|Solicitar actualización|
 |**StudentController**|**Student**|`actualizar(datos)`|Persistir cambios|
-|**Docente**|**StudentEditView**|`eliminarAlumno()`|Solicitar eliminaciÃ³n|
-|**StudentEditView**|**StudentController**|`eliminar()`|Gestionar eliminaciÃ³n|
+|**Docente**|**StudentEditView**|`eliminarAlumno()`|Solicitar eliminación|
+|**StudentEditView**|**StudentController**|`eliminar()`|Gestionar eliminación|
 |**StudentController**|**Student**|`delete()`|Eliminar entidad|
 
 ## trazabilidad con artefactos previos
 
-- **IdentificaciÃ³n**: Permite mantener actualizados los datos identificativos de los estudiantes.
+- **Identificación**: Permite mantener actualizados los datos identificativos de los estudiantes.
 
 ```plantuml
 @startuml editarAlumno-analisis

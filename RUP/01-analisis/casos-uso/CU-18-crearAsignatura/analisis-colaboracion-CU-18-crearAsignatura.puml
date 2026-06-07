@@ -1,21 +1,21 @@
-@startuml crearAsignatura-analisis
+﻿@startuml crearAsignatura-analisis
 skinparam linetype polyline
 
 actor Docente
 package crearAsignatura as "crearAsignatura()" {
-    rectangle #629EF9 SubjectCreationView
-    rectangle #b5bd68 SubjectController
-    rectangle #F2AC4E Subject
-    rectangle #F2AC4E QuestionBank
-    rectangle #F2AC4E Student
-    rectangle #F2AC4E Grade
+    rectangle #629EF9 VistaCreacionAsignatura
+    rectangle #b5bd68 ControladorAsignaturas
+    rectangle #F2AC4E Asignatura
+    rectangle #F2AC4E BancoPreguntas
+    rectangle #F2AC4E Alumno
+    rectangle #F2AC4E Grado
 }
 
-Docente -r-> SubjectCreationView: solicitarCreacion()
-Docente --> SubjectCreationView: introducirDatos(nombre, codigo, curso)
-SubjectCreationView -d-> SubjectController: crearAsignatura(datos)
-SubjectController --> Subject: inicializar(datos)
-SubjectController --> QuestionBank: crearBateria()
-SubjectController --> SubjectCreationView: notificarExitoYRedirigir()
+Docente -r-> VistaCreacionAsignatura: solicitarCreacion()
+Docente --> VistaCreacionAsignatura: introducirDatos(nombre, codigo, curso)
+VistaCreacionAsignatura -d-> ControladorAsignaturas: crearAsignatura(datos)
+ControladorAsignaturas --> Asignatura: inicializar(datos)
+ControladorAsignaturas --> BancoPreguntas: crearBateria()
+ControladorAsignaturas --> VistaCreacionAsignatura: notificarExitoYRedirigir()
 
 @enduml

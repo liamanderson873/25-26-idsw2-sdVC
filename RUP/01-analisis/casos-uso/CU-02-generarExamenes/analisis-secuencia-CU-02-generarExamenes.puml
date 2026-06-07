@@ -1,44 +1,36 @@
-@startuml CU-02-generarExamenes-diseno
-
-skinparam linetype polyline
+﻿@startuml cu02-generarExamenes-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-02: Generar Exámenes
 
 actor "Docente" as Actor
-participant ":ExamGenerationController" as Controller <<boundary>>
-participant ":ExamGenerationService" as Service <<control>>
-participant ":QuestionRepository" as QRepo <<entity>>
-participant ":ExamRepository" as ERepo <<entity>>
-participant "exam:Exam" as Entity <<entity>>
+participant ":VistaGeneracionExamen" as Boundary <<boundary>>
+participant ":ControladorGeneracionExamen" as Control <<control>>
+participant ":Examen" as Entity <<entity>>
 
-title Diseño Técnico: generarExamenes() (Algoritmo Aleatorio)
+Actor -> Boundary : configurarGeneracion(parametros)
+activate Boundary
 
-Actor -> Controller : POST /api/exams/generate (GenerateExamDTO)
-activate Controller
+Boundary -> Control : generarExamenes(parametros)
+activate Control
 
-Controller -> Service : generateExams(dto)
-activate Service
+Control -> Entity : seleccionarPreguntas(asignatura, temas, dificultad)
+activate Entity
+Entity --> Control : preguntasSeleccionadas
+deactivate Entity
 
-Service -> QRepo : findAvailableQuestions(subject, topics, difficulty)
-activate QRepo
-return List<Question>
+Control -> Entity : crearExamen(preguntas, alumno)
+activate Entity
+Entity --> Control : examen
+deactivate Entity
 
-alt isPersonalized == true
-    loop por cada alumno
-        Service -> Service : shuffleAndPickQuestions(questions, count)
-        Service -> Entity : new Exam(picked_questions)
-        Service -> ERepo : save(exam)
-    end
-else isPersonalized == false (Modelo Único)
-    Service -> Service : shuffleAndPickQuestions(questions, count)
-    loop por cada alumno
-        Service -> Entity : new Exam(shared_questions)
-        Service -> ERepo : save(exam)
-    end
-end
+Control -> Entity : guardar(examen)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
 
-Service --> Controller : GenerationReport
-deactivate Service
+Control --> Boundary : informeGeneracion
+deactivate Control
 
-Controller --> Actor : 201 Created (JSON Report)
-deactivate Controller
+Boundary --> Actor : mostrarInforme(informe)
+deactivate Boundary
 
 @enduml

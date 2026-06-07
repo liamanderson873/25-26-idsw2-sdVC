@@ -1,39 +1,39 @@
-﻿# Jorgestor > CU-21-verAsignaturas > AnÃ¡lisis
+﻿# Jorgestor > CU-21-verAsignaturas > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis del caso de uso Ver Asignaturas. Enfocado en la visualizaciÃ³n y filtrado de las materias.
+Análisis del caso de uso Ver Asignaturas. Enfocado en la visualización y filtrado de las materias.
 
-## diagrama de colaboraciÃ³n
+## diagrama de colaboración
 
 <div align=center>
 
-|![AnÃ¡lisis: verAsignaturas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-21-verAsignaturas.puml&fmt=svg)|
+|![Análisis: verAsignaturas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-21-verAsignaturas.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-21-verAsignaturas.puml](analisis-colaboracion-CU-21-verAsignaturas.puml)|
+|Código fuente: [analisis-colaboracion-CU-21-verAsignaturas.puml](analisis-colaboracion-CU-21-verAsignaturas.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
-|**Subject**|Representa la asignatura con su informaciÃ³n bÃ¡sica y relaciones|Modelo del dominio|
+|**Subject**|Representa la asignatura con su información básica y relaciones|Modelo del dominio|
 |**Student**|Necesario para contabilizar o listar los alumnos matriculados|Modelo del dominio|
 |**Grade**|Necesario para mostrar los grados asociados|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
 |**SubjectListView**|Interfaz para visualizar lista y solicitar filtrado|Wireframe|
 
@@ -42,12 +42,12 @@ AnÃ¡lisis del caso de uso Ver Asignaturas. Enfocado en la visualizaciÃ³n y f
 |-|-|-|
 |**SubjectController**|Recupera lista completa y procesa solicitudes de filtrado|verAsignaturas()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
-|**Docente**|**SubjectListView**|`solicitarVerAsignaturas()`|Iniciar visualizaciÃ³n|
-|**SubjectListView**|**SubjectController**|`obtenerLista()`|Delegar recuperaciÃ³n|
+|**Docente**|**SubjectListView**|`solicitarVerAsignaturas()`|Iniciar visualización|
+|**SubjectListView**|**SubjectController**|`obtenerLista()`|Delegar recuperación|
 |**SubjectController**|**Subject**|`consultarTodos()`|Consultar entidades|
 |**Docente**|**SubjectListView**|`aplicarFiltro(criterios)`|Solicitar filtrado|
 |**SubjectListView**|**SubjectController**|`filtrar(criterios)`|Procesar criterios|

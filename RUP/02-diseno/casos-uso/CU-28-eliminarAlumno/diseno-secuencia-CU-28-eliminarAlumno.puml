@@ -1,41 +1,49 @@
 @startuml secuencia-cu28-eliminar-alumno
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+title Diagrama de Secuencia - Eliminar Alumno
 
-actor Docente
-participant "ControladorAlumno" as Boundary <<Boundary>>
-participant "ServicioAlumno" as Control <<Control>>
-participant "RepositorioAlumno" as RepoAlumno <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorAlumno" as Controller
+participant "ServicioAlumno" as Service
+participant "RepositorioAlumno" as RepoAlumno
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : DELETE /api/alumnos/{id}
-activate Boundary
+Actor -> FE : Pulsa "Eliminar" en el alumno
+activate FE
 
-Boundary -> Control : eliminar(id)
-activate Control
+FE -> Controller : DELETE /api/alumnos/{id}
+activate Controller
 
-Control -> RepoAlumno : existsById(id)
+Controller -> Service : eliminar(id)
+activate Service
+
+Service -> RepoAlumno : existsById(id)
 activate RepoAlumno
 RepoAlumno -> DB : SELECT EXISTS
 DB --> RepoAlumno : true/false
-RepoAlumno --> Control : boolean
+RepoAlumno --> Service : boolean
 deactivate RepoAlumno
 
 alt Alumno existe
-    Control -> RepoAlumno : deleteById(id)
+    Service -> RepoAlumno : deleteById(id)
     activate RepoAlumno
     RepoAlumno -> DB : DELETE FROM alumnos
     DB --> RepoAlumno : ok
-    RepoAlumno --> Control : ok
+    RepoAlumno --> Service : ok
     deactivate RepoAlumno
-    Control --> Boundary : void
-    Boundary --> Docente : 200 OK
-else Alumno no existe
-    Control --> Boundary : throw RuntimeException
-    Boundary --> Docente : 400 Bad Request
-end
 
-deactivate Control
-deactivate Boundary
+    Service --> Controller : void
+    deactivate Service
+
+    Controller --> FE : 200 OK
+    deactivate Controller
+
+    FE --> Actor : Elimina la fila de la tabla
+    deactivate FE
+else Alumno no existe
+    Service --> Controller : throw RuntimeException
+    Controller --> FE : 400 Bad Request
+    FE --> Actor : Muestra error
+end
 
 @enduml

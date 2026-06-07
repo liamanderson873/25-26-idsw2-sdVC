@@ -1,30 +1,36 @@
-@startuml secuencia-cu21-ver-asignatura
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+@startuml secuencia-cu21-ver-asignaturas
+title Diagrama de Secuencia - Ver Asignaturas
 
-actor Docente
-participant "ControladorAsignatura" as Boundary <<Boundary>>
-participant "ServicioAsignatura" as Control <<Control>>
-participant "RepositorioAsignatura" as RepoAsig <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorAsignatura" as Controller
+participant "ServicioAsignatura" as Service
+participant "RepositorioAsignatura" as RepoAsig
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : GET /api/asignaturas
-activate Boundary
+Actor -> FE : Navega a "Asignaturas"
+activate FE
 
-Boundary -> Control : listarTodos()
-activate Control
+FE -> Controller : GET /api/asignaturas
+activate Controller
 
-Control -> RepoAsig : findAll()
+Controller -> Service : listarTodos()
+activate Service
+
+Service -> RepoAsig : findAll()
 activate RepoAsig
 RepoAsig -> DB : SELECT * FROM asignaturas
 DB --> RepoAsig : lista de asignaturas
-RepoAsig --> Control : List<Asignatura>
+RepoAsig --> Service : List<Asignatura>
 deactivate RepoAsig
 
-Control --> Boundary : List<DTO_Asignatura>
-deactivate Control
+Service --> Controller : List<DTO_Asignatura>
+deactivate Service
 
-Boundary --> Docente : 200 OK (JSON lista)
-deactivate Boundary
+Controller --> FE : 200 OK (JSON lista)
+deactivate Controller
+
+FE --> Actor : Muestra tabla de asignaturas
+deactivate FE
 
 @enduml

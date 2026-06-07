@@ -1,0 +1,31 @@
+﻿@startuml cu30-iniciarSesion-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-30: Iniciar Sesión
+
+actor "UsuarioNoRegistrado" as Actor
+participant ":VistaInicioSesion" as Boundary <<boundary>>
+participant ":ControladorInicioSesion" as Control <<control>>
+participant ":Usuario" as Entity <<entity>>
+
+Actor -> Boundary : introducirCredenciales(usuario, password)
+activate Boundary
+
+Boundary -> Control : autenticar(usuario, password)
+activate Control
+
+Control -> Entity : buscarPorUsuario(usuario)
+activate Entity
+Entity --> Control : user
+deactivate Entity
+
+Control -> Entity : validarPassword(password)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
+
+Control --> Boundary : sesionIniciada
+deactivate Control
+
+Boundary --> Actor : redirigirAlPanel()
+deactivate Boundary
+
+@enduml

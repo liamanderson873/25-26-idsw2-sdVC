@@ -1,62 +1,62 @@
-﻿# Jorgestor > CU-18-crearAsignatura > AnÃ¡lisis
+﻿# Jorgestor > CU-18-crearAsignatura > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis del caso de uso Crear Asignatura. Implica la inicializaciÃ³n de recursos vinculados.
+Análisis del caso de uso Crear Asignatura. Implica la inicialización de recursos vinculados.
 
-## diagrama de colaboraciÃ³n
+## diagrama de colaboración
 
 <div align=center>
 
-|![AnÃ¡lisis: crearAsignatura()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-18-crearAsignatura.puml&fmt=svg)|
+|![Análisis: crearAsignatura()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-18-crearAsignatura.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-18-crearAsignatura.puml](analisis-colaboracion-CU-18-crearAsignatura.puml)|
+|Código fuente: [analisis-colaboracion-CU-18-crearAsignatura.puml](analisis-colaboracion-CU-18-crearAsignatura.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
 |**Subject**|La nueva entidad asignatura|Modelo del dominio|
-|**QuestionBank**|BaterÃ­a de preguntas asociada (conceptual)|AnÃ¡lisis|
+|**QuestionBank**|Batería de preguntas asociada (conceptual)|Análisis|
 |**Student**|Alumnos matriculados|Modelo del dominio|
 |**Grade**|Grados asociados|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
-|**SubjectCreationView**|Interfaz para introducir datos mÃ­nimos, alumnos y grados|Wireframe|
+|**SubjectCreationView**|Interfaz para introducir datos mínimos, alumnos y grados|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**SubjectController**|Gestiona creaciÃ³n e inicializaciÃ³n de recursos vinculados|crearAsignatura()|
+|**SubjectController**|Gestiona creación e inicialización de recursos vinculados|crearAsignatura()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
 |**Docente**|**SubjectCreationView**|`solicitarCreacion()`|Iniciar proceso|
-|**Docente**|**SubjectCreationView**|`introducirDatos(nombre, codigo, curso)`|Enviar informaciÃ³n obligatoria|
-|**SubjectCreationView**|**SubjectController**|`crearAsignatura(datos)`|Delegar creaciÃ³n|
+|**Docente**|**SubjectCreationView**|`introducirDatos(nombre, codigo, curso)`|Enviar información obligatoria|
+|**SubjectCreationView**|**SubjectController**|`crearAsignatura(datos)`|Delegar creación|
 |**SubjectController**|**Subject**|`inicializar(datos)`|Crear entidad|
 |**SubjectController**|**QuestionBank**|`crearBateria()`|Inicializar espacio de trabajo|
-|**SubjectController**|**SubjectCreationView**|`notificarExitoYRedirigir()`|Informar y pasar a ediciÃ³n|
+|**SubjectController**|**SubjectCreationView**|`notificarExitoYRedirigir()`|Informar y pasar a edición|
 
 ## trazabilidad con artefactos previos
 
-- **Recursos**: Desencadena la creaciÃ³n de un espacio de trabajo (baterÃ­a de preguntas).
+- **Recursos**: Desencadena la creación de un espacio de trabajo (batería de preguntas).
 
 ```plantuml
 @startuml crearAsignatura-analisis

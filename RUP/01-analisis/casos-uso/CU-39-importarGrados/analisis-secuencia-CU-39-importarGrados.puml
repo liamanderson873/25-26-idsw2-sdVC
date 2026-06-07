@@ -1,0 +1,31 @@
+﻿@startuml cu39-importarGrados-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-39: Importar Grados
+
+actor "Docente" as Actor
+participant ":VistaImportacionGrados" as Boundary <<boundary>>
+participant ":ControladorImportacionGrados" as Control <<control>>
+participant ":Grado" as Entity <<entity>>
+
+Actor -> Boundary : subirFichero(ficheroJSON)
+activate Boundary
+
+Boundary -> Control : importarGrados(listaGrados)
+activate Control
+
+Control -> Entity : validarDatos(grado)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
+
+Control -> Entity : guardarOActualizar(grado)
+activate Entity
+Entity --> Control : grado
+deactivate Entity
+
+Control --> Boundary : confirmacion
+deactivate Control
+
+Boundary --> Actor : mostrarConfirmacion()
+deactivate Boundary
+
+@enduml

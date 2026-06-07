@@ -1,0 +1,36 @@
+﻿@startuml cu10-crearPregunta-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-10: Crear Pregunta
+
+actor "Docente" as Actor
+participant ":VistaCreacionPregunta" as Boundary <<boundary>>
+participant ":ControladorGestionPreguntas" as Control <<control>>
+participant ":Pregunta" as Entity <<entity>>
+
+Actor -> Boundary : introducirDatos(enunciado, asignatura, respuestas)
+activate Boundary
+
+Boundary -> Control : crearPregunta(datos)
+activate Control
+
+Control -> Entity : validarAsignatura(codigoAsignatura)
+activate Entity
+Entity --> Control : asignatura
+deactivate Entity
+
+Control -> Entity : inicializar(datos)
+activate Entity
+Entity --> Control : pregunta
+deactivate Entity
+
+Control -> Entity : guardar(pregunta)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
+
+Control --> Boundary : confirmacion
+deactivate Control
+
+Boundary --> Actor : mostrarConfirmacion()
+deactivate Boundary
+
+@enduml

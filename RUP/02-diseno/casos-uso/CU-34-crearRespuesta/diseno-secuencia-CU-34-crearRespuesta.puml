@@ -1,0 +1,53 @@
+@startuml secuencia-cu34-crear-respuesta
+title Diagrama de Secuencia - Crear Respuesta
+
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorPregunta" as Controller
+participant "ServicioPregunta" as Service
+participant "RepositorioPregunta" as RepoPreg
+participant "RepositorioRespuesta" as RepoResp
+database "Base de Datos\n(PostgreSQL)" as DB
+
+Actor -> FE : Añade nueva respuesta a una pregunta
+activate FE
+
+FE -> Controller : POST /api/preguntas (DTO_Pregunta con nueva respuesta)
+activate Controller
+
+Controller -> Service : guardarIndividual(dto)
+activate Service
+
+Service -> RepoPreg : findById(preguntaId)
+activate RepoPreg
+RepoPreg -> DB : SELECT pregunta
+DB --> RepoPreg : pregunta
+RepoPreg --> Service : Optional<Pregunta>
+deactivate RepoPreg
+
+Service -> RepoResp : deleteByPregunta(pregunta)
+activate RepoResp
+RepoResp -> DB : DELETE respuestas anteriores
+DB --> RepoResp : ok
+RepoResp --> Service : ok
+deactivate RepoResp
+
+loop por cada respuesta (incluida la nueva)
+    Service -> RepoResp : save(respuesta)
+    activate RepoResp
+    RepoResp -> DB : INSERT respuesta
+    DB --> RepoResp : ok
+    RepoResp --> Service : ok
+    deactivate RepoResp
+end
+
+Service --> Controller : void
+deactivate Service
+
+Controller --> FE : 200 OK
+deactivate Controller
+
+FE --> Actor : Muestra pregunta con la nueva respuesta
+deactivate FE
+
+@enduml

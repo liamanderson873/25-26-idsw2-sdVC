@@ -1,57 +1,57 @@
-﻿# Jorgestor > CU-32-completarGestion > AnÃ¡lisis
+﻿# Jorgestor > CU-32-completarGestion > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Completar GestiÃ³n, siguiendo la metodologÃ­a RUP. Permite analizar la transiciÃ³n desde estados de gestiÃ³n hacia la disponibilidad general del sistema.
+Análisis tecnológico agnóstico del caso de uso Completar Gestión, siguiendo la metodología RUP. Permite analizar la transición desde estados de gestión hacia la disponibilidad general del sistema.
 
-## diagrama de colaboraciÃ³n
+## diagrama de colaboración
 
 <div align=center>
 
-|![AnÃ¡lisis: completarGestion()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-32-completarGestion/analisis-colaboracion-CU-32-completarGestion.puml&fmt=svg)|
+|![Análisis: completarGestion()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-32-completarGestion/analisis-colaboracion-CU-32-completarGestion.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-32-completarGestion.puml](analisis-colaboracion-CU-32-completarGestion.puml)|
+|Código fuente: [analisis-colaboracion-CU-32-completarGestion.puml](analisis-colaboracion-CU-32-completarGestion.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
-|**SystemState**|Representa el estado global y la navegaciÃ³n del sistema|Modelo del dominio|
+|**SystemState**|Representa el estado global y la navegación del sistema|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
-|**ManagementView**|Interfaz comÃºn para Ã¡reas de gestiÃ³n que permite finalizar la operaciÃ³n|Wireframe|
+|**ManagementView**|Interfaz común para áreas de gestión que permite finalizar la operación|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**ManagementController**|Gestiona la transiciÃ³n de estado y asegura el procesado de cambios|completarGestion()|
+|**ManagementController**|Gestiona la transición de estado y asegura el procesado de cambios|completarGestion()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
-|**Usuario**|**ManagementView**|`completarGestion()`|Solicitar la finalizaciÃ³n de la gestiÃ³n actual|
+|**Usuario**|**ManagementView**|`completarGestion()`|Solicitar la finalización de la gestión actual|
 |**ManagementView**|**ManagementController**|`finalizar()`|Coordinar el retorno al estado de disponibilidad|
 |**ManagementController**|**SystemState**|`setDisponible()`|Actualizar el estado global del sistema|
 
 ## trazabilidad con artefactos previos
 
-### con especificaciÃ³n detallada
-- **Estados internos** â†’ `PresentandoOpciones`
+### con especificación detallada
+- **Estados internos** �?' `PresentandoOpciones`
 
 
 ```plantuml

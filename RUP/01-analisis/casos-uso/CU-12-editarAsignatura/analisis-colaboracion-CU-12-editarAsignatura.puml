@@ -1,25 +1,25 @@
-@startuml editarAsignatura-analisis
+﻿@startuml editarAsignatura-analisis
 skinparam linetype polyline
 
 actor Docente
 package editarAsignatura as "editarAsignatura()" {
-    rectangle #629EF9 SubjectEditView
-    rectangle #b5bd68 SubjectController
-    rectangle #F2AC4E Subject
-    rectangle #F2AC4E Grade
-    rectangle #F2AC4E Student
-    rectangle #F2AC4E Question
+    rectangle #629EF9 VistaEdicionAsignatura
+    rectangle #b5bd68 ControladorAsignaturas
+    rectangle #F2AC4E Asignatura
+    rectangle #F2AC4E Grado
+    rectangle #F2AC4E Alumno
+    rectangle #F2AC4E Pregunta
 }
 
-Docente -r-> SubjectEditView: modificarDatos(datos)
-SubjectEditView -d-> SubjectController: guardar(datos)
-SubjectController --> Subject: actualizar(datos)
+Docente -r-> VistaEdicionAsignatura: modificarDatos(datos)
+VistaEdicionAsignatura -d-> ControladorAsignaturas: guardar(datos)
+ControladorAsignaturas --> Asignatura: actualizar(datos)
 
-Docente --> SubjectEditView: verBateriaPreguntas()
-SubjectEditView --> SubjectController: abrirPreguntas()
+Docente --> VistaEdicionAsignatura: verBateriaPreguntas()
+VistaEdicionAsignatura --> ControladorAsignaturas: abrirPreguntas()
 
-Docente --> SubjectEditView: eliminarAsignatura()
-SubjectEditView --> SubjectController: eliminar()
-SubjectController --> Subject: delete()
+Docente --> VistaEdicionAsignatura: eliminarAsignatura()
+VistaEdicionAsignatura --> ControladorAsignaturas: eliminar()
+ControladorAsignaturas --> Asignatura: delete()
 
 @enduml

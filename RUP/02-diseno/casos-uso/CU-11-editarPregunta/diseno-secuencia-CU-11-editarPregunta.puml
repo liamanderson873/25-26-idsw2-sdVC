@@ -1,62 +1,68 @@
 @startuml secuencia-cu11-editar-pregunta
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+title Diagrama de Secuencia - Editar Pregunta
 
-actor Docente
-participant "ControladorPregunta" as Boundary <<Boundary>>
-participant "ServicioPregunta" as Control <<Control>>
-participant "RepositorioTema" as RepoTema <<Entity>>
-participant "RepositorioPregunta" as RepoPregunta <<Entity>>
-participant "RepositorioRespuesta" as RepoRespuesta <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorPregunta" as Controller
+participant "ServicioPregunta" as Service
+participant "RepositorioTema" as RepoTema
+participant "RepositorioPregunta" as RepoPreg
+participant "RepositorioRespuesta" as RepoResp
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : POST /api/preguntas (DTO_Pregunta con ID)
-activate Boundary
+Actor -> FE : Modifica datos de la pregunta
+activate FE
 
-Boundary -> Control : guardarIndividual(dto)
-activate Control
+FE -> Controller : POST /api/preguntas (DTO_Pregunta con ID)
+activate Controller
 
-Control -> RepoTema : findById(temaId)
+Controller -> Service : guardarIndividual(dto)
+activate Service
+
+Service -> RepoTema : findById(temaId)
 activate RepoTema
 RepoTema -> DB : SELECT tema
 DB --> RepoTema : tema
-RepoTema --> Control : Optional<Tema>
+RepoTema --> Service : Optional<Tema>
 deactivate RepoTema
 
-Control -> RepoPregunta : findById(id)
-activate RepoPregunta
-RepoPregunta -> DB : SELECT pregunta
-DB --> RepoPregunta : preguntaExistente
-RepoPregunta --> Control : Optional<Pregunta>
-deactivate RepoPregunta
+Service -> RepoPreg : findById(id)
+activate RepoPreg
+RepoPreg -> DB : SELECT pregunta
+DB --> RepoPreg : preguntaExistente
+RepoPreg --> Service : Optional<Pregunta>
+deactivate RepoPreg
 
-Control -> RepoRespuesta : deleteByPregunta(pregunta)
-activate RepoRespuesta
-RepoRespuesta -> DB : DELETE FROM respuestas WHERE pregunta_id = ?
-DB --> RepoRespuesta : ok
-RepoRespuesta --> Control : ok
-deactivate RepoRespuesta
+Service -> RepoResp : deleteByPregunta(pregunta)
+activate RepoResp
+RepoResp -> DB : DELETE FROM respuestas WHERE pregunta_id = ?
+DB --> RepoResp : ok
+RepoResp --> Service : ok
+deactivate RepoResp
 
-Control -> RepoPregunta : save(preguntaActualizada)
-activate RepoPregunta
-RepoPregunta -> DB : UPDATE pregunta
-DB --> RepoPregunta : ok
-RepoPregunta --> Control : ok
-deactivate RepoPregunta
+Service -> RepoPreg : save(preguntaActualizada)
+activate RepoPreg
+RepoPreg -> DB : UPDATE pregunta
+DB --> RepoPreg : ok
+RepoPreg --> Service : ok
+deactivate RepoPreg
 
 loop por cada DTO_Respuesta
-    Control -> RepoRespuesta : save(nuevaRespuesta)
-    activate RepoRespuesta
-    RepoRespuesta -> DB : INSERT respuesta
-    DB --> RepoRespuesta : ok
-    RepoRespuesta --> Control : ok
-    deactivate RepoRespuesta
+    Service -> RepoResp : save(nuevaRespuesta)
+    activate RepoResp
+    RepoResp -> DB : INSERT respuesta
+    DB --> RepoResp : ok
+    RepoResp --> Service : ok
+    deactivate RepoResp
 end
 
-Control --> Boundary : void
-deactivate Control
+Service --> Controller : void
+deactivate Service
 
-Boundary --> Docente : 200 OK
-deactivate Boundary
+Controller --> FE : 200 OK
+deactivate Controller
+
+FE --> Actor : Muestra pregunta actualizada
+deactivate FE
 
 @enduml

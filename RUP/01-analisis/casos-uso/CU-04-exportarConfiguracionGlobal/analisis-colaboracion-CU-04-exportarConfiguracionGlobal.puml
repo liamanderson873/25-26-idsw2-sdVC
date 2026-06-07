@@ -1,26 +1,26 @@
-@startuml exportarConfiguracionGlobal-analisis
+﻿@startuml exportarConfiguracionGlobal-analisis
 skinparam linetype polyline
 
 actor Docente
 package exportarConfiguracionGlobal as "exportarConfiguracionGlobal()" {
-    rectangle #629EF9 GlobalConfigExportView
-    rectangle #b5bd68 ExportController
-    rectangle #F2AC4E Student
-    rectangle #F2AC4E Grade
-    rectangle #F2AC4E Subject
-    rectangle #F2AC4E Question
+    rectangle #629EF9 VistaExportConfigGlobal
+    rectangle #b5bd68 ControladorExportacion
+    rectangle #F2AC4E Alumno
+    rectangle #F2AC4E Grado
+    rectangle #F2AC4E Asignatura
+    rectangle #F2AC4E Pregunta
 }
 
-Docente -r-> GlobalConfigExportView: exportarConfiguracion(opciones)
-GlobalConfigExportView -d-> ExportController: recopilarDatos(opciones)
+Docente -r-> VistaExportConfigGlobal: exportarConfiguracion(opciones)
+VistaExportConfigGlobal -d-> ControladorExportacion: recopilarDatos(opciones)
 
-ExportController --> Student: obtenerTodos()
-ExportController --> Grade: obtenerTodos()
-ExportController --> Subject: obtenerTodos()
-ExportController --> Question: obtenerTodos()
+ControladorExportacion --> Alumno: obtenerTodos()
+ControladorExportacion --> Grado: obtenerTodos()
+ControladorExportacion --> Asignatura: obtenerTodos()
+ControladorExportacion --> Pregunta: obtenerTodos()
 
-ExportController --> GlobalConfigExportView: mostrarConfirmacion()
-Docente --> GlobalConfigExportView: confirmarExportacion()
-GlobalConfigExportView --> ExportController: generarArchivo()
+ControladorExportacion --> VistaExportConfigGlobal: mostrarConfirmacion()
+Docente --> VistaExportConfigGlobal: confirmarExportacion()
+VistaExportConfigGlobal --> ControladorExportacion: generarArchivo()
 
 @enduml

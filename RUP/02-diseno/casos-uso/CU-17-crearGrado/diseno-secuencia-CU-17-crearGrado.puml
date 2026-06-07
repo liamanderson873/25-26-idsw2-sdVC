@@ -1,37 +1,43 @@
 @startuml secuencia-cu17-crear-grado
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+title Diagrama de Secuencia - Crear Grado
 
-actor Docente
-participant "ControladorGrado" as Boundary <<Boundary>>
-participant "ServicioGrado" as Control <<Control>>
-participant "RepositorioGrado" as RepoGrado <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorGrado" as Controller
+participant "ServicioGrado" as Service
+participant "RepositorioGrado" as RepoGrado
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : POST /api/grados (DTO_Grado)
-activate Boundary
+Actor -> FE : Introduce nombre y código del grado
+activate FE
 
-Boundary -> Control : crearOActualizar(dto)
-activate Control
+FE -> Controller : POST /api/grados (DTO_Grado)
+activate Controller
 
-Control -> RepoGrado : findByCodigo(codigo)
+Controller -> Service : crearOActualizar(dto)
+activate Service
+
+Service -> RepoGrado : findByCodigo(codigo)
 activate RepoGrado
 RepoGrado -> DB : SELECT grado
 DB --> RepoGrado : null
-RepoGrado --> Control : Optional.empty()
+RepoGrado --> Service : Optional.empty()
 deactivate RepoGrado
 
-Control -> RepoGrado : save(nuevoGrado)
+Service -> RepoGrado : save(nuevoGrado)
 activate RepoGrado
 RepoGrado -> DB : INSERT grado
 DB --> RepoGrado : ok
-RepoGrado --> Control : grado
+RepoGrado --> Service : grado
 deactivate RepoGrado
 
-Control --> Boundary : void
-deactivate Control
+Service --> Controller : void
+deactivate Service
 
-Boundary --> Docente : 200 OK
-deactivate Boundary
+Controller --> FE : 200 OK
+deactivate Controller
+
+FE --> Actor : Muestra grado creado en tabla
+deactivate FE
 
 @enduml

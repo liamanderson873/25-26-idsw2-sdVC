@@ -1,24 +1,24 @@
-@startuml generarExamenes-analisis
+﻿@startuml generarExamenes-analisis
 skinparam linetype polyline
 
 actor Docente
 package generarExamenes as "generarExamenes()" {
-    rectangle #629EF9 GenerationView
-    rectangle #b5bd68 GenerationController
-    rectangle #F2AC4E Subject
-    rectangle #F2AC4E Topic
-    rectangle #F2AC4E Question
-    rectangle #F2AC4E Exam
+    rectangle #629EF9 VistaGeneracion
+    rectangle #b5bd68 ControladorGeneracion
+    rectangle #F2AC4E Asignatura
+    rectangle #F2AC4E Tema
+    rectangle #F2AC4E Pregunta
+    rectangle #F2AC4E Examen
 }
 
-Docente -r-> GenerationView: seleccionarAsignatura()
-GenerationView -d-> GenerationController: obtenerTemas(asignatura)
-GenerationController --> Subject: getTemas()
-Subject --> Topic
+Docente -r-> VistaGeneracion: seleccionarAsignatura()
+VistaGeneracion -d-> ControladorGeneracion: obtenerTemas(asignatura)
+ControladorGeneracion --> Asignatura: getTemas()
+Asignatura --> Tema
 
-Docente --> GenerationView: generarExamenes(parametros)
-GenerationView --> GenerationController: generar(parametros)
-GenerationController --> Question: filtrarPorParametros(parametros)
-GenerationController --> Exam: crearExamen(preguntas)
+Docente --> VistaGeneracion: generarExamenes(parametros)
+VistaGeneracion --> ControladorGeneracion: generar(parametros)
+ControladorGeneracion --> Pregunta: filtrarPorParametros(parametros)
+ControladorGeneracion --> Examen: crearExamen(preguntas)
 
 @enduml

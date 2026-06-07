@@ -1,0 +1,36 @@
+﻿@startuml cu14-crearAlumno-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-14: Crear Alumno
+
+actor "Docente" as Actor
+participant ":VistaCreacionAlumno" as Boundary <<boundary>>
+participant ":ControladorAlumnos" as Control <<control>>
+participant ":Alumno" as Entity <<entity>>
+
+Actor -> Boundary : introducirDatos(dni, nombre, apellidos, grado)
+activate Boundary
+
+Boundary -> Control : crearAlumno(datos)
+activate Control
+
+Control -> Entity : validarNoDuplicado(dni)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
+
+Control -> Entity : inicializar(datos)
+activate Entity
+Entity --> Control : alumno
+deactivate Entity
+
+Control -> Entity : guardar(alumno)
+activate Entity
+Entity --> Control : ok
+deactivate Entity
+
+Control --> Boundary : confirmacion
+deactivate Control
+
+Boundary --> Actor : mostrarConfirmacion()
+deactivate Boundary
+
+@enduml

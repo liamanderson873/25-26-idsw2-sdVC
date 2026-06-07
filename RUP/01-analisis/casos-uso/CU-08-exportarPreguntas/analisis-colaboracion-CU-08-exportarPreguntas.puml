@@ -1,18 +1,17 @@
 @startuml exportarPreguntas-analisis
 skinparam linetype polyline
 
-actor Docente
+note "<<abstracto>>\nInvocado desde CU-04: exportarConfiguracionGlobal" as N1
 package exportarPreguntas as "exportarPreguntas()" {
-    rectangle #629EF9 QuestionExportView
-    rectangle #b5bd68 ExportController
-    rectangle #F2AC4E Question
-    rectangle #F2AC4E Answer
+    rectangle #629EF9 VistaExportacionPreguntas
+    rectangle #b5bd68 ControladorExportacion
+    rectangle #F2AC4E Pregunta
+    rectangle #F2AC4E Respuesta
 }
 
-Docente -r-> QuestionExportView: exportarPreguntas()
-QuestionExportView -d-> ExportController: recopilarPreguntas()
-ExportController --> Question: obtenerPreguntas()
-ExportController --> Answer: obtenerRespuestas(pregunta)
-ExportController --> QuestionExportView: notificarExito()
+VistaExportacionPreguntas -d-> ControladorExportacion: recopilarPreguntas()
+ControladorExportacion --> Pregunta: obtenerPreguntas()
+ControladorExportacion --> Respuesta: obtenerRespuestas(pregunta)
+ControladorExportacion --> VistaExportacionPreguntas: ficheroJSON
 
 @enduml

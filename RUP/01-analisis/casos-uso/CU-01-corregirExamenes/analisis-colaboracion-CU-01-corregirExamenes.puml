@@ -1,18 +1,18 @@
-@startuml corregirExamenes-analisis
+﻿@startuml corregirExamenes-analisis
 skinparam linetype polyline
 
 actor Docente
 package corregirExamenes as "corregirExamenes()" {
-    rectangle #629EF9 CorrectionView
-    rectangle #b5bd68 CorrectionController
-    rectangle #F2AC4E Exam
-    rectangle #F2AC4E Student
+    rectangle #629EF9 VistaCorreccion
+    rectangle #b5bd68 ControladorCorreccion
+    rectangle #F2AC4E Examen
+    rectangle #F2AC4E Alumno
 }
 
-Docente -r-> CorrectionView: iniciarCorreccion()
-CorrectionView -d-> CorrectionController: corregirExamenes(archivos)
-CorrectionController --> Exam: validarClave()
-CorrectionController --> Student: asociarAlumno()
-CorrectionController --> Exam: actualizarEstado(Corregido)
+Docente -r-> VistaCorreccion: iniciarCorreccion()
+VistaCorreccion -d-> ControladorCorreccion: corregirExamenes(archivos)
+ControladorCorreccion --> Examen: validarClave()
+ControladorCorreccion --> Alumno: asociarAlumno()
+ControladorCorreccion --> Examen: actualizarEstado(Corregido)
 
 @enduml

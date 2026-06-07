@@ -547,4 +547,185 @@ Fase final de refinamiento extremo para alcanzar la calidad de producto definiti
 5.  **Defensa Técnica**: Documentación de la Jerarquía Arquitectónica de 5 niveles en la trazabilidad.
 
 ---
+
+## Conversación 41: Auditoría de Cumplimiento IDSW2 y Corrección de Diagramas de Análisis
+**Fecha**: 2026-06-07
+**Participantes**: Liam + Claude Sonnet 4.6 (Claude Code CLI)
+
+### Contexto de la Sesión
+Auditoría completa de conformidad del proyecto Jorgestor contra la teoría de IDSW2 (TheoryRepo) y el modelado funcional (ModelingRepo). El objetivo era identificar brechas y corregirlas.
+
+**Prompts clave de Liam**:
+> "vale y sobre si todo esta perfecto basado en la teoria de idsw2? porque necesito que cumpla las cosas que hemos visto en teoria"
+> "pero necesito que compares nuestro proyecto con lo que sale en el Theory Repo"
+> "quiero que me digas si nuestro analisis, diseño y implementacion estan perfectamente siguiendo la teoria de idsw2"
+
+### Hallazgos de la Auditoría
+
+**Lo que estaba bien:**
+- 41 CUs de análisis completos (colaboración + secuencia) ✓
+- 41 CUs de diseño completos (secuencia) ✓
+- Artefactos baseline: modelo de dominio, actores/CU, diagramas de contexto ✓
+- Backend completo con PUT endpoints para todas las entidades ✓
+- Endpoint único de config global (`/api/config/exportar` y `/api/config/importar`) ✓
+- RBAC Docente / AdministradorInstitucional funcional ✓
+- La trazabilidad de IA estaba cubierta por `conversation-log.md` ✓
+
+**Problemas identificados:**
+1. Todos los diagramas de análisis (82 archivos) usaban nombres en **inglés** para los objetos BCE — incorrecto para un dominio en español.
+2. La carpeta de diseño CU-04 estaba nombrada `exportarExamen` en vez de `exportarConfiguracionGlobal`, y su contenido describía exportar un examen individual en vez de la configuración global.
+
+### Desarrollo Principal
+
+1. **Renombrado masivo inglés → español en 82 archivos `.puml`** (41 colaboración + 41 secuencia):
+   - Vistas: `CorrectionView` → `VistaCorreccion`, `StudentImportView` → `VistaImportacionAlumnos`, etc.
+   - Controladores: `CorrectionController` → `ControladorCorreccion`, `ExamGenerationController` → `ControladorGeneracionExamen`, etc.
+   - Entidades: `Exam` → `Examen`, `Student` → `Alumno`, `Subject` → `Asignatura`, `Grade` → `Grado`, `Question` → `Pregunta`, `Answer` → `Respuesta`, `Topic` → `Tema`, `User` → `Usuario`, etc.
+   - Se usó word-boundary regex (`\bExam\b`) para entidades para evitar doble-reemplazo en palabras compuestas ya traducidas.
+
+2. **Corrección del CU-04 de diseño**:
+   - Carpeta renombrada: `CU-04-exportarExamen` → `CU-04-exportarConfiguracionGlobal`
+   - Archivo renombrado: `diseno-secuencia-CU-04-exportarExamen.puml` → `diseno-secuencia-CU-04-exportarConfiguracionGlobal.puml`
+   - Contenido reescrito para reflejar el flujo real: `GET /api/config/exportar` → `ControladorConfiguracion` → 4 servicios (Grado, Asignatura, Alumno, Pregunta) → `DTO_ConfiguracionGlobal` → descarga JSON.
+
+### Validación Empírica
+- Verificación manual de CU-01 y CU-30 post-reemplazo: nombres en español correctos, variables internas en minúscula sin alterar.
+- Verificación del diagrama de diseño CU-04 reescrito: flujo consistente con `ControladorConfiguracion.java`.
+
+---
 *Misión cumplida. Jorgestor está listo para la entrega oficial.*
+
+## Conversación 42: Corrección de CUs Abstractos y Rediseño de Generación de Exámenes
+**Fecha**: 2026-06-07
+**Participantes**: Liam + Claude Sonnet 4.6 (Claude Code CLI)
+
+### Contexto de la Sesión
+Continuación de la auditoría de la sesión 41. Se identificaron dos problemas restantes: (1) los 4 CUs abstractos del módulo de exportación tenían actor directo en sus diagramas de análisis, y (2) la generación de exámenes asignaba el mismo examen a todos los alumnos en lugar de generar uno único por alumno.
+
+**Prompts clave de Liam**:
+> "si vale revisa los cus abstractos para quitarles el actor en los diagramas de analisis"
+> "la gracia del sistema es que cada alumno tenga un examen personalizado que ha sido generado aleatoriamente"
+> "si implementamos mejor la c"
+
+### Desarrollo Principal
+
+**1. Corrección de CUs abstractos (CU-07, CU-08, CU-40, CU-41)**
+
+Los CUs de exportación parcial (`exportarAlumnos`, `exportarPreguntas`, `exportarAsignaturas`, `exportarGrados`) pertenecen al `"Módulo Exportación [Abstracto]"` en `actores-casos-uso.puml`, activados vía `<<include>>` desde CU-04. Sus 8 diagramas de análisis (4 colaboración + 4 secuencia) mostraban `actor Docente` con flecha directa, lo cual es incorrecto en RUP.
+
+*Cambios en los 8 archivos:*
+- **Colaboración**: eliminado `actor Docente` y su flecha; añadida nota `<<abstracto>>\nInvocado desde CU-04: exportarConfiguracionGlobal`
+- **Secuencia**: eliminado `actor "Docente" as Actor` y mensajes `Actor -> Boundary` / `Boundary --> Actor`; sustituidos por `[->` (llamada externa anónima) y `[<-` con nota `<<abstracto>>`
+
+**2. Bug del botón "Habilitada/Inhabilitada" en preguntas**
+
+*Causa*: `CorsConfig.java` solo listaba `GET, POST, PUT, DELETE, OPTIONS` — `PATCH` estaba ausente. El navegador bloqueaba el preflight silenciosamente y la mutación fallaba sin mostrar error (no había `onError`).
+
+*Fix*: Añadido `"PATCH"` a `allowedMethods` en `CorsConfig.java`.
+
+**3. Rediseño de generación de exámenes (Opción C del análisis)**
+
+*Problema*: `generarExamen` creaba UN único `Examen` compartido por todos los alumnos. La generación aleatoria ocurría una sola vez, no por alumno.
+
+*Decisión de diseño*: Se eligió la **Opción C** (fusión de generación + asignación) sobre las alternativas:
+- **Opción A descartada**: almacenar el pool en `Examen` es redundante con la batería de preguntas existente.
+- **Opción B descartada**: hacer que la asignación re-ejecute el algoritmo de generación viola SRP (la asignación no debería saber generar). El `Examen`-plantilla es un artefacto técnico sin sentido semántico en el dominio.
+- **Opción C elegida**: alinea con el ModelingRepo ("número de exámenes para cada grado"), cumple SRP, y el `Examen` nace ya vinculado a un alumno (correcto semánticamente). Soporta configuración independiente por grado (distinto numPreguntas y proporciones de dificultad).
+
+*Cambios implementados:*
+
+Backend:
+- `DTO_GenerarYAsignar.java` (nuevo): DTO con `asignaturaId`, `temaIds`, `tipoEvaluacion` y lista de `ConfigPorGrado` (gradoId, numPreguntas, proporcionesDificultad, alumnoIds)
+- `ServicioExamen.generarYAsignar()` (nuevo método): por cada alumno de cada configuración de grado, selecciona aleatoriamente preguntas de forma independiente del pool y crea un `Examen` + `ExamenAlumno` únicos
+- `ControladorExamen` (nuevo endpoint): `POST /api/examenes/generar-y-asignar`
+
+Frontend:
+- `types/index.ts`: añadidos `ConfigPorGrado` y `GenerarYAsignarDTO`
+- `examenService.ts`: añadida función `generarYAsignar()`
+- `GenerarExamenPage.tsx`: rediseñada completamente — paso 01 (asignatura + tipo), paso 02 (temas), pasos 03-N (panel por cada grado con sliders de dificultad + selector de alumnos del grado). Un botón único genera y asigna en un solo paso.
+
+### Regla de trabajo recordada
+- Commits directamente en `develop` (no crear ramas feature para cambios de documentación/diagramas). Se corrigió tras crear accidentalmente una rama para los CUs abstractos.
+
+### Validación
+- CORS fix verificable: botón "Habilitada/Inhabilitada" en PreguntasPage debe responder tras reiniciar el backend.
+- Generación personalizada: cada alumno tendrá su propio `Examen` en BD con `esPersonalizado = true` y preguntas independientemente aleatorizadas.
+
+---
+
+## Conversación 43: Corrección Masiva por Grupo, RevisionModal, PDF y Rediseño del Dashboard
+**Fecha**: 2026-06-07
+**Participantes**: Liam + Claude Sonnet 4.6 (Claude Code CLI)
+
+### Contexto de la Sesión
+Sesión de continuación tras el rediseño de generación personalizada (conversación 42). Con cada alumno teniendo su propio `Examen`, el flujo de corrección masiva anterior quedó obsoleto. Se reimplementaron las pantallas de corrección, revisión y se añadieron mejoras de UX transversales.
+
+**Prompts clave de Liam**:
+> "vale pero ahora en los sitios donde se pueda ver los examenes tiene que haber la opcion de ver las respuestas correctas y incorrectas que ha respondido cada alumno en caso de una revision"
+> "me pone error al cargar los datos cuando le doy a revisar"
+> "vale podemos hacer que salga cuantos examenes tiene cada alumno/asignatura"
+> "ahora tenemos q corregir un problema que ha surjido despues de cambiar como funciona el generar y es corregir examenes [...] ya no puedes hacer una correccion masiva como lo tenemos hecho ahora"
+> "claro pero ahora lo que falta es que pueda descargar el pdf con las respuestas de los alumnos para que lo pueda subir y lo corriga la ia"
+> "vale perfecto, ahora podemos cambiar el panel de control y que en vez de ser estadisticas de cada cosa sea mas como una especia de recepcion y luego que haya una seccion pequeña en algun lado que te diga el estado global del sistema"
+
+### Desarrollo Principal
+
+**1. Historial de exámenes en AsignaturasPage y AlumnosPage** (`6f75419`)
+
+Se añadió un panel lateral sticky en `AsignaturasPage` equivalente al de `AlumnosPage`: al seleccionar una asignatura, se abre una columna derecha con todos los `ExamenAlumno` de esa asignatura. Ambas páginas usan `getExamenesPorAlumno` / `getExamenesPorAsignatura` del servicio.
+
+**2. RevisionModal — ver respuestas por ejemplar** (`7675b7c`)
+
+Nuevo componente `frontend/src/components/RevisionModal.tsx`: overlay completo que muestra para cada pregunta del ejemplar si la respuesta del alumno fue correcta/incorrecta/en blanco, con badge de dificultad (ALTA/MEDIA/BAJA en rojo/ámbar/verde) y opciones coloreadas (verde = correcta, rojo = marcada incorrectamente).
+
+Backend: nuevo `DTO_RevisionEjemplar` con estructura anidada (`ItemRevision` + `OpcionRespuesta`). Endpoint `GET /api/examenes/ejemplar/{id}/revision` → `ServicioExamen.obtenerRevisionEjemplar()`.
+
+**3. Bug crítico: StackOverflowError en RevisionModal** (`882581d`)
+
+*Síntoma*: "Error al cargar los datos" al abrir la revisión.
+
+*Causa raíz*: `obtenerRevisionEjemplar` accedía a `ea.getExamen().getPreguntas()`, lo que activaba `PersistentSet<Pregunta>` de Hibernate. Para añadir cada `Pregunta` al `HashSet`, Hibernate llama a `pregunta.hashCode()`. Lombok `@Data` genera `hashCode()` usando todos los campos, incluyendo `respuestas` (lazy `@OneToMany`). Cargar `respuestas` y computar su hashCode accede a `respuesta.pregunta` (`@ManyToOne` EAGER) → `pregunta.hashCode()` → recursión infinita → `StackOverflowError`. Al ser `Error` (no `Exception`), el `catch (Exception e)` del controlador no lo capturaba → respuesta 500 → `isError = true` en TanStack Query.
+
+*Fix*: Cargar el examen por separado con `repoExamen.findByIdConPreguntasYRespuestas()` (JOIN FETCH existente) y convertir el `Set` a `ArrayList` antes de iterar, evitando la ruta de `HashSet.add()`.
+
+**4. Conteo de exámenes por alumno/asignatura** (`490a752`)
+
+Nuevas queries JPQL `GROUP BY` en `RepositorioExamenAlumno` (`countByAlumno`, `countByAsignatura`) que devuelven `List<Object[]>` agregados en `Map<Long, Long>`. Nuevos endpoints `GET /api/examenes/conteos/alumnos` y `/conteos/asignaturas`. En frontend, columna "Exámenes" con el conteo + botón "Ver/Cerrar" en tablas de AlumnosPage y AsignaturasPage.
+
+**5. Corrección masiva por grupo (rediseño completo de CorregirExamenPage)** (`d2eb339`)
+
+*Problema*: con un `Examen` único por alumno, el flujo anterior de "selecciona Examen ID → corrige masivo" era imposible (no hay un ID compartido entre los 13 exámenes del grupo).
+
+*Solución*: agrupar por `(asignaturaId, tipoEvaluacion, fechaExamen)` como identidad de lote. Todos los exámenes de una llamada a `generarYAsignar` comparten estos tres campos.
+
+Backend:
+- `DTO_GrupoExamen.java` y `DTO_AccionGrupo.java` (nuevos)
+- Query JPQL `findGruposConConteos()` en `RepositorioExamenAlumno`: `GROUP BY` por los 3 campos + `estado`, devuelve conteos de pendientes/entregados/corregidos por grupo
+- `ServicioExamen.listarGrupos()`, `listarEjemplaresDeGrupo()`, `simularEntregaGrupo()`, `corregirGrupo()`
+- En `corregirGrupo()`, `totalPreguntas` se obtiene como `marcasAlumno.size()` (proxy válido porque `simularEntregaGrupo` crea exactamente una marca por pregunta)
+
+Frontend: `CorregirExamenPage.tsx` reescrita con 6 vistas (`grupos | detalle | ia_upload | ia_procesando | manual | exito`):
+- Vista `grupos`: tabla de lotes con columnas Asignatura, Tipo, Fecha, Alumnos, Pendientes, Entregados, Corregidos, chip de estado
+- Vista `detalle`: lista de alumnos del grupo, sidebar con estadísticas, botones "↓ Hojas de respuesta", "Simular entregas", "Corregir con IA"
+- Vista `manual`: corrección pregunta a pregunta con botones A/B/C/D coloreados según respuesta actual
+
+**6. PDF de hojas de respuesta personalizadas** (`376ccc9`)
+
+`Promise.all(ejemplares.map(ej => getRevisionEjemplar(ej.id)))` carga en paralelo la revisión de cada alumno. Se genera HTML con cabecera oscura (nombre, DNI, asignatura, tipo, fecha) + tabla de preguntas con círculos burbuja (rellenos si marcada, vacíos si no). `window.open()` + `win.document.write(html)` + `setTimeout(() => win.print(), 400)` abre el diálogo de impresión/PDF del navegador.
+
+**7. Rediseño del Dashboard** (`25fdda1`)
+
+De un grid de estadísticas puro a una pantalla de "recepción":
+- Saludo dinámico (Buenos días/tardes/noches según hora) con nombre del docente de `localStorage`
+- Grid 3×2 de tarjetas de acceso rápido (6 módulos del sistema) con efecto hover: borde coloreado, fondo suave, elevación `translateY(-2px)` y `boxShadow` con el color del módulo
+- Panel lateral compacto (260px) con semáforo global del sistema (punto verde/ámbar, "Sistema operativo" / "En configuración") y 6 métricas del `getResumenSistema` con refetch cada 30s
+
+### Decisiones de Diseño
+
+- **totalPreguntas en corregirGrupo**: usar `marcasAlumno.size()` como proxy en lugar de cargar el `Examen` de cada alumno evita el problema de Hibernate hashCode y es correcto por invariante del sistema (1 marca = 1 pregunta del examen de ese alumno).
+- **Fórmula de puntuación**: `nota = (aciertos - fallos/3.0) / totalPreguntas * 10`, mínimo 0 — examen tipo test español estándar con penalización 1/3 por fallo; las preguntas en blanco no penalizan.
+
+### Validación
+- RevisionModal verificado: muestra preguntas con colores correcto/incorrecto.
+- CorregirExamenPage: navegación grupos → detalle → corrección funcional.
+- Dashboard: acceso rápido y estado del sistema operativos.

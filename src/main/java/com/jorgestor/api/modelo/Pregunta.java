@@ -29,6 +29,9 @@ public class Pregunta {
     @com.fasterxml.jackson.annotation.JsonIgnore
     private Tema tema;
 
+    @Column(nullable = false)
+    private boolean habilitada = true;
+
     @OneToMany(mappedBy = "pregunta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Respuesta> respuestas;
 }

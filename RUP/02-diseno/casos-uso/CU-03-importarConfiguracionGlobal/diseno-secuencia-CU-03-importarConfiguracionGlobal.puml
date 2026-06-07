@@ -1,0 +1,66 @@
+@startuml secuencia-cu03-importar-configuracion-global
+title Diagrama de Secuencia - Importar Configuración Global
+
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorGrado" as CtrlGrado
+participant "ControladorAsignatura" as CtrlAsig
+participant "ControladorAlumno" as CtrlAlumno
+participant "ControladorPregunta" as CtrlPreg
+participant "ServicioGrado" as SvcGrado
+participant "ServicioAsignatura" as SvcAsig
+participant "ServicioAlumno" as SvcAlumno
+participant "ServicioPregunta" as SvcPreg
+database "Base de Datos\n(PostgreSQL)" as DB
+
+Actor -> FE : Sube fichero JSON de configuración global
+activate FE
+
+FE -> CtrlGrado : POST /api/grados/importar (List<DTO_Grado>)
+activate CtrlGrado
+CtrlGrado -> SvcGrado : importar(listaDto)
+activate SvcGrado
+SvcGrado -> DB : INSERT/UPDATE grados
+DB --> SvcGrado : ok
+SvcGrado --> CtrlGrado : void
+deactivate SvcGrado
+CtrlGrado --> FE : 200 OK
+deactivate CtrlGrado
+
+FE -> CtrlAsig : POST /api/asignaturas/importar (List<DTO_Asignatura>)
+activate CtrlAsig
+CtrlAsig -> SvcAsig : importar(listaDto)
+activate SvcAsig
+SvcAsig -> DB : INSERT/UPDATE asignaturas
+DB --> SvcAsig : ok
+SvcAsig --> CtrlAsig : void
+deactivate SvcAsig
+CtrlAsig --> FE : 200 OK
+deactivate CtrlAsig
+
+FE -> CtrlAlumno : POST /api/alumnos/importar (List<DTO_Alumno>)
+activate CtrlAlumno
+CtrlAlumno -> SvcAlumno : importarAlumnos(listaDto)
+activate SvcAlumno
+SvcAlumno -> DB : INSERT/UPDATE alumnos
+DB --> SvcAlumno : ok
+SvcAlumno --> CtrlAlumno : void
+deactivate SvcAlumno
+CtrlAlumno --> FE : 200 OK
+deactivate CtrlAlumno
+
+FE -> CtrlPreg : POST /api/preguntas/importar (List<DTO_Pregunta>)
+activate CtrlPreg
+CtrlPreg -> SvcPreg : importarPreguntas(listaDto)
+activate SvcPreg
+SvcPreg -> DB : INSERT preguntas + respuestas
+DB --> SvcPreg : ok
+SvcPreg --> CtrlPreg : void
+deactivate SvcPreg
+CtrlPreg --> FE : 200 OK
+deactivate CtrlPreg
+
+FE --> Actor : Muestra confirmación de importación completa
+deactivate FE
+
+@enduml

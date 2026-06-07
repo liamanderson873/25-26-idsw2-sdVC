@@ -79,6 +79,34 @@ public class ServicioAsignatura {
     }
 
     @Transactional
+    public void importarAsignaturas(List<DTO_Asignatura> lista) {
+        for (DTO_Asignatura dto : lista) {
+            crearOActualizar(dto);
+        }
+    }
+
+    @Transactional
+    public void actualizar(Long id, DTO_Asignatura dto) {
+        Profesor profe = repoProfesor.findByDni(dto.getDniProfesor())
+                .orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
+        Asignatura asig = repoAsignatura.findById(id)
+                .orElseThrow(() -> new RuntimeException("Asignatura no encontrada con ID: " + id));
+        asig.setCodigo(dto.getCodigo());
+        asig.setNombre(dto.getNombre());
+        asig.setCursoAcademico(dto.getCursoAcademico());
+        asig.setCursoSugerido(dto.getCursoSugerido() != null ? dto.getCursoSugerido() : 1);
+        asig.setProfesor(profe);
+        if (dto.getGradoIds() != null && !dto.getGradoIds().isEmpty()) {
+            asig.setGrados(repoGrado.findAllById(dto.getGradoIds()));
+        } else if (dto.getGradoId() != null) {
+            java.util.List<Grado> grados = new ArrayList<>();
+            repoGrado.findById(dto.getGradoId()).ifPresent(grados::add);
+            asig.setGrados(grados);
+        }
+        repoAsignatura.save(asig);
+    }
+
+    @Transactional
     public void eliminar(Long id) {
         if (!repoAsignatura.existsById(id)) {
             throw new RuntimeException("Asignatura no encontrada con ID: " + id);

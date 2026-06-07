@@ -53,6 +53,16 @@ public class ControladorAlumno {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<String> actualizar(@PathVariable Long id, @RequestBody DTO_Alumno dto) {
+        try {
+            servicioAlumno.actualizar(id, dto);
+            return ResponseEntity.ok("Alumno actualizado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable Long id) {
         try {

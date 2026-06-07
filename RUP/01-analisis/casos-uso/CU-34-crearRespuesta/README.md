@@ -1,29 +1,29 @@
-﻿# Jorgestor > CU-34-crearRespuesta > AnÃ¡lisis
+﻿# Jorgestor > CU-34-crearRespuesta > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Crear Respuesta, siguiendo la metodologÃ­a RUP. Permite analizar el proceso de alta de una nueva respuesta vinculada a una pregunta.
+Análisis tecnológico agnóstico del caso de uso Crear Respuesta, siguiendo la metodología RUP. Permite analizar el proceso de alta de una nueva respuesta vinculada a una pregunta.
 
-## diagrama de colaboraciÃ³n
+## diagrama de colaboración
 
 <div align=center>
 
-|![AnÃ¡lisis: crearRespuesta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-34-crearRespuesta/analisis-colaboracion-CU-34-crearRespuesta.puml&fmt=svg)|
+|![Análisis: crearRespuesta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-34-crearRespuesta/analisis-colaboracion-CU-34-crearRespuesta.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-34-crearRespuesta.puml](analisis-colaboracion-CU-34-crearRespuesta.puml)|
+|Código fuente: [analisis-colaboracion-CU-34-crearRespuesta.puml](analisis-colaboracion-CU-34-crearRespuesta.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -32,30 +32,30 @@ AnÃ¡lisis tecnolÃ³gico agnÃ³stico del caso de uso Crear Respuesta, siguien
 |**Question**|Entidad a la que se asocia la nueva respuesta|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
-|**AnswerCreationView**|Interfaz para introducir datos mÃ­nimos y confirmar la creaciÃ³n|Wireframe|
+|**AnswerCreationView**|Interfaz para introducir datos mínimos y confirmar la creación|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**AnswerCreationController**|Valida datos y coordina la creaciÃ³n de la entidad|crearRespuesta()|
+|**AnswerCreationController**|Valida datos y coordina la creación de la entidad|crearRespuesta()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
-|**Docente**|**AnswerCreationView**|`solicitarCrear()`|Manifestar intenciÃ³n de crear respuesta|
+|**Docente**|**AnswerCreationView**|`solicitarCrear()`|Manifestar intención de crear respuesta|
 |**AnswerCreationView**|**Docente**|`pedirDatos()`|Solicitar contenido y veracidad|
-|**Docente**|**AnswerCreationView**|`proporcionarDatos()`|Introducir la informaciÃ³n requerida|
-|**AnswerCreationView**|**AnswerCreationController**|`crearRespuesta(datos)`|Delegar la lÃ³gica de creaciÃ³n|
+|**Docente**|**AnswerCreationView**|`proporcionarDatos()`|Introducir la información requerida|
+|**AnswerCreationView**|**AnswerCreationController**|`crearRespuesta(datos)`|Delegar la lógica de creación|
 |**AnswerCreationController**|**Answer**|`new()`|Instanciar la nueva entidad|
 |**AnswerCreationController**|**Question**|`addAnswer(answer)`|Vincular la respuesta a la pregunta|
 
 ## trazabilidad con artefactos previos
 
-### con especificaciÃ³n detallada
-- **Estados internos** â†’ `SolicitandoDatosRespuesta`, `ProcesandoCreacion`
+### con especificación detallada
+- **Estados internos** �?' `SolicitandoDatosRespuesta`, `ProcesandoCreacion`
 
 
 ```plantuml

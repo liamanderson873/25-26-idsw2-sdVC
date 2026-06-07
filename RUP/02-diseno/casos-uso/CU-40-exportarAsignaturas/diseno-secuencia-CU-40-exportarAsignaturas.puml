@@ -1,0 +1,37 @@
+@startuml secuencia-cu40-exportar-asignaturas
+title Diagrama de Secuencia - Exportar Asignaturas
+
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorAsignatura" as Controller
+participant "ServicioAsignatura" as Service
+participant "RepositorioAsignatura" as RepoAsig
+database "Base de Datos\n(PostgreSQL)" as DB
+
+Actor -> FE : Pulsa "Exportar Asignaturas"
+activate FE
+
+FE -> Controller : GET /api/asignaturas
+activate Controller
+
+Controller -> Service : listarTodos()
+activate Service
+
+Service -> RepoAsig : findAll()
+activate RepoAsig
+RepoAsig -> DB : SELECT * FROM asignaturas JOIN profesores
+DB --> RepoAsig : lista_asignaturas
+RepoAsig --> Service : List<Asignatura>
+deactivate RepoAsig
+
+Service --> Controller : List<DTO_Asignatura>
+deactivate Service
+
+Controller --> FE : 200 OK (JSON lista)
+deactivate Controller
+
+FE -> FE : Serializa JSON y genera descarga
+FE --> Actor : Descarga fichero JSON de asignaturas
+deactivate FE
+
+@enduml

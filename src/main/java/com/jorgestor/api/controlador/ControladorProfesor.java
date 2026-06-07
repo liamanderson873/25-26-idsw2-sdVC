@@ -21,8 +21,23 @@ public class ControladorProfesor {
 
     @PostMapping
     public ResponseEntity<String> guardar(@RequestBody DTO_Profesor dto) {
-        servicioProfesor.crearOActualizar(dto);
-        return ResponseEntity.ok("Profesor guardado correctamente.");
+        try {
+            servicioProfesor.crearOActualizar(dto);
+            return ResponseEntity.ok("Profesor guardado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> actualizar(@PathVariable Long id, @RequestBody DTO_Profesor dto) {
+        try {
+            dto.setId(id);
+            servicioProfesor.crearOActualizar(dto);
+            return ResponseEntity.ok("Profesor actualizado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")

@@ -1,0 +1,26 @@
+﻿@startuml cu23-verAlumnos-analisis-secuencia
+title Diagrama de Secuencia (Análisis) - CU-23: Ver Alumnos
+
+actor "Docente" as Actor
+participant ":VistaListaAlumnos" as Boundary <<boundary>>
+participant ":ControladorAlumnos" as Control <<control>>
+participant ":Alumno" as Entity <<entity>>
+
+Actor -> Boundary : solicitarListado()
+activate Boundary
+
+Boundary -> Control : obtenerAlumnos()
+activate Control
+
+Control -> Entity : consultarTodos()
+activate Entity
+Entity --> Control : listaAlumnos
+deactivate Entity
+
+Control --> Boundary : listaAlumnos
+deactivate Control
+
+Boundary --> Actor : mostrarListado(alumnos)
+deactivate Boundary
+
+@enduml

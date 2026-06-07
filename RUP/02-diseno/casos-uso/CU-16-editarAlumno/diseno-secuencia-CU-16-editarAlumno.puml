@@ -1,45 +1,51 @@
 @startuml secuencia-cu16-editar-alumno
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+title Diagrama de Secuencia - Editar Alumno
 
-actor Docente
-participant "ControladorAlumno" as Boundary <<Boundary>>
-participant "ServicioAlumno" as Control <<Control>>
-participant "RepositorioGrado" as RepoGrado <<Entity>>
-participant "RepositorioAlumno" as RepoAlumno <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorAlumno" as Controller
+participant "ServicioAlumno" as Service
+participant "RepositorioGrado" as RepoGrado
+participant "RepositorioAlumno" as RepoAlumno
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : POST /api/alumnos (DTO_Alumno con ID)
-activate Boundary
+Actor -> FE : Modifica datos del alumno
+activate FE
 
-Boundary -> Control : guardarIndividual(dto)
-activate Control
+FE -> Controller : POST /api/alumnos (DTO_Alumno con ID)
+activate Controller
 
-Control -> RepoGrado : findByCodigo(codigoGrado)
+Controller -> Service : guardarIndividual(dto)
+activate Service
+
+Service -> RepoGrado : findByCodigo(codigoGrado)
 activate RepoGrado
 RepoGrado -> DB : SELECT grado
 DB --> RepoGrado : resultado
-RepoGrado --> Control : Optional<Grado>
+RepoGrado --> Service : Optional<Grado>
 deactivate RepoGrado
 
-Control -> RepoAlumno : findById(id)
+Service -> RepoAlumno : findById(id)
 activate RepoAlumno
 RepoAlumno -> DB : SELECT alumno
 DB --> RepoAlumno : resultado
-RepoAlumno --> Control : Optional<Alumno>
+RepoAlumno --> Service : Optional<Alumno>
 deactivate RepoAlumno
 
-Control -> RepoAlumno : save(alumnoActualizado)
+Service -> RepoAlumno : save(alumnoActualizado)
 activate RepoAlumno
 RepoAlumno -> DB : UPDATE alumno
 DB --> RepoAlumno : ok
-RepoAlumno --> Control : alumno
+RepoAlumno --> Service : alumno
 deactivate RepoAlumno
 
-Control --> Boundary : void
-deactivate Control
+Service --> Controller : void
+deactivate Service
 
-Boundary --> Docente : 200 OK
-deactivate Boundary
+Controller --> FE : 200 OK
+deactivate Controller
+
+FE --> Actor : Muestra alumno actualizado
+deactivate FE
 
 @enduml

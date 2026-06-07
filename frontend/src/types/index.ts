@@ -34,9 +34,9 @@ export interface Alumno {
 }
 
 export enum Dificultad {
-  FACIL = 'FACIL',
-  MEDIO = 'MEDIO',
-  DIFICIL = 'DIFICIL'
+  BAJA = 'BAJA',
+  MEDIA = 'MEDIA',
+  ALTA = 'ALTA'
 }
 
 export interface Pregunta {
@@ -45,6 +45,7 @@ export interface Pregunta {
   dificultad: Dificultad;
   temaId: number;
   asignaturaId?: number;
+  habilitada: boolean;
   respuestas: Respuesta[];
 }
 
@@ -77,6 +78,20 @@ export interface GenerarExamenDTO {
   proporcionesDificultad: Record<Dificultad, number>;
   tipoEvaluacion: TipoEvaluacion;
   esPersonalizado: boolean;
+}
+
+export interface ConfigPorGrado {
+  gradoId: number;
+  numPreguntas: number;
+  proporcionesDificultad: Record<Dificultad, number>;
+  alumnoIds: number[];
+}
+
+export interface GenerarYAsignarDTO {
+  asignaturaId: number;
+  temaIds: number[];
+  tipoEvaluacion: TipoEvaluacion;
+  configuraciones: ConfigPorGrado[];
 }
 
 export interface Examen {

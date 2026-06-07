@@ -1,19 +1,19 @@
-@startuml eliminarGrado-analisis
+﻿@startuml eliminarGrado-analisis
 skinparam linetype polyline
 
 actor Docente
 package eliminarGrado as "eliminarGrado()" {
-    rectangle #629EF9 GradeDeleteView
-    rectangle #b5bd68 GradeController
-    rectangle #F2AC4E Grade
-    rectangle #F2AC4E Student
+    rectangle #629EF9 VistaEliminacionGrado
+    rectangle #b5bd68 ControladorGrados
+    rectangle #F2AC4E Grado
+    rectangle #F2AC4E Alumno
 }
 
-Docente -r-> GradeDeleteView: solicitarEliminar()
-GradeDeleteView --> Grade: getDatos()
-GradeDeleteView --> Student: getAlumnosAfectados()
-Docente --> GradeDeleteView: confirmarEliminar()
-GradeDeleteView -d-> GradeController: eliminarGrado()
-GradeController --> Grade: delete()
+Docente -r-> VistaEliminacionGrado: solicitarEliminar()
+VistaEliminacionGrado --> Grado: getDatos()
+VistaEliminacionGrado --> Alumno: getAlumnosAfectados()
+Docente --> VistaEliminacionGrado: confirmarEliminar()
+VistaEliminacionGrado -d-> ControladorGrados: eliminarGrado()
+ControladorGrados --> Grado: delete()
 
 @enduml

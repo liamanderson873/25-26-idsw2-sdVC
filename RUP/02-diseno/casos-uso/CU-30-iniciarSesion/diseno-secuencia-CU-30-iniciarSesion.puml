@@ -1,0 +1,42 @@
+@startuml secuencia-cu30-iniciar-sesion
+title Diagrama de Secuencia - Iniciar Sesión
+
+actor "Usuario" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorAuth" as Controller
+participant "ServicioUsuario\n(UserDetailsService)" as Service
+participant "RepositorioUsuario" as RepoUsuario
+database "Base de Datos\n(PostgreSQL)" as DB
+
+Actor -> FE : Introduce usuario y contraseña
+activate FE
+
+FE -> Controller : GET /api/auth/me\n(Authorization: Basic <credenciales>)
+activate Controller
+
+Controller -> Service : loadUserByUsername(username)
+activate Service
+
+Service -> RepoUsuario : findByUsername(username)
+activate RepoUsuario
+RepoUsuario -> DB : SELECT * FROM usuarios WHERE username = ?
+DB --> RepoUsuario : usuario
+RepoUsuario --> Service : Optional<Usuario>
+deactivate RepoUsuario
+
+alt Credenciales inválidas
+    Service --> Controller : UsernameNotFoundException
+    Controller --> FE : 401 Unauthorized
+    FE --> Actor : Muestra error de credenciales
+else Credenciales válidas
+    Service --> Controller : UserDetails
+    deactivate Service
+
+    Controller --> FE : 200 OK { username, rol, nombre }
+    deactivate Controller
+
+    FE --> Actor : Redirige al panel principal
+    deactivate FE
+end
+
+@enduml

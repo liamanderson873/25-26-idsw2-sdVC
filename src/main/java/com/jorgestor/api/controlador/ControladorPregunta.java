@@ -32,17 +32,35 @@ public class ControladorPregunta {
         }
     }
 
-    /**
-     * Endpoint para importar una batería de preguntas con sus respuestas (CU-06)
-     */
+    /** CU-06: importar batería de preguntas */
     @PostMapping("/importar")
     public ResponseEntity<String> importarPreguntas(@RequestBody List<DTO_Pregunta> listaPreguntas) {
         try {
-            System.out.println("Recibidas " + listaPreguntas.size() + " preguntas para importar...");
             servicioPregunta.importarPreguntas(listaPreguntas);
             return ResponseEntity.ok("Preguntas y respuestas procesadas correctamente en el sistema.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error al importar preguntas: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> actualizar(@PathVariable Long id, @RequestBody DTO_Pregunta dto) {
+        try {
+            servicioPregunta.actualizar(id, dto);
+            return ResponseEntity.ok("Pregunta actualizada correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    /** CU-22/editarPregunta: alternar estado habilitada ↔ inhabilitada */
+    @PatchMapping("/{id}/toggle-habilitada")
+    public ResponseEntity<String> toggleHabilitada(@PathVariable Long id) {
+        try {
+            boolean nuevoEstado = servicioPregunta.toggleHabilitada(id);
+            return ResponseEntity.ok(nuevoEstado ? "Pregunta habilitada." : "Pregunta inhabilitada.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

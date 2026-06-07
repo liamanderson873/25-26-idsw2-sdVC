@@ -1,63 +1,63 @@
-﻿# Jorgestor > CU-06-importarPreguntas > AnÃ¡lisis
+﻿# Jorgestor > CU-06-importarPreguntas > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis del caso de uso Importar Preguntas. Permite la carga masiva de preguntas al banco de datos.
+Análisis del caso de uso Importar Preguntas. Permite la carga masiva de preguntas al banco de datos.
 
-## diagrama de colaboraciÃ³n
+## diagrama de colaboración
 
 <div align=center>
 
-|![AnÃ¡lisis: importarPreguntas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-06-importarPreguntas.puml&fmt=svg)|
+|![Análisis: importarPreguntas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-06-importarPreguntas.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-06-importarPreguntas.puml](analisis-colaboracion-CU-06-importarPreguntas.puml)|
+|Código fuente: [analisis-colaboracion-CU-06-importarPreguntas.puml](analisis-colaboracion-CU-06-importarPreguntas.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
 |-|-|-|
-|**Question**|Entidad pregunta que serÃ¡ creada o actualizada|Modelo del dominio|
-|**Subject**|Asignatura para contextualizar la importaciÃ³n|Modelo del dominio|
-|**Topic**|Tema para contextualizar la importaciÃ³n|Modelo del dominio|
+|**Question**|Entidad pregunta que será creada o actualizada|Modelo del dominio|
+|**Subject**|Asignatura para contextualizar la importación|Modelo del dominio|
+|**Topic**|Tema para contextualizar la importación|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
-|**QuestionImportView**|Interfaz para cargar archivo y confirmar integraciÃ³n|Wireframe|
+|**QuestionImportView**|Interfaz para cargar archivo y confirmar integración|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
 |**QuestionImportController**|Valida formato y asocia preguntas a entidades|importarPreguntas()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
 |**Docente**|**QuestionImportView**|`seleccionarOrigen(archivo)`|Proporcionar el archivo de preguntas|
-|**QuestionImportView**|**QuestionImportController**|`analizarArchivo(archivo)`|Delegar la validaciÃ³n y procesamiento|
+|**QuestionImportView**|**QuestionImportController**|`analizarArchivo(archivo)`|Delegar la validación y procesamiento|
 |**QuestionImportController**|**Question**|`crearInstancia()`|Instanciar nuevas preguntas|
-|**QuestionImportController**|**QuestionImportView**|`mostrarResumen()`|Solicitar confirmaciÃ³n|
-|**Docente**|**QuestionImportView**|`confirmarImportacion()`|Confirmar integraciÃ³n|
+|**QuestionImportController**|**QuestionImportView**|`mostrarResumen()`|Solicitar confirmación|
+|**Docente**|**QuestionImportView**|`confirmarImportacion()`|Confirmar integración|
 |**QuestionImportView**|**QuestionImportController**|`persistirPreguntas()`|Ejecutar persistencia|
 |**QuestionImportController**|**Question**|`guardar()`|Persistir entidad|
 
 ## trazabilidad con artefactos previos
 
 - **Contextualidad**: Puede ocurrir en estados general o contextual.
-- **Integridad**: ValidaciÃ³n de requisitos mÃ­nimos (ej: respuesta correcta).
+- **Integridad**: Validación de requisitos mínimos (ej: respuesta correcta).
 
 ```plantuml
 @startuml importarPreguntas-analisis

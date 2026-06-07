@@ -12,10 +12,15 @@ export const createAlumno = async (alumno: Alumno): Promise<Alumno> => {
 };
 
 export const updateAlumno = async (id: number, alumno: Alumno): Promise<Alumno> => {
-  const response = await api.post<Alumno>(`/alumnos`, { ...alumno, id });
+  const response = await api.put<Alumno>(`/alumnos/${id}`, alumno);
   return response.data;
 };
 
 export const deleteAlumno = async (id: number): Promise<void> => {
   await api.delete(`/alumnos/${id}`);
+};
+
+export const importarAlumnos = async (alumnos: Alumno[]): Promise<string> => {
+  const response = await api.post<string>('/alumnos/importar', alumnos);
+  return response.data;
 };

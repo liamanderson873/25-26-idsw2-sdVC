@@ -1,51 +1,57 @@
 @startuml secuencia-cu09-asignar-examen
-skinparam style strictuml
-skinparam sequenceMessageAlign center
+title Diagrama de Secuencia - Asignar Exámenes
 
-actor Docente
-participant "ControladorExamen" as Boundary <<Boundary>>
-participant "ServicioExamen" as Control <<Control>>
-participant "RepositorioExamen" as RepoExamen <<Entity>>
-participant "RepositorioAlumno" as RepoAlumno <<Entity>>
-participant "RepositorioExamenAlumno" as RepoExAl <<Entity>>
-database "PostgreSQL" as DB
+actor "Docente" as Actor
+participant "Frontend\n(React)" as FE
+participant "ControladorExamen" as Controller
+participant "ServicioExamen" as Service
+participant "RepositorioExamen" as RepoExamen
+participant "RepositorioAlumno" as RepoAlumno
+participant "RepositorioExamenAlumno" as RepoExAl
+database "Base de Datos\n(PostgreSQL)" as DB
 
-Docente -> Boundary : POST /api/examenes/asignar (DTO_AsignarExamen)
-activate Boundary
+Actor -> FE : Selecciona examen y alumnos
+activate FE
 
-Boundary -> Control : asignarExamenAAlumnos(examenId, alumnoIds)
-activate Control
+FE -> Controller : POST /api/examenes/asignar (DTO_AsignarExamen)
+activate Controller
 
-Control -> RepoExamen : findById(examenId)
+Controller -> Service : asignarExamenAAlumnos(examenId, alumnoIds)
+activate Service
+
+Service -> RepoExamen : findById(examenId)
 activate RepoExamen
 RepoExamen -> DB : SELECT examen
 DB --> RepoExamen : examen
-RepoExamen --> Control : examen
+RepoExamen --> Service : examen
 deactivate RepoExamen
 
 loop por cada alumnoId
-    Control -> RepoAlumno : findById(alumnoId)
+    Service -> RepoAlumno : findById(alumnoId)
     activate RepoAlumno
     RepoAlumno -> DB : SELECT alumno
     DB --> RepoAlumno : alumno
-    RepoAlumno --> Control : alumno
+    RepoAlumno --> Service : alumno
     deactivate RepoAlumno
 
-    Control -> Control : generarClaveCorreccion(alumno, examen)
-    note right: Algoritmo SHA-256\n(DNI + ID + Salt)
+    Service -> Service : generarClaveCorreccion(alumno, examen)
+    note right: SHA-256(DNI + ID_Examen + Salt)
 
-    Control -> RepoExAl : save(ejemplar)
+    Service -> RepoExAl : save(ejemplar)
     activate RepoExAl
     RepoExAl -> DB : INSERT examen_alumno
     DB --> RepoExAl : ok
-    RepoExAl --> Control : ejemplarGuardado
+    RepoExAl --> Service : ejemplarGuardado
     deactivate RepoExAl
 end
 
-Control --> Boundary : void
-deactivate Control
+Service --> Controller : void
+deactivate Service
 
-Boundary --> Docente : 200 OK (Asignado correctamente)
-deactivate Boundary
+Controller --> FE : 200 OK (Asignado correctamente)
+deactivate Controller
+
+FE --> Actor : Muestra lista de ejemplares asignados
+deactivate FE
 
 @enduml

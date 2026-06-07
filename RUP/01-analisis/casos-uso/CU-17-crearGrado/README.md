@@ -1,29 +1,29 @@
-﻿# Jorgestor > CU-17-crearGrado > AnÃ¡lisis
+﻿# Jorgestor > CU-17-crearGrado > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis del caso de uso Crear Grado. Permite la agrupaciÃ³n de alumnos y asignaturas.
+Análisis del caso de uso Crear Grado. Permite la agrupación de alumnos y asignaturas.
 
-## diagrama de colaboraciÃ³n
+## diagrama de colaboración
 
 <div align=center>
 
-|![AnÃ¡lisis: crearGrado()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-17-crearGrado.puml&fmt=svg)|
+|![Análisis: crearGrado()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-17-crearGrado.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-17-crearGrado.puml](analisis-colaboracion-CU-17-crearGrado.puml)|
+|Código fuente: [analisis-colaboracion-CU-17-crearGrado.puml](analisis-colaboracion-CU-17-crearGrado.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -32,24 +32,24 @@ AnÃ¡lisis del caso de uso Crear Grado. Permite la agrupaciÃ³n de alumnos y a
 |**Student**|Alumnos que se asocian al grado|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
-|**GradeCreationView**|Interfaz para introducir datos mÃ­nimos y enlistar alumnos|Wireframe|
+|**GradeCreationView**|Interfaz para introducir datos mínimos y enlistar alumnos|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**GradeController**|Gestiona creaciÃ³n y asociaciÃ³n inicial de alumnos|crearGrado()|
+|**GradeController**|Gestiona creación y asociación inicial de alumnos|crearGrado()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
 |**Docente**|**GradeCreationView**|`solicitarCreacion()`|Iniciar proceso|
 |**Docente**|**GradeCreationView**|`proporcionarDatos(nombre, codigo)`|Enviar datos obligatorios|
-|**GradeCreationView**|**GradeController**|`crearGrado(datos)`|Delegar creaciÃ³n|
+|**GradeCreationView**|**GradeController**|`crearGrado(datos)`|Delegar creación|
 |**GradeController**|**Grade**|`inicializar(datos)`|Crear entidad|
-|**GradeController**|**GradeCreationView**|`notificarExitoYRedirigir()`|Informar y pasar a ediciÃ³n|
+|**GradeController**|**GradeCreationView**|`notificarExitoYRedirigir()`|Informar y pasar a edición|
 
 ## trazabilidad con artefactos previos
 

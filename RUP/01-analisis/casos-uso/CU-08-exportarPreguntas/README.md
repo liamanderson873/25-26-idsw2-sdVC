@@ -1,29 +1,29 @@
-﻿# Jorgestor > CU-08-exportarPreguntas > AnÃ¡lisis
+﻿# Jorgestor > CU-08-exportarPreguntas > Análisis
 
-## informaciÃ³n del artefacto
+## información del artefacto
 
 - **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (ElaboraciÃ³n)
-- **Disciplina**: AnÃ¡lisis
-- **VersiÃ³n**: 1.0
+- **Fase RUP**: Elaboration (Elaboración)
+- **Disciplina**: Análisis
+- **Versión**: 1.0
 - **Fecha**: 2026-05-24
 - **Autor**: Equipo de desarrollo
 
-## propÃ³sito
+## propósito
 
-AnÃ¡lisis del caso de uso Exportar Preguntas.
+Análisis del caso de uso Exportar Preguntas.
 
-## diagrama de colaboraciÃ³n
+## diagrama de colaboración
 
 <div align=center>
 
-|![AnÃ¡lisis: exportarPreguntas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-08-exportarPreguntas/analisis-colaboracion-CU-08-exportarPreguntas.puml&fmt=svg)|
+|![Análisis: exportarPreguntas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-08-exportarPreguntas/analisis-colaboracion-CU-08-exportarPreguntas.puml&fmt=svg)|
 |-|
-|CÃ³digo fuente: [analisis-colaboracion-CU-08-exportarPreguntas.puml](analisis-colaboracion-CU-08-exportarPreguntas.puml)|
+|Código fuente: [analisis-colaboracion-CU-08-exportarPreguntas.puml](analisis-colaboracion-CU-08-exportarPreguntas.puml)|
 
 </div>
 
-## clases de anÃ¡lisis identificadas
+## clases de análisis identificadas
 
 ### clases model (naranja #F2AC4E)
 |Clase|Responsabilidad|Trazabilidad|
@@ -32,21 +32,21 @@ AnÃ¡lisis del caso de uso Exportar Preguntas.
 |**Answer**|Contiene las opciones de respuesta|Modelo del dominio|
 
 ### clases view (azul #629EF9)
-|Clase|Responsabilidad|DerivaciÃ³n|
+|Clase|Responsabilidad|Derivación|
 |-|-|-|
-|**QuestionExportView**|Interfaz para gestionar exportaciÃ³n|Wireframe|
+|**QuestionExportView**|Interfaz para gestionar exportación|Wireframe|
 
 ### clases controller (verde #b5bd68)
 |Clase|Responsabilidad|Caso de uso|
 |-|-|-|
-|**ExportController**|Orquesta recopilaciÃ³n y asegura integridad|exportarPreguntas()|
+|**ExportController**|Orquesta recopilación y asegura integridad|exportarPreguntas()|
 
-## mensajes de colaboraciÃ³n
+## mensajes de colaboración
 
-|Origen|Destino|Mensaje|IntenciÃ³n|
+|Origen|Destino|Mensaje|Intención|
 |-|-|-|-|
-|**Docente**|**QuestionExportView**|`exportarPreguntas()`|Solicitar exportaciÃ³n|
-|**QuestionExportView**|**ExportController**|`recopilarPreguntas()`|Delegar recopilaciÃ³n|
+|**Docente**|**QuestionExportView**|`exportarPreguntas()`|Solicitar exportación|
+|**QuestionExportView**|**ExportController**|`recopilarPreguntas()`|Delegar recopilación|
 |**ExportController**|**Question**|`obtenerPreguntas()`|Consultar fuente|
 |**ExportController**|**Answer**|`obtenerRespuestas(pregunta)`|Consultar respuestas asociadas|
 |**ExportController**|**QuestionExportView**|`notificarExito()`|Informar resultado|
