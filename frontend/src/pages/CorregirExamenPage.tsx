@@ -35,6 +35,7 @@ const CorregirExamenPage: React.FC = () => {
   const [marcas, setMarcas] = useState<Record<string, number>>({});
   const [archivoNombre, setArchivoNombre] = useState('');
   const [dragOver, setDragOver] = useState(false);
+  const [descargando, setDescargando] = useState(false);
 
   /* ── Queries ─────────────────────────────────────────── */
   const { data: grupos = [], isLoading: loadingGrupos } = useQuery({
@@ -146,6 +147,100 @@ const CorregirExamenPage: React.FC = () => {
     setSelEjemplar(null);
     setRevisionData(null);
     setMarcas({});
+  };
+
+  const handleDescargarHojas = async () => {
+    if (ejemplares.length === 0) return;
+    setDescargando(true);
+    try {
+      const revisiones = await Promise.all(
+        ejemplares.map((ej: any) =>
+          getRevisionEjemplar(ej.id)
+            .then(r => ({ ej, r }))
+            .catch(() => null)
+        )
+      );
+
+      const paginasHTML = revisiones.map(res => {
+        if (!res) return '';
+        const { ej, r } = res;
+        const preguntas: any[] = r?.preguntas || [];
+
+        const filasPreguntas = preguntas.map((p: any, idx: number) => {
+          const opciones = (p.respuestas || []).map((resp: any) => {
+            const marcada = p.indiceMarcado === resp.indice;
+            const letra = LETRAS[resp.indice] ?? resp.indice;
+            return `<span style="
+              display:inline-flex;align-items:center;justify-content:center;
+              width:26px;height:26px;border-radius:50%;margin-right:8px;
+              border:2px solid #0f172a;
+              background:${marcada ? '#0f172a' : 'white'};
+              color:${marcada ? 'white' : '#0f172a'};
+              font-weight:800;font-size:12px;font-family:sans-serif;
+            ">${letra}</span>`;
+          }).join('');
+
+          return `
+            <tr style="border-bottom:1px solid #e2e8f0;">
+              <td style="padding:8px 12px;font-size:12px;color:#475569;font-weight:700;white-space:nowrap;vertical-align:top;">${idx + 1}.</td>
+              <td style="padding:8px 12px;font-size:12px;color:#1e293b;line-height:1.4;vertical-align:top;">${p.enunciado}</td>
+              <td style="padding:8px 12px;white-space:nowrap;vertical-align:middle;">${opciones}</td>
+            </tr>`;
+        }).join('');
+
+        return `
+          <div style="page-break-after:always;padding:28px 36px;font-family:sans-serif;max-width:800px;margin:0 auto;">
+            <div style="border:2px solid #0f172a;border-radius:10px;overflow:hidden;margin-bottom:0;">
+              <div style="background:#0f172a;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="color:#a5b4fc;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;">Jorgestor · Hoja de Respuestas</div>
+                  <div style="color:white;font-size:17px;font-weight:800;margin-top:3px;">${ej.alumnoApellidos ?? ''}, ${ej.alumnoNombre ?? ''}</div>
+                  <div style="color:#94a3b8;font-size:11px;margin-top:2px;">${ej.alumnoDni ?? ''}</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="color:#64748b;font-size:9px;text-transform:uppercase;font-weight:700;">Clave SHA</div>
+                  <div style="color:#a5b4fc;font-family:monospace;font-size:13px;font-weight:700;">${ej.claveCorreccion ?? ''}</div>
+                  <div style="color:#64748b;font-size:10px;margin-top:4px;">${selGrupo?.asignaturaNombre} · ${selGrupo?.tipoEvaluacion?.replace(/_/g,' ')} · ${selGrupo?.fechaExamen}</div>
+                </div>
+              </div>
+              <div style="padding:0;">
+                <table style="border-collapse:collapse;width:100%;">
+                  <thead>
+                    <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
+                      <th style="padding:8px 12px;font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;text-align:left;width:30px;">#</th>
+                      <th style="padding:8px 12px;font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Pregunta</th>
+                      <th style="padding:8px 12px;font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;text-align:left;">Respuesta</th>
+                    </tr>
+                  </thead>
+                  <tbody>${filasPreguntas}</tbody>
+                </table>
+                ${preguntas.length === 0 ? '<p style="padding:24px;text-align:center;color:#94a3b8;font-size:12px;">Sin preguntas asignadas.</p>' : ''}
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+
+      const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Hojas de Respuesta — ${selGrupo?.asignaturaNombre} ${selGrupo?.tipoEvaluacion}</title>
+  <style>@media print { body { margin:0; } } body { margin:0; background:white; }</style>
+</head>
+<body>${paginasHTML}</body>
+</html>`;
+
+      const win = window.open('', '_blank');
+      if (!win) { alert('Permita las ventanas emergentes para generar el PDF.'); return; }
+      win.document.write(html);
+      win.document.close();
+      win.focus();
+      setTimeout(() => win.print(), 400);
+    } catch {
+      alert('Error al generar las hojas de respuesta.');
+    } finally {
+      setDescargando(false);
+    }
   };
 
   /* ═══════════════════════════════════════════════════════════ */
@@ -262,6 +357,14 @@ const CorregirExamenPage: React.FC = () => {
           <div style={{ padding: '1rem 1.5rem', background: 'var(--surface-2)', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h3>Alumnos del grupo</h3>
             <div style={{ display: 'flex', gap: '0.625rem' }}>
+              <button
+                onClick={handleDescargarHojas}
+                disabled={descargando || ejemplares.length === 0}
+                className="btn btn-secondary"
+                style={{ fontSize: '0.775rem' }}
+              >
+                {descargando ? 'Generando...' : '↓ Hojas de respuesta'}
+              </button>
               {hayPendientes && (
                 <button onClick={() => entregarMutation.mutate()} disabled={entregarMutation.isPending} className="btn btn-secondary" style={{ fontSize: '0.775rem' }}>
                   {entregarMutation.isPending ? 'Simulando...' : 'Simular entregas'}
