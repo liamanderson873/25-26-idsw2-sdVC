@@ -13,120 +13,113 @@ skinparam enum {
   FontName Arial
   FontSize 10
 }
-skinparam note {
-  BackgroundColor #f0f9ff
-  BorderColor #0ea5e9
-  FontSize 9
-}
 hide empty members
-left to right direction
 
-' ══════════════════════════════════════════════
-' ENUMS
-' ══════════════════════════════════════════════
-
-enum Rol {
-  DOCENTE
-  ADMINISTRADOR_INSTITUCIONAL
+' ── Nivel 1: Maestros ────────────────────────────────────────
+together {
+  class Grado <<Entity>> {
+    + id : Long
+    + codigo : String
+    + nombre : String
+  }
+  class Profesor <<Entity>> {
+    + id : Long
+    + dni : String
+    + nombre : String
+    + apellidos : String
+    + email : String
+  }
+  class Usuario <<Entity>> {
+    + id : Long
+    + username : String
+    # password : String
+    + nombre : String
+    + rol : Rol
+  }
+  enum Rol {
+    DOCENTE
+    ADMINISTRADOR_INSTITUCIONAL
+  }
 }
 
-enum Dificultad {
-  BAJA
-  MEDIA
-  ALTA
+' ── Nivel 2: Académico ───────────────────────────────────────
+together {
+  class Alumno <<Entity>> {
+    + id : Long
+    + dni : String
+    + nombre : String
+    + apellidos : String
+    + curso : Integer
+  }
+  class Asignatura <<Entity>> {
+    + id : Long
+    + nombre : String
+    + codigo : String
+    + cursoAcademico : String
+    + cursoSugerido : Integer
+  }
 }
 
-enum TipoEvaluacion {
-  PARCIAL_1
-  PARCIAL_2
-  PARCIAL_3
-  FINAL
-  EXTRAORDINARIO
+' ── Nivel 3: Contenido ───────────────────────────────────────
+together {
+  class Tema <<Entity>> {
+    + id : Long
+    + nombre : String
+  }
+  enum Dificultad {
+    BAJA
+    MEDIA
+    ALTA
+  }
+  class Pregunta <<Entity>> {
+    + id : Long
+    + enunciado : String
+    + dificultad : Dificultad
+    + habilitada : Boolean
+  }
+  class Respuesta <<Entity>> {
+    + id : Long
+    + contenido : String
+    + indice : Integer
+    + esCorrecta : Boolean
+  }
 }
 
-enum EstadoExamen {
-  PENDIENTE
-  ASIGNADO
-  PENDIENTE_CALIFICACION
-  CORREGIDO
+' ── Nivel 4: Examen ──────────────────────────────────────────
+together {
+  enum TipoEvaluacion {
+    PARCIAL_1
+    PARCIAL_2
+    PARCIAL_3
+    FINAL
+    EXTRAORDINARIO
+  }
+  class Examen <<Entity>> {
+    + id : Long
+    + tipoEvaluacion : TipoEvaluacion
+    + fechaExamen : LocalDate
+    + esPersonalizado : Boolean
+  }
 }
 
-' ══════════════════════════════════════════════
-' ENTIDADES
-' ══════════════════════════════════════════════
-
-class Usuario <<Entity>> {
-  + id : Long
-  + username : String
-  # password : String
-  + nombre : String
-  + rol : Rol
+' ── Nivel 5: Ejemplar ────────────────────────────────────────
+together {
+  enum EstadoExamen {
+    PENDIENTE
+    ASIGNADO
+    PENDIENTE_CALIFICACION
+    CORREGIDO
+  }
+  class ExamenAlumno <<Entity>> {
+    + id : Long
+    + claveCorreccion : String
+    + notaSugerida : Double
+    + notaFinal : Double
+    + estado : EstadoExamen
+  }
 }
 
-class Profesor <<Entity>> {
-  + id : Long
-  + dni : String
-  + nombre : String
-  + apellidos : String
-  + email : String
-}
-
-class Grado <<Entity>> {
-  + id : Long
-  + codigo : String
-  + nombre : String
-}
-
-class Alumno <<Entity>> {
-  + id : Long
-  + dni : String
-  + nombre : String
-  + apellidos : String
-  + curso : Integer
-}
-
-class Asignatura <<Entity>> {
-  + id : Long
-  + nombre : String
-  + codigo : String
-  + cursoAcademico : String
-  + cursoSugerido : Integer
-}
-
-class Tema <<Entity>> {
-  + id : Long
-  + nombre : String
-}
-
-class Pregunta <<Entity>> {
-  + id : Long
-  + enunciado : String
-  + dificultad : Dificultad
-  + habilitada : Boolean
-}
-
-class Respuesta <<Entity>> {
-  + id : Long
-  + contenido : String
-  + indice : Integer
-  + esCorrecta : Boolean
-}
-
-class Examen <<Entity>> {
-  + id : Long
-  + tipoEvaluacion : TipoEvaluacion
-  + fechaExamen : LocalDate
-  + esPersonalizado : Boolean
-}
-
-class ExamenAlumno <<Entity>> {
-  + id : Long
-  + claveCorreccion : String
-  + notaSugerida : Double
-  + notaFinal : Double
-  + estado : EstadoExamen
-}
-
+' ── Nivel 6: Auditoría ───────────────────────────────────────
 class ExamenAlumnoMarca <<Entity>> {
   + id : Long
   + indiceMarcado : Integer
@@ -140,26 +133,26 @@ class ExamenAlumnoMarca <<Entity>> {
 Usuario       ..>  Rol
 
 ' Estructura académica
-Profesor      "1"  --  "*"  Asignatura  : imparte
-Alumno        "*"  -->  "1"  Grado      : cursa en
-Asignatura    "*"  --  "*"  Grado       : asignatura_grados\n<<tabla intermedia>>
-Alumno        "*"  --  "*"  Asignatura  : matriculas\n<<tabla intermedia>>
+Profesor      "1"  --  "*"  Asignatura    : imparte
+Alumno        "*"  -->  "1"  Grado        : cursa en
+Asignatura    "*"  --  "*"  Grado         : asignatura_grados\n<<tabla intermedia>>
+Alumno        "*"  --  "*"  Asignatura    : matriculas\n<<tabla intermedia>>
 
 ' Contenido
-Asignatura    "1"  --  "*"  Tema        : tiene
-Pregunta      "*"  -->  "1"  Tema        : sobre
+Asignatura    "1"  --  "*"  Tema          : tiene
+Pregunta      "*"  -->  "1"  Tema          : sobre
 Pregunta      ..>  Dificultad
-Respuesta     "*"  -->  "1"  Pregunta    : opción de
+Respuesta     "*"  -->  "1"  Pregunta      : opción de
 
 ' Examen
 Examen        ..>  TipoEvaluacion
-Examen        "*"  -->  "1"  Asignatura  : de
-Examen        "*"  --  "*"  Pregunta     : examen_preguntas\n<<tabla intermedia>>
+Examen        "*"  -->  "1"  Asignatura    : de
+Examen        "*"  --  "*"  Pregunta       : examen_preguntas\n<<tabla intermedia>>
 
 ' Ejemplar
 ExamenAlumno  ..>  EstadoExamen
-ExamenAlumno  "*"  -->  "1"  Examen      : ejemplar de
-ExamenAlumno  "*"  -->  "1"  Alumno      : asignado a
+ExamenAlumno  "*"  -->  "1"  Examen        : ejemplar de
+ExamenAlumno  "*"  -->  "1"  Alumno        : asignado a
 
 ' Auditoría
 ExamenAlumnoMarca  "*"  -->  "1"    ExamenAlumno  : auditoría de
