@@ -1,0 +1,16 @@
+[
+  {
+    "codigo": "TEST-AS01",
+    "nombre": "Asignatura Test — Algoritmos",
+    "cursoAcademico": "2025/26",
+    "dniProfesor": "23478765N",
+    "gradoId": 1
+  },
+  {
+    "codigo": "TEST-AS02",
+    "nombre": "Asignatura Test — Finanzas",
+    "cursoAcademico": "2025/26",
+    "dniProfesor": "00000000P",
+    "gradoId": 4
+  }
+]

@@ -595,6 +595,55 @@ Auditoría completa de conformidad del proyecto Jorgestor contra la teoría de I
 ---
 *Misión cumplida. Jorgestor está listo para la entrega oficial.*
 
+## Conversación 43: Auditoría Integral, Limpieza de Estados Muertos y Pruebas de Importación
+**Fecha**: 2026-06-07
+**Participantes**: Liam + Claude Sonnet 4.6 (Claude Code CLI)
+
+### Contexto de la Sesión
+Sesión de validación y corrección de calidad. Se realizó una auditoría completa de los tres diagramas arquitectónicos comparándolos contra el código real, se eliminaron estados muertos del ciclo de vida del examen, se corrigió un bug de UI en el botón de descarga de hojas de respuesta, y se realizaron pruebas completas del flujo importar/exportar, detectando y corrigiendo dos bugs.
+
+**Prompts clave de Liam**:
+> "me gustaria que mirases todos los diagramas y todo el analisis y que mires si esta perfecto comparado a la implementacion"
+> "pero entonces es bueno tener 'flujos futuros'? no seria mejor simplemente poner lo que tenemos ahora"
+> "vale me gustaria probar todos los importar y el exportar"
+> "cuando he vuelto a importar el archivo de configuracion global se me ha puesto la pantalla en blanco"
+
+### Desarrollo Principal
+
+1. **Auditoría diagrama–implementación (3 diagramas)**:
+   - `diagrama-clases-diseno.puml`: añadidos `AsignarExamenPage`, `ControladorProfesor`, `ControladorTema`, `ControladorSistema`, `ServicioProfesor`, `ServicioTema` y métodos faltantes en `ControladorExamen` / `ServicioExamen`.
+   - `diagrama-entidad-relacion.puml`: añadidos `+ usuario : String` y `# password : String` a `Profesor`. Layout corregido con jerarquía top-down real usando `together` + flechas ocultas + flechas direccionales.
+   - `diagrama-estados-examen.puml`: eliminados 2 estados especulativos (ver punto 2).
+
+2. **Eliminación de estados muertos — REALIZADO y ENTREGADO**:
+   - Búsqueda grep confirmó que `setEstado(REALIZADO)` y `setEstado(ENTREGADO)` nunca se llamaban en el código.
+   - Eliminados de `EstadoExamen.java` (enum), `ServicioExamen.java` (3 bloques), `CorregirExamenPage.tsx`, `AlumnosPage.tsx`, `AsignaturasPage.tsx`, `AuditoriaExamenesPage.tsx`.
+   - Principio aplicado: YAGNI — no mantener código para flujos inexistentes.
+   - Ciclo de vida correcto: PENDIENTE → ASIGNADO → PENDIENTE_CALIFICACION → CORREGIDO.
+
+3. **Fix frontend — botón "Hojas de respuesta" desaparecía tras simular entrega**:
+   - Causa: condición `hayAsignados` era falsa tras la transición a `PENDIENTE_CALIFICACION`.
+   - Fix en `CorregirExamenPage.tsx`: condición cambiada a `ejemplares.some(tieneClave)`, que comprueba la existencia de SHA-256 independientemente del estado.
+
+4. **Pruebas de flujo importar/exportar**:
+   - Exportar Global: funcional — descarga JSON con todos los datos.
+   - Importar Global (reimport): detectados y corregidos 2 bugs:
+     - **Bug 1 (backend)**: `ServicioPregunta.guardarIndividual` usaba `DELETE + INSERT` para respuestas, rompiendo la FK `ExamenAlumnoMarca → Respuesta` cuando existían marcas de corrección. Fix: upsert por ID en lugar de delete+create.
+     - **Bug 2 (frontend)**: `ImportarExportarPage` renderizaba directamente `err.response?.data` (objeto JSON de Spring Boot) como hijo React, causando crash y pantalla en blanco. Fix: conversión a string antes de almacenar en estado.
+   - Importar Individual: probado con archivos de test creados en `test-data/`. Todos los casos (grados, asignaturas, alumnos, preguntas) funcionan correctamente.
+
+5. **Actualización `TRAZABILIDAD_TEORICA.md`** (documento local, no versionado):
+   - Ciclo de estados corregido en sección "Artefactos Baseline".
+   - Entradas CU-02 y CU-09 actualizadas con endpoints reales.
+   - Nueva sección "Decisiones de Calidad y Refactorizaciones" documentando la auditoría, la eliminación de estados muertos y los bugs corregidos.
+
+### Validación Empírica
+- Import global → OK en todos los casos incluyendo reimport con marcas de corrección activas.
+- Import individual con `test-data/` → OK: grados, asignaturas, alumnos y preguntas importados y verificados en la UI.
+- Botón "Hojas de respuesta" visible en todos los estados post-asignación.
+
+---
+
 ## Conversación 42: Corrección de CUs Abstractos y Rediseño de Generación de Exámenes
 **Fecha**: 2026-06-07
 **Participantes**: Liam + Claude Sonnet 4.6 (Claude Code CLI)

@@ -1,0 +1,38 @@
+[
+  {
+    "enunciado": "¿Cuál es la complejidad temporal del algoritmo de ordenación QuickSort en el caso promedio?",
+    "dificultad": "MEDIA",
+    "temaId": 10,
+    "habilitada": true,
+    "respuestas": [
+      { "contenido": "O(n log n)", "esCorrecta": true,  "indice": 0 },
+      { "contenido": "O(n²)",     "esCorrecta": false, "indice": 1 },
+      { "contenido": "O(n)",      "esCorrecta": false, "indice": 2 },
+      { "contenido": "O(log n)",  "esCorrecta": false, "indice": 3 }
+    ]
+  },
+  {
+    "enunciado": "¿Qué estructura de datos utiliza el algoritmo BFS (Búsqueda en Anchura)?",
+    "dificultad": "BAJA",
+    "temaId": 10,
+    "habilitada": true,
+    "respuestas": [
+      { "contenido": "Cola (Queue)",  "esCorrecta": true,  "indice": 0 },
+      { "contenido": "Pila (Stack)",  "esCorrecta": false, "indice": 1 },
+      { "contenido": "Árbol binario", "esCorrecta": false, "indice": 2 },
+      { "contenido": "Tabla hash",    "esCorrecta": false, "indice": 3 }
+    ]
+  },
+  {
+    "enunciado": "En el contexto de la Ingeniería del Software, ¿qué mide la cohesión de un módulo?",
+    "dificultad": "ALTA",
+    "temaId": 22,
+    "habilitada": true,
+    "respuestas": [
+      { "contenido": "El grado en que los elementos del módulo pertenecen juntos", "esCorrecta": true,  "indice": 0 },
+      { "contenido": "El número de dependencias externas del módulo",               "esCorrecta": false, "indice": 1 },
+      { "contenido": "El tamaño en líneas de código del módulo",                    "esCorrecta": false, "indice": 2 },
+      { "contenido": "La velocidad de ejecución del módulo",                        "esCorrecta": false, "indice": 3 }
+    ]
+  }
+]
