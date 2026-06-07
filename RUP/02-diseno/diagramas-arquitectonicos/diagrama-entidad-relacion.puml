@@ -15,7 +15,7 @@ skinparam enum {
 }
 hide empty members
 
-' ══ ENTIDADES (declaradas en orden de importancia) ══
+' ══ ENTIDADES ══
 
 class Asignatura <<Entity>> {
   + id : Long
@@ -125,45 +125,43 @@ enum Dificultad {
   ALTA
 }
 
-' ══ FLECHAS OCULTAS — fuerzan el orden vertical ══
-Asignatura    -[hidden]->  Examen
-Examen        -[hidden]->  Profesor
-Profesor      -[hidden]->  Pregunta
-Pregunta      -[hidden]->  Tema
-Tema          -[hidden]->  ExamenAlumnoMarca
+' ══ FLECHAS OCULTAS — anclan filas sin relación directa ══
+Examen       -[hidden]d->  Profesor
+ExamenAlumno -[hidden]d->  Pregunta
+Profesor     -[hidden]d->  Grado
 
 ' ══ RELACIONES ══
 
 ' Auth
-Usuario       ..>  Rol
+Usuario ..> Rol
 
-' Asignatura como eje
-Examen        "*"  -->  "1"  Asignatura     : de
-Alumno        "*"  --   "*"  Asignatura     : matriculas\n<<tabla intermedia>>
-Profesor      "1"  --   "*"  Asignatura     : imparte
-Asignatura    "1"  --   "*"  Tema           : tiene
-Asignatura    "*"  --   "*"  Grado          : asignatura_grados\n<<tabla intermedia>>
+' Asignatura como eje central
+Examen       "*"  --u->  "1"  Asignatura    : de
+Alumno       "*"  --u--  "*"  Asignatura    : matriculas\n<<tabla intermedia>>
+Profesor     "1"  --u--  "*"  Asignatura    : imparte
+Asignatura   "1"  --d--  "*"  Grado         : asignatura_grados\n<<tabla intermedia>>
+Asignatura   "1"  --d--  "*"  Tema          : tiene
 
 ' Alumno → Grado
-Alumno        "*"  -->  "1"  Grado          : cursa en
+Alumno       "*"  --d->  "1"  Grado         : cursa en
 
 ' Contenido
-Pregunta      "*"  -->  "1"  Tema           : sobre
-Pregunta      ..>  Dificultad
-Respuesta     "*"  -->  "1"  Pregunta       : opción de
+Pregunta     "*"  --d->  "1"  Tema          : sobre
+Pregunta     ..>  Dificultad
+Respuesta    "*"  --u->  "1"  Pregunta      : opción de
 
 ' Examen
-Examen        ..>  TipoEvaluacion
-Examen        "*"  --   "*"  Pregunta       : examen_preguntas\n<<tabla intermedia>>
+Examen       ..>  TipoEvaluacion
+Examen       "*"  --d--  "*"  Pregunta      : examen_preguntas\n<<tabla intermedia>>
 
 ' Ejemplar
-ExamenAlumno  ..>  EstadoExamen
-ExamenAlumno  "*"  -->  "1"  Examen         : ejemplar de
-ExamenAlumno  "*"  -->  "1"  Alumno         : asignado a
+ExamenAlumno ..>  EstadoExamen
+ExamenAlumno "*"  --u->  "1"  Examen        : ejemplar de
+ExamenAlumno "*"  --u->  "1"  Alumno        : asignado a
 
 ' Auditoría
-ExamenAlumnoMarca  "*"  -->  "1"    ExamenAlumno  : auditoría de
-ExamenAlumnoMarca  "*"  -->  "1"    Pregunta      : marcada
-ExamenAlumnoMarca  "*"  -->  "0..1" Respuesta     : elegida\n(null = en blanco)
+ExamenAlumnoMarca  "*"  --u->  "1"    ExamenAlumno  : auditoría de
+ExamenAlumnoMarca  "*"  --u->  "1"    Pregunta      : marcada
+ExamenAlumnoMarca  "*"  --u->  "0..1" Respuesta     : elegida\n(null = en blanco)
 
 @enduml
