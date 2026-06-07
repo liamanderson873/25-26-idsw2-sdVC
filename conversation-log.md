@@ -650,3 +650,82 @@ Frontend:
 ### Validación
 - CORS fix verificable: botón "Habilitada/Inhabilitada" en PreguntasPage debe responder tras reiniciar el backend.
 - Generación personalizada: cada alumno tendrá su propio `Examen` en BD con `esPersonalizado = true` y preguntas independientemente aleatorizadas.
+
+---
+
+## Conversación 43: Corrección Masiva por Grupo, RevisionModal, PDF y Rediseño del Dashboard
+**Fecha**: 2026-06-07
+**Participantes**: Liam + Claude Sonnet 4.6 (Claude Code CLI)
+
+### Contexto de la Sesión
+Sesión de continuación tras el rediseño de generación personalizada (conversación 42). Con cada alumno teniendo su propio `Examen`, el flujo de corrección masiva anterior quedó obsoleto. Se reimplementaron las pantallas de corrección, revisión y se añadieron mejoras de UX transversales.
+
+**Prompts clave de Liam**:
+> "vale pero ahora en los sitios donde se pueda ver los examenes tiene que haber la opcion de ver las respuestas correctas y incorrectas que ha respondido cada alumno en caso de una revision"
+> "me pone error al cargar los datos cuando le doy a revisar"
+> "vale podemos hacer que salga cuantos examenes tiene cada alumno/asignatura"
+> "ahora tenemos q corregir un problema que ha surjido despues de cambiar como funciona el generar y es corregir examenes [...] ya no puedes hacer una correccion masiva como lo tenemos hecho ahora"
+> "claro pero ahora lo que falta es que pueda descargar el pdf con las respuestas de los alumnos para que lo pueda subir y lo corriga la ia"
+> "vale perfecto, ahora podemos cambiar el panel de control y que en vez de ser estadisticas de cada cosa sea mas como una especia de recepcion y luego que haya una seccion pequeña en algun lado que te diga el estado global del sistema"
+
+### Desarrollo Principal
+
+**1. Historial de exámenes en AsignaturasPage y AlumnosPage** (`6f75419`)
+
+Se añadió un panel lateral sticky en `AsignaturasPage` equivalente al de `AlumnosPage`: al seleccionar una asignatura, se abre una columna derecha con todos los `ExamenAlumno` de esa asignatura. Ambas páginas usan `getExamenesPorAlumno` / `getExamenesPorAsignatura` del servicio.
+
+**2. RevisionModal — ver respuestas por ejemplar** (`7675b7c`)
+
+Nuevo componente `frontend/src/components/RevisionModal.tsx`: overlay completo que muestra para cada pregunta del ejemplar si la respuesta del alumno fue correcta/incorrecta/en blanco, con badge de dificultad (ALTA/MEDIA/BAJA en rojo/ámbar/verde) y opciones coloreadas (verde = correcta, rojo = marcada incorrectamente).
+
+Backend: nuevo `DTO_RevisionEjemplar` con estructura anidada (`ItemRevision` + `OpcionRespuesta`). Endpoint `GET /api/examenes/ejemplar/{id}/revision` → `ServicioExamen.obtenerRevisionEjemplar()`.
+
+**3. Bug crítico: StackOverflowError en RevisionModal** (`882581d`)
+
+*Síntoma*: "Error al cargar los datos" al abrir la revisión.
+
+*Causa raíz*: `obtenerRevisionEjemplar` accedía a `ea.getExamen().getPreguntas()`, lo que activaba `PersistentSet<Pregunta>` de Hibernate. Para añadir cada `Pregunta` al `HashSet`, Hibernate llama a `pregunta.hashCode()`. Lombok `@Data` genera `hashCode()` usando todos los campos, incluyendo `respuestas` (lazy `@OneToMany`). Cargar `respuestas` y computar su hashCode accede a `respuesta.pregunta` (`@ManyToOne` EAGER) → `pregunta.hashCode()` → recursión infinita → `StackOverflowError`. Al ser `Error` (no `Exception`), el `catch (Exception e)` del controlador no lo capturaba → respuesta 500 → `isError = true` en TanStack Query.
+
+*Fix*: Cargar el examen por separado con `repoExamen.findByIdConPreguntasYRespuestas()` (JOIN FETCH existente) y convertir el `Set` a `ArrayList` antes de iterar, evitando la ruta de `HashSet.add()`.
+
+**4. Conteo de exámenes por alumno/asignatura** (`490a752`)
+
+Nuevas queries JPQL `GROUP BY` en `RepositorioExamenAlumno` (`countByAlumno`, `countByAsignatura`) que devuelven `List<Object[]>` agregados en `Map<Long, Long>`. Nuevos endpoints `GET /api/examenes/conteos/alumnos` y `/conteos/asignaturas`. En frontend, columna "Exámenes" con el conteo + botón "Ver/Cerrar" en tablas de AlumnosPage y AsignaturasPage.
+
+**5. Corrección masiva por grupo (rediseño completo de CorregirExamenPage)** (`d2eb339`)
+
+*Problema*: con un `Examen` único por alumno, el flujo anterior de "selecciona Examen ID → corrige masivo" era imposible (no hay un ID compartido entre los 13 exámenes del grupo).
+
+*Solución*: agrupar por `(asignaturaId, tipoEvaluacion, fechaExamen)` como identidad de lote. Todos los exámenes de una llamada a `generarYAsignar` comparten estos tres campos.
+
+Backend:
+- `DTO_GrupoExamen.java` y `DTO_AccionGrupo.java` (nuevos)
+- Query JPQL `findGruposConConteos()` en `RepositorioExamenAlumno`: `GROUP BY` por los 3 campos + `estado`, devuelve conteos de pendientes/entregados/corregidos por grupo
+- `ServicioExamen.listarGrupos()`, `listarEjemplaresDeGrupo()`, `simularEntregaGrupo()`, `corregirGrupo()`
+- En `corregirGrupo()`, `totalPreguntas` se obtiene como `marcasAlumno.size()` (proxy válido porque `simularEntregaGrupo` crea exactamente una marca por pregunta)
+
+Frontend: `CorregirExamenPage.tsx` reescrita con 6 vistas (`grupos | detalle | ia_upload | ia_procesando | manual | exito`):
+- Vista `grupos`: tabla de lotes con columnas Asignatura, Tipo, Fecha, Alumnos, Pendientes, Entregados, Corregidos, chip de estado
+- Vista `detalle`: lista de alumnos del grupo, sidebar con estadísticas, botones "↓ Hojas de respuesta", "Simular entregas", "Corregir con IA"
+- Vista `manual`: corrección pregunta a pregunta con botones A/B/C/D coloreados según respuesta actual
+
+**6. PDF de hojas de respuesta personalizadas** (`376ccc9`)
+
+`Promise.all(ejemplares.map(ej => getRevisionEjemplar(ej.id)))` carga en paralelo la revisión de cada alumno. Se genera HTML con cabecera oscura (nombre, DNI, asignatura, tipo, fecha) + tabla de preguntas con círculos burbuja (rellenos si marcada, vacíos si no). `window.open()` + `win.document.write(html)` + `setTimeout(() => win.print(), 400)` abre el diálogo de impresión/PDF del navegador.
+
+**7. Rediseño del Dashboard** (`25fdda1`)
+
+De un grid de estadísticas puro a una pantalla de "recepción":
+- Saludo dinámico (Buenos días/tardes/noches según hora) con nombre del docente de `localStorage`
+- Grid 3×2 de tarjetas de acceso rápido (6 módulos del sistema) con efecto hover: borde coloreado, fondo suave, elevación `translateY(-2px)` y `boxShadow` con el color del módulo
+- Panel lateral compacto (260px) con semáforo global del sistema (punto verde/ámbar, "Sistema operativo" / "En configuración") y 6 métricas del `getResumenSistema` con refetch cada 30s
+
+### Decisiones de Diseño
+
+- **totalPreguntas en corregirGrupo**: usar `marcasAlumno.size()` como proxy en lugar de cargar el `Examen` de cada alumno evita el problema de Hibernate hashCode y es correcto por invariante del sistema (1 marca = 1 pregunta del examen de ese alumno).
+- **Fórmula de puntuación**: `nota = (aciertos - fallos/3.0) / totalPreguntas * 10`, mínimo 0 — examen tipo test español estándar con penalización 1/3 por fallo; las preguntas en blanco no penalizan.
+
+### Validación
+- RevisionModal verificado: muestra preguntas con colores correcto/incorrecto.
+- CorregirExamenPage: navegación grupos → detalle → corrección funcional.
+- Dashboard: acceso rápido y estado del sistema operativos.
