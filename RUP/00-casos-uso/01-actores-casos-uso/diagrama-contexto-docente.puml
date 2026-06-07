@@ -138,7 +138,7 @@ ExamenesGenerados --> ExamenesAsignados: asignarExamenes()
 ExamenesAsignados --> Menu: completarGestion()
 ExamenesGenerados --> Menu: cancelarGeneracion()
 ExamenesGenerados --> ExamenGenerado: verExamen()
-ExamenGenerado --> ExamenesGenerados: volver()
+ExamenGenerado --> ExamenesGenerados: verExamenes()
 
 'Modulo examenes contextuales'
 EditAsignatura --> ExamenesGeneradosContextuales: generarExamenes()
@@ -146,7 +146,7 @@ ExamenesGeneradosContextuales --> ExamenesAsignadosContextuales: asignarExamenes
 ExamenesGeneradosContextuales --> EditAsignatura: cancelarGeneracion()
 ExamenesAsignadosContextuales --> EditAsignatura: editarAsignatura()
 ExamenesGeneradosContextuales --> ExamenGeneradoContextual: verExamen()
-ExamenGeneradoContextual --> ExamenesGeneradosContextuales: volver()
+ExamenGeneradoContextual --> ExamenesGeneradosContextuales: verExamenes()
 
 
 'Módulo correccion'
@@ -154,10 +154,11 @@ ExamenGeneradoContextual --> ExamenesGeneradosContextuales: volver()
 Menu --> ExamenesCorregidos: corregirExamenes()
 EditAsignatura --> ExamenesCorregidos: corregirExamenes()
 ExamenesCorregidos --> Menu: completarGestion()
-ExamenesCorregidos --> ExamenCorregido: verDetalle()
-ExamenCorregido --> ExamenesCorregidos: volver()
-EditAsignatura --> ExamenCorregidoContextual: revisarExamen()
-ExamenCorregidoContextual --> EditAsignatura: cerrar()
+ExamenesCorregidos --> EditAsignatura: editarAsignatura()
+ExamenesCorregidos --> ExamenCorregido: verExamen()
+ExamenCorregido --> ExamenesCorregidos: verExamenes()
+EditAsignatura --> ExamenCorregidoContextual: verExamen()
+ExamenCorregidoContextual --> EditAsignatura: editarAsignatura()
 
 @enduml
 

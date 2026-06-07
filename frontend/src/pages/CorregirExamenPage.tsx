@@ -300,10 +300,21 @@ const CorregirExamenPage: React.FC = () => {
 
     return (
       <div className="page-container fade-in">
-        <h1>Gestión de Correcciones</h1>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
+          <h1>Gestión de Correcciones</h1>
+          {filtroAsignaturaId && (
+            <button
+              onClick={() => window.history.back()}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.8rem', fontWeight: '600', padding: 0 }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              Volver a la asignatura
+            </button>
+          )}
+        </div>
         <p className="subtitle">
           {filtroAsignaturaId
-            ? `Mostrando exámenes de la asignatura seleccionada. `
+            ? 'Exámenes de la asignatura seleccionada.'
             : 'Seleccione un grupo de exámenes para gestionar su corrección.'}
         </p>
 

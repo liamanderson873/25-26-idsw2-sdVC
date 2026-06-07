@@ -1,0 +1,18 @@
+@startuml verExamen-analisis
+skinparam linetype polyline
+
+actor Docente
+package verExamen as "verExamen()" {
+    rectangle #629EF9 VistaVerExamen
+    rectangle #b5bd68 ControladorExamen
+    rectangle #F2AC4E ExamenAlumno
+    rectangle #F2AC4E Pregunta
+}
+
+Docente -r-> VistaVerExamen: verExamen(ejemplarId)
+VistaVerExamen -d-> ControladorExamen: obtenerRevision(ejemplarId)
+ControladorExamen --> ExamenAlumno: obtenerConPreguntas(id)
+ControladorExamen --> Pregunta: obtenerRespuestas()
+ControladorExamen --> VistaVerExamen: datosRevision
+
+@enduml

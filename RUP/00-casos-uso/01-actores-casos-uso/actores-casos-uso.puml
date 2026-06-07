@@ -47,6 +47,8 @@ package "Módulo Exámen" {
   usecase "asignarExamenes()" as UC29
   usecase "cancelarGeneracion()" as UC40
   usecase "corregirExamenes()" as UC31
+  usecase "verExamen()" as UC44
+  usecase "verExamenes()" as UC45
 }
 
 package "Módulo Sesión" {
@@ -107,6 +109,8 @@ doc -d-> UC35
 doc -l-> UC36
 doc -l-> UC38
 doc -l-> UC40
+doc -l-> UC44
+doc -l-> UC45
 doc -u-> UC42
 doc -u-> UC43
 ME44<.r.UC26 : <<include>>
