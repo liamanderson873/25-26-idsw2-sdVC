@@ -728,4 +728,95 @@ De un grid de estadísticas puro a una pantalla de "recepción":
 ### Validación
 - RevisionModal verificado: muestra preguntas con colores correcto/incorrecto.
 - CorregirExamenPage: navegación grupos → detalle → corrección funcional.
+
+---
+
+## Conversación 44: Separación CU-02/CU-09, AsignarExamenPage y UX de Correcciones
+**Fecha**: 2026-06-07
+**Participantes**: Liam (Usuario) + Claude Sonnet 4.6
+
+### Contexto de la Sesión
+Sesión de continuación desde contexto compactado. El objetivo principal era implementar la separación real entre CU-02 (Generar) y CU-09 (Asignar), que hasta ahora se hacían en un solo paso (`generarYAsignar`), lo que no era fiel al diagrama de estados del sistema. También se corrigió un bug de restricción de BD y se mejoró la UX de navegación.
+
+**Prompts clave de Liam**:
+> "si implementalo, me parece que es lo mejor" *(confirma separación CU-02/CU-09)*
+> "claro el problema es que ahora no hay una pestaña de asignacion para poder hacer la parte de asignacion"
+> "podemos separar en corregir examenes los examenes que ya han sido corregidos de los otros como has hecho en asignar examenes"
+> "vale perfecto, vamos a dejarlo por hoy"
+
+### Desarrollo Principal
+
+**1. Separación CU-02 / CU-09 — Backend** (`f7b32ba`)
+
+*Motivación*: el diagrama de estados define PENDIENTE (generado) y ASIGNADO (clave SHA-256 generada, formalmente asignado) como estados distintos. El sistema generaba y asignaba en un único paso, haciendo imposible distinguirlos.
+
+Cambios:
+- `ExamenAlumno.java`: columna `clave_correccion` pasa a nullable (`nullable = false` eliminado de la anotación JPA).
+- `DTO_GrupoExamen.java`: nuevo campo `asignados` separado de `pendientes`.
+- `ServicioExamen.generarYAsignar()`: ejemplares se crean con `estado = PENDIENTE` y `claveCorreccion = null`.
+- `ServicioExamen.asignarGrupo()` (nuevo): busca todos los ejemplares PENDIENTE del grupo, genera SHA-256 para cada uno y los pasa a ASIGNADO.
+- `ServicioExamen.listarGrupos()`: ahora cuenta PENDIENTE y ASIGNADO por separado en lugar de agruparlos.
+- `ServicioExamen.simularEntregaGrupo/Masiva()`: solo procesa ejemplares en estado ASIGNADO (los PENDIENTE sin clave no pueden "entregar").
+- `ServicioExamen.cancelarGeneracion()`: ahora permite cancelar un examen si todos sus ejemplares son PENDIENTE (los elimina primero); bloquea si alguno es ASIGNADO o más avanzado.
+- `ServicioExamen.exportarExamen()`: filtra para incluir solo alumnos con clave (`claveCorreccion != null`).
+- `ControladorExamen.java`: nuevo endpoint `POST /api/examenes/grupos/asignar`.
+
+**2. Bug: restricción NOT NULL en PostgreSQL** (fix inmediato)
+
+Eliminar `nullable = false` de la anotación JPA no modifica la BD existente (con `ddl-auto=update` Hibernate no elimina restricciones). Al intentar generar, PostgreSQL lanzó:
+```
+ERROR: el valor nulo de la columna «clave_correccion» viola la restricción de no nulo
+```
+Fix: `ALTER TABLE examen_alumnos ALTER COLUMN clave_correccion DROP NOT NULL;` ejecutado directamente en la BD.
+
+**3. Separación CU-02/CU-09 — Frontend** (`f7b32ba`)
+
+- `examenService.ts`: nueva función `asignarGrupo()` → `POST /examenes/grupos/asignar`.
+- `CorregirExamenPage.tsx`:
+  - `ESTADO_BADGE`: PENDIENTE = "Sin asignar" (violeta `#7c3aed`), ASIGNADO = "Sin entregar" (gris, sin cambio).
+  - Nuevas funciones: `esSinAsignar`, `esAsignado`, `tieneClave`.
+  - Sidebar del detalle: cinco filas (Total, Sin asignar, Asignados, Entregados, Corregidos).
+  - Tabla de grupos: columna "Sin asignar" (violeta) + "Asignados" (gris) añadidas.
+  - Botones del detalle: "Asignar y generar claves" (visible cuando `haySinAsignar`), "Hojas de respuesta" y "Simular entregas" gateados a `hayAsignados`.
+  - `handleDescargarHojas`: filtra solo ejemplares con clave (`tieneClave`).
+- `GenerarExamenPage.tsx`: botón cambia a "Generar N exámenes (pendientes de asignación)"; banner de éxito redirige a `/asignar-examen`.
+
+**4. AsignarExamenPage — nueva pestaña CU-09** (`081ecd8`)
+
+`AsignarExamenPage.tsx` reescrita para el nuevo flujo:
+- Tabla principal "Grupos pendientes de asignación": solo muestra grupos con `pendientes > 0`, botón "Asignar y generar claves" por fila que llama a `asignarGrupo`.
+- Tabla secundaria "Grupos ya asignados": grupos con `pendientes === 0`, columnas simplificadas (Asignados, Entregados, Corregidos).
+- Ruta `/asignar-examen` registrada en `App.tsx`.
+- Sidebar: nueva entrada "Asignar Examen" entre "Generar Examen" y "Corregir Exámenes".
+
+**5. Separación grupos en CorregirExamenPage** (`46542c6`)
+
+Vista `grupos` dividida en dos secciones:
+- **En progreso**: grupos donde `corregidos < totalAlumnos`. Tabla completa con las 9 columnas. Header con contador de grupos (badge azul).
+- **Completados**: grupos donde `corregidos === totalAlumnos`. Tabla simplificada (Asignatura, Tipo, Fecha, Alumnos, Corregidos, badge "Completado ✓" verde). Solo se muestra si hay algún grupo completado.
+
+### Flujo Completo del Sistema (Post-Sesión)
+
+```
+[Generar Examen] → PENDIENTE (sin clave)
+      ↓
+[Asignar Examen] → ASIGNADO (SHA-256 generada, hojas disponibles)
+      ↓
+[Corregir Exámenes] → PENDIENTE_CALIFICACION → CORREGIDO
+```
+
+### Decisiones de Diseño
+
+- **ddl-auto=update no elimina restricciones**: Hibernate con `update` solo añade columnas/tablas, nunca elimina constraints existentes. Cualquier cambio de nullabilidad requiere `ALTER TABLE` manual en la BD.
+- **cancelarGeneracion ampliado**: ahora permite cancelar exámenes generados pero no asignados, eliminando primero los ejemplares PENDIENTE antes de borrar el `Examen`.
+- **Separación visual PENDIENTE/ASIGNADO**: colores distintos (violeta para "Sin asignar", gris para "Sin entregar") para que el docente entienda en qué estado está cada alumno.
+
+### Commits de esta sesión
+
+| Hash | Descripción |
+|------|-------------|
+| `f7b32ba` | feat(examenes): separar CU-02 y CU-09 (backend + frontend) |
+| `081ecd8` | feat(ui): añadir pestaña Asignar Examen al sidebar y router |
+| `46542c6` | feat(ui): separar grupos en progreso y completados en Correcciones |
+| `cab5bda` | feat(dashboard): añadir tarjeta Asignar Examen al panel de control |
 - Dashboard: acceso rápido y estado del sistema operativos.
