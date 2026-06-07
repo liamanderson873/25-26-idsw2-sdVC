@@ -9,6 +9,7 @@ package "Capa de Presentación\n(React + Vite — puerto 5173)" <<Rectangle>> {
     component "AlumnosPage" as UI2
     component "AsignaturasPage" as UI3
     component "GenerarExamenPage" as UI4
+    component "AsignarExamenPage" as UI8
     component "CorregirExamenPage" as UI5
     component "ImportarExportarPage" as UI6
     component "DashboardPage" as UI7
@@ -24,16 +25,32 @@ package "com.jorgestor.api" {
             + listar(): ResponseEntity
             + listarGrupos(): ResponseEntity
             + alumnosDeGrupo(dto: DTO_AccionGrupo): ResponseEntity
+            + asignarGrupo(dto: DTO_AccionGrupo): ResponseEntity
             + entregarGrupo(dto: DTO_AccionGrupo): ResponseEntity
             + corregirGrupo(dto: DTO_AccionGrupo): ResponseEntity
+            + cancelarGeneracion(dto: DTO_AccionGrupo): ResponseEntity
             + conteosPorAlumno(): ResponseEntity
             + conteosPorAsignatura(): ResponseEntity
             + generarYAsignar(dto: DTO_GenerarYAsignar): ResponseEntity
-            + asignarExamen(dto: DTO_AsignarExamen): ResponseEntity
             + corregirMasivo(id: Long): ResponseEntity
             + corregirExamen(dto: DTO_ProcesarCorreccion): ResponseEntity
             + obtenerRevision(ejemplarId: Long): ResponseEntity
-            + cancelarGeneracion(id: Long): ResponseEntity
+            + exportarExamen(id: Long): ResponseEntity
+        }
+        class ControladorProfesor {
+            + listar(): ResponseEntity
+            + guardar(dto: DTO_Profesor): ResponseEntity
+            + actualizar(id: Long, dto: DTO_Profesor): ResponseEntity
+            + eliminar(id: Long): ResponseEntity
+        }
+        class ControladorTema {
+            + listar(): ResponseEntity
+            + guardar(dto: DTO_Tema): ResponseEntity
+            + actualizar(id: Long, dto: DTO_Tema): ResponseEntity
+            + eliminar(id: Long): ResponseEntity
+        }
+        class ControladorSistema {
+            + getResumen(): ResponseEntity
         }
         class ControladorAlumno {
             + listarTodos(): ResponseEntity
@@ -72,16 +89,29 @@ package "com.jorgestor.api" {
     package "servicio" {
         class ServicioExamen {
             + generarYAsignar(dto: DTO_GenerarYAsignar): int
-            + asignarExamenAAlumnos(id: Long, alumnos: List<Long>): void
+            + asignarGrupo(dto: DTO_AccionGrupo): void
+            + cancelarGeneracion(dto: DTO_AccionGrupo): void
             + simularEntregaMasiva(id: Long): void
             + simularEntregaGrupo(dto: DTO_AccionGrupo): void
             + corregirMasivo(id: Long): void
             + corregirGrupo(dto: DTO_AccionGrupo): void
+            + exportarExamen(id: Long): DTO_ExportarExamen
             + listarGrupos(): List<DTO_GrupoExamen>
             + listarEjemplaresDeGrupo(dto): List<DTO_EjemplarResumen>
             + obtenerRevisionEjemplar(id: Long): DTO_RevisionEjemplar
             + contarExamenesPorAlumno(): Map<Long, Long>
             + contarExamenesPorAsignatura(): Map<Long, Long>
+        }
+        class ServicioProfesor {
+            + listarTodos(): List<DTO_Profesor>
+            + crearOActualizar(dto: DTO_Profesor): void
+            + eliminar(id: Long): void
+        }
+        class ServicioTema {
+            + listarTodos(): List<DTO_Tema>
+            + crearOActualizar(dto: DTO_Tema): void
+            + actualizar(id: Long, dto: DTO_Tema): void
+            + eliminar(id: Long): void
         }
         class ServicioAlumno {
             + listarTodos(): List<DTO_Alumno>
@@ -162,5 +192,9 @@ ServicioConfiguracion ..> ServicioGrado
 ServicioConfiguracion ..> ServicioAsignatura
 ServicioConfiguracion ..> ServicioAlumno
 ServicioConfiguracion ..> ServicioPregunta
+ServicioProfesor ..> RepositorioProfesor
+ServicioProfesor ..> RepositorioUsuario
+ServicioTema ..> RepositorioTema
+ServicioTema ..> RepositorioAsignatura
 
 @enduml

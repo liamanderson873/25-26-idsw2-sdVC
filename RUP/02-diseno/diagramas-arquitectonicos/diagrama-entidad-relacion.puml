@@ -48,6 +48,8 @@ together {
     + nombre : String
     + apellidos : String
     + email : String
+    + usuario : String
+    # password : String
   }
   class ExamenAlumno <<Entity>> {
     + id : Long
@@ -115,6 +117,8 @@ enum TipoEvaluacion {
 enum EstadoExamen {
   PENDIENTE
   ASIGNADO
+  REALIZADO
+  ENTREGADO
   PENDIENTE_CALIFICACION
   CORREGIDO
 }

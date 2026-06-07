@@ -8,29 +8,37 @@ skinparam state {
   FontName Arial
 }
 
-[*] --> PENDIENTE : generarYAsignar()\nexamen personalizado creado y asignado al alumno
+[*] --> PENDIENTE : generarExamen() — CU-02\nejemplar creado, sin clave SHA-256
 
-state PENDIENTE : Examen generado y asignado.\nEl alumno aún no ha realizado el examen.
+state PENDIENTE : Examen generado (CU-02).\nSin clave de corrección aún.\nPendiente de asignación formal.
 
-state ASIGNADO : Asignado mediante flujo\nclásico (asignarExamen separado).\nPendiente de realización.
+state ASIGNADO : Asignado formalmente (CU-09).\nClave SHA-256 generada.\nPendiente de realización.
 
-state PENDIENTE_CALIFICACION : Examen entregado o escaneado.\nMarcas de auditoría registradas.\nPendiente de calificación.
+state PENDIENTE_CALIFICACION : Examen entregado mediante simulación.\nMarcas de auditoría registradas.\nPendiente de calificación.
+
+state REALIZADO : Examen marcado como realizado\nde forma autónoma. Equivalente a\nPENDIENTE_CALIFICACION en corrección.
+
+state ENTREGADO : Examen entregado manualmente\n(escaneo / entrega física). Equivalente a\nPENDIENTE_CALIFICACION en corrección.
 
 state CORREGIDO : Nota final registrada.\nAuditoría completa disponible.
 
-' ─── Flujo principal (generarYAsignar) ───────────────────────────
+' ─── Flujo principal ──────────────────────────────────────────────
 
-PENDIENTE --> PENDIENTE_CALIFICACION : simularEntrega() / escanear hoja\n[marcas de auditoría creadas]
+PENDIENTE --> ASIGNADO : asignarGrupo()\n[clave SHA-256 generada]
 
-' ─── Flujo clásico (generar + asignar por separado) ──────────────
+ASIGNADO --> PENDIENTE_CALIFICACION : simularEntrega()\n[marcas de auditoría creadas]
 
-PENDIENTE --> ASIGNADO : asignarExamen()\n[clave SHA-256 generada]
+ASIGNADO --> REALIZADO : entregaAutonoma()\n[alumno finaliza por su cuenta]
 
-ASIGNADO --> PENDIENTE_CALIFICACION : simularEntrega() / escanear hoja\n[marcas de auditoría creadas]
+ASIGNADO --> ENTREGADO : entregaManual()\n[hoja física / escaneada]
 
-' ─── Corrección ──────────────────────────────────────────────────
+' ─── Corrección (los tres estados son equivalentes) ──────────────
 
 PENDIENTE_CALIFICACION --> CORREGIDO : corregirIA() / correccionManual()\n[nota = (aciertos - fallos/3) / total × 10]
+
+REALIZADO --> CORREGIDO : corregirIA() / correccionManual()\n[misma fórmula]
+
+ENTREGADO --> CORREGIDO : corregirIA() / correccionManual()\n[misma fórmula]
 
 CORREGIDO --> [*] : acta cerrada
 
