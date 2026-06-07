@@ -1,4 +1,4 @@
-# Disciplina de Diseño: Realizaciones Técnicas
+﻿# Disciplina de Diseño: Realizaciones Técnicas
 
 Esta sección presenta el catálogo de todas las realizaciones de diseño del sistema **Jorgestor**, detallando cómo interactúan los objetos del sistema para cumplir los requisitos.
 
@@ -9,16 +9,16 @@ Esta sección presenta el catálogo de todas las realizaciones de diseño del si
 Antes de entrar en el detalle de cada caso de uso, se definen los pilares arquitectónicos del sistema:
 
 ### [Modelo del Dominio (As-Built)](diagramas-arquitectonicos/diagrama-entidad-relacion.puml)
-![Modelo del Dominio Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/diagramas-arquitectonicos/diagrama-entidad-relacion.puml)
+![Modelo del Dominio Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-entidad-relacion.puml)
 
 ### [Ciclo de Vida del Examen](diagramas-arquitectonicos/diagrama-estados-examen.puml)
-![Diagrama de Estados Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/diagramas-arquitectonicos/diagrama-estados-examen.puml)
+![Diagrama de Estados Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-estados-examen.puml)
 
 ### [Arquitectura de Clases de Diseño (Backend)](diagramas-arquitectonicos/diagrama-clases-diseno.puml)
-![Diagrama de Clases](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/diagramas-arquitectonicos/diagrama-clases-diseno.puml)
+![Diagrama de Clases](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-clases-diseno.puml)
 
 ### [Arquitectura Física y Stack Tecnológico](diagramas-arquitectonicos/diagrama-arquitectura-stack.puml)
-![Diagrama de Stack](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/diagramas-arquitectonicos/diagrama-arquitectura-stack.puml)
+![Diagrama de Stack](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-arquitectura-stack.puml)
 
 ---
 
@@ -28,28 +28,28 @@ Antes de entrar en el detalle de cada caso de uso, se definen los pilares arquit
 
 #### [CU-01] Corregir Exámenes
 Lógica de calificación masiva e individual con validación técnica.
-![Secuencia CU-01](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/casos-uso/CU-01-corregirExamenes/diseno-secuencia-CU-01-corregirExamenes.puml)
+![Secuencia CU-01](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/CU-01-corregirExamenes/diseno-secuencia-CU-01-corregirExamenes.puml)
 > [Ir a Carpeta de Realización](casos-uso/CU-01-corregirExamenes/)
 
 ---
 
 #### [CU-02] Generar Examen
 Selección aleatoria estratificada por dificultad; cada alumno recibe un examen personalizado.
-![Secuencia CU-02](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/casos-uso/CU-02-generarExamenes/diseno-secuencia-CU-02-generarExamenes.puml)
+![Secuencia CU-02](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/CU-02-generarExamenes/diseno-secuencia-CU-02-generarExamenes.puml)
 > [Ir a Carpeta de Realización](casos-uso/CU-02-generarExamenes/)
 
 ---
 
 #### [CU-09] Asignar Exámenes
 Vinculación de alumnos al examen con generación de firmas SHA-256.
-![Secuencia CU-09](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/casos-uso/CU-09-asignarExamenes/diseno-secuencia-CU-09-asignarExamenes.puml)
+![Secuencia CU-09](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/CU-09-asignarExamenes/diseno-secuencia-CU-09-asignarExamenes.puml)
 > [Ir a Carpeta de Realización](casos-uso/CU-09-asignarExamenes/)
 
 ---
 
 #### [CU-37] Cancelar Generación
 Eliminación de un examen no asignado.
-![Secuencia CU-37](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/casos-uso/CU-37-cancelarGeneracion/diseno-secuencia-CU-37-cancelarGeneracion.puml)
+![Secuencia CU-37](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/CU-37-cancelarGeneracion/diseno-secuencia-CU-37-cancelarGeneracion.puml)
 > [Ir a Carpeta de Realización](casos-uso/CU-37-cancelarGeneracion/)
 
 ---
@@ -58,28 +58,28 @@ Eliminación de un examen no asignado.
 
 #### [CU-03] Importar Configuración Global
 Carga completa del sistema desde un fichero JSON.
-![Secuencia CU-03](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/casos-uso/CU-03-importarConfiguracionGlobal/diseno-secuencia-CU-03-importarConfiguracionGlobal.puml)
+![Secuencia CU-03](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/CU-03-importarConfiguracionGlobal/diseno-secuencia-CU-03-importarConfiguracionGlobal.puml)
 > [Ir a Carpeta de Realización](casos-uso/CU-03-importarConfiguracionGlobal/)
 
 ---
 
 #### [CU-04] Exportar Configuración Global
 Exportación de toda la configuración del sistema a JSON descargable.
-![Secuencia CU-04](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/casos-uso/CU-04-exportarConfiguracionGlobal/diseno-secuencia-CU-04-exportarConfiguracionGlobal.puml)
+![Secuencia CU-04](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/CU-04-exportarConfiguracionGlobal/diseno-secuencia-CU-04-exportarConfiguracionGlobal.puml)
 > [Ir a Carpeta de Realización](casos-uso/CU-04-exportarConfiguracionGlobal/)
 
 ---
 
 #### [CU-05] Importar Alumnos
 Carga masiva de alumnos desde CSV.
-![Secuencia CU-05](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/casos-uso/CU-05-importarAlumnos/diseno-secuencia-CU-05-importarAlumnos.puml)
+![Secuencia CU-05](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/CU-05-importarAlumnos/diseno-secuencia-CU-05-importarAlumnos.puml)
 > [Ir a Carpeta de Realización](casos-uso/CU-05-importarAlumnos/)
 
 ---
 
 #### [CU-06] Importar Preguntas
 Carga masiva de preguntas y respuestas desde CSV.
-![Secuencia CU-06](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/casos-uso/CU-06-importarPreguntas/diseno-secuencia-CU-06-importarPreguntas.puml)
+![Secuencia CU-06](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/CU-06-importarPreguntas/diseno-secuencia-CU-06-importarPreguntas.puml)
 > [Ir a Carpeta de Realización](casos-uso/CU-06-importarPreguntas/)
 
 ---

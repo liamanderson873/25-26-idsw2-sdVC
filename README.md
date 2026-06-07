@@ -25,13 +25,13 @@ Demostración del proceso de **Diseño Evolutivo (JEDUF)**. Los diagramas se sin
 
 | **Diseño Original (Baseline)** | **Implementación Final (As-Built)** |
 | :---: | :---: |
-| ![Original](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/00-baseline/diagramaEntidad/original.puml) | ![Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/diagramas-arquitectonicos/diagrama-entidad-relacion.puml) |
+| ![Original](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramaEntidad/original.puml) | ![Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-entidad-relacion.puml) |
 
 ### 2. Comportamiento (Ciclo de Vida del Examen)
 
 | **Flujo Teórico** | **Flujo Real de Auditoría** |
 | :---: | :---: |
-| ![Original](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/00-baseline/diagramaEstadosExamen/original.puml) | ![Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/diagramas-arquitectonicos/diagrama-estados-examen.puml) |
+| ![Original](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramaEstadosExamen/original.puml) | ![Final](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-estados-examen.puml) |
 
 ---
 
