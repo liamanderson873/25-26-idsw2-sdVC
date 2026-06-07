@@ -433,7 +433,7 @@ const CorregirExamenPage: React.FC = () => {
                   {asignarMutation.isPending ? 'Asignando...' : 'Asignar y generar claves'}
                 </button>
               )}
-              {hayAsignados && (
+              {ejemplares.some(tieneClave) && (
                 <button
                   onClick={handleDescargarHojas}
                   disabled={descargando}
