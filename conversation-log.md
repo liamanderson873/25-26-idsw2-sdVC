@@ -946,3 +946,28 @@ GenerarExamenPage → [Generar] → banner éxito
 | Hash | Descripción |
 |------|-------------|
 | `4dc39b4` | feat: ver examen generado y corregir desde asignatura |
+| `7e00032` | feat(rup): alinear con rama fix-revision-final del ModelingRepo |
+| `c328ff2` | feat(diseno): añadir diagramas de diseño CU-42 y CU-43 |
+| `1930e35` | fix(rup): añadir actor AdministradorInstitucional y corregir diagramas |
+
+---
+
+## Conversación 46: Push a develop y PR a main — Cierre de Sprint
+
+**Fecha:** 2026-06-07
+
+### Resumen
+
+Verificación final del estado del repositorio tras la sesión 45. El árbol de trabajo estaba limpio. Se añaden las entradas pendientes al log y se sube a `develop`. Desde `develop` el usuario abre un PR a `main` desde la interfaz de GitHub.
+
+### Estado final de develop
+
+Los 4 commits de la sesión 45 ya estaban en `develop` local:
+
+| Hash | Descripción |
+|------|-------------|
+| `1930e35` | fix(rup): añadir actor AdministradorInstitucional y corregir diagramas |
+| `c328ff2` | feat(diseno): añadir diagramas de diseño CU-42 y CU-43 |
+| `7e00032` | feat(rup): alinear con rama fix-revision-final del ModelingRepo |
+| `2cbdedc` | docs: añadir conversación 45 al log |
+| `4dc39b4` | feat: ver examen generado y corregir desde asignatura |
