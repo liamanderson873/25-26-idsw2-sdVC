@@ -9,7 +9,7 @@ Esta sección presenta el catálogo de todas las realizaciones de diseño del si
 Antes de entrar en el detalle de cada caso de uso, se definen los pilares arquitectónicos del sistema:
 
 ### [Modelo del Dominio (As-Built)](diagramas-arquitectonicos/diagrama-entidad-relacion.puml)
-<img width="860" src="https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-entidad-relacion.puml"/>
+<img width="760" src="https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-entidad-relacion.puml"/>
 
 ### [Ciclo de Vida del Examen](diagramas-arquitectonicos/diagrama-estados-examen.puml)
 <img width="700" src="https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-estados-examen.puml"/>

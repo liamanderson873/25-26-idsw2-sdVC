@@ -1,35 +1,39 @@
 @startuml
 skinparam classAttributeIconSize 0
-skinparam linetype ortho
 skinparam class {
   BackgroundColor white
   BorderColor #475569
   HeaderBackgroundColor #e2e8f0
   FontName Arial
-  FontSize 12
+  FontSize 11
 }
 skinparam enum {
   BackgroundColor #fef9c3
   BorderColor #ca8a04
   FontName Arial
-  FontSize 11
+  FontSize 10
 }
 skinparam note {
   BackgroundColor #f0f9ff
   BorderColor #0ea5e9
-  FontSize 10
+  FontSize 9
 }
 hide empty members
-
-top to bottom direction
+left to right direction
 
 ' ══════════════════════════════════════════════
-' ENUMERACIONES
+' ENUMS
 ' ══════════════════════════════════════════════
 
 enum Rol {
   DOCENTE
   ADMINISTRADOR_INSTITUCIONAL
+}
+
+enum Dificultad {
+  BAJA
+  MEDIA
+  ALTA
 }
 
 enum TipoEvaluacion {
@@ -40,101 +44,73 @@ enum TipoEvaluacion {
   EXTRAORDINARIO
 }
 
-enum Dificultad {
-  BAJA
-  MEDIA
-  ALTA
-}
-
 enum EstadoExamen {
   PENDIENTE
   ASIGNADO
-  REALIZADO
-  ENTREGADO
   PENDIENTE_CALIFICACION
   CORREGIDO
 }
 
 ' ══════════════════════════════════════════════
-' CAPA 1 — USUARIOS Y AUTENTICACIÓN
+' ENTIDADES
 ' ══════════════════════════════════════════════
 
-together {
-  class Usuario <<Entity>> {
-    + id : Long
-    + username : String
-    # password : String
-    + nombre : String
-    + rol : Rol
-  }
-
-  class Profesor <<Entity>> {
-    + id : Long
-    + dni : String
-    + nombre : String
-    + apellidos : String
-    + email : String
-    + usuario : String
-    # password : String
-  }
+class Usuario <<Entity>> {
+  + id : Long
+  + username : String
+  # password : String
+  + nombre : String
+  + rol : Rol
 }
 
-' ══════════════════════════════════════════════
-' CAPA 2 — ESTRUCTURA ACADÉMICA
-' ══════════════════════════════════════════════
-
-together {
-  class Grado <<Entity>> {
-    + id : Long
-    + codigo : String
-    + nombre : String
-  }
-
-  class Asignatura <<Entity>> {
-    + id : Long
-    + nombre : String
-    + codigo : String
-    + cursoAcademico : String
-    + cursoSugerido : Integer
-  }
-
-  class Alumno <<Entity>> {
-    + id : Long
-    + dni : String
-    + nombre : String
-    + apellidos : String
-    + curso : Integer
-  }
+class Profesor <<Entity>> {
+  + id : Long
+  + dni : String
+  + nombre : String
+  + apellidos : String
+  + email : String
 }
 
-' ══════════════════════════════════════════════
-' CAPA 3 — CONTENIDO (PREGUNTAS)
-' ══════════════════════════════════════════════
-
-together {
-  class Tema <<Entity>> {
-    + id : Long
-    + nombre : String
-  }
-
-  class Pregunta <<Entity>> {
-    + id : Long
-    + enunciado : String
-    + dificultad : Dificultad
-    + habilitada : Boolean
-  }
-
-  class Respuesta <<Entity>> {
-    + id : Long
-    + contenido : String
-    + indice : Integer
-    + esCorrecta : Boolean
-  }
+class Grado <<Entity>> {
+  + id : Long
+  + codigo : String
+  + nombre : String
 }
 
-' ══════════════════════════════════════════════
-' CAPA 4 — EXÁMENES
-' ══════════════════════════════════════════════
+class Alumno <<Entity>> {
+  + id : Long
+  + dni : String
+  + nombre : String
+  + apellidos : String
+  + curso : Integer
+}
+
+class Asignatura <<Entity>> {
+  + id : Long
+  + nombre : String
+  + codigo : String
+  + cursoAcademico : String
+  + cursoSugerido : Integer
+}
+
+class Tema <<Entity>> {
+  + id : Long
+  + nombre : String
+}
+
+class Pregunta <<Entity>> {
+  + id : Long
+  + enunciado : String
+  + dificultad : Dificultad
+  + habilitada : Boolean
+}
+
+class Respuesta <<Entity>> {
+  + id : Long
+  + contenido : String
+  + indice : Integer
+  + esCorrecta : Boolean
+}
 
 class Examen <<Entity>> {
   + id : Long
@@ -143,10 +119,6 @@ class Examen <<Entity>> {
   + esPersonalizado : Boolean
 }
 
-' ══════════════════════════════════════════════
-' CAPA 5 — EJEMPLARES (EXAMEN POR ALUMNO)
-' ══════════════════════════════════════════════
-
 class ExamenAlumno <<Entity>> {
   + id : Long
   + claveCorreccion : String
@@ -154,10 +126,6 @@ class ExamenAlumno <<Entity>> {
   + notaFinal : Double
   + estado : EstadoExamen
 }
-
-' ══════════════════════════════════════════════
-' CAPA 6 — AUDITORÍA (MARCAS)
-' ══════════════════════════════════════════════
 
 class ExamenAlumnoMarca <<Entity>> {
   + id : Long
@@ -172,39 +140,30 @@ class ExamenAlumnoMarca <<Entity>> {
 Usuario       ..>  Rol
 
 ' Estructura académica
-Profesor      "1"  -d-o  "*"  Asignatura       : imparte
-Asignatura    "*"  -d--  "*"  Grado            : asignatura_grados
-note on link
-  tabla intermedia
-end note
-Alumno        "*"  -u->  "1"  Grado            : cursa en
-Alumno        "*"  -u--  "*"  Asignatura       : matriculas
-note on link
-  tabla intermedia
-end note
+Profesor      "1"  --  "*"  Asignatura  : imparte
+Alumno        "*"  -->  "1"  Grado      : cursa en
+Asignatura    "*"  --  "*"  Grado       : asignatura_grados\n<<tabla intermedia>>
+Alumno        "*"  --  "*"  Asignatura  : matriculas\n<<tabla intermedia>>
 
 ' Contenido
-Tema          "*"  -u->  "1"  Asignatura       : pertenece a
+Asignatura    "1"  --  "*"  Tema        : tiene
+Pregunta      "*"  -->  "1"  Tema        : sobre
 Pregunta      ..>  Dificultad
-Pregunta      "*"  -u->  "1"  Tema             : sobre
-Respuesta     "*"  -u->  "1"  Pregunta         : opciones de
+Respuesta     "*"  -->  "1"  Pregunta    : opción de
 
 ' Examen
 Examen        ..>  TipoEvaluacion
-Examen        "*"  -u->  "1"  Asignatura       : de
-Examen        "*"  -u--  "*"  Pregunta         : examen_preguntas
-note on link
-  tabla intermedia
-end note
+Examen        "*"  -->  "1"  Asignatura  : de
+Examen        "*"  --  "*"  Pregunta     : examen_preguntas\n<<tabla intermedia>>
 
 ' Ejemplar
 ExamenAlumno  ..>  EstadoExamen
-ExamenAlumno  "*"  -u->  "1"  Examen           : ejemplar de
-ExamenAlumno  "*"  -u->  "1"  Alumno           : asignado a
+ExamenAlumno  "*"  -->  "1"  Examen      : ejemplar de
+ExamenAlumno  "*"  -->  "1"  Alumno      : asignado a
 
 ' Auditoría
-ExamenAlumnoMarca  "*"  -u->  "1"      ExamenAlumno  : auditoria de
-ExamenAlumnoMarca  "*"  -r->  "1"      Pregunta      : pregunta marcada
-ExamenAlumnoMarca  "*"  -r->  "0..1"   Respuesta     : respuesta elegida\n(null = en blanco)
+ExamenAlumnoMarca  "*"  -->  "1"    ExamenAlumno  : auditoría de
+ExamenAlumnoMarca  "*"  -->  "1"    Pregunta      : marcada
+ExamenAlumnoMarca  "*"  -->  "0..1" Respuesta     : elegida\n(null = en blanco)
 
 @enduml
