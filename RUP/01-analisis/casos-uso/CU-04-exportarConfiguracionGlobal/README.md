@@ -1,139 +1,19 @@
-﻿# Jorgestor > CU-04-exportarConfiguracionGlobal > Análisis
+﻿<div align=right>
 
-## información del artefacto
-
-- **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
-- **Fecha**: 2026-05-24
-- **Autor**: Equipo de desarrollo
-
-## propósito
-
-Análisis del caso de uso Exportar Configuración Global. Describe el proceso de extracción de datos masivos.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: exportarConfiguracionGlobal()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-04-exportarConfiguracionGlobal/analisis-colaboracion-CU-04-exportarConfiguracionGlobal.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-04-exportarConfiguracionGlobal.puml](analisis-colaboracion-CU-04-exportarConfiguracionGlobal.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## clases de análisis identificadas
+# CU-04 — Exportar Configuracion Global
 
-### clases model (naranja #F2AC4E)
-|Clase|Responsabilidad|Trazabilidad|
-|-|-|-|
-|**Student**|Fuente de datos de alumnos|Modelo del dominio|
-|**Grade**|Fuente de datos de grados|Modelo del dominio|
-|**Subject**|Fuente de datos de asignaturas|Modelo del dominio|
-|**Question**|Fuente de datos de preguntas|Modelo del dominio|
+*El docente exporta toda la configuracion del sistema a un fichero JSON descargable, incluyendo los cuatro subartefactos abstractos.*
 
-### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
-|-|-|-|
-|**GlobalConfigExportView**|Interfaz para configurar la exportación|Wireframe|
+<div align=center>
 
-### clases controller (verde #b5bd68)
-|Clase|Responsabilidad|Caso de uso|
-|-|-|-|
-|**ExportController**|Recopila instancias, estructura y genera salida|exportarConfiguracionGlobal()|
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-04-exportarConfiguracionGlobal/analisis-colaboracion-CU-04-exportarConfiguracionGlobal.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-04-exportarConfiguracionGlobal/analisis-secuencia-CU-04-exportarConfiguracionGlobal.puml)|
+|[analisis-colaboracion-CU-04-exportarConfiguracionGlobal.puml](analisis-colaboracion-CU-04-exportarConfiguracionGlobal.puml)|[analisis-secuencia-CU-04-exportarConfiguracionGlobal.puml](analisis-secuencia-CU-04-exportarConfiguracionGlobal.puml)|
 
-## mensajes de colaboración
-
-|Origen|Destino|Mensaje|Intención|
-|-|-|-|-|
-|**Docente**|**GlobalConfigExportView**|`exportarConfiguracion(opciones)`|Solicitar exportación|
-|**GlobalConfigExportView**|**ExportController**|`recopilarDatos(opciones)`|Delegar la recopilación de datos|
-|**ExportController**|**Student**|`obtenerTodos()`|Consultar fuente|
-|**ExportController**|**Grade**|`obtenerTodos()`|Consultar fuente|
-|**ExportController**|**Subject**|`obtenerTodos()`|Consultar fuente|
-|**ExportController**|**Question**|`obtenerTodos()`|Consultar fuente|
-|**ExportController**|**GlobalConfigExportView**|`mostrarConfirmacion()`|Confirmar archivo generado|
-|**Docente**|**GlobalConfigExportView**|`confirmarExportacion()`|Confirmar descarga/generación|
-|**GlobalConfigExportView**|**ExportController**|`generarArchivo()`|Generar archivo final|
-
-## trazabilidad con artefactos previos
-
-- **Consistencia**: La exportación debe asegurar que los datos extraídos sean coherentes entre sí.
-
-```plantuml
-@startuml exportarConfiguracionGlobal-analisis
-skinparam linetype polyline
-
-actor Docente
-package exportarConfiguracionGlobal as "exportarConfiguracionGlobal()" {
-    rectangle #629EF9 GlobalConfigExportView
-    rectangle #b5bd68 ExportController
-    rectangle #F2AC4E Student
-    rectangle #F2AC4E Grade
-    rectangle #F2AC4E Subject
-    rectangle #F2AC4E Question
-}
-
-Docente -r-> GlobalConfigExportView: exportarConfiguracion(opciones)
-GlobalConfigExportView -d-> ExportController: recopilarDatos(opciones)
-
-ExportController --> Student: obtenerTodos()
-ExportController --> Grade: obtenerTodos()
-ExportController --> Subject: obtenerTodos()
-ExportController --> Question: obtenerTodos()
-
-ExportController --> GlobalConfigExportView: mostrarConfirmacion()
-Docente --> GlobalConfigExportView: confirmarExportacion()
-GlobalConfigExportView --> ExportController: generarArchivo()
-
-@enduml
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>

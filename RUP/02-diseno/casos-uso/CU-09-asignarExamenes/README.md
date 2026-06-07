@@ -1,12 +1,18 @@
-﻿# Detallado de Diseño: CU-09 Asignar Examen
+﻿<div align=right>
 
-Este documento detalla la vinculación entre un examen y una clase de alumnos.
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Diseno-FFF?style=flat&logo=postgresql&logoColor=black)](/RUP/02-diseno/README.md)|
+|-:|
 
-## Diagrama de Secuencia
+</div>
 
-![CU-09](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/casos-uso/CU-09-asignarExamenes/diseno-secuencia-CU-09-asignarExamenes.puml)
+# CU-09 — Asignar Examenes — Diseno
 
-## Lógica Técnica
-1. Creación de ejemplares únicos (`ExamenAlumno`).
-2. **Generación de Clave**: Algoritmo SHA-256 combinando DNI, ID Examen y Salt.
-3. El resultado es un identificador de 12 caracteres infalsificable para el proceso de escaneo.
+*El docente asigna los examenes generados a los alumnos de un grado, actualizando su estado a ASIGNADO.*
+
+<div align=center>
+
+![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/CU-09-asignarExamenes/diseno-secuencia-CU-09-asignarExamenes.puml)
+
+[diseno-secuencia-CU-09-asignarExamenes.puml](diseno-secuencia-CU-09-asignarExamenes.puml)
+
+</div>

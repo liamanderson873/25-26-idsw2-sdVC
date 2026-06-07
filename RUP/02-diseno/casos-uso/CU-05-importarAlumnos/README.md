@@ -1,13 +1,18 @@
-﻿# Detallado de Diseño: CU-03 Importar Alumnos
+﻿<div align=right>
 
-Este documento detalla la interacción técnica entre los componentes de la arquitectura de 3 capas para la importación masiva de alumnos.
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Diseno-FFF?style=flat&logo=postgresql&logoColor=black)](/RUP/02-diseno/README.md)|
+|-:|
 
-## Diagrama de Secuencia
+</div>
 
-![CU-05](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/casos-uso/CU-05-importarAlumnos/diseno-secuencia-CU-05-importarAlumnos.puml)
+# CU-05 — Importar Alumnos — Diseno
 
-## Lógica Técnica
-1. El **Controlador** recibe la lista de alumnos mediante un DTO.
-2. El **Servicio** valida la existencia del Grado.
-3. Se realiza una operación **UPSERT** (Update or Insert) basada en el DNI del alumno.
-4. Toda la operación es **Atómica** (@Transactional).
+*El docente importa el listado de alumnos desde el subartefacto correspondiente del fichero JSON global.*
+
+<div align=center>
+
+![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/CU-05-importarAlumnos/diseno-secuencia-CU-05-importarAlumnos.puml)
+
+[diseno-secuencia-CU-05-importarAlumnos.puml](diseno-secuencia-CU-05-importarAlumnos.puml)
+
+</div>

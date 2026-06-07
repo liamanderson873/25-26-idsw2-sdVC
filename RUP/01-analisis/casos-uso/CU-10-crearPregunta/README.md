@@ -1,127 +1,19 @@
-﻿# Jorgestor > CU-10-crearPregunta > Análisis
+﻿<div align=right>
 
-## información del artefacto
-
-- **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
-- **Fecha**: 2026-05-24
-- **Autor**: Equipo de desarrollo
-
-## propósito
-
-Análisis del caso de uso Crear Pregunta. Permite la inicialización de una nueva pregunta.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: crearPregunta()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-10-crearPregunta.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-10-crearPregunta.puml](analisis-colaboracion-CU-10-crearPregunta.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## clases de análisis identificadas
+# CU-10 — Crear Pregunta
 
-### clases model (naranja #F2AC4E)
-|Clase|Responsabilidad|Trazabilidad|
-|-|-|-|
-|**Question**|Nueva entidad de pregunta que se crea|Modelo del dominio|
-|**Subject**|Asignatura a la que se asociará la pregunta|Modelo del dominio|
+*El docente anade una nueva pregunta al banco de preguntas de una asignatura.*
 
-### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
-|-|-|-|
-|**QuestionCreationView**|Interfaz para solicitar datos obligatorios iniciales|Wireframe|
+<div align=center>
 
-### clases controller (verde #b5bd68)
-|Clase|Responsabilidad|Caso de uso|
-|-|-|-|
-|**QuestionManagementController**|Gestiona creación de instancia y valida campos|crearPregunta()|
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-10-crearPregunta/analisis-colaboracion-CU-10-crearPregunta.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-10-crearPregunta/analisis-secuencia-CU-10-crearPregunta.puml)|
+|[analisis-colaboracion-CU-10-crearPregunta.puml](analisis-colaboracion-CU-10-crearPregunta.puml)|[analisis-secuencia-CU-10-crearPregunta.puml](analisis-secuencia-CU-10-crearPregunta.puml)|
 
-## mensajes de colaboración
-
-|Origen|Destino|Mensaje|Intención|
-|-|-|-|-|
-|**Docente**|**QuestionCreationView**|`solicitarCreacion()`|Iniciar proceso|
-|**Docente**|**QuestionCreationView**|`proporcionarDatos(asignatura, enunciado, tema, dificultad)`|Enviar datos mínimos|
-|**QuestionCreationView**|**QuestionManagementController**|`crearPregunta(datos)`|Delegar la creación|
-|**QuestionManagementController**|**Subject**|`validarExistencia()`|Verificar asignatura|
-|**QuestionManagementController**|**Question**|`inicializar(datos)`|Crear nueva instancia|
-|**QuestionManagementController**|**QuestionCreationView**|`notificarExitoYRedirigir()`|Informar y pasar a edición|
-
-## trazabilidad con artefactos previos
-
-- **Encadenamiento**: Redirige automáticamente a `editarPregunta` para completar detalles.
-
-```plantuml
-@startuml crearPregunta-analisis
-skinparam linetype polyline
-
-actor Docente
-package crearPregunta as "crearPregunta()" {
-    rectangle #629EF9 QuestionCreationView
-    rectangle #b5bd68 QuestionManagementController
-    rectangle #F2AC4E Question
-    rectangle #F2AC4E Subject
-}
-
-Docente -r-> QuestionCreationView: solicitarCreacion()
-Docente --> QuestionCreationView: proporcionarDatos(asignatura, enunciado, tema, dificultad)
-QuestionCreationView -d-> QuestionManagementController: crearPregunta(datos)
-QuestionManagementController --> Subject: validarExistencia()
-QuestionManagementController --> Question: inicializar(datos)
-QuestionManagementController --> QuestionCreationView: notificarExitoYRedirigir()
-
-@enduml
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>

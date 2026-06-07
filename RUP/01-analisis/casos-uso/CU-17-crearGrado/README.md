@@ -1,125 +1,19 @@
-﻿# Jorgestor > CU-17-crearGrado > Análisis
+﻿<div align=right>
 
-## información del artefacto
-
-- **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
-- **Fecha**: 2026-05-24
-- **Autor**: Equipo de desarrollo
-
-## propósito
-
-Análisis del caso de uso Crear Grado. Permite la agrupación de alumnos y asignaturas.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: crearGrado()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-17-crearGrado.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-17-crearGrado.puml](analisis-colaboracion-CU-17-crearGrado.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## clases de análisis identificadas
+# CU-17 — Crear Grado
 
-### clases model (naranja #F2AC4E)
-|Clase|Responsabilidad|Trazabilidad|
-|-|-|-|
-|**Grade**|La nueva entidad grado|Modelo del dominio|
-|**Student**|Alumnos que se asocian al grado|Modelo del dominio|
+*El docente crea un nuevo grado academico en el sistema.*
 
-### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
-|-|-|-|
-|**GradeCreationView**|Interfaz para introducir datos mínimos y enlistar alumnos|Wireframe|
+<div align=center>
 
-### clases controller (verde #b5bd68)
-|Clase|Responsabilidad|Caso de uso|
-|-|-|-|
-|**GradeController**|Gestiona creación y asociación inicial de alumnos|crearGrado()|
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-17-crearGrado/analisis-colaboracion-CU-17-crearGrado.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-17-crearGrado/analisis-secuencia-CU-17-crearGrado.puml)|
+|[analisis-colaboracion-CU-17-crearGrado.puml](analisis-colaboracion-CU-17-crearGrado.puml)|[analisis-secuencia-CU-17-crearGrado.puml](analisis-secuencia-CU-17-crearGrado.puml)|
 
-## mensajes de colaboración
-
-|Origen|Destino|Mensaje|Intención|
-|-|-|-|-|
-|**Docente**|**GradeCreationView**|`solicitarCreacion()`|Iniciar proceso|
-|**Docente**|**GradeCreationView**|`proporcionarDatos(nombre, codigo)`|Enviar datos obligatorios|
-|**GradeCreationView**|**GradeController**|`crearGrado(datos)`|Delegar creación|
-|**GradeController**|**Grade**|`inicializar(datos)`|Crear entidad|
-|**GradeController**|**GradeCreationView**|`notificarExitoYRedirigir()`|Informar y pasar a edición|
-
-## trazabilidad con artefactos previos
-
-- **Estructura**: El grado sirve como estructura organizativa superior.
-
-```plantuml
-@startuml crearGrado-analisis
-skinparam linetype polyline
-
-actor Docente
-package crearGrado as "crearGrado()" {
-    rectangle #629EF9 GradeCreationView
-    rectangle #b5bd68 GradeController
-    rectangle #F2AC4E Grade
-    rectangle #F2AC4E Student
-}
-
-Docente -r-> GradeCreationView: solicitarCreacion()
-Docente --> GradeCreationView: proporcionarDatos(nombre, codigo)
-GradeCreationView -d-> GradeController: crearGrado(datos)
-GradeController --> Grade: inicializar(datos)
-GradeController --> GradeCreationView: notificarExitoYRedirigir()
-
-@enduml
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>

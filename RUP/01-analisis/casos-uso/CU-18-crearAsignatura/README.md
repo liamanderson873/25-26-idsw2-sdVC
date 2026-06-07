@@ -1,131 +1,19 @@
-﻿# Jorgestor > CU-18-crearAsignatura > Análisis
+﻿<div align=right>
 
-## información del artefacto
-
-- **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
-- **Fecha**: 2026-05-24
-- **Autor**: Equipo de desarrollo
-
-## propósito
-
-Análisis del caso de uso Crear Asignatura. Implica la inicialización de recursos vinculados.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: crearAsignatura()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-18-crearAsignatura.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-18-crearAsignatura.puml](analisis-colaboracion-CU-18-crearAsignatura.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## clases de análisis identificadas
+# CU-18 — Crear Asignatura
 
-### clases model (naranja #F2AC4E)
-|Clase|Responsabilidad|Trazabilidad|
-|-|-|-|
-|**Subject**|La nueva entidad asignatura|Modelo del dominio|
-|**QuestionBank**|Batería de preguntas asociada (conceptual)|Análisis|
-|**Student**|Alumnos matriculados|Modelo del dominio|
-|**Grade**|Grados asociados|Modelo del dominio|
+*El docente crea una nueva asignatura y la asocia a un grado academico.*
 
-### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
-|-|-|-|
-|**SubjectCreationView**|Interfaz para introducir datos mínimos, alumnos y grados|Wireframe|
+<div align=center>
 
-### clases controller (verde #b5bd68)
-|Clase|Responsabilidad|Caso de uso|
-|-|-|-|
-|**SubjectController**|Gestiona creación e inicialización de recursos vinculados|crearAsignatura()|
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-18-crearAsignatura/analisis-colaboracion-CU-18-crearAsignatura.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-18-crearAsignatura/analisis-secuencia-CU-18-crearAsignatura.puml)|
+|[analisis-colaboracion-CU-18-crearAsignatura.puml](analisis-colaboracion-CU-18-crearAsignatura.puml)|[analisis-secuencia-CU-18-crearAsignatura.puml](analisis-secuencia-CU-18-crearAsignatura.puml)|
 
-## mensajes de colaboración
-
-|Origen|Destino|Mensaje|Intención|
-|-|-|-|-|
-|**Docente**|**SubjectCreationView**|`solicitarCreacion()`|Iniciar proceso|
-|**Docente**|**SubjectCreationView**|`introducirDatos(nombre, codigo, curso)`|Enviar información obligatoria|
-|**SubjectCreationView**|**SubjectController**|`crearAsignatura(datos)`|Delegar creación|
-|**SubjectController**|**Subject**|`inicializar(datos)`|Crear entidad|
-|**SubjectController**|**QuestionBank**|`crearBateria()`|Inicializar espacio de trabajo|
-|**SubjectController**|**SubjectCreationView**|`notificarExitoYRedirigir()`|Informar y pasar a edición|
-
-## trazabilidad con artefactos previos
-
-- **Recursos**: Desencadena la creación de un espacio de trabajo (batería de preguntas).
-
-```plantuml
-@startuml crearAsignatura-analisis
-skinparam linetype polyline
-
-actor Docente
-package crearAsignatura as "crearAsignatura()" {
-    rectangle #629EF9 SubjectCreationView
-    rectangle #b5bd68 SubjectController
-    rectangle #F2AC4E Subject
-    rectangle #F2AC4E QuestionBank
-    rectangle #F2AC4E Student
-    rectangle #F2AC4E Grade
-}
-
-Docente -r-> SubjectCreationView: solicitarCreacion()
-Docente --> SubjectCreationView: introducirDatos(nombre, codigo, curso)
-SubjectCreationView -d-> SubjectController: crearAsignatura(datos)
-SubjectController --> Subject: inicializar(datos)
-SubjectController --> QuestionBank: crearBateria()
-SubjectController --> SubjectCreationView: notificarExitoYRedirigir()
-
-@enduml
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>

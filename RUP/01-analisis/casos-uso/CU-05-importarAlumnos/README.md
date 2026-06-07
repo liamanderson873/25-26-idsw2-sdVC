@@ -1,128 +1,19 @@
-﻿# Jorgestor > CU-05-importarAlumnos > Análisis
+﻿<div align=right>
 
-## información del artefacto
-
-- **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
-- **Fecha**: 2026-05-24
-- **Autor**: Equipo de desarrollo
-
-## propósito
-
-Análisis del caso de uso Importar Alumnos. Describe la importación desde archivos externos.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: importarAlumnos()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-05-importarAlumnos.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-05-importarAlumnos.puml](analisis-colaboracion-CU-05-importarAlumnos.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## clases de análisis identificadas
+# CU-05 — Importar Alumnos
 
-### clases model (naranja #F2AC4E)
-|Clase|Responsabilidad|Trazabilidad|
-|-|-|-|
-|**Student**|Entidad que representa al alumno en el sistema|Modelo del dominio|
+*El docente importa el listado de alumnos desde el subartefacto correspondiente del fichero JSON global.*
 
-### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
-|-|-|-|
-|**StudentImportView**|Interfaz para seleccionar archivo y confirmar importación de alumnos|Wireframe|
+<div align=center>
 
-### clases controller (verde #b5bd68)
-|Clase|Responsabilidad|Caso de uso|
-|-|-|-|
-|**StudentImportController**|Orquesta, valida formato y gestiona la persistencia|importarAlumnos()|
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-05-importarAlumnos/analisis-colaboracion-CU-05-importarAlumnos.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-05-importarAlumnos/analisis-secuencia-CU-05-importarAlumnos.puml)|
+|[analisis-colaboracion-CU-05-importarAlumnos.puml](analisis-colaboracion-CU-05-importarAlumnos.puml)|[analisis-secuencia-CU-05-importarAlumnos.puml](analisis-secuencia-CU-05-importarAlumnos.puml)|
 
-## mensajes de colaboración
-
-|Origen|Destino|Mensaje|Intención|
-|-|-|-|-|
-|**Docente**|**StudentImportView**|`seleccionarArchivo(archivo)`|Proporcionar el archivo|
-|**StudentImportView**|**StudentImportController**|`procesarArchivo(archivo)`|Delegar la validación y procesamiento|
-|**StudentImportController**|**Student**|`validarDuplicado()`|Comprobar si el alumno ya existe|
-|**StudentImportController**|**StudentImportView**|`mostrarPrevisualizacion()`|Solicitar confirmación de la importación|
-|**Docente**|**StudentImportView**|`confirmarImportacion()`|Confirmar los alumnos a importar|
-|**StudentImportView**|**StudentImportController**|`persistirAlumnos()`|Persistir los nuevos alumnos|
-|**StudentImportController**|**Student**|`guardar()`|Guardar alumnos en el sistema|
-
-## trazabilidad con artefactos previos
-
-- **Especialización**: Se centra exclusivamente en la entidad `Student`.
-
-```plantuml
-@startuml importarAlumnos-analisis
-skinparam linetype polyline
-
-actor Docente
-package importarAlumnos as "importarAlumnos()" {
-    rectangle #629EF9 StudentImportView
-    rectangle #b5bd68 StudentImportController
-    rectangle #F2AC4E Student
-}
-
-Docente -r-> StudentImportView: seleccionarArchivo(archivo)
-StudentImportView -d-> StudentImportController: procesarArchivo(archivo)
-StudentImportController --> Student: validarDuplicado()
-StudentImportController --> StudentImportView: mostrarPrevisualizacion()
-
-Docente --> StudentImportView: confirmarImportacion()
-StudentImportView --> StudentImportController: persistirAlumnos()
-StudentImportController --> Student: guardar()
-
-@enduml
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>

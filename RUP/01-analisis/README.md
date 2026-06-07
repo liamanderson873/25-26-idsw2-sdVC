@@ -1,59 +1,35 @@
-# Disciplina de Análisis: Requisitos y Robustez
+<div align=right>
 
-Esta sección documenta la fase de análisis de **Jorgestor**, donde se definen los requisitos funcionales y la lógica de robustez de los procesos core.
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-RUP-FFF?style=flat&logo=Elsevier&logoColor=black)](/RUP/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
----
+</div>
 
-## Casos de Uso de Análisis
+# Análisis — Jorgestor
 
-### Gestión de Exámenes
-- **[CU-01] Corregir Exámenes** — [Detalle](casos-uso/CU-01-corregirExamenes/)
-- **[CU-02] Generar Examen** — [Detalle](casos-uso/CU-02-generarExamenes/)
-- **[CU-09] Asignar Exámenes** — [Detalle](casos-uso/CU-09-asignarExamenes/)
-- **[CU-37] Cancelar Generación** — [Detalle](casos-uso/CU-37-cancelarGeneracion/)
+Disciplina de análisis RUP. Cada caso de uso se modela con dos diagramas BCE (Boundary-Control-Entity) independientes de tecnología: colaboración entre objetos y secuencia de análisis.
 
-### Configuración e Importación / Exportación
-- **[CU-03] Importar Configuración Global** — [Detalle](casos-uso/CU-03-importarConfiguracionGlobal/)
-- **[CU-04] Exportar Configuración Global** — [Detalle](casos-uso/CU-04-exportarConfiguracionGlobal/)
-- **[CU-05] Importar Alumnos** — [Detalle](casos-uso/CU-05-importarAlumnos/)
-- **[CU-06] Importar Preguntas** — [Detalle](casos-uso/CU-06-importarPreguntas/)
-- **[CU-07] Exportar Alumnos** *(abstracto)* — [Detalle](casos-uso/CU-07-exportarAlumnos/)
-- **[CU-08] Exportar Preguntas** *(abstracto)* — [Detalle](casos-uso/CU-08-exportarPreguntas/)
-- **[CU-38] Importar Asignaturas** *(abstracto)* — [Detalle](casos-uso/CU-38-importarAsignaturas/)
-- **[CU-39] Importar Grados** *(abstracto)* — [Detalle](casos-uso/CU-39-importarGrados/)
-- **[CU-40] Exportar Asignaturas** *(abstracto)* — [Detalle](casos-uso/CU-40-exportarAsignaturas/)
-- **[CU-41] Exportar Grados** *(abstracto)* — [Detalle](casos-uso/CU-41-exportarGrados/)
+## Estructura de cada caso de uso
 
-### Gestión de Preguntas y Respuestas
-- **Preguntas**: [Crear](casos-uso/CU-10-crearPregunta/) / [Editar](casos-uso/CU-11-editarPregunta/) / [Ver](casos-uso/CU-20-verPreguntas/) / [Eliminar](casos-uso/CU-25-eliminarPregunta/)
-- **Respuestas**: [Ver](casos-uso/CU-33-verRespuestas/) / [Crear](casos-uso/CU-34-crearRespuesta/) / [Editar](casos-uso/CU-35-editarRespuesta/) / [Eliminar](casos-uso/CU-36-eliminarRespuesta/)
+Cada carpeta contiene:
 
-### Gestión de Alumnos
-- **Alumnos**: [Crear](casos-uso/CU-14-crearAlumno/) / [Editar](casos-uso/CU-16-editarAlumno/) / [Ver](casos-uso/CU-23-verAlumnos/) / [Eliminar](casos-uso/CU-28-eliminarAlumno/)
+|||
+|-|-|
+`analisis-colaboracion-CU-XX.puml`|Diagrama de colaboración: objetos BCE y mensajes entre ellos.
+`analisis-secuencia-CU-XX.puml`|Diagrama de secuencia de análisis: flujo temporal con actor, Boundary, Control y Entity.
+`README.md`|Descripción del CU con los diagramas embebidos.
 
-### Gestión de Asignaturas
-- **Asignaturas**: [Crear](casos-uso/CU-18-crearAsignatura/) / [Editar](casos-uso/CU-12-editarAsignatura/) / [Ver](casos-uso/CU-21-verAsignaturas/) / [Eliminar](casos-uso/CU-26-eliminarAsignatura/)
+## Casos de uso analizados (43)
 
-### Gestión de Grados
-- **Grados**: [Crear](casos-uso/CU-17-crearGrado/) / [Editar](casos-uso/CU-19-editarGrado/) / [Ver](casos-uso/CU-22-verGrados/) / [Eliminar](casos-uso/CU-27-eliminarGrado/)
+| | |
+|-|-|
+[Gestión de Exámenes](casos-uso/README.md#gestión-de-exámenes)|CU-01 · CU-02 · CU-09 · CU-37 · CU-42 · CU-43
+[Configuración Global](casos-uso/README.md#configuración-global)|CU-03 · CU-04 · CU-05 · CU-06 · CU-07 · CU-08 · CU-38 · CU-39 · CU-40 · CU-41
+[Preguntas y Respuestas](casos-uso/README.md#preguntas-y-respuestas)|CU-10 · CU-11 · CU-20 · CU-25 · CU-33 · CU-34 · CU-35 · CU-36
+[Alumnos](casos-uso/README.md#alumnos)|CU-14 · CU-16 · CU-23 · CU-28
+[Asignaturas](casos-uso/README.md#asignaturas)|CU-12 · CU-18 · CU-21 · CU-26
+[Grados](casos-uso/README.md#grados)|CU-17 · CU-19 · CU-22 · CU-27
+[Docentes](casos-uso/README.md#docentes)|CU-13 · CU-15 · CU-24 · CU-29
+[Sesión](casos-uso/README.md#sesión)|CU-30 · CU-31 · CU-32
 
-### Gestión de Docentes
-- **Docentes**: [Crear](casos-uso/CU-13-crearDocente/) / [Editar](casos-uso/CU-15-editarDocente/) / [Ver](casos-uso/CU-24-verDocentes/) / [Eliminar](casos-uso/CU-29-eliminarDocente/)
-
-### Sesión y Navegación
-- **[CU-30] Iniciar Sesión** — [Detalle](casos-uso/CU-30-iniciarSesion/)
-- **[CU-31] Cerrar Sesión** — [Detalle](casos-uso/CU-31-cerrarSesion/)
-- **[CU-32] Completar Gestión** — [Detalle](casos-uso/CU-32-completarGestion/)
-
----
-
-## Estructura de cada análisis
-
-Cada carpeta de análisis contiene:
-- **README.md**: análisis MVC detallado, responsabilidades y trazabilidad.
-- **analisis-colaboracion-CUxx.puml**: diagrama de colaboración entre objetos BCE.
-- **analisis-secuencia-CUxx.puml**: diagrama de secuencia de análisis.
-
----
-
-[Volver al Panel Maestro](../../README.md)
+[Ver índice completo →](casos-uso/README.md)

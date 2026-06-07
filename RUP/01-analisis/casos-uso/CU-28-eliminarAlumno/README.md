@@ -1,125 +1,19 @@
-﻿# Jorgestor > CU-28-eliminarAlumno > Análisis
+﻿<div align=right>
 
-## información del artefacto
-
-- **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
-- **Fecha**: 2026-05-24
-- **Autor**: Equipo de desarrollo
-
-## propósito
-
-Análisis tecnológico agnóstico del caso de uso Eliminar Alumno, siguiendo la metodología RUP. Permite analizar el flujo y la validación de la baja de un alumno en el sistema.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: eliminarAlumno()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-28-eliminarAlumno.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-28-eliminarAlumno.puml](analisis-colaboracion-CU-28-eliminarAlumno.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## clases de análisis identificadas
+# CU-28 — Eliminar Alumno
 
-### clases model (naranja #F2AC4E)
-|Clase|Responsabilidad|Trazabilidad|
-|-|-|-|
-|**Student**|Entidad que representa al alumno a eliminar|Modelo del dominio|
+*El docente elimina un alumno del sistema.*
 
-### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
-|-|-|-|
-|**StudentDeleteView**|Interfaz que permite revisar datos, mostrar advertencias y confirmar la eliminación|Wireframe|
+<div align=center>
 
-### clases controller (verde #b5bd68)
-|Clase|Responsabilidad|Caso de uso|
-|-|-|-|
-|**StudentController**|Gestiona la lógica de eliminación y coordina la baja del alumno|eliminarAlumno()|
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-28-eliminarAlumno/analisis-colaboracion-CU-28-eliminarAlumno.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-28-eliminarAlumno/analisis-secuencia-CU-28-eliminarAlumno.puml)|
+|[analisis-colaboracion-CU-28-eliminarAlumno.puml](analisis-colaboracion-CU-28-eliminarAlumno.puml)|[analisis-secuencia-CU-28-eliminarAlumno.puml](analisis-secuencia-CU-28-eliminarAlumno.puml)|
 
-## mensajes de colaboración
-
-|Origen|Destino|Mensaje|Intención|
-|-|-|-|-|
-|**Docente**|**StudentDeleteView**|`solicitarEliminar()`|Solicitar la eliminación de un alumno|
-|**StudentDeleteView**|**Student**|`getDatos()`|Obtener información del alumno|
-|**Docente**|**StudentDeleteView**|`confirmarEliminar()`|Confirmar la acción de borrado|
-|**StudentDeleteView**|**StudentController**|`eliminarAlumno()`|Delegar la eliminación al controlador|
-|**StudentController**|**Student**|`delete()`|Eliminar físicamente la entidad|
-
-## trazabilidad con artefactos previos
-
-### con especificación detallada
-- **Estados internos** �?' `ConfirmingDeletion`, `DeletingStudent`
-
-
-```plantuml
-@startuml eliminarAlumno-analisis
-skinparam linetype polyline
-
-actor Docente
-package eliminarAlumno as "eliminarAlumno()" {
-    rectangle #629EF9 StudentDeleteView
-    rectangle #b5bd68 StudentController
-    rectangle #F2AC4E Student
-}
-
-Docente -r-> StudentDeleteView: solicitarEliminar()
-StudentDeleteView --> Student: getDatos()
-Docente --> StudentDeleteView: confirmarEliminar()
-StudentDeleteView -d-> StudentController: eliminarAlumno()
-StudentController --> Student: delete()
-
-@enduml
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>

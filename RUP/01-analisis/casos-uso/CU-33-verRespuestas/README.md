@@ -1,129 +1,19 @@
-﻿# Jorgestor > CU-33-verRespuestas > Análisis
+﻿<div align=right>
 
-## información del artefacto
-
-- **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
-- **Fecha**: 2026-05-24
-- **Autor**: Equipo de desarrollo
-
-## propósito
-
-Análisis tecnológico agnóstico del caso de uso Ver Respuestas, siguiendo la metodología RUP. Permite analizar la lógica de visualización y filtrado de las respuestas asociadas a una pregunta.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: verRespuestas()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-33-verRespuestas/analisis-colaboracion-CU-33-verRespuestas.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-33-verRespuestas.puml](analisis-colaboracion-CU-33-verRespuestas.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## clases de análisis identificadas
+# CU-33 — Ver Respuestas
 
-### clases model (naranja #F2AC4E)
-|Clase|Responsabilidad|Trazabilidad|
-|-|-|-|
-|**Answer**|Representa una respuesta con su contenido y veracidad|Modelo del dominio|
-|**Question**|Representa la pregunta a la que pertenecen las respuestas|Modelo del dominio|
+*El docente consulta las opciones de respuesta asociadas a una pregunta del banco.*
 
-### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
-|-|-|-|
-|**AnswerListView**|Interfaz que muestra la lista de respuestas y permite filtrar|Wireframe|
+<div align=center>
 
-### clases controller (verde #b5bd68)
-|Clase|Responsabilidad|Caso de uso|
-|-|-|-|
-|**AnswerConsultationController**|Gestiona la recuperación y el filtrado de respuestas|verRespuestas()|
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-33-verRespuestas/analisis-colaboracion-CU-33-verRespuestas.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-33-verRespuestas/analisis-secuencia-CU-33-verRespuestas.puml)|
+|[analisis-colaboracion-CU-33-verRespuestas.puml](analisis-colaboracion-CU-33-verRespuestas.puml)|[analisis-secuencia-CU-33-verRespuestas.puml](analisis-secuencia-CU-33-verRespuestas.puml)|
 
-## mensajes de colaboración
-
-|Origen|Destino|Mensaje|Intención|
-|-|-|-|-|
-|**Docente**|**AnswerListView**|`solicitarVerRespuestas()`|Solicitar la lista de respuestas|
-|**AnswerListView**|**AnswerConsultationController**|`getRespuestas(question)`|Recuperar respuestas de la entidad|
-|**AnswerConsultationController**|**Answer**|`find(question)`|Consultar entidades vinculadas|
-|**AnswerListView**|**Docente**|`mostrarLista()`|Presentar las respuestas al usuario|
-|**Docente**|**AnswerListView**|`solicitarFiltro()`|Aplicar criterios de filtrado|
-|**AnswerListView**|**AnswerConsultationController**|`filtrar(criterios)`|Procesar el filtro solicitado|
-
-## trazabilidad con artefactos previos
-
-### con especificación detallada
-- **Estados internos** �?' `MostrandoRespuestas`, `FiltrandoRespuestas`
-
-
-```plantuml
-@startuml verRespuestas-analisis
-skinparam linetype polyline
-
-actor Docente
-package verRespuestas as "verRespuestas()" {
-    rectangle #629EF9 AnswerListView
-    rectangle #b5bd68 AnswerConsultationController
-    rectangle #F2AC4E Answer
-    rectangle #F2AC4E Question
-}
-
-Docente -r-> AnswerListView: solicitarVerRespuestas()
-AnswerListView --> AnswerConsultationController: getRespuestas()
-AnswerConsultationController --> Answer: find()
-AnswerConsultationController --> Question: getDatos()
-Docente --> AnswerListView: solicitarFiltro()
-AnswerListView --> AnswerConsultationController: filtrar()
-
-@enduml
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>

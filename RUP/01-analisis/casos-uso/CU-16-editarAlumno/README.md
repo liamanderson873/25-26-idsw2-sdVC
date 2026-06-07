@@ -1,126 +1,19 @@
-﻿# Jorgestor > CU-16-editarAlumno > Análisis
+﻿<div align=right>
 
-## información del artefacto
-
-- **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
-- **Fecha**: 2026-05-24
-- **Autor**: Equipo de desarrollo
-
-## propósito
-
-Análisis del caso de uso Editar Alumno. Permite modificar información personal o eliminar el registro.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: editarAlumno()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diseno-secuencia-CU-16-editarAlumno.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-16-editarAlumno.puml](analisis-colaboracion-CU-16-editarAlumno.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## clases de análisis identificadas
+# CU-16 — Editar Alumno
 
-### clases model (naranja #F2AC4E)
-|Clase|Responsabilidad|Trazabilidad|
-|-|-|-|
-|**Student**|La entidad alumno que se está editando|Modelo del dominio|
+*El docente modifica los datos de un alumno ya registrado en el sistema.*
 
-### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
-|-|-|-|
-|**StudentEditView**|Interfaz para visualización y edición de datos (DNI, Nombre, Apellidos)|Wireframe|
+<div align=center>
 
-### clases controller (verde #b5bd68)
-|Clase|Responsabilidad|Caso de uso|
-|-|-|-|
-|**StudentController**|Coordina actualización de datos y gestiona eliminación|editarAlumno()|
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-16-editarAlumno/analisis-colaboracion-CU-16-editarAlumno.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-16-editarAlumno/analisis-secuencia-CU-16-editarAlumno.puml)|
+|[analisis-colaboracion-CU-16-editarAlumno.puml](analisis-colaboracion-CU-16-editarAlumno.puml)|[analisis-secuencia-CU-16-editarAlumno.puml](analisis-secuencia-CU-16-editarAlumno.puml)|
 
-## mensajes de colaboración
-
-|Origen|Destino|Mensaje|Intención|
-|-|-|-|-|
-|**Docente**|**StudentEditView**|`modificarDatos(datos)`|Introducir cambios|
-|**StudentEditView**|**StudentController**|`guardar(datos)`|Solicitar actualización|
-|**StudentController**|**Student**|`actualizar(datos)`|Persistir cambios|
-|**Docente**|**StudentEditView**|`eliminarAlumno()`|Solicitar eliminación|
-|**StudentEditView**|**StudentController**|`eliminar()`|Gestionar eliminación|
-|**StudentController**|**Student**|`delete()`|Eliminar entidad|
-
-## trazabilidad con artefactos previos
-
-- **Identificación**: Permite mantener actualizados los datos identificativos de los estudiantes.
-
-```plantuml
-@startuml editarAlumno-analisis
-skinparam linetype polyline
-
-actor Docente
-package editarAlumno as "editarAlumno()" {
-    rectangle #629EF9 StudentEditView
-    rectangle #b5bd68 StudentController
-    rectangle #F2AC4E Student
-}
-
-Docente -r-> StudentEditView: modificarDatos(datos)
-StudentEditView -d-> StudentController: guardar(datos)
-StudentController --> Student: actualizar(datos)
-
-Docente --> StudentEditView: eliminarAlumno()
-StudentEditView --> StudentController: eliminar()
-StudentController --> Student: delete()
-
-@enduml
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>

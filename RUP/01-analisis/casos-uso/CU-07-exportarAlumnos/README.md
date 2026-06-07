@@ -1,121 +1,21 @@
-﻿# Jorgestor > CU-07-exportarAlumnos > Análisis
+﻿<div align=right>
 
-## información del artefacto
-
-- **Proyecto**: Jorgestor
-- **Fase RUP**: Elaboration (Elaboración)
-- **Disciplina**: Análisis
-- **Versión**: 1.0
-- **Fecha**: 2026-05-24
-- **Autor**: Equipo de desarrollo
-
-## propósito
-
-Análisis del caso de uso Exportar Alumnos.
-
-## diagrama de colaboración
-
-<div align=center>
-
-|![Análisis: exportarAlumnos()](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-07-exportarAlumnos/analisis-colaboracion-CU-07-exportarAlumnos.puml&fmt=svg)|
-|-|
-|Código fuente: [analisis-colaboracion-CU-07-exportarAlumnos.puml](analisis-colaboracion-CU-07-exportarAlumnos.puml)|
+|[![](https://img.shields.io/badge/-Inicio-FFF?style=flat&logo=Emlakjet&logoColor=black)](/README.md) [![](https://img.shields.io/badge/-Analisis-FFF?style=flat&logo=multisim&logoColor=black)](/RUP/01-analisis/README.md) [![](https://img.shields.io/badge/-Casos_de_uso-FFF?style=flat&logo=crewunited&logoColor=black)](/RUP/01-analisis/casos-uso/README.md)|
+|-:|
 
 </div>
 
-## clases de análisis identificadas
+# CU-07 — Exportar Alumnos
 
-### clases model (naranja #F2AC4E)
-|Clase|Responsabilidad|Trazabilidad|
-|-|-|-|
-|**Student**|Fuente de los datos de alumnos|Modelo del dominio|
+*Subartefacto invocado desde CU-04 mediante include que extrae los datos de alumnos para incluirlos en la exportacion global.*
 
-### clases view (azul #629EF9)
-|Clase|Responsabilidad|Derivación|
-|-|-|-|
-|**StudentExportView**|Interfaz para solicitar exportación y ver resultado|Wireframe|
+> **CU abstracto** - no tiene actor iniciador propio. Es invocado mediante `<<include>>` desde otro caso de uso.
 
-### clases controller (verde #b5bd68)
-|Clase|Responsabilidad|Caso de uso|
-|-|-|-|
-|**ExportController**|Gestiona extracción y transformación de datos|exportarAlumnos()|
+<div align=center>
 
-## mensajes de colaboración
+|Colaboracion|Secuencia|
+|:-:|:-:|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-07-exportarAlumnos/analisis-colaboracion-CU-07-exportarAlumnos.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-07-exportarAlumnos/analisis-secuencia-CU-07-exportarAlumnos.puml)|
+|[analisis-colaboracion-CU-07-exportarAlumnos.puml](analisis-colaboracion-CU-07-exportarAlumnos.puml)|[analisis-secuencia-CU-07-exportarAlumnos.puml](analisis-secuencia-CU-07-exportarAlumnos.puml)|
 
-|Origen|Destino|Mensaje|Intención|
-|-|-|-|-|
-|**Docente**|**StudentExportView**|`exportarAlumnos()`|Solicitar exportación|
-|**StudentExportView**|**ExportController**|`prepararDatos()`|Delegar preparación|
-|**ExportController**|**Student**|`obtenerTodos()`|Consultar fuente|
-|**ExportController**|**StudentExportView**|`notificarExito()`|Informar resultado|
-
-## trazabilidad con artefactos previos
-
-- **Abstracción**: Puede ser invocado de forma independiente o como parte de la Exportación Global.
-
-```plantuml
-@startuml exportarAlumnos-analisis
-skinparam linetype polyline
-
-actor Docente
-package exportarAlumnos as "exportarAlumnos()" {
-    rectangle #629EF9 StudentExportView
-    rectangle #b5bd68 ExportController
-    rectangle #F2AC4E Student
-}
-
-Docente -r-> StudentExportView: exportarAlumnos()
-StudentExportView -d-> ExportController: prepararDatos()
-ExportController --> Student: obtenerTodos()
-ExportController --> StudentExportView: notificarExito()
-
-@enduml
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
