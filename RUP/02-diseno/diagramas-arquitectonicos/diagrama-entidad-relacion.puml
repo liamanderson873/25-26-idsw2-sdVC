@@ -1,92 +1,148 @@
 @startuml
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+hide empty members
 
-class Examen{
- - evaluación
- - clave corrección
- - fecha
- - esPersonalizado
-}
-class Asignatura{
- - título
- - código
- - curso académico
- - curso sugerido
-}
-class Pregunta{
- - asignatura
- - enunciado
- - tema
- - dificultad
-}
-class BateriaDePreguntas{
-}
-class Grado{
- - título
- - código
-}
-class Profesor{
- - nombre
- - apellidos
- - DNI
-}
-class Alumno{
- - nombre
- - apellidos
- - DNI
- - curso
-}
-enum EvaluaciónExamen{
- - Parcial 1
- - Parcial 2
- - Parcial 3
- - Examen final
- - Examen extraordinario
-}
-enum DificultadPregunta{
- - facil
- - medio
- - dificil
+' ─── Enumeraciones ───────────────────────────────────────────────
+
+enum Rol {
+  DOCENTE
+  ADMINISTRADOR_INSTITUCIONAL
 }
 
-class Respuesta{
- - opción
- - esCorrecta
+enum Dificultad {
+  BAJA
+  MEDIA
+  ALTA
 }
 
-class Tema{
- - nombre
+enum TipoEvaluacion {
+  PARCIAL_1
+  PARCIAL_2
+  PARCIAL_3
+  FINAL
+  EXTRAORDINARIO
 }
 
-class ExamenAlumno {
- - claveCorreccion
- - notaFinal
- - estado
+enum EstadoExamen {
+  PENDIENTE
+  ASIGNADO
+  REALIZADO
+  ENTREGADO
+  PENDIENTE_CALIFICACION
+  CORREGIDO
 }
 
-class ExamenAlumnoMarca {
- - indiceMarcado
+' ─── Entidades ───────────────────────────────────────────────────
+
+class Usuario <<Entity>> {
+  + id : Long
+  + username : String
+  # password : String
+  + nombre : String
+  + rol : Rol
 }
 
-Respuesta -u-* Pregunta
-Pregunta ..> DificultadPregunta
-Pregunta -u-o Examen : contiene
-Pregunta -u-* BateriaDePreguntas : contiene
-Examen ..> EvaluaciónExamen
-BateriaDePreguntas -u-* Asignatura : tiene
-Examen -u-* Asignatura : tiene
-Profesor o-r- Asignatura : tiene
-Asignatura --> Grado : pertenece
-Alumno -u-o Examen : realiza
-Alumno -u-* Asignatura : se imparte
-Alumno -u-* Grado : se cursa
-Pregunta ..> Tema
+class Profesor <<Entity>> {
+  + id : Long
+  + dni : String
+  + nombre : String
+  + apellidos : String
+  + email : String
+  + usuario : String
+  # password : String
+}
 
-' Extensiones de la implementación
-Examen "1" -- "*" ExamenAlumno : genera
-Alumno "1" -- "*" ExamenAlumno : posee
-ExamenAlumno "1" *-- "*" ExamenAlumnoMarca : auditoría
-ExamenAlumnoMarca "*" -- "1" Pregunta : marcada
-ExamenAlumnoMarca "*" -- "1" Respuesta : elegida
-Tema "*" -- "1" Asignatura : pertenece
+class Grado <<Entity>> {
+  + id : Long
+  + codigo : String
+  + nombre : String
+}
+
+class Asignatura <<Entity>> {
+  + id : Long
+  + nombre : String
+  + codigo : String
+  + cursoAcademico : String
+  + cursoSugerido : Integer
+}
+
+class Alumno <<Entity>> {
+  + id : Long
+  + dni : String
+  + nombre : String
+  + apellidos : String
+  + curso : Integer
+}
+
+class Tema <<Entity>> {
+  + id : Long
+  + nombre : String
+}
+
+class Pregunta <<Entity>> {
+  + id : Long
+  + enunciado : String
+  + dificultad : Dificultad
+  + habilitada : Boolean
+}
+
+class Respuesta <<Entity>> {
+  + id : Long
+  + contenido : String
+  + indice : Integer
+  + esCorrecta : Boolean
+}
+
+class Examen <<Entity>> {
+  + id : Long
+  + tipoEvaluacion : TipoEvaluacion
+  + fechaExamen : LocalDate
+  + esPersonalizado : Boolean
+}
+
+class ExamenAlumno <<Entity>> {
+  + id : Long
+  + claveCorreccion : String
+  + notaSugerida : Double
+  + notaFinal : Double
+  + estado : EstadoExamen
+}
+
+class ExamenAlumnoMarca <<Entity>> {
+  + id : Long
+  + indiceMarcado : Integer
+}
+
+' ─── Relaciones ──────────────────────────────────────────────────
+
+Usuario      ..>  Rol
+
+Profesor     "1"  o--  "*"    Asignatura      : imparte
+
+Asignatura   "*"  --   "*"    Grado           : asignatura_grados
+note on link: tabla intermedia
+
+Alumno       "*"  -->  "1"    Grado           : cursa en
+Alumno       "*"  --   "*"    Asignatura      : matriculas
+note on link: tabla intermedia
+
+Tema         "*"  -->  "1"    Asignatura      : pertenece a
+Pregunta     ..>  Dificultad
+Pregunta     "*"  -->  "1"    Tema            : sobre
+Respuesta    "*"  -->  "1"    Pregunta        : opciones de
+
+Examen       ..>  TipoEvaluacion
+Examen       "*"  -->  "1"    Asignatura      : de
+Examen       "*"  --   "*"    Pregunta        : examen_preguntas
+note on link: tabla intermedia
+
+ExamenAlumno ..>  EstadoExamen
+ExamenAlumno "*"  -->  "1"    Examen          : ejemplar de
+ExamenAlumno "*"  -->  "1"    Alumno          : asignado a
+
+ExamenAlumnoMarca "*" -->  "1"      ExamenAlumno    : auditoria de
+ExamenAlumnoMarca "*" -->  "1"      Pregunta        : pregunta marcada
+ExamenAlumnoMarca "*" -->  "0..1"   Respuesta       : respuesta elegida
 
 @enduml

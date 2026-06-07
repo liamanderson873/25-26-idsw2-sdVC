@@ -1,10 +1,22 @@
 @startuml
 !theme plain
-skinparam Linetype ortho
+skinparam linetype ortho
 skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+
+package "Capa de Presentación\n(React + Vite — puerto 5173)" <<Rectangle>> {
+    component "PreguntasPage" as UI1
+    component "AlumnosPage" as UI2
+    component "AsignaturasPage" as UI3
+    component "GenerarExamenPage" as UI4
+    component "CorregirExamenPage" as UI5
+    component "ImportarExportarPage" as UI6
+    component "DashboardPage" as UI7
+}
 
 package "com.jorgestor.api" {
-    package "controlador" {
+
+    package "controlador (puerto 9090)" {
         class ControladorAuth {
             + login(dto: DTO_Login): ResponseEntity
         }
@@ -17,9 +29,7 @@ package "com.jorgestor.api" {
             + conteosPorAlumno(): ResponseEntity
             + conteosPorAsignatura(): ResponseEntity
             + generarYAsignar(dto: DTO_GenerarYAsignar): ResponseEntity
-            + generarExamen(dto: DTO_GenerarExamen): ResponseEntity
             + asignarExamen(dto: DTO_AsignarExamen): ResponseEntity
-            + exportarExamen(id: Long): ResponseEntity
             + corregirMasivo(id: Long): ResponseEntity
             + corregirExamen(dto: DTO_ProcesarCorreccion): ResponseEntity
             + obtenerRevision(ejemplarId: Long): ResponseEntity
@@ -62,14 +72,13 @@ package "com.jorgestor.api" {
     package "servicio" {
         class ServicioExamen {
             + generarYAsignar(dto: DTO_GenerarYAsignar): int
-            + generarExamen(dto: DTO_GenerarExamen): Examen
             + asignarExamenAAlumnos(id: Long, alumnos: List<Long>): void
-            + corregirMasivo(id: Long): void
-            + corregirGrupo(dto: DTO_AccionGrupo): void
             + simularEntregaMasiva(id: Long): void
             + simularEntregaGrupo(dto: DTO_AccionGrupo): void
+            + corregirMasivo(id: Long): void
+            + corregirGrupo(dto: DTO_AccionGrupo): void
             + listarGrupos(): List<DTO_GrupoExamen>
-            + listarEjemplaresDeGrupo(dto: DTO_AccionGrupo): List<DTO_EjemplarResumen>
+            + listarEjemplaresDeGrupo(dto): List<DTO_EjemplarResumen>
             + obtenerRevisionEjemplar(id: Long): DTO_RevisionEjemplar
             + contarExamenesPorAlumno(): Map<Long, Long>
             + contarExamenesPorAsignatura(): Map<Long, Long>
@@ -108,7 +117,7 @@ package "com.jorgestor.api" {
         }
     }
 
-    package "repositorio" {
+    package "repositorio (Spring Data JPA)" {
         interface RepositorioAlumno <<Repository>>
         interface RepositorioExamen <<Repository>>
         interface RepositorioExamenAlumno <<Repository>>
@@ -118,9 +127,11 @@ package "com.jorgestor.api" {
         interface RepositorioPregunta <<Repository>>
         interface RepositorioRespuesta <<Repository>>
         interface RepositorioTema <<Repository>>
+        interface RepositorioProfesor <<Repository>>
+        interface RepositorioUsuario <<Repository>>
     }
 
-    package "modelo" {
+    package "modelo (JPA Entities)" {
         class Alumno <<Entity>>
         class Examen <<Entity>>
         class ExamenAlumno <<Entity>>
@@ -130,21 +141,26 @@ package "com.jorgestor.api" {
         class Pregunta <<Entity>>
         class Respuesta <<Entity>>
         class Tema <<Entity>>
+        class Profesor <<Entity>>
+        class Usuario <<Entity>>
     }
 }
 
-' Relaciones entre capas
-controlador ..> servicio : utiliza
-servicio ..> repositorio : utiliza
-repositorio ..> modelo : gestiona
+' ─── Capas ───────────────────────────────────────────────────────
+"Capa de Presentación\n(React + Vite — puerto 5173)" ..> controlador : HTTP / JSON (REST)
+controlador ..> servicio : Spring DI
+servicio ..> repositorio : Spring Data
+repositorio ..> modelo : JPA / Hibernate
 
-' Relaciones de servicio destacadas
-ServicioExamen ..> RepositorioExamenAlumnoMarca : auditoría
-ServicioExamen ..> RepositorioExamen : persiste
-ServicioExamen ..> RepositorioExamenAlumno : gestiona
-ServicioAlumno ..> RepositorioAsignatura : matricula
-ServicioConfiguracion ..> ServicioGrado : agrega
-ServicioConfiguracion ..> ServicioAsignatura : agrega
-ServicioConfiguracion ..> ServicioAlumno : agrega
-ServicioConfiguracion ..> ServicioPregunta : agrega
+' ─── Relaciones de servicio clave ────────────────────────────────
+ServicioExamen ..> RepositorioExamen
+ServicioExamen ..> RepositorioExamenAlumno
+ServicioExamen ..> RepositorioExamenAlumnoMarca
+ServicioAlumno ..> RepositorioAlumno
+ServicioAlumno ..> RepositorioAsignatura
+ServicioConfiguracion ..> ServicioGrado
+ServicioConfiguracion ..> ServicioAsignatura
+ServicioConfiguracion ..> ServicioAlumno
+ServicioConfiguracion ..> ServicioPregunta
+
 @enduml
