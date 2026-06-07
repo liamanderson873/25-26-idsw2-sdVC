@@ -35,9 +35,13 @@ Sistema desarrollado en la asignatura **Ingeniería del Software II (IDSW2)** ap
 
 ### Stack tecnológico y arquitectura
 
-> **Stack:** Java 21 · Spring Boot 3.2.5 · PostgreSQL 17 · React · Vite · TanStack Query
->
-> **Seguridad:** RBAC con dos roles (Docente / Administrador Institucional) · Firmas SHA-256 · Auditoría técnica completa
+> |Capa|Tecnología|Razón|
+> |-|-|-|
+> |Backend|Java 21 + Spring Boot 3.2.5|Tipado fuerte, inyección de dependencias y JPA integrado; facilita la aplicación directa del patrón BCE (Controlador = `@RestController`, Servicio = `@Service`, Repositorio = `@Repository`)|
+> |Base de datos|PostgreSQL 17|Modelo relacional con integridad referencial estricta, necesaria por las relaciones N:M entre exámenes, alumnos y preguntas|
+> |Frontend|React + Vite|Componentes reactivos por vista (Boundary), recarga instantánea en desarrollo con Vite|
+> |Estado del servidor|TanStack Query|Gestión de caché y estados de carga/error sin boilerplate manual, especialmente útil en las vistas de corrección con datos frecuentemente actualizados|
+> |Seguridad|RBAC + SHA-256|RBAC mapea directamente a los dos actores del sistema (Docente / Administrador); SHA-256 garantiza la integridad del ejemplar de examen como auditoría técnica|
 >
 > **Inicio:**
 > ```powershell
