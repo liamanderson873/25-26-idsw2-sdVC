@@ -971,3 +971,39 @@ Los 4 commits de la sesión 45 ya estaban en `develop` local:
 | `7e00032` | feat(rup): alinear con rama fix-revision-final del ModelingRepo |
 | `2cbdedc` | docs: añadir conversación 45 al log |
 | `4dc39b4` | feat: ver examen generado y corregir desde asignatura |
+
+---
+
+## Conversación 47: README institucional y documentación de análisis BCE
+
+**Fecha:** 2026-06-07
+
+### Resumen
+
+Reescritura completa del README principal al estilo pySigHor y de todos los READMEs del repositorio. Añadidas tablas BCE a los 43 READMEs de análisis.
+
+### Cambios
+
+**1. README principal** (`b58e2bb`, `0a6dd57`, `8e13e9d`)
+
+- Versión inicial con estructura clara y diagramas embebidos.
+- Reescritura al estilo pySigHor: badges de navegación `<div align=right>`, tabla de proyecto 2 columnas, diagrama de contexto embebido, tabla de Hitos, bloque de estructura del repositorio.
+- Añadida columna "Razón" a la tabla del stack tecnológico con justificación BCE, relaciones N:M (ExamenAlumno/Marca), HMR, server state y RBAC.
+
+**2. Todos los READMEs del proyecto** (`a34f1d5`)
+
+Reescritura homogénea de 43 READMEs de análisis, 43 de diseño, 7 secciones de RUP, frontend y backend. Estilo pySigHor: badges de navegación, tablas limpias, diagramas embebidos via proxy PlantUML.
+
+**3. Tablas BCE en READMEs de análisis** (`c808b16`)
+
+Añadida tabla `## Objetos BCE` a los 43 READMEs de análisis mostrando los estereotipos `<<boundary>>`, `<<control>>` y `<<entity>>` de cada CU con sus clases reales.
+
+### Commits de esta sesión
+
+| Hash | Descripción |
+|------|-------------|
+| `b58e2bb` | docs: reescribir README principal con estructura clara y diagramas embebidos |
+| `0a6dd57` | docs: reescribir README al estilo pySigHor con badges, tablas y diagramas embebidos |
+| `8e13e9d` | docs: añadir razones de elección del stack al README |
+| `a34f1d5` | docs: reescribir todos los READMEs al estilo pySigHor |
+| `c808b16` | docs: añadir tabla BCE a los 43 READMEs de analisis |
