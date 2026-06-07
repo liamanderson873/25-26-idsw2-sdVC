@@ -1,92 +1,169 @@
 @startuml
+skinparam classAttributeIconSize 0
+skinparam class {
+  BackgroundColor white
+  BorderColor #475569
+  HeaderBackgroundColor #e2e8f0
+  FontName Arial
+  FontSize 11
+}
+skinparam enum {
+  BackgroundColor #fef9c3
+  BorderColor #ca8a04
+  FontName Arial
+  FontSize 10
+}
+hide empty members
 
-class Examen{
- - evaluación
- - clave corrección
- - fecha
- - esPersonalizado
-}
-class Asignatura{
- - título
- - código
- - curso académico
- - curso sugerido
-}
-class Pregunta{
- - asignatura
- - enunciado
- - tema
- - dificultad
-}
-class BateriaDePreguntas{
-}
-class Grado{
- - título
- - código
-}
-class Profesor{
- - nombre
- - apellidos
- - DNI
-}
-class Alumno{
- - nombre
- - apellidos
- - DNI
- - curso
-}
-enum EvaluaciónExamen{
- - Parcial 1
- - Parcial 2
- - Parcial 3
- - Examen final
- - Examen extraordinario
-}
-enum DificultadPregunta{
- - facil
- - medio
- - dificil
+' ══ ENTIDADES ══
+
+class Asignatura <<Entity>> {
+  + id : Long
+  + nombre : String
+  + codigo : String
+  + cursoAcademico : String
+  + cursoSugerido : Integer
 }
 
-class Respuesta{
- - opción
- - esCorrecta
+together {
+  class Examen <<Entity>> {
+    + id : Long
+    + tipoEvaluacion : TipoEvaluacion
+    + fechaExamen : LocalDate
+    + esPersonalizado : Boolean
+  }
+  class Alumno <<Entity>> {
+    + id : Long
+    + dni : String
+    + nombre : String
+    + apellidos : String
+    + curso : Integer
+  }
 }
 
-class Tema{
- - nombre
+together {
+  class Profesor <<Entity>> {
+    + id : Long
+    + dni : String
+    + nombre : String
+    + apellidos : String
+    + email : String
+    + usuario : String
+    # password : String
+  }
+  class ExamenAlumno <<Entity>> {
+    + id : Long
+    + claveCorreccion : String
+    + notaSugerida : Double
+    + notaFinal : Double
+    + estado : EstadoExamen
+  }
 }
 
-class ExamenAlumno {
- - claveCorreccion
- - notaFinal
- - estado
+together {
+  class Pregunta <<Entity>> {
+    + id : Long
+    + enunciado : String
+    + dificultad : Dificultad
+    + habilitada : Boolean
+  }
+  class Grado <<Entity>> {
+    + id : Long
+    + codigo : String
+    + nombre : String
+  }
 }
 
-class ExamenAlumnoMarca {
- - indiceMarcado
+together {
+  class Tema <<Entity>> {
+    + id : Long
+    + nombre : String
+  }
+  class Respuesta <<Entity>> {
+    + id : Long
+    + contenido : String
+    + indice : Integer
+    + esCorrecta : Boolean
+  }
 }
 
-Respuesta -u-* Pregunta
-Pregunta ..> DificultadPregunta
-Pregunta -u-o Examen : contiene
-Pregunta -u-* BateriaDePreguntas : contiene
-Examen ..> EvaluaciónExamen
-BateriaDePreguntas -u-* Asignatura : tiene
-Examen -u-* Asignatura : tiene
-Profesor o-r- Asignatura : tiene
-Asignatura --> Grado : pertenece
-Alumno -u-o Examen : realiza
-Alumno -u-* Asignatura : se imparte
-Alumno -u-* Grado : se cursa
-Pregunta ..> Tema
+class ExamenAlumnoMarca <<Entity>> {
+  + id : Long
+  + indiceMarcado : Integer
+}
 
-' Extensiones de la implementación
-Examen "1" -- "*" ExamenAlumno : genera
-Alumno "1" -- "*" ExamenAlumno : posee
-ExamenAlumno "1" *-- "*" ExamenAlumnoMarca : auditoría
-ExamenAlumnoMarca "*" -- "1" Pregunta : marcada
-ExamenAlumnoMarca "*" -- "1" Respuesta : elegida
-Tema "*" -- "1" Asignatura : pertenece
+together {
+  class Usuario <<Entity>> {
+    + id : Long
+    + username : String
+    # password : String
+    + nombre : String
+    + rol : Rol
+  }
+  enum Rol {
+    DOCENTE
+    ADMINISTRADOR_INSTITUCIONAL
+  }
+}
+
+enum TipoEvaluacion {
+  PARCIAL_1
+  PARCIAL_2
+  PARCIAL_3
+  FINAL
+  EXTRAORDINARIO
+}
+
+enum EstadoExamen {
+  PENDIENTE
+  ASIGNADO
+  PENDIENTE_CALIFICACION
+  CORREGIDO
+}
+
+enum Dificultad {
+  BAJA
+  MEDIA
+  ALTA
+}
+
+' ══ FLECHAS OCULTAS — anclan filas sin relación directa ══
+Examen       -[hidden]d->  Profesor
+ExamenAlumno -[hidden]d->  Pregunta
+Profesor     -[hidden]d->  Grado
+
+' ══ RELACIONES ══
+
+' Auth
+Usuario ..> Rol
+
+' Asignatura como eje central
+Examen       "*"  --u->  "1"  Asignatura    : de
+Alumno       "*"  --u--  "*"  Asignatura    : matriculas\n<<tabla intermedia>>
+Profesor     "1"  --u--  "*"  Asignatura    : imparte
+Asignatura   "1"  --d--  "*"  Grado         : asignatura_grados\n<<tabla intermedia>>
+Asignatura   "1"  --d--  "*"  Tema          : tiene
+
+' Alumno → Grado
+Alumno       "*"  --d->  "1"  Grado         : cursa en
+
+' Contenido
+Pregunta     "*"  --d->  "1"  Tema          : sobre
+Pregunta     ..>  Dificultad
+Respuesta    "*"  --u->  "1"  Pregunta      : opción de
+
+' Examen
+Examen       ..>  TipoEvaluacion
+Examen       "*"  --d--  "*"  Pregunta      : examen_preguntas\n<<tabla intermedia>>
+
+' Ejemplar
+ExamenAlumno ..>  EstadoExamen
+ExamenAlumno "*"  --u->  "1"  Examen        : ejemplar de
+ExamenAlumno "*"  --u->  "1"  Alumno        : asignado a
+
+' Auditoría
+ExamenAlumnoMarca  "*"  --u->  "1"    ExamenAlumno  : auditoría de
+ExamenAlumnoMarca  "*"  --u->  "1"    Pregunta      : marcada
+ExamenAlumnoMarca  "*"  --u->  "0..1" Respuesta     : elegida\n(null = en blanco)
 
 @enduml

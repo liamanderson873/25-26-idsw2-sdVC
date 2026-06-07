@@ -595,6 +595,55 @@ Auditoría completa de conformidad del proyecto Jorgestor contra la teoría de I
 ---
 *Misión cumplida. Jorgestor está listo para la entrega oficial.*
 
+## Conversación 43: Auditoría Integral, Limpieza de Estados Muertos y Pruebas de Importación
+**Fecha**: 2026-06-07
+**Participantes**: Liam + Claude Sonnet 4.6 (Claude Code CLI)
+
+### Contexto de la Sesión
+Sesión de validación y corrección de calidad. Se realizó una auditoría completa de los tres diagramas arquitectónicos comparándolos contra el código real, se eliminaron estados muertos del ciclo de vida del examen, se corrigió un bug de UI en el botón de descarga de hojas de respuesta, y se realizaron pruebas completas del flujo importar/exportar, detectando y corrigiendo dos bugs.
+
+**Prompts clave de Liam**:
+> "me gustaria que mirases todos los diagramas y todo el analisis y que mires si esta perfecto comparado a la implementacion"
+> "pero entonces es bueno tener 'flujos futuros'? no seria mejor simplemente poner lo que tenemos ahora"
+> "vale me gustaria probar todos los importar y el exportar"
+> "cuando he vuelto a importar el archivo de configuracion global se me ha puesto la pantalla en blanco"
+
+### Desarrollo Principal
+
+1. **Auditoría diagrama–implementación (3 diagramas)**:
+   - `diagrama-clases-diseno.puml`: añadidos `AsignarExamenPage`, `ControladorProfesor`, `ControladorTema`, `ControladorSistema`, `ServicioProfesor`, `ServicioTema` y métodos faltantes en `ControladorExamen` / `ServicioExamen`.
+   - `diagrama-entidad-relacion.puml`: añadidos `+ usuario : String` y `# password : String` a `Profesor`. Layout corregido con jerarquía top-down real usando `together` + flechas ocultas + flechas direccionales.
+   - `diagrama-estados-examen.puml`: eliminados 2 estados especulativos (ver punto 2).
+
+2. **Eliminación de estados muertos — REALIZADO y ENTREGADO**:
+   - Búsqueda grep confirmó que `setEstado(REALIZADO)` y `setEstado(ENTREGADO)` nunca se llamaban en el código.
+   - Eliminados de `EstadoExamen.java` (enum), `ServicioExamen.java` (3 bloques), `CorregirExamenPage.tsx`, `AlumnosPage.tsx`, `AsignaturasPage.tsx`, `AuditoriaExamenesPage.tsx`.
+   - Principio aplicado: YAGNI — no mantener código para flujos inexistentes.
+   - Ciclo de vida correcto: PENDIENTE → ASIGNADO → PENDIENTE_CALIFICACION → CORREGIDO.
+
+3. **Fix frontend — botón "Hojas de respuesta" desaparecía tras simular entrega**:
+   - Causa: condición `hayAsignados` era falsa tras la transición a `PENDIENTE_CALIFICACION`.
+   - Fix en `CorregirExamenPage.tsx`: condición cambiada a `ejemplares.some(tieneClave)`, que comprueba la existencia de SHA-256 independientemente del estado.
+
+4. **Pruebas de flujo importar/exportar**:
+   - Exportar Global: funcional — descarga JSON con todos los datos.
+   - Importar Global (reimport): detectados y corregidos 2 bugs:
+     - **Bug 1 (backend)**: `ServicioPregunta.guardarIndividual` usaba `DELETE + INSERT` para respuestas, rompiendo la FK `ExamenAlumnoMarca → Respuesta` cuando existían marcas de corrección. Fix: upsert por ID en lugar de delete+create.
+     - **Bug 2 (frontend)**: `ImportarExportarPage` renderizaba directamente `err.response?.data` (objeto JSON de Spring Boot) como hijo React, causando crash y pantalla en blanco. Fix: conversión a string antes de almacenar en estado.
+   - Importar Individual: probado con archivos de test creados en `test-data/`. Todos los casos (grados, asignaturas, alumnos, preguntas) funcionan correctamente.
+
+5. **Actualización `TRAZABILIDAD_TEORICA.md`** (documento local, no versionado):
+   - Ciclo de estados corregido en sección "Artefactos Baseline".
+   - Entradas CU-02 y CU-09 actualizadas con endpoints reales.
+   - Nueva sección "Decisiones de Calidad y Refactorizaciones" documentando la auditoría, la eliminación de estados muertos y los bugs corregidos.
+
+### Validación Empírica
+- Import global → OK en todos los casos incluyendo reimport con marcas de corrección activas.
+- Import individual con `test-data/` → OK: grados, asignaturas, alumnos y preguntas importados y verificados en la UI.
+- Botón "Hojas de respuesta" visible en todos los estados post-asignación.
+
+---
+
 ## Conversación 42: Corrección de CUs Abstractos y Rediseño de Generación de Exámenes
 **Fecha**: 2026-06-07
 **Participantes**: Liam + Claude Sonnet 4.6 (Claude Code CLI)
@@ -728,4 +777,95 @@ De un grid de estadísticas puro a una pantalla de "recepción":
 ### Validación
 - RevisionModal verificado: muestra preguntas con colores correcto/incorrecto.
 - CorregirExamenPage: navegación grupos → detalle → corrección funcional.
+
+---
+
+## Conversación 44: Separación CU-02/CU-09, AsignarExamenPage y UX de Correcciones
+**Fecha**: 2026-06-07
+**Participantes**: Liam (Usuario) + Claude Sonnet 4.6
+
+### Contexto de la Sesión
+Sesión de continuación desde contexto compactado. El objetivo principal era implementar la separación real entre CU-02 (Generar) y CU-09 (Asignar), que hasta ahora se hacían en un solo paso (`generarYAsignar`), lo que no era fiel al diagrama de estados del sistema. También se corrigió un bug de restricción de BD y se mejoró la UX de navegación.
+
+**Prompts clave de Liam**:
+> "si implementalo, me parece que es lo mejor" *(confirma separación CU-02/CU-09)*
+> "claro el problema es que ahora no hay una pestaña de asignacion para poder hacer la parte de asignacion"
+> "podemos separar en corregir examenes los examenes que ya han sido corregidos de los otros como has hecho en asignar examenes"
+> "vale perfecto, vamos a dejarlo por hoy"
+
+### Desarrollo Principal
+
+**1. Separación CU-02 / CU-09 — Backend** (`f7b32ba`)
+
+*Motivación*: el diagrama de estados define PENDIENTE (generado) y ASIGNADO (clave SHA-256 generada, formalmente asignado) como estados distintos. El sistema generaba y asignaba en un único paso, haciendo imposible distinguirlos.
+
+Cambios:
+- `ExamenAlumno.java`: columna `clave_correccion` pasa a nullable (`nullable = false` eliminado de la anotación JPA).
+- `DTO_GrupoExamen.java`: nuevo campo `asignados` separado de `pendientes`.
+- `ServicioExamen.generarYAsignar()`: ejemplares se crean con `estado = PENDIENTE` y `claveCorreccion = null`.
+- `ServicioExamen.asignarGrupo()` (nuevo): busca todos los ejemplares PENDIENTE del grupo, genera SHA-256 para cada uno y los pasa a ASIGNADO.
+- `ServicioExamen.listarGrupos()`: ahora cuenta PENDIENTE y ASIGNADO por separado en lugar de agruparlos.
+- `ServicioExamen.simularEntregaGrupo/Masiva()`: solo procesa ejemplares en estado ASIGNADO (los PENDIENTE sin clave no pueden "entregar").
+- `ServicioExamen.cancelarGeneracion()`: ahora permite cancelar un examen si todos sus ejemplares son PENDIENTE (los elimina primero); bloquea si alguno es ASIGNADO o más avanzado.
+- `ServicioExamen.exportarExamen()`: filtra para incluir solo alumnos con clave (`claveCorreccion != null`).
+- `ControladorExamen.java`: nuevo endpoint `POST /api/examenes/grupos/asignar`.
+
+**2. Bug: restricción NOT NULL en PostgreSQL** (fix inmediato)
+
+Eliminar `nullable = false` de la anotación JPA no modifica la BD existente (con `ddl-auto=update` Hibernate no elimina restricciones). Al intentar generar, PostgreSQL lanzó:
+```
+ERROR: el valor nulo de la columna «clave_correccion» viola la restricción de no nulo
+```
+Fix: `ALTER TABLE examen_alumnos ALTER COLUMN clave_correccion DROP NOT NULL;` ejecutado directamente en la BD.
+
+**3. Separación CU-02/CU-09 — Frontend** (`f7b32ba`)
+
+- `examenService.ts`: nueva función `asignarGrupo()` → `POST /examenes/grupos/asignar`.
+- `CorregirExamenPage.tsx`:
+  - `ESTADO_BADGE`: PENDIENTE = "Sin asignar" (violeta `#7c3aed`), ASIGNADO = "Sin entregar" (gris, sin cambio).
+  - Nuevas funciones: `esSinAsignar`, `esAsignado`, `tieneClave`.
+  - Sidebar del detalle: cinco filas (Total, Sin asignar, Asignados, Entregados, Corregidos).
+  - Tabla de grupos: columna "Sin asignar" (violeta) + "Asignados" (gris) añadidas.
+  - Botones del detalle: "Asignar y generar claves" (visible cuando `haySinAsignar`), "Hojas de respuesta" y "Simular entregas" gateados a `hayAsignados`.
+  - `handleDescargarHojas`: filtra solo ejemplares con clave (`tieneClave`).
+- `GenerarExamenPage.tsx`: botón cambia a "Generar N exámenes (pendientes de asignación)"; banner de éxito redirige a `/asignar-examen`.
+
+**4. AsignarExamenPage — nueva pestaña CU-09** (`081ecd8`)
+
+`AsignarExamenPage.tsx` reescrita para el nuevo flujo:
+- Tabla principal "Grupos pendientes de asignación": solo muestra grupos con `pendientes > 0`, botón "Asignar y generar claves" por fila que llama a `asignarGrupo`.
+- Tabla secundaria "Grupos ya asignados": grupos con `pendientes === 0`, columnas simplificadas (Asignados, Entregados, Corregidos).
+- Ruta `/asignar-examen` registrada en `App.tsx`.
+- Sidebar: nueva entrada "Asignar Examen" entre "Generar Examen" y "Corregir Exámenes".
+
+**5. Separación grupos en CorregirExamenPage** (`46542c6`)
+
+Vista `grupos` dividida en dos secciones:
+- **En progreso**: grupos donde `corregidos < totalAlumnos`. Tabla completa con las 9 columnas. Header con contador de grupos (badge azul).
+- **Completados**: grupos donde `corregidos === totalAlumnos`. Tabla simplificada (Asignatura, Tipo, Fecha, Alumnos, Corregidos, badge "Completado ✓" verde). Solo se muestra si hay algún grupo completado.
+
+### Flujo Completo del Sistema (Post-Sesión)
+
+```
+[Generar Examen] → PENDIENTE (sin clave)
+      ↓
+[Asignar Examen] → ASIGNADO (SHA-256 generada, hojas disponibles)
+      ↓
+[Corregir Exámenes] → PENDIENTE_CALIFICACION → CORREGIDO
+```
+
+### Decisiones de Diseño
+
+- **ddl-auto=update no elimina restricciones**: Hibernate con `update` solo añade columnas/tablas, nunca elimina constraints existentes. Cualquier cambio de nullabilidad requiere `ALTER TABLE` manual en la BD.
+- **cancelarGeneracion ampliado**: ahora permite cancelar exámenes generados pero no asignados, eliminando primero los ejemplares PENDIENTE antes de borrar el `Examen`.
+- **Separación visual PENDIENTE/ASIGNADO**: colores distintos (violeta para "Sin asignar", gris para "Sin entregar") para que el docente entienda en qué estado está cada alumno.
+
+### Commits de esta sesión
+
+| Hash | Descripción |
+|------|-------------|
+| `f7b32ba` | feat(examenes): separar CU-02 y CU-09 (backend + frontend) |
+| `081ecd8` | feat(ui): añadir pestaña Asignar Examen al sidebar y router |
+| `46542c6` | feat(ui): separar grupos en progreso y completados en Correcciones |
+| `cab5bda` | feat(dashboard): añadir tarjeta Asignar Examen al panel de control |
 - Dashboard: acceso rápido y estado del sistema operativos.

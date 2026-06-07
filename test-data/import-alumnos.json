@@ -1,0 +1,23 @@
+[
+  {
+    "dni": "TEST001A",
+    "nombre": "Ana",
+    "apellidos": "Test Importada",
+    "curso": 1,
+    "codigoGrado": "GII"
+  },
+  {
+    "dni": "TEST002B",
+    "nombre": "Bruno",
+    "apellidos": "Test Importado",
+    "curso": 2,
+    "codigoGrado": "GADE"
+  },
+  {
+    "dni": "TEST003C",
+    "nombre": "Carmen",
+    "apellidos": "Test Importada",
+    "curso": 3,
+    "codigoGrado": "GPSI"
+  }
+]

@@ -212,11 +212,15 @@ const ImportarExportarPage: React.FC = () => {
         queryClient.invalidateQueries({ queryKey: [k] })
       );
     } catch (err: any) {
+      const raw = err.response?.data;
+      const mensaje = typeof raw === 'string' ? raw
+        : typeof raw === 'object' && raw !== null ? (raw.message || JSON.stringify(raw))
+        : err.message || 'Error desconocido.';
       setGlobalResults([{
         entidad: 'Error',
         total: 0,
         status: 'error',
-        mensaje: err.response?.data || err.message || 'Error desconocido.',
+        mensaje,
       }]);
     } finally {
       setIsProcessingGlobal(false);

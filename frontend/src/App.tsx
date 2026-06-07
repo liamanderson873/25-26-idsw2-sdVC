@@ -8,6 +8,7 @@ import AlumnosPage from './pages/AlumnosPage';
 import PreguntasPage from './pages/PreguntasPage';
 import GenerarExamenPage from './pages/GenerarExamenPage';
 import CorregirExamenPage from './pages/CorregirExamenPage';
+import AsignarExamenPage from './pages/AsignarExamenPage';
 import ImportarExportarPage from './pages/ImportarExportarPage';
 import DashboardPage from './pages/DashboardPage';
 
@@ -26,6 +27,7 @@ function App() {
         {/* Rutas exclusivas de DOCENTE */}
         <Route path="dashboard" element={!isAdmin ? <DashboardPage /> : <Navigate to="/docentes" replace />} />
         <Route path="generar-examen" element={!isAdmin ? <GenerarExamenPage /> : <Navigate to="/docentes" replace />} />
+        <Route path="asignar-examen" element={!isAdmin ? <AsignarExamenPage /> : <Navigate to="/docentes" replace />} />
         <Route path="corregir-examen" element={!isAdmin ? <CorregirExamenPage /> : <Navigate to="/docentes" replace />} />
         <Route path="grados" element={!isAdmin ? <GradosPage /> : <Navigate to="/docentes" replace />} />
         <Route path="asignaturas" element={!isAdmin ? <AsignaturasPage /> : <Navigate to="/docentes" replace />} />

@@ -66,6 +66,11 @@ export const getEjemplaresDeGrupo = async (dto: { asignaturaId: number; tipoEval
   return Array.isArray(response.data) ? response.data : [];
 };
 
+export const asignarGrupo = async (dto: { asignaturaId: number; tipoEvaluacion: string; fechaExamen: string }): Promise<string> => {
+  const response = await api.post('/examenes/grupos/asignar', dto);
+  return response.data;
+};
+
 export const entregarGrupo = async (dto: { asignaturaId: number; tipoEvaluacion: string; fechaExamen: string }): Promise<string> => {
   const response = await api.post('/examenes/grupos/entregar', dto);
   return response.data;

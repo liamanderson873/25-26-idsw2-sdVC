@@ -24,7 +24,7 @@ public class ExamenAlumno {
     @JoinColumn(name = "examen_id", nullable = false)
     private Examen examen;
 
-    @Column(name = "clave_correccion", unique = true, nullable = false)
+    @Column(name = "clave_correccion", unique = true)
     private String claveCorreccion;
 
     @Column(name = "nota_sugerida")

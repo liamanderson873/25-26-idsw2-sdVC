@@ -56,8 +56,8 @@ public class ServicioPregunta {
         if (dto.getId() != null) {
             pregunta = repoPregunta.findById(dto.getId())
                     .orElseThrow(() -> new RuntimeException("Pregunta no encontrada con ID: " + dto.getId()));
-            repoRespuesta.deleteByPreguntaId(pregunta.getId());
-            repoRespuesta.flush();
+            // No se borran las respuestas — se actualizan en-lugar por ID para no romper
+            // la FK de ExamenAlumnoMarca → Respuesta cuando ya existen marcas de corrección.
         } else {
             pregunta = new Pregunta();
         }
@@ -72,12 +72,15 @@ public class ServicioPregunta {
         if (dto.getRespuestas() != null) {
             int indice = 0;
             for (DTO_Respuesta dtoResp : dto.getRespuestas()) {
-                Respuesta respuesta = new Respuesta();
+                Respuesta respuesta = (dtoResp.getId() != null)
+                        ? repoRespuesta.findById(dtoResp.getId()).orElse(new Respuesta())
+                        : new Respuesta();
                 respuesta.setContenido(dtoResp.getContenido());
                 respuesta.setEsCorrecta(dtoResp.isEsCorrecta());
                 respuesta.setPregunta(preguntaGuardada);
-                respuesta.setIndice(dtoResp.getIndice() != null ? dtoResp.getIndice() : indice++);
+                respuesta.setIndice(dtoResp.getIndice() != null ? dtoResp.getIndice() : indice);
                 repoRespuesta.save(respuesta);
+                indice++;
             }
         }
     }

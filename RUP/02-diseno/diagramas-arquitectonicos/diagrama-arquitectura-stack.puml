@@ -1,49 +1,62 @@
 @startuml
-title Arquitectura Física y Stack Tecnológico - Jorgestor
+title Arquitectura Física y Stack Tecnológico — Jorgestor
 
 skinparam componentStyle rectangle
 skinparam linetype ortho
-
-node "Navegador del Usuario" as ClientNode {
-    component "Frontend App\n(React + Vite)" as Frontend <<Web Interface>>
-    note right of Frontend
-        - TypeScript
-        - TanStack Query
-        - Axios
-        - CSS Modules
-    end note
+skinparam node {
+  BackgroundColor #f8fafc
+  BorderColor #64748b
 }
 
-node "Servidor de Aplicaciones (JVM 21)" as ServerNode {
-    
-    package "API REST (Spring Boot 3.2.5)" {
-        component "Controladores" as API <<Controller Layer>>
-        component "Servicios de Negocio" as Services <<Service Layer>>
-        component "Persistencia (JPA/Hibernate)" as DataLayer <<Repository Layer>>
-        
-        note bottom of Services
-            - Algoritmo de Generación
-            - Motor de Calificación
-            - Seguridad RBAC
-            - Hashing SHA-256
-        end note
-    }
+node "Máquina del Usuario" as ClientNode {
+  component "Navegador Web" as Browser
+  package "Frontend (puerto 5173)" {
+    component "React 18 + Vite" as React
+    component "TypeScript" as TS
+    component "TanStack Query v5" as TQ
+    component "React Router v6" as RR
+    component "Axios" as Axios
+  }
+}
+
+node "Servidor de Aplicaciones" as ServerNode {
+  package "Spring Boot 3.2.5 (JVM 21 — puerto 9090)" {
+    component "Controladores REST\n(@RestController)" as Controllers
+    component "Servicios de Negocio\n(@Service)" as Services
+    component "Repositorios\n(Spring Data JPA)" as Repos
+
+    note right of Services
+      - Algoritmo generarYAsignar
+      - Motor de calificación
+        (aciertos - fallos/3) / total × 10
+      - Hashing SHA-256 (claveCorreccion)
+      - RBAC (Docente / Admin)
+    end note
+  }
 }
 
 node "Servidor de Datos" as DBNode {
-    database "PostgreSQL 17" as DB <<Database>>
-    note bottom of DB
-        - Esquema 3FN
-        - ACID Compliant
-        - Tabla 'Matriculas' (N:M)
-    end note
+  database "PostgreSQL 17" as DB
+  note right of DB
+    Tablas principales:
+    examenes, examen_alumnos,
+    marcas_examen_alumno,
+    preguntas, respuestas,
+    alumnos, profesores, usuarios,
+    asignaturas, grados, temas,
+    matriculas (N:M),
+    examen_preguntas (N:M),
+    asignatura_grados (N:M)
+  end note
 }
 
-' Relaciones de Interacción y Protocolos
-Frontend -down-> API : HTTP / JSON (REST)
-API -down-> Services : Inyección de Dependencias
-Services -down-> DataLayer : Mapeo de Objetos
-DataLayer -down-> DB : SQL / JDBC
+' ─── Flujo de comunicación ───────────────────────────────────────
+Browser    --> React       : renderiza
+React      --> Axios       : llamadas HTTP
+Axios      -down-> Controllers : REST / JSON (CORS habilitado)
+Controllers -down-> Services  : inyección de dependencias
+Services   -down-> Repos      : consultas JPA
+Repos      -down-> DB         : SQL / JDBC (HikariCP)
 
-center footer © 2026 Jorgestor - Ingeniería del Software II (IDSW2)
+center footer © 2026 Jorgestor — Ingeniería del Software II (IDSW2)
 @enduml

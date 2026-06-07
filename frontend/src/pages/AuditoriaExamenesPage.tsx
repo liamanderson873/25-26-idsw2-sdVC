@@ -115,7 +115,7 @@ const AuditoriaExamenesPage: React.FC = () => {
   [ejemplares]);
 
   const hayParaCorregir = useMemo(() => 
-    (ejemplares || []).some(ej => ej && (ej.estado === 'PENDIENTE_CALIFICACION' || ej.estado === 'ENTREGADO')),
+    (ejemplares || []).some(ej => ej && ej.estado === 'PENDIENTE_CALIFICACION'),
   [ejemplares]);
 
   return (

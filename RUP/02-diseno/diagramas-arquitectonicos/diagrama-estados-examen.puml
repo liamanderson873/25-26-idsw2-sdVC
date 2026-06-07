@@ -1,21 +1,28 @@
 @startuml
-title Diagrama de Estados - Ciclo de Vida del Examen (Ejemplar)
+title Diagrama de Estados — Ciclo de Vida del Ejemplar de Examen (ExamenAlumno)
 
-[*] --> PENDIENTE : generar examen
+skinparam state {
+  BackgroundColor white
+  BorderColor #444
+  ArrowColor #444
+  FontName Arial
+}
 
-PENDIENTE --> ASIGNADO : asignar alumnos
+[*] --> PENDIENTE : generarExamen() — CU-02\nejemplar creado, sin clave SHA-256
 
-ASIGNADO --> ENTREGADO : simular entrega / escanear
-note on link
-  Se generan las marcas de auditoría
-end note
+state PENDIENTE : Examen generado (CU-02).\nSin clave de corrección.\nPendiente de asignación formal.
 
-ENTREGADO --> PENDIENTE_CALIFICACION : validación técnica
+state ASIGNADO : Asignado formalmente (CU-09).\nClave SHA-256 generada.\nPendiente de realización.
 
-PENDIENTE_CALIFICACION --> CORREGIDO : corrección IA o Manual
-note on link
-  Cálculo de nota final (Aciertos - Fallos/3)
-end note
+state PENDIENTE_CALIFICACION : Entrega simulada por el docente.\nMarcas de auditoría registradas.\nPendiente de calificación.
+
+state CORREGIDO : Nota final registrada.\nAuditoría completa disponible.
+
+PENDIENTE --> ASIGNADO : asignarGrupo() — CU-09\n[clave SHA-256 generada]
+
+ASIGNADO --> PENDIENTE_CALIFICACION : simularEntrega()\n[marcas de auditoría creadas]
+
+PENDIENTE_CALIFICACION --> CORREGIDO : corregirIA() / correccionManual()\n[nota = (aciertos - fallos/3) / total × 10]
 
 CORREGIDO --> [*] : acta cerrada
 
