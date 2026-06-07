@@ -1007,3 +1007,30 @@ Añadida tabla `## Objetos BCE` a los 43 READMEs de análisis mostrando los este
 | `8e13e9d` | docs: añadir razones de elección del stack al README |
 | `a34f1d5` | docs: reescribir todos los READMEs al estilo pySigHor |
 | `c808b16` | docs: añadir tabla BCE a los 43 READMEs de analisis |
+
+---
+
+## Conversación 48: Corrección CU-38/39 y PR a main
+
+**Fecha:** 2026-06-08
+
+### Resumen
+
+Corrección de los diagramas de análisis de CU-38 y CU-39 (CUs abstractos del módulo de importación que aún tenían actor directo). PR de develop a main abierto y mergeado.
+
+### Cambios
+
+**1. CU-38 y CU-39 — quitar actor directo** (`11bc29b`)
+
+CU-38 (importarAsignaturas) y CU-39 (importarGrados) son abstractos: se invocan desde CU-04 con `<<include>>` y no tienen actor iniciador propio. Sus 4 diagramas (2 colaboración + 2 secuencia) tenían `actor Docente` con flechas directas. Corregidos al mismo patrón que CU-07, 08, 40, 41: nota `<<abstracto>>`, notación `[->` / `[<-` en secuencia, sin actor.
+
+**2. PR a main mergeado**
+
+Sprint final mergeado a `main`. Incluye toda la documentación pySigHor, BCE tables, y corrección de los 6 CUs abstractos.
+
+### Commits de esta sesión
+
+| Hash | Descripción |
+|------|-------------|
+| `8d3465f` | docs: añadir conversación 47 al log |
+| `11bc29b` | fix(analisis): quitar actor directo de CU-38 y CU-39 (abstractos de importacion) |
