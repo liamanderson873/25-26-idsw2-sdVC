@@ -869,3 +869,80 @@ Vista `grupos` dividida en dos secciones:
 | `46542c6` | feat(ui): separar grupos en progreso y completados en Correcciones |
 | `cab5bda` | feat(dashboard): añadir tarjeta Asignar Examen al panel de control |
 - Dashboard: acceso rápido y estado del sistema operativos.
+
+---
+
+## Conversación 45: Ver Examen Generado y Corregir desde Asignatura
+**Fecha**: 2026-06-07
+**Participantes**: Liam (Usuario) + Claude Sonnet 4.6
+
+### Contexto de la Sesión
+Sesión de continuación desde contexto compactado. Objetivo: implementar los flujos de navegación que faltaban según el nuevo diagrama de contexto del grupo de modelado, en particular: (1) acceso a CorregirExamenPage filtrado desde AsignaturasPage, y (2) posibilidad de ver el contenido de un examen recién generado antes de asignarlo.
+
+**Prompts clave de Liam**:
+> "1.vamos a hacer que se pueda corregir desde los dos lados... 2 tecnicamente pone que es con el caso edit alumno pero yo lo dejaria como lo tenemos... 3 si se necesita el acceso desde asignatura para poder corregir. y faltaria que despues de generar un examen se pueda ver el examen generado"
+
+### Desarrollo Principal
+
+**1. Actualización del diagrama de contexto** (`4dc39b4`)
+
+`diagrama-contexto-docente.puml` ampliado con cuatro nuevos estados y sus transiciones:
+
+| Estado nuevo | Descripción |
+|---|---|
+| `EXAMEN_GENERADO` | Vista solo lectura de un ejemplar recién generado |
+| `EXAMEN_GENERADO_CONTEXTUAL` | Ídem desde el flujo contextual de asignatura |
+| `EXAMEN_CORREGIDO` | Vista/edición de un ejemplar corregido en CorregirExamenPage |
+| `EXAMEN_CORREGIDO_CONTEXTUAL` | RevisionModal en el panel lateral de AsignaturasPage |
+
+Transiciones añadidas:
+- `EditAsignatura --> ExamenesCorregidos: corregirExamenes()` (junto al ya existente desde `Menu`)
+- `EditAsignatura --> ExamenCorregidoContextual: revisarExamen()` (el botón "Revisar" ya existía)
+- `ExamenesGenerados --> ExamenGenerado: verExamen()` + vuelta
+- `ExamenesGeneradosContextuales --> ExamenGeneradoContextual: verExamen()` + vuelta
+- `ExamenesCorregidos --> ExamenCorregido: verDetalle()` + vuelta
+
+**2. Botón "Corregir" en AsignaturasPage** (`4dc39b4`)
+
+Panel lateral de la asignatura seleccionada: añadido botón "Corregir" en la cabecera que navega a `/corregir-examen?asignaturaId={id}`. Usa `useNavigate` de react-router-dom.
+
+**3. Filtrado por asignatura en CorregirExamenPage** (`4dc39b4`)
+
+- `useSearchParams` lee el param `asignaturaId` de la URL.
+- La lista de grupos se filtra por `asignaturaId` cuando el param está presente.
+- El subtítulo indica si la vista está filtrada.
+- El mensaje de estado vacío distingue el caso filtrado del general.
+
+**4. Botón "Ver examen" para ejemplares no entregados** (`4dc39b4`)
+
+En la tabla de ejemplares del grupo, los estados PENDIENTE y ASIGNADO (antes mostraban el botón desactivado) ahora muestran un botón "Ver examen" que abre la vista de corrección en modo lectura:
+- Las respuestas se muestran pero no son clicables.
+- Badge "Solo lectura" visible junto al nombre del alumno.
+- Botones "Guardar corrección" ocultos; solo aparece "Volver".
+
+**5. "Ver exámenes generados" en GenerarExamenPage** (`4dc39b4`)
+
+Tras la generación exitosa, el banner ahora ofrece dos acciones:
+- **"Ver exámenes generados"** → navega a `/corregir-examen?asignaturaId=X` (nueva acción principal).
+- **"Ir a Asignación"** → navega a `/asignar-examen` (acción secundaria, antes única).
+
+### Flujo de "ver examen generado"
+
+```
+GenerarExamenPage → [Generar] → banner éxito
+  → [Ver exámenes generados] → CorregirExamenPage (filtrado)
+      → seleccionar grupo → lista de alumnos
+          → [Ver examen] → vista solo lectura del examen del alumno
+```
+
+### Decisiones de Diseño
+
+- **modoLectura como estado local**: en lugar de crear una nueva vista, se reutiliza la vista `manual` con un flag `modoLectura` que deshabilita clics e oculta el botón de guardar. Reutilización máxima sin complejidad adicional.
+- **Filtrado client-side**: los grupos se filtran en el frontend (el endpoint `GET /examenes/grupos` ya devuelve todos); no se añade un nuevo endpoint. Adecuado dado el volumen típico de grupos.
+- **Acceso desde ambos lados**: el diagrama original solo mostraba acceso a corrección desde el módulo contextual de asignatura, pero el usuario prefirió mantener también el acceso global desde el sidebar. Ambas transiciones coexisten en el diagrama.
+
+### Commits de esta sesión
+
+| Hash | Descripción |
+|------|-------------|
+| `4dc39b4` | feat: ver examen generado y corregir desde asignatura |
