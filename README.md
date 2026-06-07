@@ -1,51 +1,107 @@
-# Jorgestor: Sistema de Gestión de Exámenes Inteligente
+# Jorgestor — Sistema de Gestión de Exámenes
 
-[![IDSW2](https://img.shields.io/badge/Asignatura-IDSW2-blue?style=for-the-badge&logo=spring)](../../)
-[![RUP](https://img.shields.io/badge/Metodología-RUP-orange?style=for-the-badge&logo=blueprint)](../../)
-
-Solución integral para la generación, asignación y auditoría de exámenes, desarrollada bajo los estándares de **Ingeniería del Software II (IDSW2)**.
+Sistema académico desarrollado en **IDSW2** para la generación automática, asignación y corrección de exámenes personalizados por alumno. Implementado con metodología **RUP** y patrón **BCE** (Boundary-Control-Entity).
 
 ---
 
-## Centro de Mando: Navegación Visual
+## Stack
 
-| [![Análisis](https://img.shields.io/badge/Disciplina-Análisis-blue?style=for-the-badge&logo=diagramsdotnet)](RUP/01-analisis/README.md) | [![Diseño](https://img.shields.io/badge/Disciplina-Diseño-orange?style=for-the-badge&logo=postgresql)](RUP/02-diseno/README.md) | [![Trazabilidad](https://img.shields.io/badge/IDSW2-Teoría-lightgrey?style=for-the-badge&logo=gitbook)](TRAZABILIDAD_TEORICA.md) | [![Evolución](https://img.shields.io/badge/Modelado-Evolución-success?style=for-the-badge&logo=chartjs)](RUP/EVOLUCION_DISENO.md) |
-| :---: | :---: | :---: | :---: |
-
----
-
-## Evolución del Modelado (Baseline vs. As-Built)
-
-Demostración del proceso de **Diseño Evolutivo (JEDUF)**:
-
-### 1. Modelo del Dominio (Entidad-Relación)
-
-| **Diseño Original (Baseline)** | **Implementación Final (As-Built)** |
-| :---: | :---: |
-| <img width="420" src="https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramaEntidad/original.puml"/> | <img width="420" src="https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-entidad-relacion.puml"/> |
-
-### 2. Comportamiento (Ciclo de Vida del Examen)
-
-| **Flujo Teórico** | **Flujo Real de Auditoría** |
-| :---: | :---: |
-| <img width="320" src="https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramaEstadosExamen/original.puml"/> | <img width="480" src="https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-estados-examen.puml"/> |
+| Capa | Tecnología |
+|---|---|
+| Backend | Java 21 · Spring Boot 3.2.5 · Maven |
+| Frontend | React · Vite · TanStack Query |
+| Base de datos | PostgreSQL 17 |
+| Seguridad | RBAC · Firmas SHA-256 · Auditoría completa |
 
 ---
 
-## Stack Tecnológico
-
-- **Backend**: `Java 21` + `Spring Boot 3.2.5` + `PostgreSQL 17`
-- **Frontend**: `React` + `Vite` + `TanStack Query`
-- **Seguridad**: Autenticación `RBAC`, Firmas `SHA-256`, Auditoría técnica completa
-
----
-
-## Cómo Iniciar el Sistema
+## Inicio rápido
 
 ```powershell
 .\start-all.ps1
 ```
 
-*Credenciales:*
-- **Administrador:** `admin` / `admin123`
-- **Docente:** `docente` / `docente123`
+| Rol | Usuario | Contraseña | Acceso |
+|---|---|---|---|
+| Docente | `docente` | `docente123` | Gestión completa del sistema |
+| Administrador | `admin` | `admin123` | Gestión de docentes |
+
+---
+
+## Módulos funcionales
+
+### Docente (43 casos de uso)
+
+| Módulo | Operaciones |
+|---|---|
+| Grado | Crear · Ver · Editar · Eliminar |
+| Asignatura | Crear · Ver · Editar · Eliminar |
+| Alumno | Crear · Ver · Editar · Eliminar |
+| Preguntas y Respuestas | Crear · Ver · Editar · Eliminar (preguntas y respuestas) |
+| Configuración Global | Exportar · Importar (JSON con todo el sistema) |
+| Examen | Generar · Asignar · Ver · Ver lista · Corregir · Cancelar |
+| Sesión | Iniciar sesión · Cerrar sesión |
+| Gestión | Completar gestión |
+
+### Administrador Institucional (7 casos de uso)
+
+Gestión de docentes (crear, ver, editar, eliminar) + inicio/cierre de sesión + completar gestión.
+
+---
+
+## Flujo principal de exámenes
+
+```
+Configurar banco de preguntas
+        ↓
+Generar exámenes por grado/asignatura   → PDF con hoja de respuestas por alumno
+        ↓
+Asignar a alumnos
+        ↓
+Simular entrega (auditoría SHA-256)
+        ↓
+Corregir (masiva por grupo o individual)
+        ↓
+Ver revisión por ejemplar
+```
+
+---
+
+## Arquitectura — Baseline vs. As-Built
+
+El diseño ha evolucionado desde el modelo teórico inicial hasta la implementación final siguiendo el proceso **JEDUF**.
+
+### Modelo del Dominio (Entidad-Relación)
+
+| Baseline | As-Built |
+|:---:|:---:|
+| <img width="400" src="https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramaEntidad/original.puml"/> | <img width="400" src="https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-entidad-relacion.puml"/> |
+
+### Ciclo de vida del examen
+
+| Baseline | As-Built |
+|:---:|:---:|
+| <img width="300" src="https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-baseline/diagramaEstadosExamen/original.puml"/> | <img width="460" src="https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-estados-examen.puml"/> |
+
+---
+
+## Diagramas de actores y contexto
+
+| Docente | Administrador Institucional |
+|:---:|:---:|
+| <img width="460" src="https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-casos-uso/01-actores-casos-uso/actores-casos-uso.puml"/> | <img width="340" src="https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-casos-uso/01-actores-casos-uso/actores-casos-uso-admin.puml"/> |
+
+| Diagrama de contexto — Docente |
+|:---:|
+| <img width="700" src="https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/00-casos-uso/01-actores-casos-uso/diagrama-contexto-docente.puml"/> |
+
+---
+
+## Artefactos RUP
+
+| Disciplina | Contenido |
+|---|---|
+| [Casos de uso](RUP/00-casos-uso/) | Diagramas de actores y contexto (Docente y Administrador) |
+| [Análisis](RUP/01-analisis/README.md) | 43 CUs × 2 diagramas BCE (colaboración + secuencia) |
+| [Diseño](RUP/02-diseno/README.md) | 43 CUs × diagrama de secuencia de implementación + 4 diagramas arquitectónicos |
+| [Evolución](RUP/EVOLUCION_DISENO.md) | Comparativa Baseline vs. As-Built |
