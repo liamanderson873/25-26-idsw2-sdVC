@@ -480,6 +480,10 @@ public class ServicioExamen {
         ExamenAlumno ea = repoExamenAlumno.findById(ejemplarId)
                 .orElseThrow(() -> new RuntimeException("Ejemplar no encontrado"));
 
+        // Cargar preguntas + respuestas con JOIN FETCH para evitar lazy-load del Set<Pregunta>
+        Examen examen = repoExamen.findByIdConPreguntasYRespuestas(ea.getExamen().getId())
+                .orElseThrow(() -> new RuntimeException("Examen no encontrado"));
+
         List<ExamenAlumnoMarca> marcas = repoMarcas.findByExamenAlumnoId(ejemplarId);
         Map<Long, Integer> mapaMarcas = new HashMap<>();
         for (ExamenAlumnoMarca m : marcas) {
@@ -492,14 +496,16 @@ public class ServicioExamen {
         dto.setAlumnoNombre(ea.getAlumno().getNombre());
         dto.setAlumnoApellidos(ea.getAlumno().getApellidos());
         dto.setAlumnoDni(ea.getAlumno().getDni());
-        dto.setAsignaturaNombre(ea.getExamen().getAsignatura().getNombre());
-        dto.setTipoEvaluacion(ea.getExamen().getTipoEvaluacion().toString());
-        dto.setFechaExamen(ea.getExamen().getFechaExamen() != null ? ea.getExamen().getFechaExamen().toString() : null);
+        dto.setAsignaturaNombre(examen.getAsignatura().getNombre());
+        dto.setTipoEvaluacion(examen.getTipoEvaluacion().toString());
+        dto.setFechaExamen(examen.getFechaExamen() != null ? examen.getFechaExamen().toString() : null);
         dto.setEstado(ea.getEstado().toString());
         dto.setNotaFinal(ea.getNotaFinal());
 
+        // Convertir Set a List para iterar sin disparar hashCode en el PersistentSet
+        List<Pregunta> preguntas = new ArrayList<>(examen.getPreguntas());
         List<DTO_RevisionEjemplar.ItemRevision> items = new ArrayList<>();
-        for (Pregunta p : ea.getExamen().getPreguntas()) {
+        for (Pregunta p : preguntas) {
             DTO_RevisionEjemplar.ItemRevision item = new DTO_RevisionEjemplar.ItemRevision();
             item.setPreguntaId(p.getId());
             item.setEnunciado(p.getEnunciado());
