@@ -15,7 +15,7 @@ skinparam enum {
 }
 hide empty members
 
-' ── Nivel 1: Entidad central ─────────────────────
+' ── 1. Entidad central ───────────────────────────
 class Asignatura <<Entity>> {
   + id : Long
   + nombre : String
@@ -24,12 +24,20 @@ class Asignatura <<Entity>> {
   + cursoSugerido : Integer
 }
 
-' ── Nivel 2: Entidades vinculadas directamente ───
+' ── 2. Examen y Alumno ───────────────────────────
 together {
-  class Grado <<Entity>> {
+  enum TipoEvaluacion {
+    PARCIAL_1
+    PARCIAL_2
+    PARCIAL_3
+    FINAL
+    EXTRAORDINARIO
+  }
+  class Examen <<Entity>> {
     + id : Long
-    + codigo : String
-    + nombre : String
+    + tipoEvaluacion : TipoEvaluacion
+    + fechaExamen : LocalDate
+    + esPersonalizado : Boolean
   }
   class Alumno <<Entity>> {
     + id : Long
@@ -38,6 +46,10 @@ together {
     + apellidos : String
     + curso : Integer
   }
+}
+
+' ── 3. Profesor y ExamenAlumno ───────────────────
+together {
   class Profesor <<Entity>> {
     + id : Long
     + dni : String
@@ -45,47 +57,11 @@ together {
     + apellidos : String
     + email : String
   }
-  class Tema <<Entity>> {
-    + id : Long
-    + nombre : String
-  }
-}
-
-' ── Nivel 3: Contenido y generación ─────────────
-together {
-  class Pregunta <<Entity>> {
-    + id : Long
-    + enunciado : String
-    + dificultad : Dificultad
-    + habilitada : Boolean
-  }
-  enum Dificultad {
-    BAJA
-    MEDIA
-    ALTA
-  }
-  class Examen <<Entity>> {
-    + id : Long
-    + tipoEvaluacion : TipoEvaluacion
-    + fechaExamen : LocalDate
-    + esPersonalizado : Boolean
-  }
-  enum TipoEvaluacion {
-    PARCIAL_1
-    PARCIAL_2
-    PARCIAL_3
-    FINAL
-    EXTRAORDINARIO
-  }
-}
-
-' ── Nivel 4: Ejemplar y respuestas ──────────────
-together {
-  class Respuesta <<Entity>> {
-    + id : Long
-    + contenido : String
-    + indice : Integer
-    + esCorrecta : Boolean
+  enum EstadoExamen {
+    PENDIENTE
+    ASIGNADO
+    PENDIENTE_CALIFICACION
+    CORREGIDO
   }
   class ExamenAlumno <<Entity>> {
     + id : Long
@@ -94,15 +70,43 @@ together {
     + notaFinal : Double
     + estado : EstadoExamen
   }
-  enum EstadoExamen {
-    PENDIENTE
-    ASIGNADO
-    PENDIENTE_CALIFICACION
-    CORREGIDO
+}
+
+' ── 4. Pregunta y Grado ──────────────────────────
+together {
+  enum Dificultad {
+    BAJA
+    MEDIA
+    ALTA
+  }
+  class Pregunta <<Entity>> {
+    + id : Long
+    + enunciado : String
+    + dificultad : Dificultad
+    + habilitada : Boolean
+  }
+  class Grado <<Entity>> {
+    + id : Long
+    + codigo : String
+    + nombre : String
   }
 }
 
-' ── Nivel 5: Auditoría ───────────────────────────
+' ── 5. Tema y Respuesta ──────────────────────────
+together {
+  class Tema <<Entity>> {
+    + id : Long
+    + nombre : String
+  }
+  class Respuesta <<Entity>> {
+    + id : Long
+    + contenido : String
+    + indice : Integer
+    + esCorrecta : Boolean
+  }
+}
+
+' ── 6. Auditoría ─────────────────────────────────
 class ExamenAlumnoMarca <<Entity>> {
   + id : Long
   + indiceMarcado : Integer
@@ -131,28 +135,28 @@ together {
 Usuario       ..>  Rol
 
 ' Asignatura como eje
-Profesor      "1"  --  "*"  Asignatura    : imparte
-Asignatura    "*"  --  "*"  Grado         : asignatura_grados\n<<tabla intermedia>>
-Alumno        "*"  --  "*"  Asignatura    : matriculas\n<<tabla intermedia>>
-Asignatura    "1"  --  "*"  Tema          : tiene
+Examen        "*"  -->  "1"  Asignatura    : de
+Alumno        "*"  --  "*"  Asignatura     : matriculas\n<<tabla intermedia>>
+Profesor      "1"  --  "*"  Asignatura     : imparte
+Asignatura    "1"  --  "*"  Tema           : tiene
+Asignatura    "*"  --  "*"  Grado          : asignatura_grados\n<<tabla intermedia>>
 
 ' Alumno → Grado
-Alumno        "*"  -->  "1"  Grado        : cursa en
+Alumno        "*"  -->  "1"  Grado         : cursa en
 
 ' Contenido
-Pregunta      "*"  -->  "1"  Tema          : sobre
+Pregunta      "*"  -->  "1"  Tema           : sobre
 Pregunta      ..>  Dificultad
-Respuesta     "*"  -->  "1"  Pregunta      : opción de
+Respuesta     "*"  -->  "1"  Pregunta       : opción de
 
 ' Examen
 Examen        ..>  TipoEvaluacion
-Examen        "*"  -->  "1"  Asignatura    : de
-Examen        "*"  --  "*"  Pregunta       : examen_preguntas\n<<tabla intermedia>>
+Examen        "*"  --  "*"  Pregunta        : examen_preguntas\n<<tabla intermedia>>
 
 ' Ejemplar
 ExamenAlumno  ..>  EstadoExamen
-ExamenAlumno  "*"  -->  "1"  Examen        : ejemplar de
-ExamenAlumno  "*"  -->  "1"  Alumno        : asignado a
+ExamenAlumno  "*"  -->  "1"  Examen         : ejemplar de
+ExamenAlumno  "*"  -->  "1"  Alumno         : asignado a
 
 ' Auditoría
 ExamenAlumnoMarca  "*"  -->  "1"    ExamenAlumno  : auditoría de
