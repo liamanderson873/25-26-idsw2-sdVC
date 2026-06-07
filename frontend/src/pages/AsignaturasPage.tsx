@@ -1,5 +1,6 @@
 ﻿import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { getAsignaturas, createAsignatura, deleteAsignatura } from '../services/asignaturaService';
 import { getProfesores } from '../services/profesorService';
 import { getGrados } from '../services/gradoService';
@@ -16,6 +17,7 @@ const ESTADO_STYLE: Record<string, { bg: string; color: string; label: string }>
 };
 
 const AsignaturasPage: React.FC = () => {
+  const navigate = useNavigate();
   const [editingId, setEditingId] = useState<number | null>(null);
   const [filterCurso, setFilterCurso] = useState('');
   const [filterGrado, setFilterGrado] = useState<number>(0);
@@ -258,13 +260,24 @@ const AsignaturasPage: React.FC = () => {
         {selectedAsignatura && (
           <div className="card fade-in" style={{ padding: 0, overflow: 'hidden', position: 'sticky', top: '1rem' }}>
             <div style={{ padding: '1rem 1.25rem', background: 'var(--primary-light)', borderBottom: '1px solid var(--border)' }}>
-              <div style={{ fontSize: '0.65rem', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--primary)', marginBottom: '0.2rem' }}>
-                Exámenes de la asignatura
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.5rem' }}>
+                <div>
+                  <div style={{ fontSize: '0.65rem', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--primary)', marginBottom: '0.2rem' }}>
+                    Exámenes de la asignatura
+                  </div>
+                  <div style={{ fontWeight: '800', fontSize: '0.95rem', color: 'var(--text-main)' }}>
+                    {selectedAsignatura.nombre}
+                  </div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{selectedAsignatura.codigo} · {selectedAsignatura.cursoAcademico}</div>
+                </div>
+                <button
+                  className="btn btn-primary"
+                  style={{ fontSize: '0.65rem', padding: '0.3rem 0.7rem', flexShrink: 0, marginTop: '0.15rem' }}
+                  onClick={() => navigate(`/corregir-examen?asignaturaId=${selectedAsignatura.id}`)}
+                >
+                  Corregir
+                </button>
               </div>
-              <div style={{ fontWeight: '800', fontSize: '0.95rem', color: 'var(--text-main)' }}>
-                {selectedAsignatura.nombre}
-              </div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{selectedAsignatura.codigo} · {selectedAsignatura.cursoAcademico}</div>
             </div>
 
             <div style={{ maxHeight: '520px', overflowY: 'auto' }}>

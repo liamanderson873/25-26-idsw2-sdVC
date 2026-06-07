@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { getAsignaturas } from '../services/asignaturaService';
 import { getTemas } from '../services/temaService';
 import { getGrados } from '../services/gradoService';
@@ -43,6 +44,7 @@ const StepBadge: React.FC<{ n: string }> = ({ n }) => (
 
 const GenerarExamenPage: React.FC = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const [filterGradoId, setFilterGradoId] = useState<number>(0);
   const [asignaturaId, setAsignaturaId] = useState<number>(0);
@@ -507,12 +509,19 @@ const GenerarExamenPage: React.FC = () => {
             </div>
             <div style={{ fontSize: '0.82rem', color: '#047857' }}>{resultado}</div>
           </div>
-          <button type="button" className="btn btn-primary"
-            onClick={() => window.location.href = '/asignar-examen'}
-            style={{ flexShrink: 0 }}
-          >
-            Ir a Asignación
-          </button>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flexShrink: 0 }}>
+            <button type="button" className="btn btn-primary"
+              onClick={() => navigate(`/corregir-examen?asignaturaId=${asignaturaId}`)}
+            >
+              Ver exámenes generados
+            </button>
+            <button type="button" className="btn btn-secondary"
+              onClick={() => navigate('/asignar-examen')}
+              style={{ fontSize: '0.75rem' }}
+            >
+              Ir a Asignación
+            </button>
+          </div>
         </div>
       )}
     </div>
