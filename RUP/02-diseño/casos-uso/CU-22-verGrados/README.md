@@ -11,7 +11,7 @@
 
 <div align=center>
 
-![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseño/casos-uso/CU-22-verGrados/diseno-secuencia-CU-22-verGrados.puml)
+![](https://www.plantuml.com/$102-dise%C3%B1o/casos-uso/CU-22-verGrados/diseno-secuencia-CU-22-verGrados.puml)
 
 [diseno-secuencia-CU-22-verGrados.puml](diseno-secuencia-CU-22-verGrados.puml)
 
