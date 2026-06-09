@@ -158,6 +158,7 @@ ExamenCorregido --> ExamenesCorregidos: verExamenes()
 
 'Modulo examenes corregidos contextuales (desde asignatura y desde alumno)
 EditAsignatura --> ExamenesCorregidosContextuales: corregirExamenes()
+EditAsignatura --> ExamenesCorregidosContextuales: verExamenes()
 EditAlumno --> ExamenesCorregidosContextuales: verExamenes()
 ExamenesCorregidosContextuales --> EditAsignatura: verAsignatura()
 ExamenesCorregidosContextuales --> EditAlumno: verAlumno()
