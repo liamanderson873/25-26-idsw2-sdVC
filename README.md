@@ -67,11 +67,11 @@ Sistema desarrollado en la asignatura **Ingeniería del Software II (IDSW2)** ap
 
 |Baseline|As-Built|
 |:-:|:-:|
-|<img width="380" src="https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/00-baseline/diagramaEntidad/original.puml"/>|<img width="380" src="https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%C3%B1o/diagramas-arquitectonicos/diagrama-entidad-relacion.puml"/>|
+|<img width="380" src="https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/00-baseline/diagramaEntidad/original.puml"/>|<img width="380" src="https://www.plantuml.com/plantuml/proxy?cache=no&v=5&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%25C3%25B1o/diagramas-arquitectonicos/diagrama-entidad-relacion.puml"/>|
 
 |Baseline|As-Built|
 |:-:|:-:|
-|<img width="280" src="https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/00-baseline/diagramaEstadosExamen/original.puml"/>|<img width="440" src="https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%C3%B1o/diagramas-arquitectonicos/diagrama-estados-examen.puml"/>|
+|<img width="280" src="https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/00-baseline/diagramaEstadosExamen/original.puml"/>|<img width="440" src="https://www.plantuml.com/plantuml/proxy?cache=no&v=5&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%25C3%25B1o/diagramas-arquitectonicos/diagrama-estados-examen.puml"/>|
 
 </div>
 
