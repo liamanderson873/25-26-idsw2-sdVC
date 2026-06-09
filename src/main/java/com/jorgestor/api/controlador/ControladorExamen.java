@@ -6,6 +6,7 @@ import com.jorgestor.api.dto.DTO_GenerarExamen;
 import com.jorgestor.api.dto.DTO_GenerarYAsignar;
 import com.jorgestor.api.dto.DTO_ProcesarCorreccion;
 import com.jorgestor.api.modelo.Examen;
+import com.jorgestor.api.modelo.TipoEvaluacion;
 import com.jorgestor.api.servicio.ServicioExamen;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -112,6 +113,19 @@ public class ControladorExamen {
         try {
             servicioExamen.corregirMasivo(id);
             return ResponseEntity.ok("Corrección masiva completada por la IA para todos los alumnos entregados.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    /** CU-37: cancelarGeneracionBatch — cancela todos los exámenes PENDIENTE de una asignatura y tipo */
+    @DeleteMapping("/cancelar-pendientes")
+    public ResponseEntity<?> cancelarGeneracionBatch(
+            @RequestParam Long asignaturaId,
+            @RequestParam TipoEvaluacion tipoEvaluacion) {
+        try {
+            int cancelados = servicioExamen.cancelarGeneracionBatch(asignaturaId, tipoEvaluacion);
+            return ResponseEntity.ok("Cancelados " + cancelados + " exámenes pendientes.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

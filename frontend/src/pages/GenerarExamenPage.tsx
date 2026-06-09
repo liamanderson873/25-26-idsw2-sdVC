@@ -5,7 +5,7 @@ import { getAsignaturas } from '../services/asignaturaService';
 import { getTemas } from '../services/temaService';
 import { getGrados } from '../services/gradoService';
 import { getAlumnos } from '../services/alumnoService';
-import { generarYAsignar } from '../services/examenService';
+import { generarYAsignar, cancelarGeneracionBatch } from '../services/examenService';
 import { Dificultad, TipoEvaluacion } from '../types';
 import type { ConfigPorGrado } from '../types';
 
@@ -186,6 +186,17 @@ const GenerarExamenPage: React.FC = () => {
     },
     onError: (error: any) => {
       alert('Error al generar: ' + (error.response?.data || error.message || 'Error desconocido'));
+    },
+  });
+
+  const mutacionCancelarBatch = useMutation({
+    mutationFn: () => cancelarGeneracionBatch(asignaturaId, tipo),
+    onSuccess: () => {
+      setResultado(null);
+      queryClient.invalidateQueries({ queryKey: ['examenes'] });
+    },
+    onError: (error: any) => {
+      alert('Error al cancelar: ' + (error.response?.data || error.message || 'Error desconocido'));
     },
   });
 
@@ -520,6 +531,17 @@ const GenerarExamenPage: React.FC = () => {
               style={{ fontSize: '0.75rem' }}
             >
               Ir a Asignación
+            </button>
+            <button type="button" className="btn btn-secondary"
+              style={{ fontSize: '0.75rem', color: 'var(--danger)', borderColor: 'var(--danger)' }}
+              disabled={mutacionCancelarBatch.isPending}
+              onClick={() => {
+                if (window.confirm('¿Cancelar todos los exámenes PENDIENTE generados para esta asignatura y tipo? Esta acción no se puede deshacer.')) {
+                  mutacionCancelarBatch.mutate();
+                }
+              }}
+            >
+              {mutacionCancelarBatch.isPending ? 'Cancelando…' : 'Cancelar generación'}
             </button>
           </div>
         </div>
