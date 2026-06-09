@@ -40,7 +40,6 @@ state "EXAMENES_GENERADOS_CONTEXTUALES" as ExamenesGeneradosContextuales
 state "EXAMEN_GENERADO_CONTEXTUAL" as ExamenGeneradoContextual
 state "EXAMENES_ASIGNADOS_CONTEXTUALES" as ExamenesAsignadosContextuales
 state "EXAMENES_CORREGIDOS_CONTEXTUALES" as ExamenesCorregidosContextuales
-state "CORRECCION_CONTEXTUAL" as CorreccionContextual
 
 
 'Modulo sesion'
@@ -157,13 +156,11 @@ ExamenesCorregidos --> Menu: completarGestion()
 ExamenesCorregidos --> ExamenCorregido: verExamen()
 ExamenCorregido --> ExamenesCorregidos: verExamenes()
 
-'Modulo correccion contextual (desde asignatura)
-EditAsignatura --> CorreccionContextual: corregirExamenes()
-CorreccionContextual --> EditAsignatura: verAsignatura()
-CorreccionContextual --> ExamenCorregidoContextual: verExamen()
+'Modulo examenes corregidos contextuales (desde asignatura y desde alumno)
+EditAsignatura --> ExamenesCorregidosContextuales: corregirExamenes()
 EditAlumno --> ExamenesCorregidosContextuales: verExamenes()
-ExamenesCorregidosContextuales --> EditAlumno: verAlumno()
 ExamenesCorregidosContextuales --> EditAsignatura: verAsignatura()
+ExamenesCorregidosContextuales --> EditAlumno: verAlumno()
 ExamenesCorregidosContextuales --> ExamenCorregidoContextual: verExamen()
 ExamenCorregidoContextual --> ExamenesCorregidosContextuales: verExamenes()
 
