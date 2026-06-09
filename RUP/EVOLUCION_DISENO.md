@@ -1,4 +1,4 @@
-# 📈 Evolución del Análisis y Diseño (RUP)
+﻿# 📈 Evolución del Análisis y Diseño (RUP)
 
 Este documento muestra la maduración del sistema **Jorgestor**, comparando el modelado inicial (teórico) con la arquitectura final implementada para satisfacer los requisitos de realismo académico.
 
@@ -14,7 +14,7 @@ El diseño inicial contemplaba relaciones simples y una estructura de datos redu
 ### 🟢 Implementación Final (As-Built)
 Se ha evolucionado a una arquitectura jerárquica con relaciones N:M, soporte para auditoría técnica y gestión de cursos, manteniendo la estética original aprobada.
 
-![Final ER](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-entidad-relacion.puml)
+![Final ER](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseño/diagramas-arquitectonicos/diagrama-entidad-relacion.puml)
 
 ---
 
@@ -28,7 +28,7 @@ Un proceso lineal sin validaciones técnicas intermedias.
 ### 🟢 Flujo Final
 Incluye fases de auditoría, simulación de entrega y validación por parte del docente.
 
-![Final Estados](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/diagramas-arquitectonicos/diagrama-estados-examen.puml)
+![Final Estados](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseño/diagramas-arquitectonicos/diagrama-estados-examen.puml)
 
 ---
 [⬅️ Volver al Panel Maestro](../README.md)
