@@ -4,26 +4,26 @@
 |-:|
 
 </div>
-
 # CU-22 -- Ver Grados
 
-*El docente consulta la lista de grados academicos del sistema.*
+*El docente consulta la lista de grados del sistema, pudiendo filtrar por nombre o código.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaListaGrados |
-| `<<control>>` | ControladorGrados |
-| `<<entity>>` | Grado |
+**VistaListaGrados** `<<boundary>>` — presenta el listado de grados con los controles de filtrado y navegación.
 
-## Diagramas de análisis
+**ControladorGrados** `<<control>>` — recupera y filtra el conjunto de grados según los criterios indicados.
+
+**Grado** `<<entity>>` — entidad consultada; agrega la lista de alumnos asociados para enriquecer la información presentada.
+
+**Alumno** `<<entity>>` — se incluye en la representación del grado para mostrar cuántos alumnos lo componen.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-22-verGrados/analisis-colaboracion-CU-22-verGrados.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-22-verGrados/analisis-secuencia-CU-22-verGrados.puml)|
-|[analisis-colaboracion-CU-22-verGrados.puml](analisis-colaboracion-CU-22-verGrados.puml)|[analisis-secuencia-CU-22-verGrados.puml](analisis-secuencia-CU-22-verGrados.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-22-verGrados/analisis-colaboracion-CU-22-verGrados.puml)
+
+[analisis-colaboracion-CU-22-verGrados.puml](analisis-colaboracion-CU-22-verGrados.puml)
 
 </div>

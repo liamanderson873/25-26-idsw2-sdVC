@@ -4,26 +4,24 @@
 |-:|
 
 </div>
-
 # CU-14 -- Crear Alumno
 
-*El docente registra un nuevo alumno en el sistema con sus datos identificativos.*
+*El docente crea un nuevo alumno en el sistema proporcionando nombre, apellidos y DNI.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaCreacionAlumno |
-| `<<control>>` | ControladorAlumnos |
-| `<<entity>>` | Alumno |
+**VistaCreacionAlumno** `<<boundary>>` — captura los datos identificativos del alumno y desencadena el proceso de creación.
 
-## Diagramas de análisis
+**ControladorAlumnos** `<<control>>` — inicializa el nuevo alumno con los datos recibidos y lo persiste en el sistema.
+
+**Alumno** `<<entity>>` — entidad que se crea y persiste con los datos básicos del alumno recién registrado.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-14-crearAlumno/analisis-colaboracion-CU-14-crearAlumno.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-14-crearAlumno/analisis-secuencia-CU-14-crearAlumno.puml)|
-|[analisis-colaboracion-CU-14-crearAlumno.puml](analisis-colaboracion-CU-14-crearAlumno.puml)|[analisis-secuencia-CU-14-crearAlumno.puml](analisis-secuencia-CU-14-crearAlumno.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-14-crearAlumno/analisis-colaboracion-CU-14-crearAlumno.puml)
+
+[analisis-colaboracion-CU-14-crearAlumno.puml](analisis-colaboracion-CU-14-crearAlumno.puml)
 
 </div>

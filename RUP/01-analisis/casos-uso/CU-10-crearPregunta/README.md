@@ -4,27 +4,26 @@
 |-:|
 
 </div>
-
 # CU-10 -- Crear Pregunta
 
-*El docente anade una nueva pregunta al banco de preguntas de una asignatura.*
+*El docente crea una nueva pregunta en el banco de una asignatura, indicando enunciado, tema, dificultad y opciones de respuesta.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaCreacionPregunta |
-| `<<control>>` | ControladorGestionPreguntas |
-| `<<entity>>` | Pregunta |
-| `<<entity>>` | Asignatura |
+**VistaCreacionPregunta** `<<boundary>>` — captura los datos de la nueva pregunta introducidos por el docente y lanza la operación de creación.
 
-## Diagramas de análisis
+**ControladorGestionPreguntas** `<<control>>` — valida que la asignatura existe e inicializa la nueva pregunta con los datos proporcionados.
+
+**Pregunta** `<<entity>>` — entidad que se crea y persiste con todos sus atributos: enunciado, tema, dificultad y referencia a la asignatura.
+
+**Asignatura** `<<entity>>` — se verifica su existencia antes de asociar la nueva pregunta al banco de preguntas correspondiente.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-10-crearPregunta/analisis-colaboracion-CU-10-crearPregunta.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-10-crearPregunta/analisis-secuencia-CU-10-crearPregunta.puml)|
-|[analisis-colaboracion-CU-10-crearPregunta.puml](analisis-colaboracion-CU-10-crearPregunta.puml)|[analisis-secuencia-CU-10-crearPregunta.puml](analisis-secuencia-CU-10-crearPregunta.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-10-crearPregunta/analisis-colaboracion-CU-10-crearPregunta.puml)
+
+[analisis-colaboracion-CU-10-crearPregunta.puml](analisis-colaboracion-CU-10-crearPregunta.puml)
 
 </div>

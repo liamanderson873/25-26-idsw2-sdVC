@@ -4,28 +4,28 @@
 |-:|
 
 </div>
-
 # CU-09 -- Asignar Examenes
 
-*El docente asigna los examenes generados a los alumnos de un grado, actualizando su estado a ASIGNADO.*
+*El docente asigna los exámenes generados a los alumnos del grado, vinculando cada ejemplar al alumno que debe realizarlo.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaAsignacionExamen |
-| `<<control>>` | ControladorAsignacion |
-| `<<entity>>` | Examen |
-| `<<entity>>` | Alumno |
-| `<<entity>>` | Grado |
+**VistaAsignacionExamen** `<<boundary>>` — presenta la lista de exámenes en estado GENERADO y permite al docente seleccionar los alumnos destino.
 
-## Diagramas de análisis
+**ControladorAsignacion** `<<control>>` — valida que los alumnos pertenecen al grado y registra el vínculo entre cada examen y su alumno asignado.
+
+**Examen** `<<entity>>` — expone los ejemplares en estado GENERADO y recibe la vinculación con el alumno asignado.
+
+**Alumno** `<<entity>>` — se valida su pertenencia al grado antes de ser vinculado a un examen.
+
+**Grado** `<<entity>>` — actúa como criterio de validación para confirmar que los alumnos asignados pertenecen al grupo correcto.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-09-asignarExamenes/analisis-colaboracion-CU-09-asignarExamenes.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-09-asignarExamenes/analisis-secuencia-CU-09-asignarExamenes.puml)|
-|[analisis-colaboracion-CU-09-asignarExamenes.puml](analisis-colaboracion-CU-09-asignarExamenes.puml)|[analisis-secuencia-CU-09-asignarExamenes.puml](analisis-secuencia-CU-09-asignarExamenes.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-09-asignarExamenes/analisis-colaboracion-CU-09-asignarExamenes.puml)
+
+[analisis-colaboracion-CU-09-asignarExamenes.puml](analisis-colaboracion-CU-09-asignarExamenes.puml)
 
 </div>

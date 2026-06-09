@@ -4,29 +4,24 @@
 |-:|
 
 </div>
-
 # CU-03 -- Importar Configuracion Global
 
-*El docente restaura la configuracion completa del sistema (grados, asignaturas, alumnos y preguntas) desde un fichero JSON.*
+*El docente importa un archivo de configuración global que carga masivamente alumnos, preguntas, asignaturas y grados en el sistema.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaImportConfigGlobal |
-| `<<control>>` | ControladorImportacion |
-| `<<entity>>` | Alumno |
-| `<<entity>>` | Grado |
-| `<<entity>>` | Asignatura |
-| `<<entity>>` | Pregunta |
+**VistaImportConfigGlobal** `<<boundary>>` — recibe el archivo de configuración y coordina la secuencia de importaciones parciales delegadas mediante `<<include>>`.
 
-## Diagramas de análisis
+**ControladorImportacion** `<<control>>` — procesa y valida el archivo importado, extrae los bloques de datos y desencadena cada operación de importación parcial.
+
+**ConfiguracionGlobal** `<<entity>>` — representa la estructura del archivo de configuración; proporciona los métodos de extracción de datos por categoría.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-03-importarConfiguracionGlobal/analisis-colaboracion-CU-03-importarConfiguracionGlobal.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-03-importarConfiguracionGlobal/analisis-secuencia-CU-03-importarConfiguracionGlobal.puml)|
-|[analisis-colaboracion-CU-03-importarConfiguracionGlobal.puml](analisis-colaboracion-CU-03-importarConfiguracionGlobal.puml)|[analisis-secuencia-CU-03-importarConfiguracionGlobal.puml](analisis-secuencia-CU-03-importarConfiguracionGlobal.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-03-importarConfiguracionGlobal/analisis-colaboracion-CU-03-importarConfiguracionGlobal.puml)
+
+[analisis-colaboracion-CU-03-importarConfiguracionGlobal.puml](analisis-colaboracion-CU-03-importarConfiguracionGlobal.puml)
 
 </div>

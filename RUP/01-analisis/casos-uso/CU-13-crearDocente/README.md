@@ -4,26 +4,24 @@
 |-:|
 
 </div>
-
 # CU-13 -- Crear Docente
 
-*El administrador institucional registra un nuevo docente en el sistema.*
+*El administrador institucional crea un nuevo docente proporcionando sus datos de identificación y acceso al sistema.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaCreacionDocente |
-| `<<control>>` | ControladorDocentes |
-| `<<entity>>` | Docente |
+**VistaCreacionDocente** `<<boundary>>` — captura los datos del nuevo docente (DNI, nombre, apellidos, usuario, email, contraseña) y lanza la creación.
 
-## Diagramas de análisis
+**ControladorDocentes** `<<control>>` — valida que no existe un docente con el mismo DNI o usuario y persiste el nuevo registro.
+
+**Docente** `<<entity>>` — entidad que se inicializa con los datos del nuevo docente y se persiste como nuevo usuario del sistema.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-13-crearDocente/analisis-colaboracion-CU-13-crearDocente.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-13-crearDocente/analisis-secuencia-CU-13-crearDocente.puml)|
-|[analisis-colaboracion-CU-13-crearDocente.puml](analisis-colaboracion-CU-13-crearDocente.puml)|[analisis-secuencia-CU-13-crearDocente.puml](analisis-secuencia-CU-13-crearDocente.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-13-crearDocente/analisis-colaboracion-CU-13-crearDocente.puml)
+
+[analisis-colaboracion-CU-13-crearDocente.puml](analisis-colaboracion-CU-13-crearDocente.puml)
 
 </div>

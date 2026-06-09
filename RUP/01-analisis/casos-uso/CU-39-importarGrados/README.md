@@ -4,28 +4,26 @@
 |-:|
 
 </div>
-
 # CU-39 -- Importar Grados
 
-*Subartefacto invocado desde CU-03 mediante include que importa los grados del fichero JSON global.*
+*Importa la lista de grados del archivo de configuración global; crea cada grado nuevo delegando en crearGrado.*
 
-> **CU abstracto** - no tiene actor iniciador propio. Es invocado mediante `<<include>>` desde otro caso de uso.
+> *Abstracto — invocado desde CU-03: importarConfiguracionGlobal*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaImportacionGrados |
-| `<<control>>` | ControladorImportacionGrados |
-| `<<entity>>` | Grado |
+**VistaImportacionGrados** `<<boundary>>` — recibe la lista de grados a importar y muestra la confirmación del resultado.
 
-## Diagramas de análisis
+**ControladorImportacionGrados** `<<control>>` — verifica duplicados y delega la creación de cada grado nuevo a la colaboración crearGrado.
+
+**Grado** `<<entity>>` — se consulta para detectar duplicados antes de iniciar la creación de cada registro nuevo.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-39-importarGrados/analisis-colaboracion-CU-39-importarGrados.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-39-importarGrados/analisis-secuencia-CU-39-importarGrados.puml)|
-|[analisis-colaboracion-CU-39-importarGrados.puml](analisis-colaboracion-CU-39-importarGrados.puml)|[analisis-secuencia-CU-39-importarGrados.puml](analisis-secuencia-CU-39-importarGrados.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-39-importarGrados/analisis-colaboracion-CU-39-importarGrados.puml)
+
+[analisis-colaboracion-CU-39-importarGrados.puml](analisis-colaboracion-CU-39-importarGrados.puml)
 
 </div>

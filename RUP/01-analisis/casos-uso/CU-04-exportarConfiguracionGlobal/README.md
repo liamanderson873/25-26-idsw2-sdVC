@@ -4,29 +4,22 @@
 |-:|
 
 </div>
-
 # CU-04 -- Exportar Configuracion Global
 
-*El docente exporta toda la configuracion del sistema a un fichero JSON descargable, incluyendo los cuatro subartefactos abstractos.*
+*El docente exporta la configuración global del sistema (alumnos, preguntas, asignaturas y grados) como ficheros JSON independientes.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaExportConfigGlobal |
-| `<<control>>` | ControladorExportacion |
-| `<<entity>>` | Alumno |
-| `<<entity>>` | Grado |
-| `<<entity>>` | Asignatura |
-| `<<entity>>` | Pregunta |
+**VistaExportConfigGlobal** `<<boundary>>` — recopila las opciones de exportación del docente y delega la generación de cada fichero a los CUs abstractos incluidos.
 
-## Diagramas de análisis
+**ControladorExportacion** `<<control>>` — coordina la recogida de datos globales y confirma al docente antes de iniciar el proceso de exportación.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-04-exportarConfiguracionGlobal/analisis-colaboracion-CU-04-exportarConfiguracionGlobal.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-04-exportarConfiguracionGlobal/analisis-secuencia-CU-04-exportarConfiguracionGlobal.puml)|
-|[analisis-colaboracion-CU-04-exportarConfiguracionGlobal.puml](analisis-colaboracion-CU-04-exportarConfiguracionGlobal.puml)|[analisis-secuencia-CU-04-exportarConfiguracionGlobal.puml](analisis-secuencia-CU-04-exportarConfiguracionGlobal.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-04-exportarConfiguracionGlobal/analisis-colaboracion-CU-04-exportarConfiguracionGlobal.puml)
+
+[analisis-colaboracion-CU-04-exportarConfiguracionGlobal.puml](analisis-colaboracion-CU-04-exportarConfiguracionGlobal.puml)
 
 </div>

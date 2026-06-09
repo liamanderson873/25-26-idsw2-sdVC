@@ -4,27 +4,26 @@
 |-:|
 
 </div>
-
 # CU-20 -- Ver Preguntas
 
-*El docente consulta el banco de preguntas disponibles, filtrado por asignatura.*
+*El docente consulta el banco de preguntas de una asignatura, pudiendo aplicar filtros por tema, dificultad u otros criterios.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaListaPreguntas |
-| `<<control>>` | ControladorPreguntas |
-| `<<entity>>` | Pregunta |
-| `<<entity>>` | Asignatura |
+**VistaListaPreguntas** `<<boundary>>` — presenta el listado paginado de preguntas y expone los controles de filtrado al docente.
 
-## Diagramas de análisis
+**ControladorPreguntas** `<<control>>` — recupera la lista de preguntas aplicando el contexto y los criterios de filtrado especificados.
+
+**Pregunta** `<<entity>>` — fuente de datos consultada; cada instancia representa un ítem del banco con sus metadatos y relaciones.
+
+**Asignatura** `<<entity>>` — delimita el contexto de búsqueda para recuperar solo las preguntas del banco de la asignatura seleccionada.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-20-verPreguntas/analisis-colaboracion-CU-20-verPreguntas.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-20-verPreguntas/analisis-secuencia-CU-20-verPreguntas.puml)|
-|[analisis-colaboracion-CU-20-verPreguntas.puml](analisis-colaboracion-CU-20-verPreguntas.puml)|[analisis-secuencia-CU-20-verPreguntas.puml](analisis-secuencia-CU-20-verPreguntas.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-20-verPreguntas/analisis-colaboracion-CU-20-verPreguntas.puml)
+
+[analisis-colaboracion-CU-20-verPreguntas.puml](analisis-colaboracion-CU-20-verPreguntas.puml)
 
 </div>

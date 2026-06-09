@@ -4,28 +4,26 @@
 |-:|
 
 </div>
-
 # CU-07 -- Exportar Alumnos
 
-*Subartefacto invocado desde CU-04 mediante include que extrae los datos de alumnos para incluirlos en la exportacion global.*
+*Exporta el listado completo de alumnos en formato JSON; invocado como parte de exportarConfiguracionGlobal.*
 
-> **CU abstracto** - no tiene actor iniciador propio. Es invocado mediante `<<include>>` desde otro caso de uso.
+> *Abstracto — invocado desde CU-04: exportarConfiguracionGlobal*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaExportacionAlumnos |
-| `<<control>>` | ControladorExportacion |
-| `<<entity>>` | Alumno |
+**VistaExportacionAlumnos** `<<boundary>>` — punto de entrada del proceso abstracto; desencadena la recuperación de datos y entrega el fichero generado al contexto invocante.
 
-## Diagramas de análisis
+**ControladorExportacion** `<<control>>` — recupera todos los alumnos del sistema y construye el fichero JSON listo para descarga.
+
+**Alumno** `<<entity>>` — fuente de datos; se consulta para obtener todos los registros que se incluirán en el fichero exportado.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-07-exportarAlumnos/analisis-colaboracion-CU-07-exportarAlumnos.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-07-exportarAlumnos/analisis-secuencia-CU-07-exportarAlumnos.puml)|
-|[analisis-colaboracion-CU-07-exportarAlumnos.puml](analisis-colaboracion-CU-07-exportarAlumnos.puml)|[analisis-secuencia-CU-07-exportarAlumnos.puml](analisis-secuencia-CU-07-exportarAlumnos.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-07-exportarAlumnos/analisis-colaboracion-CU-07-exportarAlumnos.puml)
+
+[analisis-colaboracion-CU-07-exportarAlumnos.puml](analisis-colaboracion-CU-07-exportarAlumnos.puml)
 
 </div>

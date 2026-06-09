@@ -4,26 +4,30 @@
 |-:|
 
 </div>
-
 # CU-23 -- Ver Alumnos
 
-*El docente consulta la lista de alumnos registrados en el sistema.*
+*El docente consulta el listado de alumnos y puede acceder al detalle de cada alumno para ver sus exámenes asignados.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaListaAlumnos |
-| `<<control>>` | ControladorAlumnos |
-| `<<entity>>` | Alumno |
+**VistaListaAlumnos** `<<boundary>>` — presenta el catálogo de alumnos con soporte de filtrado y permite navegar al detalle individual.
 
-## Diagramas de análisis
+**VistaDetalleAlumno** `<<boundary>>` — muestra los datos del alumno seleccionado y la lista de sus exámenes vinculados.
+
+**ControladorAlumnos** `<<control>>` — carga y filtra el listado de alumnos del sistema.
+
+**ControladorExamen** `<<control>>` — recupera los exámenes asociados al alumno seleccionado para mostrarlos en la vista de detalle.
+
+**Alumno** `<<entity>>` — entidad consultada; su perfil completo se presenta en la vista de detalle.
+
+**ExamenAlumno** `<<entity>>` — se consulta para listar todos los exámenes vinculados al alumno en la vista de detalle.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-23-verAlumnos/analisis-colaboracion-CU-23-verAlumnos.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-23-verAlumnos/analisis-secuencia-CU-23-verAlumnos.puml)|
-|[analisis-colaboracion-CU-23-verAlumnos.puml](analisis-colaboracion-CU-23-verAlumnos.puml)|[analisis-secuencia-CU-23-verAlumnos.puml](analisis-secuencia-CU-23-verAlumnos.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-23-verAlumnos/analisis-colaboracion-CU-23-verAlumnos.puml)
+
+[analisis-colaboracion-CU-23-verAlumnos.puml](analisis-colaboracion-CU-23-verAlumnos.puml)
 
 </div>

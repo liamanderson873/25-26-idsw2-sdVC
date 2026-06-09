@@ -4,26 +4,24 @@
 |-:|
 
 </div>
-
 # CU-36 -- Eliminar Respuesta
 
-*El docente elimina una opcion de respuesta del banco de preguntas.*
+*El docente elimina una opción de respuesta de una pregunta tras confirmar la operación.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaEliminacionRespuesta |
-| `<<control>>` | ControladorEliminacionRespuestas |
-| `<<entity>>` | Respuesta |
+**VistaEliminacionRespuesta** `<<boundary>>` — muestra los datos de la respuesta a eliminar y recoge la confirmación del docente.
 
-## Diagramas de análisis
+**ControladorEliminacionRespuestas** `<<control>>` — ejecuta el borrado definitivo de la respuesta de la pregunta.
+
+**Respuesta** `<<entity>>` — entidad que se elimina definitivamente al confirmarse la operación.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-36-eliminarRespuesta/analisis-colaboracion-CU-36-eliminarRespuesta.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-36-eliminarRespuesta/analisis-secuencia-CU-36-eliminarRespuesta.puml)|
-|[analisis-colaboracion-CU-36-eliminarRespuesta.puml](analisis-colaboracion-CU-36-eliminarRespuesta.puml)|[analisis-secuencia-CU-36-eliminarRespuesta.puml](analisis-secuencia-CU-36-eliminarRespuesta.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-36-eliminarRespuesta/analisis-colaboracion-CU-36-eliminarRespuesta.puml)
+
+[analisis-colaboracion-CU-36-eliminarRespuesta.puml](analisis-colaboracion-CU-36-eliminarRespuesta.puml)
 
 </div>
