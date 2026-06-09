@@ -25,7 +25,7 @@
 
 |Colaboracion|Secuencia|
 |:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-02-generarExamenes/analisis-colaboracion-CU-02-generarExamenes.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-02-generarExamenes/analisis-secuencia-CU-02-generarExamenes.puml)|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-02-generarExamenes/analisis-colaboracion-CU-02-generarExamenes.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-02-generarExamenes/analisis-secuencia-CU-02-generarExamenes.puml)|
 |[analisis-colaboracion-CU-02-generarExamenes.puml](analisis-colaboracion-CU-02-generarExamenes.puml)|[analisis-secuencia-CU-02-generarExamenes.puml](analisis-secuencia-CU-02-generarExamenes.puml)|
 
 </div>

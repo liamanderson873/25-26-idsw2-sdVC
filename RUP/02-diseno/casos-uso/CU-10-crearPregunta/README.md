@@ -11,7 +11,7 @@
 
 <div align=center>
 
-![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/02-diseno/casos-uso/CU-10-crearPregunta/diseno-secuencia-CU-10-crearPregunta.puml)
+![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-diseno/casos-uso/CU-10-crearPregunta/diseno-secuencia-CU-10-crearPregunta.puml)
 
 [diseno-secuencia-CU-10-crearPregunta.puml](diseno-secuencia-CU-10-crearPregunta.puml)
 

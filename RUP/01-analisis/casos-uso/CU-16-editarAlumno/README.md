@@ -23,7 +23,7 @@
 
 |Colaboracion|Secuencia|
 |:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-16-editarAlumno/analisis-colaboracion-CU-16-editarAlumno.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-16-editarAlumno/analisis-secuencia-CU-16-editarAlumno.puml)|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-16-editarAlumno/analisis-colaboracion-CU-16-editarAlumno.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-16-editarAlumno/analisis-secuencia-CU-16-editarAlumno.puml)|
 |[analisis-colaboracion-CU-16-editarAlumno.puml](analisis-colaboracion-CU-16-editarAlumno.puml)|[analisis-secuencia-CU-16-editarAlumno.puml](analisis-secuencia-CU-16-editarAlumno.puml)|
 
 </div>

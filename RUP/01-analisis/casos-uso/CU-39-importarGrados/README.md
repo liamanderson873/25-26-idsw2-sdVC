@@ -25,7 +25,7 @@
 
 |Colaboracion|Secuencia|
 |:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-39-importarGrados/analisis-colaboracion-CU-39-importarGrados.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-39-importarGrados/analisis-secuencia-CU-39-importarGrados.puml)|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-39-importarGrados/analisis-colaboracion-CU-39-importarGrados.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-39-importarGrados/analisis-secuencia-CU-39-importarGrados.puml)|
 |[analisis-colaboracion-CU-39-importarGrados.puml](analisis-colaboracion-CU-39-importarGrados.puml)|[analisis-secuencia-CU-39-importarGrados.puml](analisis-secuencia-CU-39-importarGrados.puml)|
 
 </div>

@@ -26,7 +26,7 @@
 
 |Colaboracion|Secuencia|
 |:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-04-exportarConfiguracionGlobal/analisis-colaboracion-CU-04-exportarConfiguracionGlobal.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/develop/RUP/01-analisis/casos-uso/CU-04-exportarConfiguracionGlobal/analisis-secuencia-CU-04-exportarConfiguracionGlobal.puml)|
+|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-04-exportarConfiguracionGlobal/analisis-colaboracion-CU-04-exportarConfiguracionGlobal.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-04-exportarConfiguracionGlobal/analisis-secuencia-CU-04-exportarConfiguracionGlobal.puml)|
 |[analisis-colaboracion-CU-04-exportarConfiguracionGlobal.puml](analisis-colaboracion-CU-04-exportarConfiguracionGlobal.puml)|[analisis-secuencia-CU-04-exportarConfiguracionGlobal.puml](analisis-secuencia-CU-04-exportarConfiguracionGlobal.puml)|
 
 </div>
