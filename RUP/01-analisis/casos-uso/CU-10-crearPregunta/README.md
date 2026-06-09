@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-10 -- Crear Pregunta
 
 *El docente crea una nueva pregunta en el banco de una asignatura, indicando enunciado, tema, dificultad y opciones de respuesta.*

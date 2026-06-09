@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-20 -- Ver Preguntas
 
 *El docente consulta el banco de preguntas de una asignatura, pudiendo aplicar filtros por tema, dificultad u otros criterios.*

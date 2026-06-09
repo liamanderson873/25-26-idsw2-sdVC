@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-19 -- Editar Grado
 
 *El docente consulta y modifica los datos de un grado existente, pudiendo actualizar su nombre o eliminarlo.*

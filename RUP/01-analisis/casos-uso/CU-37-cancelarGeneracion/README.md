@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-37 -- Cancelar Generacion
 
 *El docente cancela un examen generado individualmente o descarta toda la generación batch, eliminando los exámenes en estado pendiente.*

@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-26 -- Eliminar Asignatura
 
 *El docente elimina una asignatura del sistema tras confirmar la operación.*

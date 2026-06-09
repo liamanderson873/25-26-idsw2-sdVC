@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-43 -- Ver Examenes
 
 *El docente consulta la lista agrupada de exámenes generados para una asignatura y grado.*

@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-35 -- Editar Respuesta
 
 *El docente modifica el texto o la marca de corrección de una respuesta existente.*

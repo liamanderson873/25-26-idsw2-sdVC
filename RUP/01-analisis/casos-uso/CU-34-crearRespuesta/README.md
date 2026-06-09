@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-34 -- Crear Respuesta
 
 *El docente añade una nueva opción de respuesta a una pregunta existente del banco.*

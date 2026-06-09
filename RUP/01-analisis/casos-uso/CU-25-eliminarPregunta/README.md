@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-25 -- Eliminar Pregunta
 
 *El docente solicita la eliminación de una pregunta del banco; el sistema muestra advertencia y elimina tras confirmar.*

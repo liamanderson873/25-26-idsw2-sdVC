@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-07 -- Exportar Alumnos
 
 *Exporta el listado completo de alumnos en formato JSON; invocado como parte de exportarConfiguracionGlobal.*

@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-08 -- Exportar Preguntas
 
 *Exporta el banco de preguntas con sus respuestas en formato JSON; invocado como parte de exportarConfiguracionGlobal.*

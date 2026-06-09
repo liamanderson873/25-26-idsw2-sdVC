@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-11 -- Editar Pregunta
 
 *El docente modifica los campos de una pregunta existente, actualizando enunciado, tema, dificultad o sus respuestas.*

@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-06 -- Importar Preguntas
 
 *El docente importa un banco de preguntas desde un archivo; el sistema crea cada pregunta nueva delegando en crearPregunta.*

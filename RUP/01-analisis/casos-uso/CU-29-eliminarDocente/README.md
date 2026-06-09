@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-29 -- Eliminar Docente
 
 *El administrador institucional elimina un docente del sistema tras confirmar la operación.*

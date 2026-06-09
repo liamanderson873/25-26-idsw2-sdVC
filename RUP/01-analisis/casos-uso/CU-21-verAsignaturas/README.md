@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-21 -- Ver Asignaturas
 
 *El docente consulta la lista de asignaturas y puede acceder al detalle de cada una para ver sus alumnos y grado asociado.*

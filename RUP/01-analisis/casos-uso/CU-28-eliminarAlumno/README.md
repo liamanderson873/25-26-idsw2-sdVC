@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-28 -- Eliminar Alumno
 
 *El docente elimina un alumno del sistema tras confirmar la operación.*

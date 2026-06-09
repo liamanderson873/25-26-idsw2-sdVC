@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-22 -- Ver Grados
 
 *El docente consulta la lista de grados del sistema, pudiendo filtrar por nombre o código.*

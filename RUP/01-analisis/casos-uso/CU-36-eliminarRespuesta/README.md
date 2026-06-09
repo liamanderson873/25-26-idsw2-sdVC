@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-36 -- Eliminar Respuesta
 
 *El docente elimina una opción de respuesta de una pregunta tras confirmar la operación.*

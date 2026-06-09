@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-17 -- Crear Grado
 
 *El docente crea un nuevo grado (curso académico) proporcionando nombre y código, que agrupará a sus alumnos.*

@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-13 -- Crear Docente
 
 *El administrador institucional crea un nuevo docente proporcionando sus datos de identificación y acceso al sistema.*

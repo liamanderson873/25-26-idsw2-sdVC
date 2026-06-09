@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-31 -- Cerrar Sesion
 
 *El usuario cierra su sesión activa en el sistema previa confirmación.*

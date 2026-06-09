@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-24 -- Ver Docentes
 
 *El administrador institucional consulta el listado de docentes registrados en el sistema, pudiendo filtrar por criterios.*

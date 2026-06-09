@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-14 -- Crear Alumno
 
 *El docente crea un nuevo alumno en el sistema proporcionando nombre, apellidos y DNI.*

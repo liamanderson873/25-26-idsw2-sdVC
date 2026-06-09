@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-16 -- Editar Alumno
 
 *El docente modifica los datos de un alumno existente o lo elimina del sistema.*

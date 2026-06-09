@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-42 -- Ver Examen
 
 *El docente abre el detalle de un examen asignado a un alumno para revisar sus preguntas y respuestas en una nueva pestaña.*

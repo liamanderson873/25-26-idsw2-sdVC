@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-40 -- Exportar Asignaturas
 
 *Exporta el catálogo de asignaturas en formato JSON; invocado como parte de exportarConfiguracionGlobal.*

@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-23 -- Ver Alumnos
 
 *El docente consulta el listado de alumnos y puede acceder al detalle de cada alumno para ver sus exámenes asignados.*

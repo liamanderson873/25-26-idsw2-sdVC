@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-33 -- Ver Respuestas
 
 *El docente consulta las respuestas asociadas a una pregunta, pudiendo filtrar y ver el detalle de cada opción.*

@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-41 -- Exportar Grados
 
 *Exporta el catálogo de grados en formato JSON; invocado como parte de exportarConfiguracionGlobal.*

@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-03 -- Importar Configuracion Global
 
 *El docente importa un archivo de configuración global que carga masivamente alumnos, preguntas, asignaturas y grados en el sistema.*

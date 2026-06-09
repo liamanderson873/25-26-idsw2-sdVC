@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-18 -- Crear Asignatura
 
 *El docente crea una nueva asignatura vinculada a un grado, inicializando automáticamente su banco de preguntas vacío.*

@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-32 -- Completar Gestion
 
 *El usuario finaliza una tarea de gestión activa, devolviendo el sistema al estado disponible para nuevas operaciones.*

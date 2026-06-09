@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-38 -- Importar Asignaturas
 
 *Importa la lista de asignaturas del archivo de configuración global; crea cada asignatura nueva delegando en crearAsignatura.*

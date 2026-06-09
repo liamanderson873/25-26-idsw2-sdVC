@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-12 -- Editar Asignatura
 
 *El docente modifica los datos de una asignatura o accede a su banco de preguntas, con posibilidad de eliminarla.*

@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-27 -- Eliminar Grado
 
 *El docente elimina un grado del sistema; se muestran los alumnos afectados antes de confirmar la operación.*

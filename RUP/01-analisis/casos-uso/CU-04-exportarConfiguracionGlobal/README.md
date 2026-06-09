@@ -4,6 +4,7 @@
 |-:|
 
 </div>
+
 # CU-04 -- Exportar Configuracion Global
 
 *El docente exporta la configuración global del sistema (alumnos, preguntas, asignaturas y grados) como ficheros JSON independientes.*
