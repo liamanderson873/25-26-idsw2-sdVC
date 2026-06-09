@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getAlumnos } from '../services/alumnoService';
 import { getGrados } from '../services/gradoService';
 import { getAsignaturas } from '../services/asignaturaService';
 import { getExamenesPorAlumno } from '../services/examenService';
-import RevisionModal from '../components/RevisionModal';
 
 const ESTADO_STYLE: Record<string, { bg: string; color: string; label: string }> = {
   ASIGNADO:               { bg: '#eff6ff', color: '#2563eb', label: 'Asignado' },
@@ -17,7 +16,6 @@ const ESTADO_STYLE: Record<string, { bg: string; color: string; label: string }>
 const AlumnoDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [revisionEjemplarId, setRevisionEjemplarId] = useState<number | null>(null);
 
   const { data: alumnos = [] }     = useQuery({ queryKey: ['alumnos'],     queryFn: getAlumnos });
   const { data: grados = [] }      = useQuery({ queryKey: ['grados'],      queryFn: getGrados });
@@ -148,7 +146,7 @@ const AlumnoDetailPage: React.FC = () => {
                     <button
                       className="btn btn-secondary"
                       style={{ fontSize: '0.7rem', padding: '0.25rem 0.65rem' }}
-                      onClick={() => setRevisionEjemplarId(ex.id)}
+                      onClick={() => window.open(`/examenes/revision/${ex.id}`, '_blank')}
                     >
                       Ver examen
                     </button>
@@ -160,9 +158,6 @@ const AlumnoDetailPage: React.FC = () => {
         )}
       </section>
 
-      {revisionEjemplarId && (
-        <RevisionModal ejemplarId={revisionEjemplarId} onClose={() => setRevisionEjemplarId(null)} />
-      )}
     </div>
   );
 };

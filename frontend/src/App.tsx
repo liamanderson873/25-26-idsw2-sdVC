@@ -13,6 +13,7 @@ import CorregirExamenPage from './pages/CorregirExamenPage';
 import AsignarExamenPage from './pages/AsignarExamenPage';
 import ImportarExportarPage from './pages/ImportarExportarPage';
 import DashboardPage from './pages/DashboardPage';
+import ExamenRevisionPage from './pages/ExamenRevisionPage';
 
 function App() {
   const userStr = localStorage.getItem('user');
@@ -22,6 +23,7 @@ function App() {
   return (
     <Routes>
       <Route path="/login" element={!user ? <LoginPage /> : <Navigate to={isAdmin ? '/docentes' : '/'} replace />} />
+      <Route path="/examenes/revision/:ejemplarId" element={user ? <ExamenRevisionPage /> : <Navigate to="/login" replace />} />
 
       <Route path="/" element={user ? <Layout /> : <Navigate to="/login" replace />}>
         <Route index element={<Navigate to={isAdmin ? '/docentes' : '/dashboard'} replace />} />
