@@ -7,25 +7,24 @@
 
 # CU-41 -- Exportar Grados
 
-*Subartefacto invocado desde CU-04 mediante include que extrae los grados para incluirlos en la exportacion global.*
+*Exporta el catálogo de grados en formato JSON; invocado como parte de exportarConfiguracionGlobal.*
 
-> **CU abstracto** - no tiene actor iniciador propio. Es invocado mediante `<<include>>` desde otro caso de uso.
+> *Abstracto — invocado desde CU-04: exportarConfiguracionGlobal*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaExportacionGrados |
-| `<<control>>` | ControladorExportacionGrados |
-| `<<entity>>` | Grado |
+**VistaExportacionGrados** `<<boundary>>` — punto de entrada del proceso abstracto; entrega el fichero JSON generado al contexto invocante.
 
-## Diagramas de análisis
+**ControladorExportacionGrados** `<<control>>` — recupera todos los datos de grados y construye el fichero JSON para exportación.
+
+**Grado** `<<entity>>` — fuente de datos; se consulta para obtener todos los registros que se incluirán en el fichero exportado.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-41-exportarGrados/analisis-colaboracion-CU-41-exportarGrados.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-41-exportarGrados/analisis-secuencia-CU-41-exportarGrados.puml)|
-|[analisis-colaboracion-CU-41-exportarGrados.puml](analisis-colaboracion-CU-41-exportarGrados.puml)|[analisis-secuencia-CU-41-exportarGrados.puml](analisis-secuencia-CU-41-exportarGrados.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-41-exportarGrados/analisis-colaboracion-CU-41-exportarGrados.puml)
+
+[analisis-colaboracion-CU-41-exportarGrados.puml](analisis-colaboracion-CU-41-exportarGrados.puml)
 
 </div>

@@ -1,26 +1,26 @@
-﻿@startuml exportarConfiguracionGlobal-analisis
+@startuml exportarConfiguracionGlobal-analisis
 skinparam linetype polyline
 
 actor Docente
+
+rectangle #CDEBA5 ":Collaboration exportarAlumnos [abstracto]" as ColExAl
+rectangle #CDEBA5 ":Collaboration exportarPreguntas [abstracto]" as ColExPreg
+rectangle #CDEBA5 ":Collaboration exportarAsignaturas [abstracto]" as ColExAsig
+rectangle #CDEBA5 ":Collaboration exportarGrados [abstracto]" as ColExGr
+
 package exportarConfiguracionGlobal as "exportarConfiguracionGlobal()" {
     rectangle #629EF9 VistaExportConfigGlobal
     rectangle #b5bd68 ControladorExportacion
-    rectangle #F2AC4E Alumno
-    rectangle #F2AC4E Grado
-    rectangle #F2AC4E Asignatura
-    rectangle #F2AC4E Pregunta
 }
 
 Docente -r-> VistaExportConfigGlobal: exportarConfiguracion(opciones)
 VistaExportConfigGlobal -d-> ControladorExportacion: recopilarDatos(opciones)
-
-ControladorExportacion --> Alumno: obtenerTodos()
-ControladorExportacion --> Grado: obtenerTodos()
-ControladorExportacion --> Asignatura: obtenerTodos()
-ControladorExportacion --> Pregunta: obtenerTodos()
-
 ControladorExportacion --> VistaExportConfigGlobal: mostrarConfirmacion()
 Docente --> VistaExportConfigGlobal: confirmarExportacion()
-VistaExportConfigGlobal --> ControladorExportacion: generarArchivo()
+
+VistaExportConfigGlobal ..> ColExAl: <<include>> exportarAlumnos()
+VistaExportConfigGlobal ..> ColExPreg: <<include>> exportarPreguntas()
+VistaExportConfigGlobal ..> ColExAsig: <<include>> exportarAsignaturas()
+VistaExportConfigGlobal ..> ColExGr: <<include>> exportarGrados()
 
 @enduml

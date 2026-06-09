@@ -7,23 +7,24 @@
 
 # CU-27 -- Eliminar Grado
 
-*El docente elimina un grado academico del sistema.*
+*El docente elimina un grado del sistema; se muestran los alumnos afectados antes de confirmar la operación.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaEliminacionGrado |
-| `<<control>>` | ControladorGrados |
-| `<<entity>>` | Grado |
+**VistaEliminacionGrado** `<<boundary>>` — presenta los datos del grado y los alumnos que se verían afectados, recogiendo la confirmación.
 
-## Diagramas de análisis
+**ControladorGrados** `<<control>>` — ejecuta el borrado definitivo del grado tras la confirmación del docente.
+
+**Grado** `<<entity>>` — entidad que se elimina del sistema al confirmarse la operación.
+
+**Alumno** `<<entity>>` — se consulta para informar al docente de los alumnos afectados por la eliminación del grado.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-27-eliminarGrado/analisis-colaboracion-CU-27-eliminarGrado.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-27-eliminarGrado/analisis-secuencia-CU-27-eliminarGrado.puml)|
-|[analisis-colaboracion-CU-27-eliminarGrado.puml](analisis-colaboracion-CU-27-eliminarGrado.puml)|[analisis-secuencia-CU-27-eliminarGrado.puml](analisis-secuencia-CU-27-eliminarGrado.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-27-eliminarGrado/analisis-colaboracion-CU-27-eliminarGrado.puml)
+
+[analisis-colaboracion-CU-27-eliminarGrado.puml](analisis-colaboracion-CU-27-eliminarGrado.puml)
 
 </div>

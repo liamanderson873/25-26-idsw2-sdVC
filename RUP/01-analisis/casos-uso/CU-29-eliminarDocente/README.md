@@ -7,23 +7,22 @@
 
 # CU-29 -- Eliminar Docente
 
-*El administrador institucional elimina un docente del sistema.*
+*El administrador institucional elimina un docente del sistema tras confirmar la operación.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaEliminacionDocente |
-| `<<control>>` | ControladorDocentes |
-| `<<entity>>` | Docente |
+**VistaEliminacionDocente** `<<boundary>>` — muestra los datos del docente a eliminar y recoge la confirmación del administrador.
 
-## Diagramas de análisis
+**ControladorDocentes** `<<control>>` — ejecuta el borrado definitivo del docente del sistema.
+
+**Docente** `<<entity>>` — entidad que se elimina del sistema al confirmarse la operación.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-29-eliminarDocente/analisis-colaboracion-CU-29-eliminarDocente.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-29-eliminarDocente/analisis-secuencia-CU-29-eliminarDocente.puml)|
-|[analisis-colaboracion-CU-29-eliminarDocente.puml](analisis-colaboracion-CU-29-eliminarDocente.puml)|[analisis-secuencia-CU-29-eliminarDocente.puml](analisis-secuencia-CU-29-eliminarDocente.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-29-eliminarDocente/analisis-colaboracion-CU-29-eliminarDocente.puml)
+
+[analisis-colaboracion-CU-29-eliminarDocente.puml](analisis-colaboracion-CU-29-eliminarDocente.puml)
 
 </div>

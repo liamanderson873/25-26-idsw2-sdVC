@@ -7,23 +7,22 @@
 
 # CU-28 -- Eliminar Alumno
 
-*El docente elimina un alumno del sistema.*
+*El docente elimina un alumno del sistema tras confirmar la operación.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaEliminacionAlumno |
-| `<<control>>` | ControladorAlumnos |
-| `<<entity>>` | Alumno |
+**VistaEliminacionAlumno** `<<boundary>>` — muestra los datos del alumno a eliminar y recoge la confirmación del docente.
 
-## Diagramas de análisis
+**ControladorAlumnos** `<<control>>` — ejecuta el borrado definitivo del alumno del sistema.
+
+**Alumno** `<<entity>>` — entidad que se elimina del sistema al confirmarse la operación.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-28-eliminarAlumno/analisis-colaboracion-CU-28-eliminarAlumno.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-28-eliminarAlumno/analisis-secuencia-CU-28-eliminarAlumno.puml)|
-|[analisis-colaboracion-CU-28-eliminarAlumno.puml](analisis-colaboracion-CU-28-eliminarAlumno.puml)|[analisis-secuencia-CU-28-eliminarAlumno.puml](analisis-secuencia-CU-28-eliminarAlumno.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-28-eliminarAlumno/analisis-colaboracion-CU-28-eliminarAlumno.puml)
+
+[analisis-colaboracion-CU-28-eliminarAlumno.puml](analisis-colaboracion-CU-28-eliminarAlumno.puml)
 
 </div>
