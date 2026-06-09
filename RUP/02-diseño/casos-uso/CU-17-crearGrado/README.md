@@ -11,7 +11,7 @@
 
 <div align=center>
 
-![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%C3%B1o/casos-uso/CU-17-crearGrado/diseno-secuencia-CU-17-crearGrado.puml)
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=2&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%C3%B1o/casos-uso/CU-17-crearGrado/diseno-secuencia-CU-17-crearGrado.puml)
 
 [diseno-secuencia-CU-17-crearGrado.puml](diseno-secuencia-CU-17-crearGrado.puml)
 
