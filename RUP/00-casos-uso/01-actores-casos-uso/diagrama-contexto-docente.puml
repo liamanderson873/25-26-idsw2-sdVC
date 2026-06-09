@@ -11,11 +11,9 @@ state "GRADOS_ABIERTO" as ListGrados
 state "GRADO_ABIERTO" as EditGrado
 
 state "ASIGNATURAS_ABIERTO" as ListAsignaturas
-state "ASIGNATURA_DETALLE" as DetalleAsignatura
 state "ASIGNATURA_ABIERTO" as EditAsignatura
 
 state "ALUMNOS_ABIERTO" as ListAlumnos
-state "ALUMNO_DETALLE" as DetalleAlumno
 state "ALUMNO_ABIERTO" as EditAlumno
 
 state "PREGUNTAS_ABIERTO" as ListPreguntas
@@ -50,7 +48,6 @@ Menu --> NoAuth : cerrarSesion()
 
 'Modulo grados'
 
-
 Menu --> ListGrados: verGrados()
 ListGrados --> ListGrados: eliminarGrado()
 ListGrados --> ListGrados: importarGrados()
@@ -61,38 +58,33 @@ EditGrado --> ListGrados: verGrados()
 EditGrado --> ListGrados: eliminarGrado()
 ListGrados --> Menu: completarGestion()
 
-'Modulo asignaturas'
+'Modulo asignaturas
 
 Menu --> ListAsignaturas: verAsignaturas()
+ListAsignaturas --> EditAsignatura: verAsignatura()
 ListAsignaturas --> EditAsignatura: crearAsignatura()
 ListAsignaturas --> EditAsignatura: editarAsignatura()
 ListAsignaturas --> ListAsignaturas: eliminarAsignatura()
 ListAsignaturas --> ListAsignaturas: importarAsignatura()
-ListAsignaturas --> DetalleAsignatura: verAsignatura()
-DetalleAsignatura --> ListAsignaturas: verAsignaturas()
-DetalleAsignatura --> EditAsignatura: editarAsignatura()
 EditAsignatura --> EditAsignatura: editarAsignatura()
 EditAsignatura --> ListAsignaturas: verAsignaturas()
 EditAsignatura --> ListAsignaturas: eliminarAsignatura()
 ListAsignaturas --> Menu: completarGestion()
 
-'Modulo alumnos'
+'Modulo alumnos
 
 Menu --> ListAlumnos: verAlumnos()
+ListAlumnos --> EditAlumno: verAlumno()
 ListAlumnos --> EditAlumno: crearAlumno()
 ListAlumnos --> EditAlumno: editarAlumno()
 ListAlumnos --> ListAlumnos: eliminarAlumno()
 ListAlumnos --> ListAlumnos: importarAlumnos()
-ListAlumnos --> DetalleAlumno: verAlumno()
-DetalleAlumno --> ListAlumnos: verAlumnos()
-DetalleAlumno --> EditAlumno: editarAlumno()
-DetalleAlumno --> ExamenCorregidoContextual: verExamen()
 EditAlumno --> EditAlumno: editarAlumno()
 EditAlumno --> ListAlumnos: verAlumnos()
 EditAlumno --> ListAlumnos: eliminarAlumno()
 ListAlumnos --> Menu: completarGestion()
 
-'Modulo preguntas'
+'Modulo preguntas
 
 Menu --> ListPreguntas: verPreguntas()
 ListPreguntas --> EditPregunta: crearPregunta()
@@ -104,16 +96,16 @@ EditPregunta --> ListPreguntas: verPreguntas()
 EditPregunta --> ListPreguntas: eliminarPregunta()
 ListPreguntas --> Menu: completarGestion()
 
-'Modulo preguntas contextuales '
+'Modulo preguntas contextuales
 
-DetalleAsignatura --> ListPreguntasContextuales: verPreguntas()
+EditAsignatura --> ListPreguntasContextuales: verPreguntas()
 ListPreguntasContextuales --> EditPreguntaContextual: crearPregunta()
 ListPreguntasContextuales --> EditPreguntaContextual: editarPregunta()
 ListPreguntasContextuales --> ListPreguntasContextuales: eliminarPregunta()
 ListPreguntasContextuales --> ListPreguntasContextuales: importarPreguntas()
 EditPreguntaContextual --> EditPreguntaContextual: editarPregunta()
 EditPreguntaContextual --> ListPreguntasContextuales: verPreguntas()
-ListPreguntasContextuales --> DetalleAsignatura: verAsignatura()
+ListPreguntasContextuales --> EditAsignatura: verAsignatura()
 EditPreguntaContextual --> ListRespuestasContextuales: verRespuestas()
 EditPreguntaContextual --> ListPreguntasContextuales: eliminarPregunta()
 ListRespuestasContextuales --> EditRespuestaContextual: editarRespuesta()
@@ -124,8 +116,7 @@ ListRespuestasContextuales --> ListRespuestasContextuales: eliminarRespuesta()
 EditRespuestaContextual --> EditRespuestaContextual: editarRespuesta()
 ListRespuestasContextuales --> EditPreguntaContextual: editarPregunta()
 
-
-'Modulo Respuesta'
+'Modulo Respuesta
 EditPregunta --> ListRespuestas: verRespuestas()
 ListRespuestas --> EditRespuesta: editarRespuesta()
 ListRespuestas --> EditRespuesta: crearRespuesta()
@@ -135,12 +126,12 @@ EditRespuesta --> ListRespuestas: verRespuestas()
 EditRespuesta --> ListRespuestas: eliminarRespuesta()
 ListRespuestas --> EditPregunta: editarPregunta()
 
-'Modulo configuracion general'
+'Modulo configuracion general
 
 Menu --> Menu: importarConfiguracionGlobal()
 Menu --> Menu: exportarConfiguracionGlobal()
 
-'Modulo examenes'
+'Modulo examenes
 
 Menu --> ExamenesGenerados: generarExamenes()
 ExamenesGenerados --> ExamenesAsignados: asignarExamenes()
@@ -149,44 +140,24 @@ ExamenesGenerados --> Menu: cancelarGeneracion()
 ExamenesGenerados --> ExamenGenerado: verExamen()
 ExamenGenerado --> ExamenesGenerados: verExamenes()
 
-'Modulo examenes contextuales'
-DetalleAsignatura --> ExamenesGeneradosContextuales: generarExamenes()
+'Modulo examenes contextuales
+EditAsignatura --> ExamenesGeneradosContextuales: generarExamenes()
 ExamenesGeneradosContextuales --> ExamenesAsignadosContextuales: asignarExamenes()
-ExamenesGeneradosContextuales --> DetalleAsignatura: cancelarGeneracion()
-ExamenesAsignadosContextuales --> DetalleAsignatura: verAsignatura()
+ExamenesGeneradosContextuales --> EditAsignatura: cancelarGeneracion()
+ExamenesAsignadosContextuales --> EditAsignatura: verAsignatura()
 ExamenesGeneradosContextuales --> ExamenGeneradoContextual: verExamen()
 ExamenGeneradoContextual --> ExamenesGeneradosContextuales: verExamenes()
 
-
-'Módulo correccion'
+'Modulo correccion
 
 Menu --> ExamenesCorregidos: corregirExamenes()
-DetalleAsignatura --> ExamenesCorregidos: corregirExamenes()
+EditAsignatura --> ExamenesCorregidos: corregirExamenes()
 ExamenesCorregidos --> Menu: completarGestion()
-ExamenesCorregidos --> DetalleAsignatura: verAsignatura()
+ExamenesCorregidos --> EditAsignatura: verAsignatura()
 ExamenesCorregidos --> ExamenCorregido: verExamen()
 ExamenCorregido --> ExamenesCorregidos: verExamenes()
-DetalleAsignatura --> ExamenCorregidoContextual: verExamen()
-ExamenCorregidoContextual --> DetalleAsignatura: verAsignatura()
-ExamenCorregidoContextual --> DetalleAlumno: verAlumno()
+EditAlumno --> ExamenCorregidoContextual: verExamen()
+ExamenCorregidoContextual --> EditAsignatura: verAsignatura()
+ExamenCorregidoContextual --> EditAlumno: verAlumno()
 
 @enduml
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
