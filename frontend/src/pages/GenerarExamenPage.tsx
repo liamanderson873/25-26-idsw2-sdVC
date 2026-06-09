@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getAsignaturas } from '../services/asignaturaService';
 import { getTemas } from '../services/temaService';
 import { getGrados } from '../services/gradoService';
@@ -45,9 +45,12 @@ const StepBadge: React.FC<{ n: string }> = ({ n }) => (
 const GenerarExamenPage: React.FC = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [filterGradoId, setFilterGradoId] = useState<number>(0);
-  const [asignaturaId, setAsignaturaId] = useState<number>(0);
+  const [asignaturaId, setAsignaturaId] = useState<number>(
+    searchParams.get('asignaturaId') ? Number(searchParams.get('asignaturaId')) : 0
+  );
   const [temaIds, setTemaIds] = useState<number[]>([]);
   const [tipo, setTipo] = useState<TipoEvaluacion>(TipoEvaluacion.PARCIAL_1);
   const [configPorGrado, setConfigPorGrado] = useState<Record<number, ConfigGrado>>({});

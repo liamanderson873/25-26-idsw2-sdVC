@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useSearchParams } from 'react-router-dom';
 import { getPreguntas, createPregunta, deletePregunta, toggleHabilitadaPregunta } from '../services/preguntaService';
 import { getTemas } from '../services/temaService';
 import { getAsignaturas } from '../services/asignaturaService';
@@ -15,8 +16,11 @@ const DIF_LABELS: Record<Dificultad, string> = {
 
 const PreguntasPage: React.FC = () => {
   const queryClient = useQueryClient();
+  const [searchParams] = useSearchParams();
 
-  const [selectedAsignaturaId, setSelectedAsignaturaId] = useState<number | null>(null);
+  const [selectedAsignaturaId, setSelectedAsignaturaId] = useState<number | null>(
+    searchParams.get('asignaturaId') ? Number(searchParams.get('asignaturaId')) : null
+  );
   const [searchAsig, setSearchAsig] = useState('');
   const [filterGradoId, setFilterGradoId] = useState<number>(0);
   const [filterTemaId, setFilterTemaId] = useState<number>(0);
