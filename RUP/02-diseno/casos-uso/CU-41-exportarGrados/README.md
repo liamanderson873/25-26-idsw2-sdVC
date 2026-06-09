@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-41 — Exportar Grados — Diseno
+# CU-41 — Exportar Grados — Diseño
 
 *Subartefacto invocado desde CU-04 mediante include que extrae los grados para incluirlos en la exportacion global.*
 

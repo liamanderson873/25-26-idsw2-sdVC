@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-25 — Eliminar Pregunta — Diseno
+# CU-25 — Eliminar Pregunta — Diseño
 
 *El docente elimina una pregunta del banco de preguntas de una asignatura.*
 

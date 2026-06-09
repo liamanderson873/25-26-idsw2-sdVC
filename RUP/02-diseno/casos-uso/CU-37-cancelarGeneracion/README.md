@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-37 — Cancelar Generacion — Diseno
+# CU-37 — Cancelar Generacion — Diseño
 
 *El docente cancela una generacion de examenes antes de confirmarla definitivamente.*
 

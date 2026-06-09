@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-02 — Generar Examenes — Diseno
+# CU-02 — Generar Examenes — Diseño
 
 *El docente genera examenes individualizados por alumno seleccionando asignatura, grado y numero de preguntas del banco.*
 

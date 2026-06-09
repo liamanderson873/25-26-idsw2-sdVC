@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-28 — Eliminar Alumno — Diseno
+# CU-28 — Eliminar Alumno — Diseño
 
 *El docente elimina un alumno del sistema.*
 

@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-04 — Exportar Configuracion Global — Diseno
+# CU-04 — Exportar Configuracion Global — Diseño
 
 *El docente exporta toda la configuracion del sistema a un fichero JSON descargable, incluyendo los cuatro subartefactos abstractos.*
 

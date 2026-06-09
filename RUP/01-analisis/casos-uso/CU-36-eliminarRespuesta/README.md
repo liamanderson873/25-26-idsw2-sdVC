@@ -17,11 +17,11 @@
 | `<<control>>` | ControladorEliminacionRespuestas |
 | `<<entity>>` | Respuesta |
 
-## Diagramas de analisis
+## Diagramas de análisis
 
 <div align=center>
 
-|Colaboracion|Secuencia|
+|Colaboración|Secuencia|
 |:-:|:-:|
 |![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-36-eliminarRespuesta/analisis-colaboracion-CU-36-eliminarRespuesta.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-36-eliminarRespuesta/analisis-secuencia-CU-36-eliminarRespuesta.puml)|
 |[analisis-colaboracion-CU-36-eliminarRespuesta.puml](analisis-colaboracion-CU-36-eliminarRespuesta.puml)|[analisis-secuencia-CU-36-eliminarRespuesta.puml](analisis-secuencia-CU-36-eliminarRespuesta.puml)|

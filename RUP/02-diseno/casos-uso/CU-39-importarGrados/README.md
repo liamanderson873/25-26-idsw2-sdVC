@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-39 — Importar Grados — Diseno
+# CU-39 — Importar Grados — Diseño
 
 *Subartefacto invocado desde CU-03 mediante include que importa los grados del fichero JSON global.*
 

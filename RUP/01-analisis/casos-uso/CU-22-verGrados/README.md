@@ -17,11 +17,11 @@
 | `<<control>>` | ControladorGrados |
 | `<<entity>>` | Grado |
 
-## Diagramas de analisis
+## Diagramas de análisis
 
 <div align=center>
 
-|Colaboracion|Secuencia|
+|Colaboración|Secuencia|
 |:-:|:-:|
 |![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-22-verGrados/analisis-colaboracion-CU-22-verGrados.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-22-verGrados/analisis-secuencia-CU-22-verGrados.puml)|
 |[analisis-colaboracion-CU-22-verGrados.puml](analisis-colaboracion-CU-22-verGrados.puml)|[analisis-secuencia-CU-22-verGrados.puml](analisis-secuencia-CU-22-verGrados.puml)|

@@ -17,11 +17,11 @@
 | `<<control>>` | ControladorImportacionAlumnos |
 | `<<entity>>` | Alumno |
 
-## Diagramas de analisis
+## Diagramas de análisis
 
 <div align=center>
 
-|Colaboracion|Secuencia|
+|Colaboración|Secuencia|
 |:-:|:-:|
 |![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-05-importarAlumnos/analisis-colaboracion-CU-05-importarAlumnos.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-05-importarAlumnos/analisis-secuencia-CU-05-importarAlumnos.puml)|
 |[analisis-colaboracion-CU-05-importarAlumnos.puml](analisis-colaboracion-CU-05-importarAlumnos.puml)|[analisis-secuencia-CU-05-importarAlumnos.puml](analisis-secuencia-CU-05-importarAlumnos.puml)|

@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-18 — Crear Asignatura — Diseno
+# CU-18 — Crear Asignatura — Diseño
 
 *El docente crea una nueva asignatura y la asocia a un grado academico.*
 

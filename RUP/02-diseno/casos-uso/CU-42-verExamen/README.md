@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-42 — Ver Examen — Diseno
+# CU-42 — Ver Examen — Diseño
 
 *El docente consulta el contenido completo de un ejemplar de examen en modo lectura, con las respuestas del alumno y su calificacion.*
 

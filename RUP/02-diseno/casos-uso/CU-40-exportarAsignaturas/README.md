@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-40 — Exportar Asignaturas — Diseno
+# CU-40 — Exportar Asignaturas — Diseño
 
 *Subartefacto invocado desde CU-04 mediante include que extrae las asignaturas para incluirlas en la exportacion global.*
 

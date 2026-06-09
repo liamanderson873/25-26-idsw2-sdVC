@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-07 — Exportar Alumnos — Diseno
+# CU-07 — Exportar Alumnos — Diseño
 
 *Subartefacto invocado desde CU-04 mediante include que extrae los datos de alumnos para incluirlos en la exportacion global.*
 

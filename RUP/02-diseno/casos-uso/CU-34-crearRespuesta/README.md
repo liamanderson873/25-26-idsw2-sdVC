@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-34 — Crear Respuesta — Diseno
+# CU-34 — Crear Respuesta — Diseño
 
 *El docente anade una nueva opcion de respuesta a una pregunta existente.*
 

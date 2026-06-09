@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-06 — Importar Preguntas — Diseno
+# CU-06 — Importar Preguntas — Diseño
 
 *El docente importa el banco de preguntas y respuestas desde el subartefacto correspondiente del fichero JSON global.*
 

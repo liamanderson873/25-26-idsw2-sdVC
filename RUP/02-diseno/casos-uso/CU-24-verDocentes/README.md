@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-24 — Ver Docentes — Diseno
+# CU-24 — Ver Docentes — Diseño
 
 *El administrador institucional consulta la lista de docentes registrados en el sistema.*
 

@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-09 — Asignar Examenes — Diseno
+# CU-09 — Asignar Examenes — Diseño
 
 *El docente asigna los examenes generados a los alumnos de un grado, actualizando su estado a ASIGNADO.*
 

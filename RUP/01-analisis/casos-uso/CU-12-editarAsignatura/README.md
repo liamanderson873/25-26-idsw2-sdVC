@@ -18,11 +18,11 @@
 | `<<entity>>` | Asignatura |
 | `<<entity>>` | Grado |
 
-## Diagramas de analisis
+## Diagramas de análisis
 
 <div align=center>
 
-|Colaboracion|Secuencia|
+|Colaboración|Secuencia|
 |:-:|:-:|
 |![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-12-editarAsignatura/analisis-colaboracion-CU-12-editarAsignatura.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-12-editarAsignatura/analisis-secuencia-CU-12-editarAsignatura.puml)|
 |[analisis-colaboracion-CU-12-editarAsignatura.puml](analisis-colaboracion-CU-12-editarAsignatura.puml)|[analisis-secuencia-CU-12-editarAsignatura.puml](analisis-secuencia-CU-12-editarAsignatura.puml)|

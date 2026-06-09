@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-03 — Importar Configuracion Global — Diseno
+# CU-03 — Importar Configuracion Global — Diseño
 
 *El docente restaura la configuracion completa del sistema (grados, asignaturas, alumnos y preguntas) desde un fichero JSON.*
 

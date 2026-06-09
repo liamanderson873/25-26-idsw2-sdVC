@@ -17,11 +17,11 @@
 | `<<control>>` | ControladorAlumnos |
 | `<<entity>>` | Alumno |
 
-## Diagramas de analisis
+## Diagramas de análisis
 
 <div align=center>
 
-|Colaboracion|Secuencia|
+|Colaboración|Secuencia|
 |:-:|:-:|
 |![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-14-crearAlumno/analisis-colaboracion-CU-14-crearAlumno.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-14-crearAlumno/analisis-secuencia-CU-14-crearAlumno.puml)|
 |[analisis-colaboracion-CU-14-crearAlumno.puml](analisis-colaboracion-CU-14-crearAlumno.puml)|[analisis-secuencia-CU-14-crearAlumno.puml](analisis-secuencia-CU-14-crearAlumno.puml)|

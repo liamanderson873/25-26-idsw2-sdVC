@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-22 — Ver Grados — Diseno
+# CU-22 — Ver Grados — Diseño
 
 *El docente consulta la lista de grados academicos del sistema.*
 

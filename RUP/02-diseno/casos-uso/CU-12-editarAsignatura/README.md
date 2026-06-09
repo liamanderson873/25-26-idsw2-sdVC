@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-12 — Editar Asignatura — Diseno
+# CU-12 — Editar Asignatura — Diseño
 
 *El docente modifica el nombre u otros datos de una asignatura ya registrada.*
 

@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-35 — Editar Respuesta — Diseno
+# CU-35 — Editar Respuesta — Diseño
 
 *El docente modifica el texto o la correccion de una respuesta existente.*
 

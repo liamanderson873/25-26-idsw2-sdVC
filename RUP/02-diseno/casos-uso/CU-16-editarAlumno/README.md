@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-16 — Editar Alumno — Diseno
+# CU-16 — Editar Alumno — Diseño
 
 *El docente modifica los datos de un alumno ya registrado en el sistema.*
 

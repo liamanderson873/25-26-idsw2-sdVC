@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-13 — Crear Docente — Diseno
+# CU-13 — Crear Docente — Diseño
 
 *El administrador institucional registra un nuevo docente en el sistema.*
 

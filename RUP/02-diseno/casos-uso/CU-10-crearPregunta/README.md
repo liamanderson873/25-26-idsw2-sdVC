@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-10 — Crear Pregunta — Diseno
+# CU-10 — Crear Pregunta — Diseño
 
 *El docente anade una nueva pregunta al banco de preguntas de una asignatura.*
 

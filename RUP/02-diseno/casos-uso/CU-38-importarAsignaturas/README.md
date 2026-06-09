@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-38 — Importar Asignaturas — Diseno
+# CU-38 — Importar Asignaturas — Diseño
 
 *Subartefacto invocado desde CU-03 mediante include que importa las asignaturas del fichero JSON global.*
 

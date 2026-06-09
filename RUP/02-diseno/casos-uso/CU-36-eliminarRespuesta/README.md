@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-36 — Eliminar Respuesta — Diseno
+# CU-36 — Eliminar Respuesta — Diseño
 
 *El docente elimina una opcion de respuesta del banco de preguntas.*
 

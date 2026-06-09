@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-32 — Completar Gestion — Diseno
+# CU-32 — Completar Gestion — Diseño
 
 *El docente marca la gestion actual como completada.*
 

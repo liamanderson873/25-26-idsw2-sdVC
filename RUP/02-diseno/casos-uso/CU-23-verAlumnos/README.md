@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-23 — Ver Alumnos — Diseno
+# CU-23 — Ver Alumnos — Diseño
 
 *El docente consulta la lista de alumnos registrados en el sistema.*
 

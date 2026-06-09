@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-31 — Cerrar Sesion — Diseno
+# CU-31 — Cerrar Sesion — Diseño
 
 *El usuario cierra su sesion activa en el sistema.*
 

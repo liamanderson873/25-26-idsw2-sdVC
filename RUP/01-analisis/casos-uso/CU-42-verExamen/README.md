@@ -18,11 +18,11 @@
 | `<<entity>>` | ExamenAlumno |
 | `<<entity>>` | Pregunta |
 
-## Diagramas de analisis
+## Diagramas de análisis
 
 <div align=center>
 
-|Colaboracion|Secuencia|
+|Colaboración|Secuencia|
 |:-:|:-:|
 |![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-42-verExamen/analisis-colaboracion-CU-42-verExamen.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-42-verExamen/analisis-secuencia-CU-42-verExamen.puml)|
 |[analisis-colaboracion-CU-42-verExamen.puml](analisis-colaboracion-CU-42-verExamen.puml)|[analisis-secuencia-CU-42-verExamen.puml](analisis-secuencia-CU-42-verExamen.puml)|

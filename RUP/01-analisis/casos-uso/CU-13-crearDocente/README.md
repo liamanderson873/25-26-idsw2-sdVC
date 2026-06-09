@@ -17,11 +17,11 @@
 | `<<control>>` | ControladorDocentes |
 | `<<entity>>` | Docente |
 
-## Diagramas de analisis
+## Diagramas de análisis
 
 <div align=center>
 
-|Colaboracion|Secuencia|
+|Colaboración|Secuencia|
 |:-:|:-:|
 |![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-13-crearDocente/analisis-colaboracion-CU-13-crearDocente.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-13-crearDocente/analisis-secuencia-CU-13-crearDocente.puml)|
 |[analisis-colaboracion-CU-13-crearDocente.puml](analisis-colaboracion-CU-13-crearDocente.puml)|[analisis-secuencia-CU-13-crearDocente.puml](analisis-secuencia-CU-13-crearDocente.puml)|

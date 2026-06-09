@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-01 — Corregir Examenes — Diseno
+# CU-01 — Corregir Examenes — Diseño
 
 *El docente corrige masivamente las respuestas de un grupo de alumnos y el sistema persiste la nota actualizando el estado a CORREGIDO.*
 

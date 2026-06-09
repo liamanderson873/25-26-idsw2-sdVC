@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-33 — Ver Respuestas — Diseno
+# CU-33 — Ver Respuestas — Diseño
 
 *El docente consulta las opciones de respuesta asociadas a una pregunta del banco.*
 

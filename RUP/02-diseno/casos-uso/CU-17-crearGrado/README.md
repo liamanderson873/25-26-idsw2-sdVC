@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-17 — Crear Grado — Diseno
+# CU-17 — Crear Grado — Diseño
 
 *El docente crea un nuevo grado academico en el sistema.*
 

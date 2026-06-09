@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-29 — Eliminar Docente — Diseno
+# CU-29 — Eliminar Docente — Diseño
 
 *El administrador institucional elimina un docente del sistema.*
 

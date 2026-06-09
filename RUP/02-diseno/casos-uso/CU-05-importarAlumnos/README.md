@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-05 — Importar Alumnos — Diseno
+# CU-05 — Importar Alumnos — Diseño
 
 *El docente importa el listado de alumnos desde el subartefacto correspondiente del fichero JSON global.*
 

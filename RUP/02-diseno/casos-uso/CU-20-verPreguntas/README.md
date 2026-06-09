@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-20 — Ver Preguntas — Diseno
+# CU-20 — Ver Preguntas — Diseño
 
 *El docente consulta el banco de preguntas disponibles, filtrado por asignatura.*
 

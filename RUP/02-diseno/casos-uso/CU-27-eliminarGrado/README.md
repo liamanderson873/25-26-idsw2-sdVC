@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-27 — Eliminar Grado — Diseno
+# CU-27 — Eliminar Grado — Diseño
 
 *El docente elimina un grado academico del sistema.*
 

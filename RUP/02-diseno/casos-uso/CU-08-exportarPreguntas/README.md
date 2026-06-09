@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-08 — Exportar Preguntas — Diseno
+# CU-08 — Exportar Preguntas — Diseño
 
 *Subartefacto invocado desde CU-04 mediante include que extrae el banco de preguntas para incluirlo en la exportacion global.*
 

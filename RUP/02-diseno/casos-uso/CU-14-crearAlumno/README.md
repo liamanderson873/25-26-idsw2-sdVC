@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-14 — Crear Alumno — Diseno
+# CU-14 — Crear Alumno — Diseño
 
 *El docente registra un nuevo alumno en el sistema con sus datos identificativos.*
 

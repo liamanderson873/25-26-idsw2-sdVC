@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-43 — Ver Examenes — Diseno
+# CU-43 — Ver Examenes — Diseño
 
 *El docente consulta la lista de grupos de examenes generados, agrupados por asignatura y tipo.*
 

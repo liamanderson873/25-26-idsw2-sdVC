@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-15 — Editar Docente — Diseno
+# CU-15 — Editar Docente — Diseño
 
 *El administrador institucional modifica los datos de un docente existente en el sistema.*
 

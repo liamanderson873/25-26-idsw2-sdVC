@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-11 — Editar Pregunta — Diseno
+# CU-11 — Editar Pregunta — Diseño
 
 *El docente modifica el enunciado u opciones de una pregunta existente en el banco.*
 

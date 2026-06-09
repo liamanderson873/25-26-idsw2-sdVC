@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-21 — Ver Asignaturas — Diseno
+# CU-21 — Ver Asignaturas — Diseño
 
 *El docente consulta la lista de asignaturas registradas en el sistema.*
 

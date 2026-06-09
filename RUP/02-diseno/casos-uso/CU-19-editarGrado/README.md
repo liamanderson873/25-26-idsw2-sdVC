@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-19 — Editar Grado — Diseno
+# CU-19 — Editar Grado — Diseño
 
 *El docente modifica el nombre u otros datos de un grado academico existente.*
 

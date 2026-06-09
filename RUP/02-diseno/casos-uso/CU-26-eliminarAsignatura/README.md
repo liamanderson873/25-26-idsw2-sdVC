@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-26 — Eliminar Asignatura — Diseno
+# CU-26 — Eliminar Asignatura — Diseño
 
 *El docente elimina una asignatura del sistema.*
 

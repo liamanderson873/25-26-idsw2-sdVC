@@ -5,7 +5,7 @@
 
 </div>
 
-# CU-30 — Iniciar Sesion — Diseno
+# CU-30 — Iniciar Sesion — Diseño
 
 *El usuario (docente o administrador) inicia sesion en el sistema con sus credenciales.*
 
