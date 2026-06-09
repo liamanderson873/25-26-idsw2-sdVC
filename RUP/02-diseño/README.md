@@ -13,13 +13,21 @@ Disciplina de diseño RUP. Cada caso de uso tiene un diagrama de secuencia a niv
 
 <div align=center>
 
-|Modelo del dominio (ER)|Ciclo de vida del examen|
-|:-:|:-:|
-|<img width="420" src="https://www.plantuml.com/plantuml/proxy?cache=no&v=3&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%C3%B1o/diagramas-arquitectonicos/diagrama-entidad-relacion.puml"/>|<img width="420" src="https://www.plantuml.com/plantuml/proxy?cache=no&v=3&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%C3%B1o/diagramas-arquitectonicos/diagrama-estados-examen.puml"/>|
+**Modelo del dominio (ER)**
 
-|Clases de diseño (Backend)|Arquitectura física y stack|
-|:-:|:-:|
-|<img width="420" src="https://www.plantuml.com/plantuml/proxy?cache=no&v=3&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%C3%B1o/diagramas-arquitectonicos/diagrama-clases-diseno.puml"/>|<img width="420" src="https://www.plantuml.com/plantuml/proxy?cache=no&v=3&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%C3%B1o/diagramas-arquitectonicos/diagrama-arquitectura-stack.puml"/>|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=3&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%C3%B1o/diagramas-arquitectonicos/diagrama-entidad-relacion.puml)
+
+**Ciclo de vida del examen**
+
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=3&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%C3%B1o/diagramas-arquitectonicos/diagrama-estados-examen.puml)
+
+**Clases de diseño (Backend)**
+
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=3&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%C3%B1o/diagramas-arquitectonicos/diagrama-clases-diseno.puml)
+
+**Arquitectura física y stack**
+
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=3&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%C3%B1o/diagramas-arquitectonicos/diagrama-arquitectura-stack.puml)
 
 </div>
 
