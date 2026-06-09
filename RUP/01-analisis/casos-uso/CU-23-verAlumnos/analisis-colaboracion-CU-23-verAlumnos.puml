@@ -1,11 +1,14 @@
-﻿@startuml verAlumnos-analisis
+@startuml verAlumnos-analisis
 skinparam linetype polyline
 
 actor Docente
 package verAlumnos as "verAlumnos()" {
     rectangle #629EF9 VistaListaAlumnos
+    rectangle #629EF9 VistaDetalleAlumno
     rectangle #b5bd68 ControladorAlumnos
+    rectangle #b5bd68 ControladorExamen
     rectangle #F2AC4E Alumno
+    rectangle #F2AC4E ExamenAlumno
 }
 
 Docente -r-> VistaListaAlumnos: solicitarVerAlumnos()
@@ -15,5 +18,11 @@ ControladorAlumnos --> Alumno: consultarTodos()
 Docente --> VistaListaAlumnos: aplicarFiltro(criterios)
 VistaListaAlumnos --> ControladorAlumnos: filtrar(criterios)
 ControladorAlumnos --> Alumno: consultar(criterios)
+
+Docente -r-> VistaDetalleAlumno: verDetalle(alumnoId)
+VistaListaAlumnos -r-> VistaDetalleAlumno: navegarADetalle()
+VistaDetalleAlumno -d-> ControladorExamen: obtenerExamenesAlumno(alumnoId)
+ControladorExamen --> ExamenAlumno: findByAlumnoId(alumnoId)
+VistaDetalleAlumno --> VistaListaAlumnos: volver()
 
 @enduml

@@ -1,26 +1,54 @@
-﻿@startuml cu23-verAlumnos-analisis-secuencia
+@startuml cu23-verAlumnos-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-23: Ver Alumnos
 
 actor "Docente" as Actor
 participant ":VistaListaAlumnos" as Boundary <<boundary>>
-participant ":ControladorAlumnos" as Control <<control>>
-participant ":Alumno" as Entity <<entity>>
+participant ":VistaDetalleAlumno" as DetailBoundary <<boundary>>
+participant ":ControladorAlumnos" as ControlAlumnos <<control>>
+participant ":ControladorExamen" as ControlExamen <<control>>
+participant ":Alumno" as EntityAlumno <<entity>>
+participant ":ExamenAlumno" as EntityExamen <<entity>>
 
-Actor -> Boundary : solicitarListado()
-activate Boundary
+group Flujo 1: Listar alumnos
+    Actor -> Boundary : solicitarListado()
+    activate Boundary
 
-Boundary -> Control : obtenerAlumnos()
-activate Control
+    Boundary -> ControlAlumnos : obtenerAlumnos()
+    activate ControlAlumnos
 
-Control -> Entity : consultarTodos()
-activate Entity
-Entity --> Control : listaAlumnos
-deactivate Entity
+    ControlAlumnos -> EntityAlumno : consultarTodos()
+    activate EntityAlumno
+    EntityAlumno --> ControlAlumnos : listaAlumnos
+    deactivate EntityAlumno
 
-Control --> Boundary : listaAlumnos
-deactivate Control
+    ControlAlumnos --> Boundary : listaAlumnos
+    deactivate ControlAlumnos
 
-Boundary --> Actor : mostrarListado(alumnos)
-deactivate Boundary
+    Boundary --> Actor : mostrarListado(alumnos)
+    deactivate Boundary
+end
+
+group Flujo 2: Ver detalle del alumno
+    Actor -> Boundary : seleccionarAlumno(id)
+    activate Boundary
+
+    Boundary -> DetailBoundary : navegarADetalle(id)
+    activate DetailBoundary
+
+    DetailBoundary -> ControlExamen : obtenerExamenesAlumno(alumnoId)
+    activate ControlExamen
+
+    ControlExamen -> EntityExamen : findByAlumnoId(alumnoId)
+    activate EntityExamen
+    EntityExamen --> ControlExamen : listaEjemplares
+    deactivate EntityExamen
+
+    ControlExamen --> DetailBoundary : listaEjemplares
+    deactivate ControlExamen
+
+    DetailBoundary --> Actor : mostrarDetalle(alumno, examenes)
+    deactivate DetailBoundary
+    deactivate Boundary
+end
 
 @enduml

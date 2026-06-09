@@ -2,11 +2,17 @@
 title Diagrama de Secuencia (Análisis) - CU-42: Ver Examen
 
 actor "Docente" as Actor
-participant ":VistaVerExamen" as Boundary <<boundary>>
+participant ":VistaDetalleAlumno" as AlumnoBoundary <<boundary>>
+participant ":ExamenRevisionPage" as Boundary <<boundary>>
 participant ":ControladorExamen" as Control <<control>>
 participant ":ExamenAlumno" as Entity <<entity>>
 
-Actor -> Boundary : verExamen(ejemplarId)
+note over AlumnoBoundary, Boundary : ExamenRevisionPage se abre en una nueva pestaña del navegador\nmediante window.open('/examenes/revision/{id}', '_blank')
+
+Actor -> AlumnoBoundary : seleccionarVerExamen(ejemplarId)
+activate AlumnoBoundary
+
+AlumnoBoundary -> Boundary : abrirNuevaPestana(ejemplarId)
 activate Boundary
 
 Boundary -> Control : obtenerRevision(ejemplarId)
@@ -22,5 +28,6 @@ deactivate Control
 
 Boundary --> Actor : mostrarExamen(datos)
 deactivate Boundary
+deactivate AlumnoBoundary
 
 @enduml
