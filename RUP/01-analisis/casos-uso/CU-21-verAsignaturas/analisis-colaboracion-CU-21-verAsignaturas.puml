@@ -1,9 +1,10 @@
-﻿@startuml verAsignaturas-analisis
+@startuml verAsignaturas-analisis
 skinparam linetype polyline
 
 actor Docente
 package verAsignaturas as "verAsignaturas()" {
     rectangle #629EF9 VistaListaAsignaturas
+    rectangle #629EF9 VistaDetalleAsignatura
     rectangle #b5bd68 ControladorAsignaturas
     rectangle #F2AC4E Asignatura
     rectangle #F2AC4E Alumno
@@ -19,5 +20,9 @@ Asignatura --> Grado
 Docente --> VistaListaAsignaturas: aplicarFiltro(criterios)
 VistaListaAsignaturas --> ControladorAsignaturas: filtrar(criterios)
 ControladorAsignaturas --> Asignatura: consultar(criterios)
+
+Docente -r-> VistaDetalleAsignatura: verDetalle(asignaturaId)
+VistaListaAsignaturas -r-> VistaDetalleAsignatura: navegarADetalle()
+VistaDetalleAsignatura --> VistaListaAsignaturas: volver()
 
 @enduml

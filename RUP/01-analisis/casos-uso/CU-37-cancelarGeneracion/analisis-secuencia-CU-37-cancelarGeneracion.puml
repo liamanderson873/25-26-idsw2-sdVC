@@ -1,31 +1,73 @@
-﻿@startuml cu37-cancelarGeneracion-analisis-secuencia
+@startuml cu37-cancelarGeneracion-analisis-secuencia
 title Diagrama de Secuencia (Análisis) - CU-37: Cancelar Generación
 
 actor "Docente" as Actor
 participant ":VistaCancelacionGeneracion" as Boundary <<boundary>>
+participant ":VistaGenerarExamen" as BoundaryGenerar <<boundary>>
 participant ":ControladorGeneracionExamen" as Control <<control>>
 participant ":Examen" as Entity <<entity>>
+participant ":ExamenAlumno" as EntityEjemplar <<entity>>
 
-Actor -> Boundary : solicitarCancelacion(examenId)
-activate Boundary
+group Flujo 1: Cancelar examen individual
+    Actor -> Boundary : solicitarCancelacion(examenId)
+    activate Boundary
 
-Boundary -> Control : cancelarGeneracion(examenId)
-activate Control
+    Boundary -> Control : cancelarGeneracion(examenId)
+    activate Control
 
-Control -> Entity : buscar(examenId)
-activate Entity
-Entity --> Control : examen
-deactivate Entity
+    Control -> Entity : buscar(examenId)
+    activate Entity
+    Entity --> Control : examen
+    deactivate Entity
 
-Control -> Entity : cancelar()
-activate Entity
-Entity --> Control : ok
-deactivate Entity
+    Control -> Entity : cancelar()
+    activate Entity
+    Entity --> Control : ok
+    deactivate Entity
 
-Control --> Boundary : confirmacion
-deactivate Control
+    Control --> Boundary : confirmacion
+    deactivate Control
 
-Boundary --> Actor : mostrarConfirmacion()
-deactivate Boundary
+    Boundary --> Actor : mostrarConfirmacion()
+    deactivate Boundary
+end
+
+group Flujo 2: Cancelar generación batch (desde banner éxito)
+    Actor -> BoundaryGenerar : cancelarGeneracionBatch(asignaturaId, tipoEvaluacion)
+    activate BoundaryGenerar
+
+    BoundaryGenerar -> Control : cancelarPendientes(asignaturaId, tipoEvaluacion)
+    activate Control
+
+    Control -> Entity : buscarPorAsignaturaYTipo(asignaturaId, tipoEvaluacion)
+    activate Entity
+    Entity --> Control : listaExamenes
+    deactivate Entity
+
+    loop por cada Examen en listaExamenes
+        Control -> EntityEjemplar : buscarPorExamen(examenId)
+        activate EntityEjemplar
+        EntityEjemplar --> Control : listaEjemplares
+        deactivate EntityEjemplar
+
+        alt Todos los ejemplares en estado PENDIENTE
+            Control -> EntityEjemplar : eliminarTodos(listaEjemplares)
+            activate EntityEjemplar
+            EntityEjemplar --> Control : ok
+            deactivate EntityEjemplar
+
+            Control -> Entity : cancelar(examenId)
+            activate Entity
+            Entity --> Control : ok
+            deactivate Entity
+        end
+    end
+
+    Control --> BoundaryGenerar : cancelados (int)
+    deactivate Control
+
+    BoundaryGenerar --> Actor : mostrarResultado(cancelados)
+    deactivate BoundaryGenerar
+end
 
 @enduml

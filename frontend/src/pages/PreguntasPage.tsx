@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { getPreguntas, createPregunta, deletePregunta, toggleHabilitadaPregunta } from '../services/preguntaService';
 import { getTemas } from '../services/temaService';
 import { getAsignaturas } from '../services/asignaturaService';
@@ -15,8 +16,14 @@ const DIF_LABELS: Record<Dificultad, string> = {
 
 const PreguntasPage: React.FC = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const asignaturaIdParam = searchParams.get('asignaturaId');
+  const bloqueada = !!asignaturaIdParam;
 
-  const [selectedAsignaturaId, setSelectedAsignaturaId] = useState<number | null>(null);
+  const [selectedAsignaturaId, setSelectedAsignaturaId] = useState<number | null>(
+    asignaturaIdParam ? Number(asignaturaIdParam) : null
+  );
   const [searchAsig, setSearchAsig] = useState('');
   const [filterGradoId, setFilterGradoId] = useState<number>(0);
   const [filterTemaId, setFilterTemaId] = useState<number>(0);
@@ -113,16 +120,27 @@ const PreguntasPage: React.FC = () => {
     return temas.filter(t => t.asignaturaId === selectedAsignaturaId || t.codigoAsignatura === asig?.codigo);
   }, [temas, selectedAsignaturaId, asignaturas]);
 
+  const asignaturaSeleccionada = asignaturas.find(a => a.id === selectedAsignaturaId);
+
   return (
     <div className="page-container fade-in">
+      {bloqueada && (
+        <button
+          className="btn btn-secondary"
+          style={{ fontSize: '0.8rem', marginBottom: '1.25rem' }}
+          onClick={() => navigate(`/asignaturas/${asignaturaIdParam}`)}
+        >
+          ← {asignaturaSeleccionada?.nombre ?? 'Asignatura'}
+        </button>
+      )}
       <div style={{ marginBottom: '1.5rem' }}>
-        <h1>Baterías de Preguntas</h1>
+        <h1>Baterías de Preguntas{bloqueada && asignaturaSeleccionada ? ` — ${asignaturaSeleccionada.nombre}` : ''}</h1>
         <p className="subtitle">Gestión del banco de reactivos por disciplina académica. Las preguntas inhabilitadas no se incluyen en la generación de exámenes.</p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '2rem', alignItems: 'start' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: bloqueada ? '1fr' : '300px 1fr', gap: '2rem', alignItems: 'start' }}>
 
-        <aside style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        {!bloqueada && <aside style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div className="card" style={{ padding: '1rem' }}>
             <label style={{ fontSize: '0.65rem' }}>Filtrar por Grado</label>
             <select
@@ -169,7 +187,7 @@ const PreguntasPage: React.FC = () => {
               )}
             </div>
           </div>
-        </aside>
+        </aside>}
 
         <main>
           {selectedAsignaturaId ? (

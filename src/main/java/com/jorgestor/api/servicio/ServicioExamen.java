@@ -690,6 +690,28 @@ public class ServicioExamen {
     }
 
     /**
+     * CU-37: cancelarGeneracionBatch — cancela todos los exámenes PENDIENTE de una asignatura y tipo.
+     * Usado desde GenerarExamenPage para deshacer una generación completa.
+     */
+    @Transactional
+    public int cancelarGeneracionBatch(Long asignaturaId, TipoEvaluacion tipoEvaluacion) {
+        List<Examen> examenes = repoExamen.findByAsignaturaIdAndTipoEvaluacion(asignaturaId, tipoEvaluacion);
+        int cancelados = 0;
+        for (Examen examen : examenes) {
+            List<ExamenAlumno> ejemplares = repoExamenAlumno.findByExamenId(examen.getId());
+            boolean tieneNoAsignados = ejemplares.stream()
+                    .anyMatch(ej -> ej.getEstado() != EstadoExamen.PENDIENTE);
+            if (tieneNoAsignados) continue;
+            if (!ejemplares.isEmpty()) {
+                repoExamenAlumno.deleteAll(ejemplares);
+            }
+            repoExamen.deleteById(examen.getId());
+            cancelados++;
+        }
+        return cancelados;
+    }
+
+    /**
      * CU-37: cancelarGeneracion — elimina un examen sólo si no ha sido asignado formalmente (PENDIENTE).
      */
     @Transactional

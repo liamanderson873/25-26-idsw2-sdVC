@@ -1034,3 +1034,116 @@ Sprint final mergeado a `main`. Incluye toda la documentación pySigHor, BCE tab
 |------|-------------|
 | `8d3465f` | docs: añadir conversación 47 al log |
 | `11bc29b` | fix(analisis): quitar actor directo de CU-38 y CU-39 (abstractos de importacion) |
+
+---
+
+## Conversación 49: Páginas de Detalle, Cancelación Batch y Revisión en Nueva Pestaña
+
+**Fecha:** 2026-06-09
+**Participantes**: Liam (Usuario) + Claude Sonnet 4.6
+
+### Contexto de la Sesión
+
+Sesión de mejoras de navegación y UX. El problema de partida era que desde `AsignaturasPage` y `AlumnosPage` no había una pantalla intermedia de detalle: el usuario pasaba directamente del listado al formulario de edición. Además, la `RevisionModal` podía quedar fuera de pantalla o tapada por otros elementos al haber listas largas. También faltaba el botón de cancelación batch desde el banner de éxito de `GenerarExamenPage`.
+
+**Prompts clave de Liam**:
+> "desde asignatura y desde alumnos para poder ver el examen tienes que primero ir a una pantalla en la que solo veas el la asignatura/alumno seleccionado... para la asignatura: corregir examenes, generar examenes, ver la bateria de preguntas de la asignatura"
+> "deberia en los casos de generar examen poder volver hacia atras a la asignatura de las que vengo y para lo de la bateria de preguntas también deberias de poder ir hacia atras y en ambos casos solo deberia de poder generar el examen de la asignatura en la que estoy"
+> "podemos hacer que cuando se ve un examen salga bien porque a veces sale descuadrado... más que que se ponga encima de la pantalla actual debería de poder verse bien en otra"
+> "vale haz que todo se refleje perfectamente en el analisis, diseño y todos los diagramas del modelo del dominio y lo subimos y hacemos un pr al main"
+
+### Desarrollo Principal
+
+**1. AsignaturaDetailPage — nueva pantalla de detalle** (`12398c4`)
+
+`frontend/src/pages/AsignaturaDetailPage.tsx` (nuevo):
+- Route: `/asignaturas/:id`
+- Muestra nombre, grado, nivel y docente de la asignatura.
+- 3 tarjetas de acción con iconos SVG (mismo estilo que `DashboardPage`):
+  - **Corregir exámenes** → `/corregir-examen?asignaturaId={id}`
+  - **Generar examen** → `/generar-examen?asignaturaId={id}`
+  - **Batería de Preguntas** → `/preguntas?asignaturaId={id}`
+- Botón "← Asignaturas" para volver al listado.
+- Usa datos cacheados de TanStack Query (queryKeys `['asignaturas']`, `['grados']`, `['profesores']`).
+
+`AsignaturasPage.tsx` (modificado): fila y botón "Ver" ahora llaman a `navigate('/asignaturas/${id}')` en lugar de abrir el panel lateral. Panel lateral de detalle/exámenes eliminado junto con `RevisionModal`.
+
+**2. AlumnoDetailPage — nueva pantalla de detalle** (`12398c4`)
+
+`frontend/src/pages/AlumnoDetailPage.tsx` (nuevo):
+- Route: `/alumnos/:id`
+- Muestra apellidos, nombre, DNI, curso y grado.
+- Chips de asignaturas matriculadas (clicables → `/asignaturas/:id`).
+- Lista de exámenes asignados con estado (`ASIGNADO`, `PENDIENTE`, `PENDIENTE_CALIFICACION`, `CORREGIDO`), tipo, fecha y nota si ya corregida.
+- Botón "Ver examen" por cada ejemplar → abre `ExamenRevisionPage` en nueva pestaña.
+- Botón "← Alumnos" para volver al listado.
+
+`AlumnosPage.tsx` (modificado): fila y botón "Ver" navegan a `/alumnos/${id}`.
+
+**3. ExamenRevisionPage — revisión en pestaña propia** (`d0bccbd`)
+
+`frontend/src/pages/ExamenRevisionPage.tsx` (nuevo):
+- Route: `/examenes/revision/:ejemplarId` (fuera de `Layout`, accesible sin sidebar).
+- Mismo contenido que el antiguo `RevisionModal`: cabecera con datos del alumno, lista de preguntas con respuestas coloreadas (verde = correcta, rojo = marcada incorrectamente), badge de dificultad.
+- Se abre con `window.open('/examenes/revision/${ex.id}', '_blank')`.
+- Botón "Cerrar" usa `window.close()`.
+- Elimina el problema de superposición y scroll al quedar completamente separado del contexto del listado.
+
+`RevisionModal.tsx` eliminado — todas las referencias migradas a la nueva página.
+
+**4. Bloqueo de asignatura + botón de retorno** (`a2e947a`)
+
+`GenerarExamenPage.tsx`:
+- Lee `?asignaturaId=X` de la URL con `useSearchParams`.
+- Cuando `bloqueada = true`: muestra un grid de 2 columnas (asignatura bloqueada como texto, selector de tipo), oculta el filtro por grado y el dropdown de asignaturas, y muestra botón "← [NombreAsignatura]".
+
+`PreguntasPage.tsx`:
+- Mismo patrón: `bloqueada` oculta el `<aside>` de selección de asignatura, muestra el botón de retorno y pre-selecciona la asignatura desde el param.
+
+**5. CU-37 — cancelación batch** (`d356247`)
+
+Backend:
+- `RepositorioExamen.java`: nuevo método `findByAsignaturaIdAndTipoEvaluacion(Long, TipoEvaluacion)`.
+- `ServicioExamen.cancelarGeneracionBatch()`: busca todos los exámenes del par asignatura+tipo; para cada uno, cancela solo si **todos** sus ejemplares están en estado `PENDIENTE`; devuelve el conteo de cancelados.
+- `ControladorExamen.java`: nuevo endpoint `DELETE /api/examenes/cancelar-pendientes?asignaturaId=X&tipoEvaluacion=Y`.
+
+Frontend:
+- `examenService.ts`: `cancelarGeneracionBatch(asignaturaId, tipoEvaluacion)` → `DELETE /examenes/cancelar-pendientes`.
+- `GenerarExamenPage.tsx`: botón "Cancelar generación" en el banner de éxito, estilado en rojo, llama a la mutación batch e invalida la cache de exámenes.
+
+**6. Diagrama de contexto actualizado** (`d0bccbd`)
+
+`diagrama-contexto-docente.puml`:
+- Nuevos estados `ASIGNATURA_DETALLE` y `ALUMNO_DETALLE`.
+- Transiciones: listado → detalle → volver; detalle asignatura → módulos contextuales (preguntas, generar, corregir); detalle alumno → `ExamenCorregidoContextual`.
+
+**7. Actualización de 13 diagramas RUP** (`6146652`)
+
+Análisis (8 archivos):
+- **CU-21**: añadida `VistaDetalleAsignatura` en colaboración y Flujo 2 en secuencia.
+- **CU-23**: añadidas `VistaDetalleAlumno` + `ControladorExamen` / `ExamenAlumno` en colaboración y Flujo 2 en secuencia.
+- **CU-37**: añadidas `VistaGenerarExamen` + `ExamenAlumno` en colaboración y grupo "Flujo 2: batch" con `loop` en secuencia.
+- **CU-42**: reemplazado `VistaVerExamen` por `VistaDetalleAlumno → ExamenRevisionPage` con nota de nueva pestaña en ambos diagramas.
+
+Diseño (4 archivos):
+- **CU-21**: 3 fases (listar, detalle con datos cacheados, navegar a módulo contextual con `?asignaturaId`).
+- **CU-23**: 3 fases (listar, detalle + `GET /api/examenes/alumno/{id}`, `window.open` a revisión).
+- **CU-37**: grupo "Flujo 1: individual" conservado; nuevo grupo "Flujo 2: batch" con `DELETE /cancelar-pendientes`, `findByAsignaturaIdAndTipoEvaluacion`, loop + alt PENDIENTE.
+- **CU-42**: sustituido `FE + RevisionModal` por `AlumnoDetailPage → window.open → ExamenRevisionPage`.
+
+Arquitectónico (1 archivo):
+- `diagrama-clases-diseno.puml`: añadidos `AsignaturaDetailPage`, `AlumnoDetailPage`, `ExamenRevisionPage` en capa de presentación; `cancelarGeneracionBatch` y `obtenerExamenesAlumno` en `ControladorExamen` y `ServicioExamen`.
+
+### Commits de esta sesión
+
+| Hash | Descripción |
+|------|-------------|
+| `d356247` | feat(CU-37): añadir botón Cancelar generación en banner de éxito de GenerarExamenPage |
+| `12398c4` | feat: añadir páginas de detalle de asignatura y alumno con navegación desde el listado |
+| `a2e947a` | feat: bloquear asignatura y añadir botón de retorno cuando se accede desde el detalle |
+| `d0bccbd` | feat: abrir examen en pestaña propia en lugar de modal superpuesto |
+| `6146652` | docs(RUP): actualizar diagramas de análisis y diseño con páginas de detalle, batch cancel y revisión en pestaña propia |
+
+### PR
+
+[#13 — feat: páginas de detalle, cancelación batch y revisión de examen en nueva pestaña](https://github.com/liamanderson873/25-26-idsw2-sdVC/pull/13)

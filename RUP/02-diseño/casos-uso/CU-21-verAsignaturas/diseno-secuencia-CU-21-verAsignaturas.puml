@@ -2,35 +2,60 @@
 title Diagrama de Secuencia - Ver Asignaturas
 
 actor "Docente" as Actor
-participant "Frontend\n(React)" as FE
+participant "AsignaturasPage\n(React)" as ListPage
+participant "AsignaturaDetailPage\n(React)" as DetailPage
 participant "ControladorAsignatura" as Controller
 participant "ServicioAsignatura" as Service
 participant "RepositorioAsignatura" as RepoAsig
 database "Base de Datos\n(PostgreSQL)" as DB
 
-Actor -> FE : Navega a "Asignaturas"
-activate FE
+group Fase 1: Listar asignaturas
+    Actor -> ListPage : Navega a "Asignaturas"
+    activate ListPage
 
-FE -> Controller : GET /api/asignaturas
-activate Controller
+    ListPage -> Controller : GET /api/asignaturas
+    activate Controller
 
-Controller -> Service : listarTodos()
-activate Service
+    Controller -> Service : listarTodos()
+    activate Service
 
-Service -> RepoAsig : findAll()
-activate RepoAsig
-RepoAsig -> DB : SELECT * FROM asignaturas
-DB --> RepoAsig : lista de asignaturas
-RepoAsig --> Service : List<Asignatura>
-deactivate RepoAsig
+    Service -> RepoAsig : findAll()
+    activate RepoAsig
+    RepoAsig -> DB : SELECT * FROM asignaturas
+    DB --> RepoAsig : lista de asignaturas
+    RepoAsig --> Service : List<Asignatura>
+    deactivate RepoAsig
 
-Service --> Controller : List<DTO_Asignatura>
-deactivate Service
+    Service --> Controller : List<DTO_Asignatura>
+    deactivate Service
 
-Controller --> FE : 200 OK (JSON lista)
-deactivate Controller
+    Controller --> ListPage : 200 OK (JSON lista)
+    deactivate Controller
 
-FE --> Actor : Muestra tabla de asignaturas
-deactivate FE
+    ListPage --> Actor : Muestra tabla de asignaturas
+end
+
+group Fase 2: Ver detalle de asignatura
+    Actor -> ListPage : Pulsa en una asignatura
+
+    ListPage -> DetailPage : navigate('/asignaturas/{id}')
+    activate DetailPage
+    note right : Usa datos cacheados\n(TanStack Query — queryKey: ['asignaturas'])
+
+    DetailPage --> Actor : Muestra detalle con 3 acciones:\nCorregir / Generar / Batería de Preguntas
+    deactivate DetailPage
+end
+
+group Fase 3: Navegar a módulo contextual
+    Actor -> DetailPage : Pulsa acción (Corregir / Generar / Preguntas)
+    activate DetailPage
+
+    DetailPage -> ListPage : navigate('/generar-examen?asignaturaId={id}')\no /corregir-examen?asignaturaId o /preguntas?asignaturaId
+    note right : URL param asignaturaId bloquea la\nselección de asignatura en la página destino
+
+    deactivate DetailPage
+end
+
+deactivate ListPage
 
 @enduml

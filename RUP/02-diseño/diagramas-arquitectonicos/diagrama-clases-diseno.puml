@@ -13,6 +13,9 @@ package "Capa de Presentación\n(React + Vite — puerto 5173)" <<Rectangle>> {
     component "CorregirExamenPage" as UI5
     component "ImportarExportarPage" as UI6
     component "DashboardPage" as UI7
+    component "AsignaturaDetailPage" as UI9
+    component "AlumnoDetailPage" as UI10
+    component "ExamenRevisionPage" as UI11
 }
 
 package "com.jorgestor.api" {
@@ -29,6 +32,7 @@ package "com.jorgestor.api" {
             + entregarGrupo(dto: DTO_AccionGrupo): ResponseEntity
             + corregirGrupo(dto: DTO_AccionGrupo): ResponseEntity
             + cancelarGeneracion(dto: DTO_AccionGrupo): ResponseEntity
+            + cancelarGeneracionBatch(asignaturaId: Long, tipoEvaluacion: TipoEvaluacion): ResponseEntity
             + conteosPorAlumno(): ResponseEntity
             + conteosPorAsignatura(): ResponseEntity
             + generarYAsignar(dto: DTO_GenerarYAsignar): ResponseEntity
@@ -36,6 +40,7 @@ package "com.jorgestor.api" {
             + corregirExamen(dto: DTO_ProcesarCorreccion): ResponseEntity
             + obtenerRevision(ejemplarId: Long): ResponseEntity
             + exportarExamen(id: Long): ResponseEntity
+            + obtenerExamenesAlumno(alumnoId: Long): ResponseEntity
         }
         class ControladorProfesor {
             + listar(): ResponseEntity
@@ -91,6 +96,7 @@ package "com.jorgestor.api" {
             + generarYAsignar(dto: DTO_GenerarYAsignar): int
             + asignarGrupo(dto: DTO_AccionGrupo): void
             + cancelarGeneracion(dto: DTO_AccionGrupo): void
+            + cancelarGeneracionBatch(asignaturaId: Long, tipoEvaluacion: TipoEvaluacion): int
             + simularEntregaMasiva(id: Long): void
             + simularEntregaGrupo(dto: DTO_AccionGrupo): void
             + corregirMasivo(id: Long): void
@@ -99,6 +105,7 @@ package "com.jorgestor.api" {
             + listarGrupos(): List<DTO_GrupoExamen>
             + listarEjemplaresDeGrupo(dto): List<DTO_EjemplarResumen>
             + obtenerRevisionEjemplar(id: Long): DTO_RevisionEjemplar
+            + obtenerExamenesAlumno(alumnoId: Long): List<DTO_EjemplarResumen>
             + contarExamenesPorAlumno(): Map<Long, Long>
             + contarExamenesPorAsignatura(): Map<Long, Long>
         }
