@@ -47,9 +47,12 @@ const GenerarExamenPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
+  const asignaturaIdParam = searchParams.get('asignaturaId');
+  const bloqueada = !!asignaturaIdParam;
+
   const [filterGradoId, setFilterGradoId] = useState<number>(0);
   const [asignaturaId, setAsignaturaId] = useState<number>(
-    searchParams.get('asignaturaId') ? Number(searchParams.get('asignaturaId')) : 0
+    asignaturaIdParam ? Number(asignaturaIdParam) : 0
   );
   const [temaIds, setTemaIds] = useState<number[]>([]);
   const [tipo, setTipo] = useState<TipoEvaluacion>(TipoEvaluacion.PARCIAL_1);
@@ -225,6 +228,16 @@ const GenerarExamenPage: React.FC = () => {
 
   return (
     <div className="page-container fade-in">
+      {bloqueada && (
+        <button
+          type="button"
+          className="btn btn-secondary"
+          style={{ fontSize: '0.8rem', marginBottom: '1.25rem' }}
+          onClick={() => navigate(`/asignaturas/${asignaturaIdParam}`)}
+        >
+          ← {asignaturaSeleccionada?.nombre ?? 'Asignatura'}
+        </button>
+      )}
       <h1>Generar Exámenes Personalizados</h1>
       <p className="subtitle">
         Cada alumno recibe un examen único con preguntas seleccionadas aleatoriamente e independientemente.
@@ -243,30 +256,57 @@ const GenerarExamenPage: React.FC = () => {
               </p>
             </div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.25rem' }}>
-            <div>
-              <label>Filtrar por Grado</label>
-              <select value={filterGradoId} onChange={e => handleGradoFilterChange(Number(e.target.value))}>
-                <option value={0}>Todos los grados</option>
-                {grados.map(g => <option key={g.id} value={g.id}>{g.nombre}</option>)}
-              </select>
+          {bloqueada ? (
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+              <div>
+                <label>Asignatura</label>
+                <div style={{
+                  padding: '0.55rem 0.85rem',
+                  border: '1px solid var(--border)',
+                  borderRadius: 'var(--radius-sm)',
+                  background: 'var(--surface-2)',
+                  fontSize: '0.9rem',
+                  fontWeight: '700',
+                  color: 'var(--text-main)',
+                }}>
+                  {asignaturaSeleccionada?.nombre ?? '…'}
+                </div>
+              </div>
+              <div>
+                <label>Tipo de Evaluación</label>
+                <select value={tipo} onChange={e => setTipo(e.target.value as TipoEvaluacion)}>
+                  {Object.values(TipoEvaluacion).map(t => (
+                    <option key={t} value={t}>{TIPO_LABELS[t]}</option>
+                  ))}
+                </select>
+              </div>
             </div>
-            <div>
-              <label>Asignatura</label>
-              <select value={asignaturaId} onChange={e => handleAsignaturaChange(Number(e.target.value))}>
-                <option value={0}>Seleccionar asignatura...</option>
-                {asignaturasFiltradas.map(a => <option key={a.id} value={a.id}>{a.nombre}</option>)}
-              </select>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.25rem' }}>
+              <div>
+                <label>Filtrar por Grado</label>
+                <select value={filterGradoId} onChange={e => handleGradoFilterChange(Number(e.target.value))}>
+                  <option value={0}>Todos los grados</option>
+                  {grados.map(g => <option key={g.id} value={g.id}>{g.nombre}</option>)}
+                </select>
+              </div>
+              <div>
+                <label>Asignatura</label>
+                <select value={asignaturaId} onChange={e => handleAsignaturaChange(Number(e.target.value))}>
+                  <option value={0}>Seleccionar asignatura...</option>
+                  {asignaturasFiltradas.map(a => <option key={a.id} value={a.id}>{a.nombre}</option>)}
+                </select>
+              </div>
+              <div>
+                <label>Tipo de Evaluación</label>
+                <select value={tipo} onChange={e => setTipo(e.target.value as TipoEvaluacion)}>
+                  {Object.values(TipoEvaluacion).map(t => (
+                    <option key={t} value={t}>{TIPO_LABELS[t]}</option>
+                  ))}
+                </select>
+              </div>
             </div>
-            <div>
-              <label>Tipo de Evaluación</label>
-              <select value={tipo} onChange={e => setTipo(e.target.value as TipoEvaluacion)}>
-                {Object.values(TipoEvaluacion).map(t => (
-                  <option key={t} value={t}>{TIPO_LABELS[t]}</option>
-                ))}
-              </select>
-            </div>
-          </div>
+          )}
         </div>
 
         {/* ── 02 TEMAS ──────────────────────────────────────── */}
