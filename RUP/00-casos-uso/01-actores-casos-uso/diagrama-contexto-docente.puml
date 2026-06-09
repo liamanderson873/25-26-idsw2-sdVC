@@ -39,6 +39,7 @@ state "RESPUESTA_CONTEXTUAL_ABIERTO" as EditRespuestaContextual
 state "EXAMENES_GENERADOS_CONTEXTUALES" as ExamenesGeneradosContextuales
 state "EXAMEN_GENERADO_CONTEXTUAL" as ExamenGeneradoContextual
 state "EXAMENES_ASIGNADOS_CONTEXTUALES" as ExamenesAsignadosContextuales
+state "EXAMENES_CORREGIDOS_CONTEXTUALES" as ExamenesCorregidosContextuales
 
 
 'Modulo sesion'
@@ -156,8 +157,10 @@ ExamenesCorregidos --> Menu: completarGestion()
 ExamenesCorregidos --> EditAsignatura: verAsignatura()
 ExamenesCorregidos --> ExamenCorregido: verExamen()
 ExamenCorregido --> ExamenesCorregidos: verExamenes()
-EditAlumno --> ExamenCorregidoContextual: verExamen()
-ExamenCorregidoContextual --> EditAsignatura: verAsignatura()
-ExamenCorregidoContextual --> EditAlumno: verAlumno()
+EditAlumno --> ExamenesCorregidosContextuales: verExamenes()
+ExamenesCorregidosContextuales --> EditAlumno: verAlumno()
+ExamenesCorregidosContextuales --> EditAsignatura: verAsignatura()
+ExamenesCorregidosContextuales --> ExamenCorregidoContextual: verExamen()
+ExamenCorregidoContextual --> ExamenesCorregidosContextuales: verExamenes()
 
 @enduml
