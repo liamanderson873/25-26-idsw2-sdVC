@@ -1,15 +1,17 @@
-﻿@startuml importarConfiguracionGlobal-analisis
+@startuml importarConfiguracionGlobal-analisis
 skinparam linetype polyline
 
 actor Docente
+
+rectangle #CDEBA5 ":Collaboration importarAlumnos" as ColImAl
+rectangle #CDEBA5 ":Collaboration importarPreguntas" as ColImPreg
+rectangle #CDEBA5 ":Collaboration importarAsignaturas [abstracto]" as ColImAsig
+rectangle #CDEBA5 ":Collaboration importarGrados [abstracto]" as ColImGr
+
 package importarConfiguracionGlobal as "importarConfiguracionGlobal()" {
     rectangle #629EF9 VistaImportConfigGlobal
     rectangle #b5bd68 ControladorImportacion
     rectangle #F2AC4E ConfiguracionGlobal
-    rectangle #F2AC4E Alumno
-    rectangle #F2AC4E Grado
-    rectangle #F2AC4E Asignatura
-    rectangle #F2AC4E Pregunta
 }
 
 Docente -r-> VistaImportConfigGlobal: importarConfiguracion(archivo, opciones)
@@ -18,11 +20,9 @@ ControladorImportacion --> ConfiguracionGlobal: extraerDatos()
 ControladorImportacion --> VistaImportConfigGlobal: mostrarValidacion()
 
 Docente --> VistaImportConfigGlobal: confirmarImportacion()
-VistaImportConfigGlobal --> ControladorImportacion: persistirCambios()
-
-ControladorImportacion --> Alumno: guardar()
-ControladorImportacion --> Grado: guardar()
-ControladorImportacion --> Asignatura: guardar()
-ControladorImportacion --> Pregunta: guardar()
+VistaImportConfigGlobal ..> ColImAl: <<include>> importarAlumnos()
+VistaImportConfigGlobal ..> ColImPreg: <<include>> importarPreguntas()
+VistaImportConfigGlobal ..> ColImAsig: <<include>> importarAsignaturas()
+VistaImportConfigGlobal ..> ColImGr: <<include>> importarGrados()
 
 @enduml
