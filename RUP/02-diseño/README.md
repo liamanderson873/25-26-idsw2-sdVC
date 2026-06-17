@@ -23,7 +23,7 @@ Disciplina de diseño RUP. Cada caso de uso tiene un diagrama de secuencia a niv
 
 **Clases de diseño (Backend)**
 
-![](https://www.plantuml.com/plantuml/proxy?cache=no&v=6&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%25C3%25B1o/diagramas-arquitectonicos/diagrama-clases-diseno.puml)
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=7&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%25C3%25B1o/diagramas-arquitectonicos/diagrama-clases-diseno.puml)
 
 **Arquitectura física y stack**
 

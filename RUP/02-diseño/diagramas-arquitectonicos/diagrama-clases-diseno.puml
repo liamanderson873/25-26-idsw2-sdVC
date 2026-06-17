@@ -121,20 +121,20 @@ package "com.jorgestor.api.servicio" {
     + cancelarGeneracionBatch(asignaturaId: Long, tipo: TipoEvaluacion): int
     + exportarExamen(id: Long): DTO_ExportarExamen
     + obtenerRevisionEjemplar(id: Long): DTO_RevisionEjemplar
-    + obtenerExamenesAlumno(alumnoId: Long): List<DTO_EjemplarResumen>
-    + listarGrupos(): List<DTO_GrupoExamen>
-    + contarExamenesPorAlumno(): Map<Long, Long>
-    + contarExamenesPorAsignatura(): Map<Long, Long>
+    + obtenerExamenesAlumno(alumnoId: Long): List~DTO_EjemplarResumen~
+    + listarGrupos(): List~DTO_GrupoExamen~
+    + contarExamenesPorAlumno(): Map~Long, Long~
+    + contarExamenesPorAsignatura(): Map~Long, Long~
   }
   class ServicioAlumno {
-    + listarTodos(): List<DTO_Alumno>
+    + listarTodos(): List~DTO_Alumno~
     + guardarIndividual(dto: DTO_Alumno): void
     + actualizarAlumno(id: Long, dto: DTO_Alumno): void
     + eliminarAlumno(id: Long): void
     + importarDesdeCSV(file: MultipartFile): int
   }
   class ServicioPregunta {
-    + listarTodas(): List<DTO_Pregunta>
+    + listarTodas(): List~DTO_Pregunta~
     + guardar(dto: DTO_Pregunta): void
     + actualizar(id: Long, dto: DTO_Pregunta): void
     + eliminar(id: Long): void
@@ -142,24 +142,24 @@ package "com.jorgestor.api.servicio" {
     + importarDesdeCSV(file: MultipartFile): int
   }
   class ServicioAsignatura {
-    + listarTodas(): List<DTO_Asignatura>
+    + listarTodas(): List~DTO_Asignatura~
     + guardar(dto: DTO_Asignatura): void
     + actualizar(id: Long, dto: DTO_Asignatura): void
     + eliminar(id: Long): void
   }
   class ServicioGrado {
-    + listarTodos(): List<DTO_Grado>
+    + listarTodos(): List~DTO_Grado~
     + guardar(dto: DTO_Grado): void
     + actualizar(id: Long, dto: DTO_Grado): void
     + eliminar(id: Long): void
   }
   class ServicioProfesor {
-    + listarTodos(): List<DTO_Profesor>
+    + listarTodos(): List~DTO_Profesor~
     + crearOActualizar(dto: DTO_Profesor): void
     + eliminar(id: Long): void
   }
   class ServicioTema {
-    + listarTodos(): List<DTO_Tema>
+    + listarTodos(): List~DTO_Tema~
     + crearOActualizar(dto: DTO_Tema): void
     + actualizar(id: Long, dto: DTO_Tema): void
     + eliminar(id: Long): void
