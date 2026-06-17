@@ -7,24 +7,26 @@
 
 # CU-42 -- Ver Examen
 
-*El docente consulta el contenido completo de un ejemplar de examen en modo lectura, con las respuestas del alumno y su calificacion.*
+*El docente abre el detalle de un examen asignado a un alumno para revisar sus preguntas y respuestas en una nueva pestaña.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaVerExamen |
-| `<<control>>` | ControladorExamen |
-| `<<entity>>` | ExamenAlumno |
-| `<<entity>>` | Pregunta |
+**VistaDetalleAlumno** `<<boundary>>` — punto de inicio; permite al docente seleccionar un examen concreto del historial del alumno.
 
-## Diagramas de análisis
+**ExamenRevisionPage** `<<boundary>>` — se abre en nueva pestaña y presenta el contenido completo del examen seleccionado para revisión.
+
+**ControladorExamen** `<<control>>` — recupera el ejemplar del examen con sus preguntas y respuestas para alimentar la vista de revisión.
+
+**ExamenAlumno** `<<entity>>` — ejemplar del examen asignado al alumno; contiene las preguntas y el estado actual del examen.
+
+**Pregunta** `<<entity>>` — se consulta para obtener las respuestas asociadas a cada pregunta del ejemplar en revisión.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-42-verExamen/analisis-colaboracion-CU-42-verExamen.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-42-verExamen/analisis-secuencia-CU-42-verExamen.puml)|
-|[analisis-colaboracion-CU-42-verExamen.puml](analisis-colaboracion-CU-42-verExamen.puml)|[analisis-secuencia-CU-42-verExamen.puml](analisis-secuencia-CU-42-verExamen.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-42-verExamen/analisis-colaboracion-CU-42-verExamen.puml)
+
+[analisis-colaboracion-CU-42-verExamen.puml](analisis-colaboracion-CU-42-verExamen.puml)
 
 </div>

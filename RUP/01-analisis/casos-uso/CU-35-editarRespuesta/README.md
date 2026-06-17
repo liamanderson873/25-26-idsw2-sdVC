@@ -7,23 +7,22 @@
 
 # CU-35 -- Editar Respuesta
 
-*El docente modifica el texto o la correccion de una respuesta existente.*
+*El docente modifica el texto o la marca de corrección de una respuesta existente.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaEdicionRespuesta |
-| `<<control>>` | ControladorEdicionRespuestas |
-| `<<entity>>` | Respuesta |
+**VistaEdicionRespuesta** `<<boundary>>` — muestra los datos actuales de la respuesta y captura los cambios del docente.
 
-## Diagramas de análisis
+**ControladorEdicionRespuestas** `<<control>>` — recupera la respuesta actual, aplica las modificaciones y persiste los cambios.
+
+**Respuesta** `<<entity>>` — entidad objetivo de la edición; su texto y/o marcador de corrección se actualizan.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-35-editarRespuesta/analisis-colaboracion-CU-35-editarRespuesta.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-35-editarRespuesta/analisis-secuencia-CU-35-editarRespuesta.puml)|
-|[analisis-colaboracion-CU-35-editarRespuesta.puml](analisis-colaboracion-CU-35-editarRespuesta.puml)|[analisis-secuencia-CU-35-editarRespuesta.puml](analisis-secuencia-CU-35-editarRespuesta.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-35-editarRespuesta/analisis-colaboracion-CU-35-editarRespuesta.puml)
+
+[analisis-colaboracion-CU-35-editarRespuesta.puml](analisis-colaboracion-CU-35-editarRespuesta.puml)
 
 </div>

@@ -13,7 +13,7 @@
 
 <div align=center>
 
-![](https://www.plantuml.com/plantuml/proxy?cache=no&v=2&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%C3%B1o/casos-uso/CU-38-importarAsignaturas/diseno-secuencia-CU-38-importarAsignaturas.puml)
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=5&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/02-dise%25C3%25B1o/casos-uso/CU-38-importarAsignaturas/diseno-secuencia-CU-38-importarAsignaturas.puml)
 
 [diseno-secuencia-CU-38-importarAsignaturas.puml](diseno-secuencia-CU-38-importarAsignaturas.puml)
 

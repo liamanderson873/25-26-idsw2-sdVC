@@ -7,23 +7,22 @@
 
 # CU-25 -- Eliminar Pregunta
 
-*El docente elimina una pregunta del banco de preguntas de una asignatura.*
+*El docente solicita la eliminación de una pregunta del banco; el sistema muestra advertencia y elimina tras confirmar.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaEliminacionPregunta |
-| `<<control>>` | ControladorPreguntas |
-| `<<entity>>` | Pregunta |
+**VistaEliminacionPregunta** `<<boundary>>` — presenta los datos de la pregunta a eliminar, muestra la advertencia y recoge la confirmación del docente.
 
-## Diagramas de análisis
+**ControladorPreguntas** `<<control>>` — recupera los detalles de la pregunta para la confirmación y ejecuta el borrado definitivo.
+
+**Pregunta** `<<entity>>` — entidad que se elimina definitivamente del banco de preguntas tras la confirmación del docente.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-25-eliminarPregunta/analisis-colaboracion-CU-25-eliminarPregunta.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-25-eliminarPregunta/analisis-secuencia-CU-25-eliminarPregunta.puml)|
-|[analisis-colaboracion-CU-25-eliminarPregunta.puml](analisis-colaboracion-CU-25-eliminarPregunta.puml)|[analisis-secuencia-CU-25-eliminarPregunta.puml](analisis-secuencia-CU-25-eliminarPregunta.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-25-eliminarPregunta/analisis-colaboracion-CU-25-eliminarPregunta.puml)
+
+[analisis-colaboracion-CU-25-eliminarPregunta.puml](analisis-colaboracion-CU-25-eliminarPregunta.puml)
 
 </div>

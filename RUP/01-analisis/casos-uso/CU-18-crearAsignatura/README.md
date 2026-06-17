@@ -7,24 +7,28 @@
 
 # CU-18 -- Crear Asignatura
 
-*El docente crea una nueva asignatura y la asocia a un grado academico.*
+*El docente crea una nueva asignatura vinculada a un grado, inicializando automáticamente su banco de preguntas vacío.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaCreacionAsignatura |
-| `<<control>>` | ControladorAsignaturas |
-| `<<entity>>` | Asignatura |
-| `<<entity>>` | Grado |
+**VistaCreacionAsignatura** `<<boundary>>` — captura nombre, código y curso de la nueva asignatura y desencadena la creación.
 
-## Diagramas de análisis
+**ControladorAsignaturas** `<<control>>` — inicializa la asignatura y crea su banco de preguntas asociado, persistiendo ambas entidades.
+
+**Asignatura** `<<entity>>` — entidad principal que se crea con su configuración inicial: nombre, código y grado asociado.
+
+**BancoPreguntas** `<<entity>>` — se crea vacío de forma automática junto con la asignatura para almacenar futuras preguntas.
+
+**Alumno** `<<entity>>` — se referencia como la colección de alumnos del grado que cursarán la nueva asignatura.
+
+**Grado** `<<entity>>` — se asocia a la asignatura para determinar el grupo de alumnos al que pertenece.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-18-crearAsignatura/analisis-colaboracion-CU-18-crearAsignatura.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-18-crearAsignatura/analisis-secuencia-CU-18-crearAsignatura.puml)|
-|[analisis-colaboracion-CU-18-crearAsignatura.puml](analisis-colaboracion-CU-18-crearAsignatura.puml)|[analisis-secuencia-CU-18-crearAsignatura.puml](analisis-secuencia-CU-18-crearAsignatura.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-18-crearAsignatura/analisis-colaboracion-CU-18-crearAsignatura.puml)
+
+[analisis-colaboracion-CU-18-crearAsignatura.puml](analisis-colaboracion-CU-18-crearAsignatura.puml)
 
 </div>

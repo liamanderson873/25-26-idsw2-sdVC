@@ -7,23 +7,24 @@
 
 # CU-19 -- Editar Grado
 
-*El docente modifica el nombre u otros datos de un grado academico existente.*
+*El docente consulta y modifica los datos de un grado existente, pudiendo actualizar su nombre o eliminarlo.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaEdicionGrado |
-| `<<control>>` | ControladorGrados |
-| `<<entity>>` | Grado |
+**VistaEdicionGrado** `<<boundary>>` — muestra los datos actuales del grado y permite editarlos o solicitar su eliminación.
 
-## Diagramas de análisis
+**ControladorGrados** `<<control>>` — recupera y persiste los datos del grado, o ejecuta el borrado si se confirma la eliminación.
+
+**Grado** `<<entity>>` — entidad objetivo; sus datos se actualizan o el registro se elimina del sistema.
+
+**Alumno** `<<entity>>` — se consulta para mostrar los alumnos afectados en caso de eliminación del grado.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-19-editarGrado/analisis-colaboracion-CU-19-editarGrado.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-19-editarGrado/analisis-secuencia-CU-19-editarGrado.puml)|
-|[analisis-colaboracion-CU-19-editarGrado.puml](analisis-colaboracion-CU-19-editarGrado.puml)|[analisis-secuencia-CU-19-editarGrado.puml](analisis-secuencia-CU-19-editarGrado.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-19-editarGrado/analisis-colaboracion-CU-19-editarGrado.puml)
+
+[analisis-colaboracion-CU-19-editarGrado.puml](analisis-colaboracion-CU-19-editarGrado.puml)
 
 </div>

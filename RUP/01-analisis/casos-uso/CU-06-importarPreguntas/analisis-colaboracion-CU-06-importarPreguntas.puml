@@ -1,7 +1,10 @@
-﻿@startuml importarPreguntas-analisis
+@startuml importarPreguntas-analisis
 skinparam linetype polyline
 
 actor Docente
+
+rectangle #CDEBA5 ":Collaboration crearPregunta" as ColCrearPreg
+
 package importarPreguntas as "importarPreguntas()" {
     rectangle #629EF9 VistaImportacionPreguntas
     rectangle #b5bd68 ControladorImportacionPreguntas
@@ -16,7 +19,6 @@ ControladorImportacionPreguntas --> Pregunta: crearInstancia()
 ControladorImportacionPreguntas --> VistaImportacionPreguntas: mostrarResumen()
 
 Docente --> VistaImportacionPreguntas: confirmarImportacion()
-VistaImportacionPreguntas --> ControladorImportacionPreguntas: persistirPreguntas()
-ControladorImportacionPreguntas --> Pregunta: guardar()
+VistaImportacionPreguntas ..> ColCrearPreg: <<include>> crearPregunta() [por cada pregunta del archivo]
 
 @enduml

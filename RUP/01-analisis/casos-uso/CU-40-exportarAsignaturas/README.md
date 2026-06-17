@@ -7,25 +7,24 @@
 
 # CU-40 -- Exportar Asignaturas
 
-*Subartefacto invocado desde CU-04 mediante include que extrae las asignaturas para incluirlas en la exportacion global.*
+*Exporta el catálogo de asignaturas en formato JSON; invocado como parte de exportarConfiguracionGlobal.*
 
-> **CU abstracto** - no tiene actor iniciador propio. Es invocado mediante `<<include>>` desde otro caso de uso.
+> *Abstracto — invocado desde CU-04: exportarConfiguracionGlobal*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaExportacionAsignaturas |
-| `<<control>>` | ControladorExportacionAsignaturas |
-| `<<entity>>` | Asignatura |
+**VistaExportacionAsignaturas** `<<boundary>>` — punto de entrada del proceso abstracto; entrega el fichero JSON generado al contexto invocante.
 
-## Diagramas de análisis
+**ControladorExportacionAsignaturas** `<<control>>` — recupera todos los datos de asignaturas y construye el fichero JSON para exportación.
+
+**Asignatura** `<<entity>>` — fuente de datos; se consulta para obtener todos los registros que se incluirán en el fichero exportado.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-40-exportarAsignaturas/analisis-colaboracion-CU-40-exportarAsignaturas.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-40-exportarAsignaturas/analisis-secuencia-CU-40-exportarAsignaturas.puml)|
-|[analisis-colaboracion-CU-40-exportarAsignaturas.puml](analisis-colaboracion-CU-40-exportarAsignaturas.puml)|[analisis-secuencia-CU-40-exportarAsignaturas.puml](analisis-secuencia-CU-40-exportarAsignaturas.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-40-exportarAsignaturas/analisis-colaboracion-CU-40-exportarAsignaturas.puml)
+
+[analisis-colaboracion-CU-40-exportarAsignaturas.puml](analisis-colaboracion-CU-40-exportarAsignaturas.puml)
 
 </div>

@@ -7,23 +7,24 @@
 
 # CU-17 -- Crear Grado
 
-*El docente crea un nuevo grado academico en el sistema.*
+*El docente crea un nuevo grado (curso académico) proporcionando nombre y código, que agrupará a sus alumnos.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaCreacionGrado |
-| `<<control>>` | ControladorGrados |
-| `<<entity>>` | Grado |
+**VistaCreacionGrado** `<<boundary>>` — captura el nombre y código del nuevo grado y lanza el proceso de creación.
 
-## Diagramas de análisis
+**ControladorGrados** `<<control>>` — inicializa el nuevo grado con los datos recibidos y lo persiste en el sistema.
+
+**Grado** `<<entity>>` — entidad que se crea y persiste; servirá de agrupador para los alumnos y las asignaturas asociadas.
+
+**Alumno** `<<entity>>` — se referencia en el modelo del grado como la colección de alumnos que pertenecerán a él.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-17-crearGrado/analisis-colaboracion-CU-17-crearGrado.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-17-crearGrado/analisis-secuencia-CU-17-crearGrado.puml)|
-|[analisis-colaboracion-CU-17-crearGrado.puml](analisis-colaboracion-CU-17-crearGrado.puml)|[analisis-secuencia-CU-17-crearGrado.puml](analisis-secuencia-CU-17-crearGrado.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-17-crearGrado/analisis-colaboracion-CU-17-crearGrado.puml)
+
+[analisis-colaboracion-CU-17-crearGrado.puml](analisis-colaboracion-CU-17-crearGrado.puml)
 
 </div>

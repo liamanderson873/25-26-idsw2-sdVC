@@ -9,41 +9,95 @@ participant "RepositorioExamenAlumno" as RepoExAl
 participant "RepositorioExamen" as RepoExamen
 database "Base de Datos\n(PostgreSQL)" as DB
 
-Actor -> FE : Pulsa "Cancelar Generación" en el examen
-activate FE
+group Flujo 1: Cancelar examen individual (CorregirExamenPage)
+    Actor -> FE : Pulsa "Cancelar Generación" en el examen
+    activate FE
 
-FE -> Controller : DELETE /api/examenes/{id}
-activate Controller
+    FE -> Controller : DELETE /api/examenes/{id}
+    activate Controller
 
-Controller -> Service : cancelarGeneracion(examenId)
-activate Service
+    Controller -> Service : cancelarGeneracion(examenId)
+    activate Service
 
-Service -> RepoExAl : findByExamenId(examenId)
-activate RepoExAl
-RepoExAl -> DB : SELECT examen_alumnos WHERE examen_id = ?
-DB --> RepoExAl : lista_ejemplares
-RepoExAl --> Service : List<ExamenAlumno>
-deactivate RepoExAl
+    Service -> RepoExAl : findByExamenId(examenId)
+    activate RepoExAl
+    RepoExAl -> DB : SELECT examen_alumnos WHERE examen_id = ?
+    DB --> RepoExAl : lista_ejemplares
+    RepoExAl --> Service : List<ExamenAlumno>
+    deactivate RepoExAl
 
-alt Examen tiene ejemplares asignados
-    Service --> Controller : throw RuntimeException("No se puede cancelar")
-    Controller --> FE : 400 Bad Request
-    FE --> Actor : Muestra error: examen ya asignado
-else Sin ejemplares (aún no asignado)
-    Service -> RepoExamen : deleteById(examenId)
+    alt Examen tiene ejemplares asignados
+        Service --> Controller : throw RuntimeException("No se puede cancelar")
+        Controller --> FE : 400 Bad Request
+        FE --> Actor : Muestra error: examen ya asignado
+    else Sin ejemplares (aún no asignado)
+        Service -> RepoExamen : deleteById(examenId)
+        activate RepoExamen
+        RepoExamen -> DB : DELETE FROM examenes WHERE id = ?
+        DB --> RepoExamen : ok
+        RepoExamen --> Service : ok
+        deactivate RepoExamen
+
+        Service --> Controller : void
+        deactivate Service
+
+        Controller --> FE : 200 OK
+        deactivate Controller
+
+        FE --> Actor : Elimina el examen de la lista
+        deactivate FE
+    end
+end
+
+group Flujo 2: Cancelar generación batch (GenerarExamenPage — banner éxito)
+    Actor -> FE : Pulsa "Cancelar generación" en banner de éxito
+    activate FE
+
+    FE -> Controller : DELETE /api/examenes/cancelar-pendientes\n?asignaturaId={id}&tipoEvaluacion={tipo}
+    activate Controller
+
+    Controller -> Service : cancelarGeneracionBatch(asignaturaId, tipoEvaluacion)
+    activate Service
+
+    Service -> RepoExamen : findByAsignaturaIdAndTipoEvaluacion(asignaturaId, tipoEvaluacion)
     activate RepoExamen
-    RepoExamen -> DB : DELETE FROM examenes WHERE id = ?
-    DB --> RepoExamen : ok
-    RepoExamen --> Service : ok
+    RepoExamen -> DB : SELECT * FROM examenes WHERE asignatura_id=? AND tipo_evaluacion=?
+    DB --> RepoExamen : lista_examenes
+    RepoExamen --> Service : List<Examen>
     deactivate RepoExamen
 
-    Service --> Controller : void
+    loop por cada Examen en lista_examenes
+        Service -> RepoExAl : findByExamenId(examenId)
+        activate RepoExAl
+        RepoExAl -> DB : SELECT examen_alumnos WHERE examen_id=?
+        DB --> RepoExAl : ejemplares
+        RepoExAl --> Service : List<ExamenAlumno>
+        deactivate RepoExAl
+
+        alt Todos los ejemplares en estado PENDIENTE
+            Service -> RepoExAl : deleteAll(ejemplares)
+            activate RepoExAl
+            RepoExAl -> DB : DELETE FROM examen_alumnos WHERE examen_id=?
+            DB --> RepoExAl : ok
+            RepoExAl --> Service : ok
+            deactivate RepoExAl
+
+            Service -> RepoExamen : deleteById(examenId)
+            activate RepoExamen
+            RepoExamen -> DB : DELETE FROM examenes WHERE id=?
+            DB --> RepoExamen : ok
+            RepoExamen --> Service : ok
+            deactivate RepoExamen
+        end
+    end
+
+    Service --> Controller : cancelados (int)
     deactivate Service
 
-    Controller --> FE : 200 OK
+    Controller --> FE : 200 OK "Cancelados N exámenes pendientes."
     deactivate Controller
 
-    FE --> Actor : Elimina el examen de la lista
+    FE --> Actor : Actualiza lista de exámenes
     deactivate FE
 end
 

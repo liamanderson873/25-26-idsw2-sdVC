@@ -7,23 +7,22 @@
 
 # CU-26 -- Eliminar Asignatura
 
-*El docente elimina una asignatura del sistema.*
+*El docente elimina una asignatura del sistema tras confirmar la operación.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaEliminacionAsignatura |
-| `<<control>>` | ControladorAsignaturas |
-| `<<entity>>` | Asignatura |
+**VistaEliminacionAsignatura** `<<boundary>>` — muestra los datos de la asignatura a eliminar y recoge la confirmación del docente.
 
-## Diagramas de análisis
+**ControladorAsignaturas** `<<control>>` — ejecuta el borrado definitivo de la asignatura y sus datos asociados.
+
+**Asignatura** `<<entity>>` — entidad que se elimina del sistema junto con su banco de preguntas al confirmarse la operación.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-26-eliminarAsignatura/analisis-colaboracion-CU-26-eliminarAsignatura.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-26-eliminarAsignatura/analisis-secuencia-CU-26-eliminarAsignatura.puml)|
-|[analisis-colaboracion-CU-26-eliminarAsignatura.puml](analisis-colaboracion-CU-26-eliminarAsignatura.puml)|[analisis-secuencia-CU-26-eliminarAsignatura.puml](analisis-secuencia-CU-26-eliminarAsignatura.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-26-eliminarAsignatura/analisis-colaboracion-CU-26-eliminarAsignatura.puml)
+
+[analisis-colaboracion-CU-26-eliminarAsignatura.puml](analisis-colaboracion-CU-26-eliminarAsignatura.puml)
 
 </div>

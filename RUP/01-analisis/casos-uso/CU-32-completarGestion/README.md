@@ -7,23 +7,22 @@
 
 # CU-32 -- Completar Gestion
 
-*El docente marca la gestion actual como completada.*
+*El usuario finaliza una tarea de gestión activa, devolviendo el sistema al estado disponible para nuevas operaciones.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaGestion |
-| `<<control>>` | ControladorGestion |
-| `<<entity>>` | EstadoSistema |
+**VistaGestion** `<<boundary>>` — presenta el control para finalizar la gestión activa y desencadena el cambio de estado.
 
-## Diagramas de análisis
+**ControladorGestion** `<<control>>` — coordina el cierre de la tarea de gestión y notifica al sistema para actualizar su estado.
+
+**EstadoSistema** `<<entity>>` — registra el estado operativo del sistema y se actualiza a disponible al completarse la gestión.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-32-completarGestion/analisis-colaboracion-CU-32-completarGestion.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-32-completarGestion/analisis-secuencia-CU-32-completarGestion.puml)|
-|[analisis-colaboracion-CU-32-completarGestion.puml](analisis-colaboracion-CU-32-completarGestion.puml)|[analisis-secuencia-CU-32-completarGestion.puml](analisis-secuencia-CU-32-completarGestion.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-32-completarGestion/analisis-colaboracion-CU-32-completarGestion.puml)
+
+[analisis-colaboracion-CU-32-completarGestion.puml](analisis-colaboracion-CU-32-completarGestion.puml)
 
 </div>

@@ -7,24 +7,26 @@
 
 # CU-06 -- Importar Preguntas
 
-*El docente importa el banco de preguntas y respuestas desde el subartefacto correspondiente del fichero JSON global.*
+*El docente importa un banco de preguntas desde un archivo; el sistema crea cada pregunta nueva delegando en crearPregunta.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaImportacionPreguntas |
-| `<<control>>` | ControladorImportacionPreguntas |
-| `<<entity>>` | Pregunta |
-| `<<entity>>` | Asignatura |
+**VistaImportacionPreguntas** `<<boundary>>` — gestiona la selección del archivo y muestra un resumen de las preguntas detectadas antes de la confirmación.
 
-## Diagramas de análisis
+**ControladorImportacionPreguntas** `<<control>>` — analiza el archivo, instancia previamente cada pregunta para validación y delega la persistencia a la colaboración crearPregunta.
+
+**Pregunta** `<<entity>>` — se instancia temporalmente durante el análisis para verificar la integridad de los datos antes de la importación definitiva.
+
+**Asignatura** `<<entity>>` — se referencia para asociar cada pregunta importada al banco de preguntas de la asignatura correspondiente.
+
+**Tema** `<<entity>>` — se consulta para clasificar cada pregunta importada dentro de la unidad temática indicada en el archivo.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-06-importarPreguntas/analisis-colaboracion-CU-06-importarPreguntas.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-06-importarPreguntas/analisis-secuencia-CU-06-importarPreguntas.puml)|
-|[analisis-colaboracion-CU-06-importarPreguntas.puml](analisis-colaboracion-CU-06-importarPreguntas.puml)|[analisis-secuencia-CU-06-importarPreguntas.puml](analisis-secuencia-CU-06-importarPreguntas.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-06-importarPreguntas/analisis-colaboracion-CU-06-importarPreguntas.puml)
+
+[analisis-colaboracion-CU-06-importarPreguntas.puml](analisis-colaboracion-CU-06-importarPreguntas.puml)
 
 </div>

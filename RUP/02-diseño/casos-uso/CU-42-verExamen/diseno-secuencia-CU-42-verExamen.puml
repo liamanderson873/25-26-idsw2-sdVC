@@ -2,7 +2,8 @@
 title Diagrama de Secuencia - Ver Examen
 
 actor "Docente" as Actor
-participant "Frontend\n(React)" as FE
+participant "AlumnoDetailPage\n(React)" as AlumnoPage
+participant "ExamenRevisionPage\n(React — nueva pestaña)" as RevisionPage
 participant "ControladorExamen" as Controller
 participant "ServicioExamen" as Service
 participant "RepositorioExamenAlumno" as RepoEA
@@ -10,10 +11,14 @@ participant "RepositorioExamen" as RepoEx
 participant "RepositorioExamenAlumnoMarca" as RepoMarcas
 database "Base de Datos\n(PostgreSQL)" as DB
 
-Actor -> FE : Selecciona alumno para ver examen
-activate FE
+Actor -> AlumnoPage : Pulsa "Ver examen" en la fila del ejemplar
+activate AlumnoPage
 
-FE -> Controller : GET /api/examenes/ejemplar/{ejemplarId}/revision
+AlumnoPage -> RevisionPage : window.open('/examenes/revision/{ejemplarId}', '_blank')
+activate RevisionPage
+note right : Se abre en nueva pestaña del navegador.\nEl alumno detail sigue activo en la pestaña original.
+
+RevisionPage -> Controller : GET /api/examenes/ejemplar/{ejemplarId}/revision
 activate Controller
 
 Controller -> Service : obtenerRevisionEjemplar(ejemplarId)
@@ -46,10 +51,11 @@ note right: Construye DTO_RevisionEjemplar\ncon preguntas, respuestas\ne índice
 Service --> Controller : DTO_RevisionEjemplar
 deactivate Service
 
-Controller --> FE : 200 OK (datosRevision)
+Controller --> RevisionPage : 200 OK (datosRevision)
 deactivate Controller
 
-FE --> Actor : Muestra preguntas y respuestas del examen
-deactivate FE
+RevisionPage --> Actor : Muestra preguntas y respuestas del examen
+deactivate RevisionPage
+deactivate AlumnoPage
 
 @enduml

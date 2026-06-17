@@ -1,7 +1,10 @@
-﻿@startuml importarGrados-analisis
+@startuml importarGrados-analisis
 skinparam linetype polyline
 
 note "<<abstracto>>\nInvocado desde CU-03: importarConfiguracionGlobal" as N1
+
+rectangle #CDEBA5 ":Collaboration crearGrado" as ColCrearGr
+
 package importarGrados as "importarGrados()" {
     rectangle #629EF9 VistaImportacionGrados
     rectangle #b5bd68 ControladorImportacionGrados
@@ -9,7 +12,9 @@ package importarGrados as "importarGrados()" {
 }
 
 VistaImportacionGrados -d-> ControladorImportacionGrados: importarGrados(listaGrados)
-ControladorImportacionGrados --> Grado: guardarOActualizar(grado)
+ControladorImportacionGrados --> Grado: validarDuplicado()
 ControladorImportacionGrados --> VistaImportacionGrados: confirmacion
+
+VistaImportacionGrados ..> ColCrearGr: <<include>> crearGrado() [por cada grado nuevo]
 
 @enduml

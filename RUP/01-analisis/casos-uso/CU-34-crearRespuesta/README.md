@@ -7,24 +7,24 @@
 
 # CU-34 -- Crear Respuesta
 
-*El docente anade una nueva opcion de respuesta a una pregunta existente.*
+*El docente añade una nueva opción de respuesta a una pregunta existente del banco.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaCreacionRespuesta |
-| `<<control>>` | ControladorCreacionRespuestas |
-| `<<entity>>` | Respuesta |
-| `<<entity>>` | Pregunta |
+**VistaCreacionRespuesta** `<<boundary>>` — recoge los datos de la nueva respuesta (texto e indicador de corrección) y lanza la creación.
 
-## Diagramas de análisis
+**ControladorCreacionRespuestas** `<<control>>` — persiste la nueva respuesta y la asocia a la pregunta correspondiente.
+
+**Respuesta** `<<entity>>` — entidad que se crea con el texto y la marca de corrección de la nueva opción de respuesta.
+
+**Pregunta** `<<entity>>` — recibe la nueva respuesta añadiéndola a su colección de opciones disponibles.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-34-crearRespuesta/analisis-colaboracion-CU-34-crearRespuesta.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-34-crearRespuesta/analisis-secuencia-CU-34-crearRespuesta.puml)|
-|[analisis-colaboracion-CU-34-crearRespuesta.puml](analisis-colaboracion-CU-34-crearRespuesta.puml)|[analisis-secuencia-CU-34-crearRespuesta.puml](analisis-secuencia-CU-34-crearRespuesta.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-34-crearRespuesta/analisis-colaboracion-CU-34-crearRespuesta.puml)
+
+[analisis-colaboracion-CU-34-crearRespuesta.puml](analisis-colaboracion-CU-34-crearRespuesta.puml)
 
 </div>

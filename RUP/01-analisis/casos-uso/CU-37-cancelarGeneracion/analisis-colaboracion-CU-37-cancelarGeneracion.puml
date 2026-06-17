@@ -1,17 +1,29 @@
-﻿@startuml cancelarGeneracion-analisis
+@startuml cancelarGeneracion-analisis
 skinparam linetype polyline
 
 actor Docente
+
 package cancelarGeneracion as "cancelarGeneracion()" {
     rectangle #629EF9 VistaCancelacionGeneracion
+    rectangle #629EF9 VistaGenerarExamen
     rectangle #b5bd68 ControladorGeneracionExamen
     rectangle #F2AC4E Examen
+    rectangle #F2AC4E ExamenAlumno
 }
+
+note "Flujo 1: Cancelar examen individual\n(desde tabla de exámenes)" as N1
+note "Flujo 2: Cancelar generación batch\n(desde banner de éxito en VistaGenerarExamen)" as N2
 
 Docente -r-> VistaCancelacionGeneracion: cancelarGeneracion()
 VistaCancelacionGeneracion --> Docente: pedirConfirmacion()
 Docente --> VistaCancelacionGeneracion: confirmar()
-VistaCancelacionGeneracion -d-> ControladorGeneracionExamen: descartarGeneracion()
-ControladorGeneracionExamen --> Examen: delete()
+VistaCancelacionGeneracion -d-> ControladorGeneracionExamen: descartarGeneracion(examenId)
+ControladorGeneracionExamen --> Examen: delete(id)
+
+Docente -r-> VistaGenerarExamen: cancelarGeneracionBatch()
+VistaGenerarExamen -d-> ControladorGeneracionExamen: cancelarPendientes(asignaturaId, tipoEvaluacion)
+ControladorGeneracionExamen --> Examen: buscarPorAsignaturaYTipo()
+ControladorGeneracionExamen --> ExamenAlumno: verificarEstadoPendiente()
+ControladorGeneracionExamen --> Examen: eliminar()
 
 @enduml

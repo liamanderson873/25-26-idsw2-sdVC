@@ -7,23 +7,22 @@
 
 # CU-31 -- Cerrar Sesion
 
-*El usuario cierra su sesion activa en el sistema.*
+*El usuario cierra su sesión activa en el sistema previa confirmación.*
 
-## Objetos BCE
+## Análisis
 
-| Estereotipo | Clase |
-|---|---|
-| `<<boundary>>` | VistaSesion |
-| `<<control>>` | ControladorCierreSesion |
-| `<<entity>>` | SesionUsuario |
+**VistaSesion** `<<boundary>>` — presenta la opción de cerrar sesión, pide confirmación al usuario y desencadena el cierre.
 
-## Diagramas de análisis
+**ControladorCierreSesion** `<<control>>` — coordina la invalidación de la sesión activa del usuario en el sistema.
+
+**SesionUsuario** `<<entity>>` — representa la sesión activa; se invalida para revocar el acceso del usuario al sistema.
+
+## Diagrama de colaboración
 
 <div align=center>
 
-|Colaboración|Secuencia|
-|:-:|:-:|
-|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-31-cerrarSesion/analisis-colaboracion-CU-31-cerrarSesion.puml)|![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-31-cerrarSesion/analisis-secuencia-CU-31-cerrarSesion.puml)|
-|[analisis-colaboracion-CU-31-cerrarSesion.puml](analisis-colaboracion-CU-31-cerrarSesion.puml)|[analisis-secuencia-CU-31-cerrarSesion.puml](analisis-secuencia-CU-31-cerrarSesion.puml)|
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=4&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/casos-uso/CU-31-cerrarSesion/analisis-colaboracion-CU-31-cerrarSesion.puml)
+
+[analisis-colaboracion-CU-31-cerrarSesion.puml](analisis-colaboracion-CU-31-cerrarSesion.puml)
 
 </div>

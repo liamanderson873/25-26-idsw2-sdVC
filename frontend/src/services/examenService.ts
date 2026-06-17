@@ -97,6 +97,14 @@ export const cancelarGeneracion = async (examenId: number): Promise<string> => {
   return response.data;
 };
 
+/** CU-37: cancelarGeneracionBatch — cancela todos los exámenes PENDIENTE de una asignatura y tipo */
+export const cancelarGeneracionBatch = async (asignaturaId: number, tipoEvaluacion: string): Promise<string> => {
+  const response = await api.delete('/examenes/cancelar-pendientes', {
+    params: { asignaturaId, tipoEvaluacion },
+  });
+  return response.data;
+};
+
 export const getExamenesPorAlumno = async (alumnoId: number): Promise<any[]> => {
   const response = await api.get<any[]>(`/examenes/alumno/${alumnoId}`);
   return response.data;
