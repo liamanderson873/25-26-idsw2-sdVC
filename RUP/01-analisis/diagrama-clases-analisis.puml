@@ -1,0 +1,201 @@
+@startuml diagrama-clases-analisis
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam packageStyle rectangle
+
+' ═══════════════════════════════════════════════
+' BOUNDARY — interfaz con actores
+' ═══════════════════════════════════════════════
+package "Frontera" {
+  class IU_Login <<boundary>>
+  class IU_Dashboard <<boundary>>
+  class IU_Preguntas <<boundary>>
+  class IU_Alumnos <<boundary>>
+  class IU_Asignaturas <<boundary>>
+  class IU_Grados <<boundary>>
+  class IU_Profesores <<boundary>>
+  class IU_GenerarExamen <<boundary>>
+  class IU_AsignarExamen <<boundary>>
+  class IU_CorregirExamen <<boundary>>
+  class IU_RevisionExamen <<boundary>>
+  class IU_ImportarExportar <<boundary>>
+}
+
+' ═══════════════════════════════════════════════
+' CONTROL — lógica de negocio
+' ═══════════════════════════════════════════════
+package "Control" {
+  class GestorAutenticacion <<control>> {
+    + iniciarSesion(usuario, clave)
+    + cerrarSesion()
+  }
+  class GestorExamen <<control>> {
+    + generarYAsignar()
+    + asignarGrupo()
+    + corregirExamen()
+    + cancelarGeneracion()
+    + exportarExamen()
+    + obtenerRevision()
+    + obtenerExamenesAlumno()
+  }
+  class GestorPregunta <<control>> {
+    + crear()
+    + editar()
+    + eliminar()
+    + toggleHabilitada()
+    + importar()
+  }
+  class GestorAlumno <<control>> {
+    + crear()
+    + editar()
+    + eliminar()
+    + importar()
+  }
+  class GestorAsignatura <<control>> {
+    + crear()
+    + editar()
+    + eliminar()
+  }
+  class GestorGrado <<control>> {
+    + crear()
+    + editar()
+    + eliminar()
+  }
+  class GestorProfesor <<control>> {
+    + crear()
+    + editar()
+    + eliminar()
+  }
+  class GestorTema <<control>> {
+    + crear()
+    + editar()
+    + eliminar()
+  }
+  class GestorConfiguracion <<control>> {
+    + importar()
+    + exportar()
+  }
+}
+
+' ═══════════════════════════════════════════════
+' ENTITY — modelo del dominio
+' ═══════════════════════════════════════════════
+package "Entidad" {
+  class Usuario <<entity>> {
+    - id
+    - username
+    - password
+    - rol : Rol
+    - nombre
+  }
+  class Profesor <<entity>> {
+    - id
+    - dni
+    - nombre
+    - apellidos
+    - email
+    - usuario
+  }
+  class Alumno <<entity>> {
+    - id
+    - dni
+    - nombre
+    - apellidos
+    - curso
+  }
+  class Grado <<entity>> {
+    - id
+    - codigo
+    - nombre
+  }
+  class Asignatura <<entity>> {
+    - id
+    - nombre
+    - codigo
+    - cursoAcademico
+    - cursoSugerido
+  }
+  class Tema <<entity>> {
+    - id
+    - nombre
+  }
+  class Pregunta <<entity>> {
+    - id
+    - enunciado
+    - dificultad : Dificultad
+    - habilitada
+  }
+  class Respuesta <<entity>> {
+    - id
+    - contenido
+    - esCorrecta
+    - indice
+  }
+  class Examen <<entity>> {
+    - id
+    - tipoEvaluacion : TipoEvaluacion
+    - esPersonalizado
+    - fechaExamen
+  }
+  class ExamenAlumno <<entity>> {
+    - id
+    - claveCorreccion
+    - notaSugerida
+    - notaFinal
+    - estado : EstadoExamen
+  }
+  class ExamenAlumnoMarca <<entity>> {
+    - id
+    - indiceMarcado
+  }
+}
+
+' ─── Boundary → Control ───────────────────────────────────
+IU_Login --> GestorAutenticacion
+IU_Dashboard --> GestorExamen
+IU_Preguntas --> GestorPregunta
+IU_Alumnos --> GestorAlumno
+IU_Asignaturas --> GestorAsignatura
+IU_Asignaturas --> GestorTema
+IU_Grados --> GestorGrado
+IU_Profesores --> GestorProfesor
+IU_GenerarExamen --> GestorExamen
+IU_AsignarExamen --> GestorExamen
+IU_CorregirExamen --> GestorExamen
+IU_RevisionExamen --> GestorExamen
+IU_ImportarExportar --> GestorConfiguracion
+
+' ─── Control → Entity ─────────────────────────────────────
+GestorAutenticacion --> Usuario
+GestorExamen --> Examen
+GestorExamen --> ExamenAlumno
+GestorExamen --> ExamenAlumnoMarca
+GestorPregunta --> Pregunta
+GestorPregunta --> Respuesta
+GestorAlumno --> Alumno
+GestorAsignatura --> Asignatura
+GestorGrado --> Grado
+GestorProfesor --> Profesor
+GestorTema --> Tema
+GestorConfiguracion --> Alumno
+GestorConfiguracion --> Asignatura
+GestorConfiguracion --> Grado
+GestorConfiguracion --> Pregunta
+
+' ─── Relaciones entre Entidades ───────────────────────────
+Alumno "N" --> "1" Grado
+Alumno "N" -- "N" Asignatura : matriculas
+Asignatura "N" --> "1" Profesor
+Asignatura "N" -- "N" Grado
+Asignatura "1" --> "N" Tema
+Tema "1" --> "N" Pregunta
+Pregunta "1" --> "N" Respuesta
+Examen "N" --> "1" Asignatura
+Examen "N" -- "N" Pregunta
+ExamenAlumno "N" --> "1" Alumno
+ExamenAlumno "N" --> "1" Examen
+ExamenAlumnoMarca "N" --> "1" ExamenAlumno
+ExamenAlumnoMarca "N" --> "1" Pregunta
+ExamenAlumnoMarca "N" --> "0..1" Respuesta
+
+@enduml
