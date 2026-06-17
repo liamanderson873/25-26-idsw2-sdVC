@@ -9,6 +9,14 @@
 
 Disciplina de análisis RUP. Cada caso de uso se modela con dos diagramas BCE (Boundary-Control-Entity) independientes de tecnología: colaboración entre objetos y secuencia de análisis.
 
+## Diagrama de clases de análisis
+
+<div align=center>
+
+![](https://www.plantuml.com/plantuml/proxy?cache=no&v=5&src=https://raw.githubusercontent.com/liamanderson873/25-26-idsw2-sdVC/main/RUP/01-analisis/diagrama-clases-analisis.puml)
+
+</div>
+
 ## Estructura de cada caso de uso
 
 Cada carpeta contiene:
